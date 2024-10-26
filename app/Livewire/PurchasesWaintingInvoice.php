@@ -92,7 +92,9 @@ class PurchasesWaintingInvoice extends Component
         //Select task where statu is open and only purchase type
         $PurchasesWaintingInvoiceLineslist = $this->PurchasesWaintingInvoiceLineslist = PurchaseReceiptLines::orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
                                                         ->whereHas('purchaseLines', function($query) {
-                                                            $query->whereColumn('invoiced_qty', '<', 'qty'); // Comparer receipt_qty avec qty
+                                                            $query->whereColumn('invoiced_qty', '<', 'qty')->whereHas('purchase', function($q){
+                                                                $q->where('companies_id','like', '%'.$this->companies_id.'%');
+                                                            }); // Comparer receipt_qty avec qty
                                                         })
                                                         ->get();
 
