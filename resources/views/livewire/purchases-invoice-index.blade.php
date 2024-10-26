@@ -1,7 +1,26 @@
 <div>
     <div class="card">
         <div class="card-body">
-            @include('include.search-card')
+            <div class="row">
+                <div class="col-md-8">
+                    @include('include.search-card')
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-list"></i></span>
+                            </div>
+                            <select class="form-control" name="searchIdStatus" id="searchIdStatus" wire:model.live="searchIdStatus">
+                                <option value="" selected>{{ __('general_content.select_statu_trans_key') }}</option>
+                                <option value="1">{{ __('general_content.in_progress_trans_key') }}</option>
+                                <option value="2">{{ __('general_content.to_be_posted_trans_key') }}</option>
+                                <option value="3">{{ __('general_content.close_trans_key') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="table-responsive p-0">
             <table class="table table-hover">
@@ -33,8 +52,8 @@
                         <td>{{ $PurchasesInvoice->purchase_invoice_lines_count }}</td>
                         <td>
                             @if(1 == $PurchasesInvoice->statu )  <span class="badge badge-info">{{ __('general_content.in_progress_trans_key') }}</span>@endif
-                            @if(2 == $PurchasesInvoice->statu )  <span class="badge badge-warning">To be posted</span>@endif
-                            @if(3 == $PurchasesInvoice->statu )  <span class="badge badge-success">Close</span>@endif
+                            @if(2 == $PurchasesInvoice->statu )  <span class="badge badge-warning">{{ __('general_content.to_be_posted_trans_key') }}</span>@endif 
+                            @if(3 == $PurchasesInvoice->statu )  <span class="badge badge-success">{{ __('general_content.close_trans_key') }}</span>@endif
                         </td>
                         <td>{{ $PurchasesInvoice->GetPrettyCreatedAttribute() }}</td>
                         <td>

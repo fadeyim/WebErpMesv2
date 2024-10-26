@@ -14,16 +14,7 @@ class PurchasesInvoiceIndex extends Component
     public $search = '';
     public $sortField = 'created_at'; // default sorting field
     public $sortAsc = false; // default sort direction
-
-    public $code; 
-    public $label; 
-    public $customer_reference;
-    public $companies_id; 
-    public $companies_contacts_id;   
-    public $companies_addresses_id; 
-    public $statu; 
-    public $user_id;   
-    public $comment;
+    public $searchIdStatus = '';
 
     public function sortBy($field)
     {
@@ -47,7 +38,11 @@ class PurchasesInvoiceIndex extends Component
 
     public function render()
     {
-        $PurchasesInvoice = PurchaseInvoice::withCount('PurchaseInvoiceLines')->where('label','like', '%'.$this->search.'%')->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')->paginate(15);
+        $PurchasesInvoice = PurchaseInvoice::withCount('PurchaseInvoiceLines')
+                                            ->where('label','like', '%'.$this->search.'%')
+                                            ->where('statu', 'like', '%'.$this->searchIdStatus.'%')
+                                            ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                                            ->paginate(15);
         return view('livewire.purchases-invoice-index', [
             'PurchasesInvoiceList' => $PurchasesInvoice,
         ]);

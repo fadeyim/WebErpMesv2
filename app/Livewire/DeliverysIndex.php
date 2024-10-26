@@ -14,17 +14,7 @@ class DeliverysIndex extends Component
     public $search = '';
     public $sortField = 'created_at'; // default sorting field
     public $sortAsc = false; // default sort direction
-
-    public $code; 
-    public $label; 
-    public $customer_reference;
-    public $companies_id; 
-    public $companies_contacts_id;   
-    public $companies_addresses_id; 
-    public $statu; 
-    public $user_id;  
-    public $order_id;  
-    public $comment;
+    public $searchIdStatus = '';
 
     public function sortBy($field)
     {
@@ -50,6 +40,7 @@ class DeliverysIndex extends Component
     {
         $Deliverys = Deliverys::withCount('DeliveryLines')
                     ->where('label','like', '%'.$this->search.'%')
+                    ->where('statu', 'like', '%'.$this->searchIdStatus.'%')
                     ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
                     ->paginate(15);
                     

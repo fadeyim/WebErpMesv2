@@ -1,7 +1,27 @@
 <div>
     <div class="card">
         <div class="card-body">
-            @include('include.search-card')
+            <div class="row">
+                <div class="col-md-8">
+                    @include('include.search-card')
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-list"></i></span>
+                            </div>
+                            <select class="form-control" name="searchIdStatus" id="searchIdStatus" wire:model.live="searchIdStatus">
+                                <option value="" selected>{{ __('general_content.select_statu_trans_key') }}</option>
+                                <option value="1">{{ __('general_content.chargeable_trans_key') }}</option>
+                                <option value="2">{{ __('general_content.not_chargeable_trans_key') }}</option>
+                                <option value="3">{{ __('general_content.partly_invoiced_trans_key') }}</option>
+                                <option value="4">{{ __('general_content.invoiced_trans_key') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="table-responsive p-0">
             <table class="table table-hover">

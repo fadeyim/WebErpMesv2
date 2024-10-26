@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Purchases\PurchaseReceipt;
 
 class PurchasesReceiptIndex extends Component
@@ -15,14 +14,7 @@ class PurchasesReceiptIndex extends Component
     public $search = '';
     public $sortField = 'created_at'; // default sorting field
     public $sortAsc = false; // default sort direction
-
-    public $code; 
-    public $label; 
-    public $customer_reference;
-    public $companies_id; 
-    public $statu; 
-    public $user_id;   
-    public $comment;
+    public $searchIdStatus = '';
 
     public function sortBy($field)
     {
@@ -41,12 +33,16 @@ class PurchasesReceiptIndex extends Component
 
     public function mount() 
     {
-        $this->user_id = Auth::id();
+
     }
 
     public function render()
     {
-        $PurchasesReceipt = PurchaseReceipt::withCount('PurchaseReceiptLines')->where('label','like', '%'.$this->search.'%')->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')->paginate(15);
+        $PurchasesReceipt = PurchaseReceipt::withCount('PurchaseReceiptLines')
+                                            ->where('label','like', '%'.$this->search.'%')
+                                            ->where('statu', 'like', '%'.$this->searchIdStatus.'%')
+                                            ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                                            ->paginate(15);
        
         return view('livewire.purchases-receipt-index', [
             'PurchasesReceiptList' => $PurchasesReceipt,

@@ -18,15 +18,6 @@ class PurchasesIndex extends Component
     public $sortAsc = false; // default sort direction
     public $searchIdStatus = '';
 
-    public $code; 
-    public $label; 
-    public $customer_reference;
-    public $companies_id; 
-    public $companies_contacts_id;   
-    public $companies_addresses_id; 
-    public $statu; 
-    public $user_id;   
-    public $comment;
 
     public $idCompanie = '';
 

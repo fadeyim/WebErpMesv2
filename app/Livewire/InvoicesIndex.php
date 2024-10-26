@@ -8,7 +8,6 @@ use App\Models\Workflow\Invoices;
 
 class InvoicesIndex extends Component
 {
-
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
@@ -16,19 +15,6 @@ class InvoicesIndex extends Component
     public $sortField = 'created_at'; // default sorting field
     public $sortAsc = false; // default sort direction
     public $searchIdStatus = '';
-    public $code; 
-    public $label; 
-    public $customer_reference;
-    public $companies_id; 
-    public $companies_contacts_id;   
-    public $companies_addresses_id; 
-    public $statu;
-    public $invoice_type;
-    public $accounting_status;
-    public $user_id;
-    public $bank_id ;
-    public $order_id;  
-    public $comment;
 
     public function sortBy($field)
     {
