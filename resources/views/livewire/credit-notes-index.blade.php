@@ -54,7 +54,7 @@
                             <x-CompanieButton id="{{ $CreditNotes->companies_id }}" label="{{ $CreditNotes->companie['label'] }}"  />
                         </td>
                         <td>{{ $CreditNotes->CreditNotes_lines_count }}</td>
-                        <td>{{ $CreditNotes->getTotalPriceAttribute() }}  {{ $Factory->curency }}</td>
+                        <td>{{ number_format($CreditNotes->getTotalPriceAttribute(), 2, '.', ',')  }}  {{ $Factory->curency }}</td>
                         <td>
                             @if(1 == $CreditNotes->statu )  <span class="badge badge-danger">{{ __('general_content.pending_trans_key') }}</span>@endif
                             @if(2 == $CreditNotes->statu )  <span class="badge badge-success">{{ __('general_content.approved_trans_key') }}</span>@endif

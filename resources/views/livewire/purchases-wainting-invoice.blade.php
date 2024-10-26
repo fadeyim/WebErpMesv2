@@ -106,7 +106,7 @@
                                 {{ $PurchasesWaintingInvoiceLine->purchaseLines->label }}
                             @endif
                         </td>
-                        <td>{{ $PurchasesWaintingInvoiceLine->receipt_qty }}</td>
+                        <td>{{ number_format($PurchasesWaintingInvoiceLine->receipt_qty, 0, '', ' ')  }}</td>
                         <td>
                             <div class="custom-control custom-checkbox">
                                 <input class="custom-control-input" value="{{ $PurchasesWaintingInvoiceLine->id }}" wire:model.live="data.{{ $PurchasesWaintingInvoiceLine->id }}.purchase_receipt_line_id" id="data.{{ $PurchasesWaintingInvoiceLine->id }}.purchase_receipt_line_id"  type="checkbox">

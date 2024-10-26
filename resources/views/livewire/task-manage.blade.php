@@ -223,9 +223,9 @@
                             <td>{{ $TechLine->unit_time }} h</td>
                             <td>{{ $TechLine->TotalTime() }} h</td>
                             <td><x-adminlte-progress theme="teal" value="{{ $TechLine->progress() }}" with-label animated/></td>
-                            <td>{{ $TechLine->unit_cost }} {{ $Factory->curency }}</td>
+                            <td>{{ number_format( $TechLine->unit_cost, 2, '.', ',') }} {{ $Factory->curency }}</td>
                             <td>{{ $TechLine->Margin() }} %</td>
-                            <td>{{ $TechLine->unit_price }} {{ $Factory->curency }}</td>
+                            <td>{{ number_format( $TechLine->unit_price, 2, '.', ',') }} {{ $Factory->curency }}</td>
                             <td>
                             @if($TechLine->order_lines_id)
                                 {{ $TechLine->status['title'] }}
@@ -267,9 +267,9 @@
                             <th>{{ $Line->getTechnicalCutTotalUnitTimeAttribute() }} h</th>
                             <th></th>
                             <th></th>
-                            <th>{{ $Line->getTechnicalCutTotalUnitCostAttribute() }}  {{ $Factory->curency }}</th>
+                            <th>{{ number_format( $Line->getTechnicalCutTotalUnitCostAttribute(), 2, '.', ',') }} {{ $Factory->curency }}</th>
                             <th>{{ $Line->getTechnicalCutTMarginAttribute() }} %</th>
-                            <th>{{ $Line->getTechnicalCutTotalUnitPricettribute() }}  {{ $Factory->curency }}</th>
+                            <th>{{ number_format( $Line->getTechnicalCutTotalUnitPricettribute(), 2, '.', ',') }} {{ $Factory->curency }}</th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -330,9 +330,9 @@
                                 <td></td>
                             @endif
                             <td>{{ $BOMline->qty }}</td>
-                            <td>{{ $BOMline->unit_cost }} {{ $Factory->curency }}</td>
+                            <td>{{ number_format( $BOMline->unit_cost, 2, '.', ',') }} {{ $Factory->curency }}</td>
                             <td>{{ $BOMline->Margin() }} %</td>
-                            <td>{{ $BOMline->unit_price }} {{ $Factory->curency }}</td>
+                            <td>{{ number_format( $BOMline->unit_price, 2, '.', ',') }} {{ $Factory->curency }}</td>
                             <td>
                                 @if($BOMline->order_lines_id)
                                 {{ $BOMline->status['title'] }}
@@ -364,9 +364,9 @@
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>{{ $Line->getBOMTotalUnitCostAttribute() }}  {{ $Factory->curency }}</th>
+                            <th>{{ number_format( $Line->getBOMTotalUnitCostAttribute(), 2, '.', ',') }} {{ $Factory->curency }}</th>
                             <th>{{ $Line->getBOMTMarginAttribute() }} %</th>
-                            <th>{{ $Line->getBOMTotalUnitPricettribute() }}  {{ $Factory->curency }}</th>
+                            <th>{{ number_format( $Line->getBOMTotalUnitPricettribute(), 2, '.', ',') }} {{ $Factory->curency }}</th>
                             <th></th>
                             <th></th>
                         </tr>

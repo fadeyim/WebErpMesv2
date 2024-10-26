@@ -108,7 +108,7 @@
                                 {{__('general_content.generic_trans_key') }} 
                                 @endif
                             </td>
-                            <td>@if($PurchasesRequestsLines->OrderLines ?? null){{ $PurchasesRequestsLines->OrderLines->qty }} x @endif</td>
+                            <td>@if($PurchasesRequestsLines->OrderLines ?? null){{ $PurchasesRequestsLines->OrderLines->qty }} x {{ $PurchasesRequestsLines->qty }} @endif</td>
                             <td>@if($PurchasesRequestsLines->OrderLines ?? null){{ $PurchasesRequestsLines->OrderLines->label }}@endif</td>
                             <td>
                                 <a href="{{ route('production.task.statu.id', ['id' => $PurchasesRequestsLines->id]) }}" class="btn btn-sm btn-success">{{__('general_content.view_trans_key') }} </a>
@@ -123,7 +123,7 @@
                                 <x-ButtonTextView route="{{ route('products.show', ['id' => $PurchasesRequestsLines->component_id])}}" />
                                 @endif
                             </td>
-                            <td>{{ $PurchasesRequestsLines->qty }}</td>
+                            <td>{{ number_format($PurchasesRequestsLines->getQualityRequiredAttribute(), 0, '', ' ') }}</td>
                             <td @if($PurchasesRequestsLines->methods_services_id ) style="background-color: {{ $PurchasesRequestsLines->service['color'] }};" @endif >
                                 @if($PurchasesRequestsLines->methods_services_id )
                                     @if( $PurchasesRequestsLines->service['picture'])

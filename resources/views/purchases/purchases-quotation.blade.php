@@ -38,8 +38,8 @@
     var donutData        = {
         labels: [
           @foreach ($data['purchasesQuotationDataRate'] as $item)
-                @if(1 == $item->statu )  "In progress", @endif
-                @if(2 == $item->statu )  "Sent", @endif
+                @if(1 == $item->statu )  "{{ __('general_content.in_progress_trans_key') }}", @endif
+                @if(2 == $item->statu )  "{{ __('general_content.send_trans_key') }}", @endif
                 @if(3 == $item->statu )  "{{ __('general_content.partly_received_trans_key') }}", @endif
                 @if(4 == $item->statu )  "{{ __('general_content.rceived_trans_key') }}", @endif
                 @if(5 == $item->statu )  "PO partly created", @endif

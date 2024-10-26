@@ -273,6 +273,16 @@ class Task extends Model
         return $goodQty / $totalQty;
     }
 
+    // Quality calculation
+    public function getQualityRequiredAttribute()
+    {
+        $qualityRequired = $this->qty * $this->GetOrderQtyLine();
+        if ($qualityRequired <= 0) {
+            return $this->GetOrderQtyLine();
+        }
+        return $qualityRequired;
+    }
+
     // calculation TRS/OEE
     public function getTRSAttribute()
     {

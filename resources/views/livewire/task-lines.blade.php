@@ -103,7 +103,7 @@
                                 <td>{{ $Task->SubAssembly->qty }} x</td>
                                 <td><i class="fas fa-code-branch"></i> {{ $Task->SubAssembly->Child->label }}</td>
                             @else
-                                <td>@if($Task->OrderLines ?? null){{ $Task->OrderLines->qty }} x @endif</td>
+                                <td>@if($Task->OrderLines ?? null){{ $Task->OrderLines->qty }} x {{ $Task->qty }}@endif</td>
                                 <td>@if($Task->OrderLines ?? null){{ $Task->OrderLines->label }}@endif</td>
                             @endif
                             <td>
@@ -146,7 +146,7 @@
                                 @endif
                                 </ul>
                             </td>
-                            <td>{{ $Task->qty }}</td>
+                            <td>{{ number_format($Task->getQualityRequiredAttribute(), 0, '', ' ') }}</td>
                             <td>{{ $Task->seting_time }} h</td>
                             <td>{{ $Task->unit_time }} h</td>
                             <td>{{ $Task->TotalTime() }} h</td>

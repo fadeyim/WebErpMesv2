@@ -93,7 +93,7 @@
                 @foreach ($opportunitiesByAmount as $opportunity)
                     <tr>
                         <td>{{ $opportunity->probality }} %</td>
-                        <td>{{ $opportunity->total_amount }}  {{ $Factory->curency }}</td>
+                        <td>{{ number_format($opportunity->total_amount, 2, '.', ',') }}  {{ $Factory->curency }}</td>
                     </tr>
                 @endforeach
             </tbody>

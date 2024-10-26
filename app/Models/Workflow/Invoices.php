@@ -78,6 +78,7 @@ class Invoices extends Model
     {
         $InvoiceCalculatorService = new InvoiceCalculatorService($this);
         return $InvoiceCalculatorService->getTotalPrice();
+        
     }
 
     // Relationship with the files associated with the Invoices

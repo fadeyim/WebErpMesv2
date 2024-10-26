@@ -402,7 +402,7 @@
                             </td>
                             <td>{{ $Quote->customer_reference }}</td>
                             <td>{{ $Quote->quote_lines_count }}</td>
-                            <td>{{ $Quote->getTotalPriceAttribute() }}  {{ $Factory->curency }}</td>
+                            <td>{{ number_format($Quote->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</td>
                             <td>
                                 @if(1 == $Quote->statu )   <span class="badge badge-info"> {{ __('general_content.open_trans_key') }}</span>@endif
                                 @if(2 == $Quote->statu )  <span class="badge badge-warning">{{ __('general_content.send_trans_key') }}</span>@endif

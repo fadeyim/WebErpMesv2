@@ -58,7 +58,7 @@
                                 </td>
                                 <td>
                                     @if($PurchaseLine->tasks->OrderLines ?? null)
-                                        {{ $PurchaseLine->tasks->OrderLines->qty }} x 
+                                        {{ $PurchaseLine->tasks->OrderLines->qty }} x {{ $PurchaseLine->tasks->qty }}
                                     @else
                                         {{__('general_content.generic_trans_key') }} 
                                     @endif
@@ -94,10 +94,10 @@
                                         @endif
                                     @endif
                                 </td>
-                                <td>{{ $PurchaseLine->qty }}</td>
-                                <td>{{ $PurchaseLine->receipt_qty }}</td>
-                                <td>{{ $PurchaseLine->invoiced_qty }}</td>
-                                <td>{{ $PurchaseLine->selling_price }} {{ $Factory->curency }}</td>
+                                <td>{{ number_format($PurchaseLine->qty, 0, '', ' ') }}</td>
+                                <td>{{ number_format($PurchaseLine->receipt_qty, 0, '', ' ') }}</td>
+                                <td>{{ number_format($PurchaseLine->invoiced_qty, 0, '', ' ') }}</td>
+                                <td>{{ number_format($PurchaseLine->selling_price, 2, '.', ',') }} {{ $Factory->curency }}</td>
                                 <td>{{ $PurchaseLine->discount }} %</td>
                                 <td> 
                                     @if($PurchaseLine->accounting_vats_id)

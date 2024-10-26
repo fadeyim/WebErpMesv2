@@ -153,7 +153,7 @@
                     </td>
                     <td>
                       @if($PurchaseReceiptLine->purchaseLines->tasks->OrderLines ?? null)
-                        {{ $PurchaseReceiptLine->purchaseLines->tasks->OrderLines->qty }} x 
+                        {{ $PurchaseReceiptLine->purchaseLines->tasks->OrderLines->qty }} x {{ $PurchaseReceiptLine->purchaseLines->tasks->qty }}
                       @else
                         {{__('general_content.generic_trans_key') }} 
                       @endif
@@ -189,13 +189,13 @@
                     </td>
                     <td>
                       @if($PurchaseReceiptLine->purchaseLines->tasks_id ?? null)
-                        {{ $PurchaseReceiptLine->purchaseLines->tasks->qty  }} 
+                        {{ number_format($PurchaseReceiptLine->purchaseLines->tasks->getQualityRequiredAttribute(), 0, '', ' ')  }} 
                       @else
                         {{__('general_content.generic_trans_key') }} 
                       @endif
                     </td>
-                    <td>{{ $PurchaseReceiptLine->purchaseLines->qty  }}</td>
-                    <td>{{ $PurchaseReceiptLine->receipt_qty }}</td>
+                    <td>{{ number_format($PurchaseReceiptLine->purchaseLines->qty, 0, '', ' ') }}</td>
+                    <td>{{ number_format($PurchaseReceiptLine->receipt_qty, 0, '', ' ') }}</td>
                     
                     <td>
                         @if($PurchaseReceiptLine->purchaseLines->tasks->component_id ?? null || $PurchaseReceiptLine->purchaseLines->product_id ?? null)

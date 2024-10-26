@@ -54,12 +54,12 @@ class OpportunitiesKPIService
         $quotesWon = Quotes::where('statu', 3)->whereNotNull('opportunities_id')->get();
         $totalQuotesWon = number_format($quotesWon->sum(function ($quote) {
             return $quote->getTotalPriceAttribute();
-        }),2);
+        }),2, '.', ','); 
 
         $quotesLost = Quotes::where('statu', 4)->whereNotNull('opportunities_id')->get();
         $totalQuotesLost = number_format($quotesLost->sum(function ($quote) {
             return $quote->getTotalPriceAttribute();
-        }),2);
+        }),2, '.', ','); 
 
 
         return compact('totalQuotesWon', 'totalQuotesLost');

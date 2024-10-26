@@ -56,7 +56,7 @@
                             <x-CompanieButton id="{{ $Invoice->companies_id }}" label="{{ $Invoice->companie['label'] }}"  />
                         </td>
                         <td>{{ $Invoice->invoice_lines_count }}</td>
-                        <td>{{ $Invoice->getTotalPriceAttribute() }}  {{ $Factory->curency }}</td>
+                        <td>{{ number_format($Invoice->getTotalPriceAttribute(), 2, '.', ',')  }}  {{ $Factory->curency }}</td>
                         <td>
                             @if(1 == $Invoice->statu )  <span class="badge badge-info">{{ __('general_content.in_progress_trans_key') }}</span>@endif
                             @if(2 == $Invoice->statu )  <span class="badge badge-primary">{{ __('general_content.send_trans_key') }}</span>@endif

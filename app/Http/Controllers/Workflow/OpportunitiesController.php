@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Workflow;
 
-use App\Models\User;
 use Illuminate\Support\Str;
 use App\Events\QuoteCreated;
 use App\Models\Admin\Factory;
@@ -10,7 +9,6 @@ use App\Models\Workflow\Orders;
 use App\Models\Workflow\Quotes;
 use App\Traits\NextPreviousTrait;
 use App\Models\Workflow\Deliverys;
-use Illuminate\Support\Facades\DB;
 use App\Models\Workflow\OrderLines;
 use App\Services\SelectDataService;
 use App\Http\Controllers\Controller;
@@ -21,7 +19,6 @@ use App\Models\Workflow\DeliveryLines;
 use App\Models\Workflow\Opportunities;
 use App\Notifications\QuoteNotification;
 use App\Services\OpportunitiesKPIService;
-use Illuminate\Support\Facades\Notification;
 use App\Models\Accounting\AccountingDelivery;
 use App\Models\Workflow\OpportunitiesEventsLogs;
 use App\Models\Accounting\AccountingPaymentMethod;

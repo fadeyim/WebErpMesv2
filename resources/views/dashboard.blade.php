@@ -198,7 +198,7 @@
                   @if(3 == $LastOrder->statu )  <span class="badge badge-success">{{ __('general_content.delivered_trans_key') }}</span>@endif
                   @if(4 == $LastOrder->statu )  <span class="badge badge-danger">{{ __('general_content.partly_delivered_trans_key') }}</span>@endif
                 </td>
-                <td>{{ $LastOrder->getTotalPriceAttribute() }}  {{ $Factory->curency }}</td>
+                <td>{{ number_format($LastOrder->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</td>
                 <td>{{ $LastOrder->GetPrettyCreatedAttribute() }}</td>
                 <td><img src="{{ Avatar::create($LastOrder->UserManagement['name'])->toBase64() }}" /></td>
               </tr>
@@ -347,7 +347,7 @@
                     @if(5 == $LastQuote->statu )  <span class="badge badge-secondary">{{ __('general_content.closed_trans_key') }}</span>@endif
                     @if(6 == $LastQuote->statu )   <span class="badge badge-secondary">{{ __('general_content.obsolete_trans_key') }}</span>@endif
                   </td>
-                  <td>{{ $LastQuote->getTotalPriceAttribute() }}  {{ $Factory->curency }}</td>
+                  <td>{{ number_format($LastQuote->getTotalPriceAttribute(), 2, '.', ',') }} {{ $Factory->curency }}</td>
                   <td>{{ $LastQuote->GetPrettyCreatedAttribute() }}</td>
                   <td><img src="{{ Avatar::create($LastQuote->UserManagement['name'])->toBase64() }}" /></td>
                 </tr>

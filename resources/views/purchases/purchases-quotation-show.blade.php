@@ -34,19 +34,19 @@
                     <label for="code" class="text-success">{{ __('general_content.external_id_trans_key') }}</label>  {{  $PurchaseQuotation->code }}
                   </div>
                   <div class="form-group col-md-3">
-                    <x-adminlte-select name="statu" label="{{ __('general_content.status_trans_key') }}" label-class="text-success" igroup-size="sm">
+                    <x-adminlte-select name="statu" label="{{ __('general_content.status_trans_key') }}" label-class="text-success">
                       <x-slot name="prependSlot">
                           <div class="input-group-text bg-gradient-success">
                               <i class="fas fa-exclamation"></i>
                           </div>
                       </x-slot>
-                      <option value="1" @if(1 == $PurchaseQuotation->statu ) Selected @endif >{{ __('general_content.open_trans_key') }}</option>
-                      <option value="2" @if(2 == $PurchaseQuotation->statu ) Selected @endif >{{ __('general_content.in_progress_trans_key') }}</option>
-                      <option value="3" @if(3 == $PurchaseQuotation->statu ) Selected @endif >{{ __('general_content.delivered_trans_key') }}</option>
-                      <option value="4" @if(4 == $PurchaseQuotation->statu ) Selected @endif >{{ __('general_content.partly_delivered_trans_key') }}</option>
+                      <option value="1" @if(1 == $PurchaseQuotation->statu ) Selected @endif >{{ __('general_content.in_progress_trans_key') }}</option>
+                      <option value="2" @if(2 == $PurchaseQuotation->statu ) Selected @endif >{{ __('general_content.send_trans_key') }}</option>
+                      <option value="3" @if(3 == $PurchaseQuotation->statu ) Selected @endif >{{ __('general_content.partly_received_trans_key') }}</option>
+                      <option value="4" @if(4 == $PurchaseQuotation->statu ) Selected @endif >{{ __('general_content.rceived_trans_key') }}</option>
                     </x-adminlte-select>
                   </div>
-                  <div class="form-group col-md-3">
+                  <div class="form-group col-md-6">
                     @include('include.form.form-input-label',['label' =>__('general_content.name_quote_request_trans_key'), 'Value' =>  $PurchaseQuotation->label])
                   </div>
                 </div>
@@ -57,25 +57,25 @@
                 <x-adminlte-alert theme="info" title="Info">{{  __('general_content.update_valide_trans_key') }}</x-adminlte-alert>
                 @endif
                 <div class="row">
-                  <div class="form-group col-md-5">
+                  <div class="form-group col-md-6">
                     @include('include.form.form-select-companie',['companiesId' =>  $PurchaseQuotation->companies_id])
                   </div>
-                  <div class="form-group col-md-5">
+                  <div class="form-group col-md-6">
                     
                   </div>
                 </div>
                 <div class="row">
-                  <div class="form-group col-md-5">
+                  <div class="form-group col-md-6">
                     @include('include.form.form-select-adress',['adressId' =>   $PurchaseQuotation->companies_addresses_id])
                   </div>
-                  <div class="form-group col-md-5">
+                  <div class="form-group col-md-6">
                     @include('include.form.form-select-contact',['contactId' =>   $PurchaseQuotation->companies_contacts_id])
                   </div>
                 </div>
                 <div class="row">
                   <label for="InputWebSite">{{ __('general_content.date_pay_info_trans_key') }}</label>
                 </div>
-                <div class="form-group col-md-5">
+                <div class="form-group col-md-6">
                     <label for="label">{{ __('general_content.validity_date_trans_key') }}</label>
                     <input type="date" class="form-control" name="validity_date"  id="validity_date" value="{{  $PurchaseQuotation->validity_date }}">
                 </div>
@@ -146,7 +146,7 @@
                             {{__('general_content.generic_trans_key') }} 
                             @endif
                         </td>
-                        <td>@if($PurchaseQuotationLine->tasks->OrderLines ?? null){{ $PurchaseQuotationLine->tasks->OrderLines->qty }} x @endif</td>
+                        <td>@if($PurchaseQuotationLine->tasks->OrderLines ?? null){{ $PurchaseQuotationLine->tasks->OrderLines->qty }} x {{ $PurchaseQuotationLine->tasks->qty }}@endif</td>
                         <td>@if($PurchaseQuotationLine->tasks->OrderLines ?? null){{ $PurchaseQuotationLine->tasks->OrderLines->label }}@endif</td>
                         <td>
                             <a href="{{ route('production.task.statu.id', ['id' => $PurchaseQuotationLine->tasks->id]) }}" class="btn btn-sm btn-success">{{__('general_content.view_trans_key') }} </a>
@@ -161,9 +161,9 @@
                             <x-ButtonTextView route="{{ route('products.show', ['id' => $PurchaseQuotationLine->tasks->component_id])}}" />
                             @endif
                         </td>
-                        <td>{{ $PurchaseQuotationLine->qty_to_order }}</td>
-                        <td>{{ $PurchaseQuotationLine->unit_price }} {{ $Factory->curency }}</td>
-                        <td>{{ $PurchaseQuotationLine->total_price }} {{ $Factory->curency }}</td>
+                        <td>{{ number_format($PurchaseQuotationLine->qty_to_order, 0, '', ' ') }}</td>
+                        <td>{{ number_format($PurchaseQuotationLine->unit_price, 2, '.', ',') }} {{ $Factory->curency }}</td>
+                        <td>{{ number_format($PurchaseQuotationLine->total_price, 2, '.', ',') }} {{ $Factory->curency }}</td>
                         <td>
                           <div class="form-group">
                             <div class="custom-control custom-checkbox">
@@ -173,8 +173,8 @@
                             </div>
                           </div>
                         </td>
-                        <td>{{ $PurchaseQuotationLine->qty_accepted }}</td>
-                        <td>{{ $PurchaseQuotationLine->canceled_qty }}</td>
+                        <td>{{ number_format($PurchaseQuotationLine->qty_accepted, 0, '', ' ') }}</td>
+                        <td>{{ number_format($PurchaseQuotationLine->canceled_qty, 0, '', ' ') }}</td>
                       </tr>
                     @empty
                       <x-EmptyDataLine col="11" text="{{ __('general_content.no_data_trans_key') }}"  />

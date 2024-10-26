@@ -283,7 +283,7 @@
                             <td>{{ $Order->customer_reference }}</td>
                             <td>{{ $Order->order_lines_count }}</td>
                             <td><x-adminlte-progress theme="teal" value="{{ $Order->getAveragePercentProgressLinesAttribute() }}" with-label animated/></td>
-                            <td>{{ $Order->getTotalPriceAttribute() }}  {{ $Factory->curency }}</td>
+                            <td>{{ number_format($Order->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</td>
                             <td>
                                 @if(1 == $Order->statu )  <span class="badge badge-info">{{ __('general_content.open_trans_key') }}</span>@endif
                                 @if(2 == $Order->statu )  <span class="badge badge-warning">{{ __('general_content.in_progress_trans_key') }}</span>@endif

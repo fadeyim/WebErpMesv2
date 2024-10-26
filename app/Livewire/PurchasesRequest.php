@@ -197,7 +197,7 @@ class PurchasesRequest extends Component
                         //How pass all information from task information ?
                         $Task = Task::find($key);
                         //we must multiply by qty to get from order line
-                        $TotalQtyTobuy = $Task->qty* $Task->OrderLines->qty;
+                        $TotalQtyTobuy = $Task->getQualityRequiredAttribute();
                         // Create delivery line
                         $PurchaseLines = PurchaseLines::create([
                                 'purchases_id' => $PurchaseOrderCreated->id,
@@ -211,7 +211,7 @@ class PurchasesRequest extends Component
                                 'selling_price' => $Task->unit_cost,
                                 'discount' => 0,
                                 'unit_price_after_discount' => $Task->unit_cost,
-                                'total_selling_price' => $Task->unit_cost * $Task->qty,
+                                'total_selling_price' => $Task->unit_cost * $TotalQtyTobuy,
                                 //'receipt_qty' =>, defaut to 0
                                 //'invoiced_qty' =>, defaut to 0
                                 'methods_units_id' => $Task->methods_units_id,
@@ -248,15 +248,16 @@ class PurchasesRequest extends Component
                     // Create lines
                     foreach ($this->data as $key => $item) {
                         $Task = Task::find($key);
+                        $TotalQtyTobuy = $Task->getQualityRequiredAttribute();
                         // Create delivery line
                         $PurchaseQuotationLines = PurchaseQuotationLines::create([
                                 'purchases_quotation_id' => $PurchaseQuotationCreated->id,
                                 'tasks_id' => $key, 
                                 'ordre' => $this->ordre, 
                                 //'supplier_ref' => , can be null
-                                'qty_to_order' => $Task->qty,
+                                'qty_to_order' => $TotalQtyTobuy,
                                 'unit_price' => $Task->unit_cost,
-                                'total_price' => $Task->unit_cost * $Task->qty,
+                                'total_price' => $Task->unit_cost * $TotalQtyTobuy,
                                 //'qty_accepted' =>, defaut to 0
                                 //'canceled_qty' =>, defaut to 0
                             ]); 

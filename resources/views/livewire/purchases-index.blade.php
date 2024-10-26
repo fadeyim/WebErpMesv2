@@ -35,9 +35,10 @@
                             <a class="btn btn-secondary" wire:click.prevent="sortBy('label')" role="button" href="#">{{__('general_content.label_trans_key') }} @include('include.sort-icon', ['field' => 'label'])</a>
                         </th>
                         <th>
-                            <a class="btn btn-secondary" wire:click.prevent="sortBy('companies_id')"   role="button" href="#">{{__('general_content.id_trans_key') }} @include('include.sort-icon', ['field' => 'companies_id'])</a>
+                            <a class="btn btn-secondary" wire:click.prevent="sortBy('companies_id')"   role="button" href="#">{{__('general_content.customer_trans_key') }} @include('include.sort-icon', ['field' => 'companies_id'])</a>
                         </th>
                         <th>{{__('general_content.lines_count_trans_key') }}</th>
+                        <th>{{__('general_content.total_price_trans_key') }}</th>
                         <th>{{__('general_content.status_trans_key') }}</th>
                         <th>{{ __('general_content.user_trans_key') }}</th>
                         <th>
@@ -55,6 +56,7 @@
                             <x-CompanieButton id="{{ $Purchase->companies_id }}" label="{{ $Purchase->companie['label'] }}"  />
                         </td>
                         <td>{{ $Purchase->purchase_lines_count }}</td>
+                        <td>{{ number_format($Purchase->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</td>
                         <td>
                             @if(1 == $Purchase->statu )  <span class="badge badge-info">{{ __('general_content.in_progress_trans_key') }}</span>@endif
                             @if(2 == $Purchase->statu )  <span class="badge badge-warning">{{ __('general_content.ordered_trans_key') }}</span>@endif
@@ -81,6 +83,7 @@
                         <th>{{__('general_content.label_trans_key') }}</th>
                         <th>{{__('general_content.customer_trans_key') }}</th>
                         <th>{{__('general_content.lines_count_trans_key') }}</th>
+                        <th>{{__('general_content.total_price_trans_key') }}</th>
                         <th>{{__('general_content.status_trans_key') }}</th>
                         <th>{{ __('general_content.user_trans_key') }}</th>
                         <th>{{__('general_content.created_at_trans_key') }}</th>

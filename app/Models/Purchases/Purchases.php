@@ -14,6 +14,7 @@ use App\Models\Companies\SupplierRating;
 use App\Models\Companies\CompaniesContacts;
 use Spatie\Activitylog\Traits\LogsActivity;
 use App\Models\Companies\CompaniesAddresses;
+use App\Services\PurchaseCalculatorService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Purchases extends Model
@@ -72,6 +73,12 @@ class Purchases extends Model
     public function deliveries()
     {
         return $this->hasMany(Deliverys::class);
+    }
+
+    public function getTotalPriceAttribute()
+    {
+        $PurchaseCalculatorService = new PurchaseCalculatorService($this);
+        return $PurchaseCalculatorService->getTotalPrice();
     }
 
     public function GetshortCreatedAttribute()
