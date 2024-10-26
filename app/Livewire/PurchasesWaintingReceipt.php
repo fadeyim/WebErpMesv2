@@ -5,11 +5,12 @@ namespace App\Livewire;
 use App\Models\User;
 use Livewire\Component;
 use App\Models\Planning\Task;
+use App\Services\TaskService;
 use App\Models\Planning\Status;
 use App\Models\Companies\Companies;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Events\PurchaseReceiptCreated;
-use App\Models\Planning\TaskActivities;
 use App\Models\Purchases\PurchaseLines;
 use App\Models\Purchases\PurchaseReceipt;
 use App\Models\Purchases\PurchaseReceiptLines;
@@ -33,6 +34,15 @@ class PurchasesWaintingReceipt extends Component
     
     private $ordre = 10;
 
+    protected $taskService;
+    
+    public function __construct()
+    {
+        // Résoudre le service via le container Laravel
+        $this->taskService = App::make(TaskService::class);
+    }
+
+
     // Validation Rules
     protected function rules()
     { 
@@ -43,7 +53,6 @@ class PurchasesWaintingReceipt extends Component
             'user_id'=>'required',
         ];
     }
-
     
     public function sortBy($field)
     {
@@ -144,13 +153,7 @@ class PurchasesWaintingReceipt extends Component
                 }
 
                 //create entry qty int task
-                TaskActivities::create([
-                    'task_id'=> $PurchaseLines->tasks_id,
-                    'user_id'=>$this->user_id,
-                    'type'=>'4',
-                    'good_qt'=>$PurchaseLines->qty,
-                    'comment'=>'',
-                ]);
+                $this->taskService->recordTaskActivity($PurchaseLines->tasks_id, 4, $PurchaseLines->qty, 0);
             } 
 
             

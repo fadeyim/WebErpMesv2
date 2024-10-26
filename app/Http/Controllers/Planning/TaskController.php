@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Planning;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Planning\Task;
+use App\Services\TaskService;
 use App\Events\TaskChangeStatu;
 use App\Models\Planning\Status;
 use App\Models\Workflow\Orders;
@@ -15,19 +15,19 @@ use App\Models\Workflow\OrderLines;
 use App\Models\Workflow\QuoteLines;
 use App\Http\Controllers\Controller;
 use App\Models\Planning\SubAssembly;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Methods\MethodsServices;
-use App\Models\Planning\TaskActivities;
 use App\Models\Methods\MethodsStandardNomenclature;
 
 class TaskController extends Controller
 {
 
     protected $taskKPIService;
+    protected $taskService;
 
-    public function __construct(TaskKPIService $taskKPIService)
+    public function __construct(TaskKPIService $taskKPIService, TaskService $taskService)
     {
         $this->taskKPIService = $taskKPIService;
+        $this->taskService = $taskService;
     }
     
     /**
@@ -125,23 +125,11 @@ class TaskController extends Controller
 
                     if($status['id'] == $StatusInProgessId->id){
                          // Create Line
-                        TaskActivities::create([
-                            'task_id'=> $task['id'],
-                            'user_id'=> Auth::user()->id,
-                            'type'=>'1',
-                            'timestamp' =>Carbon::now(),
-                            'comment'=>'',
-                        ]);
+                        $this->taskService->recordTaskActivity($task['id'], 1, 0, 0);
                     }
                     elseif($status['id'] == $StatusFinishId->id){
                         // Create Line
-                        TaskActivities::create([
-                            'task_id'=> $task['id'],
-                            'user_id'=> Auth::user()->id,
-                            'type'=>'3',
-                            'timestamp' =>Carbon::now(),
-                            'comment'=>'',
-                        ]);
+                        $this->taskService->recordTaskActivity($task['id'], 3, 0, 0);
                     }
 
                     event(new TaskChangeStatu($task['id']));

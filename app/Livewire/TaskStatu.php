@@ -7,6 +7,7 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Planning\Task;
+use App\Services\TaskService;
 use App\Events\TaskChangeStatu;
 use App\Models\Planning\Status;
 use App\Models\Products\StockMove;
@@ -14,11 +15,8 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Services\NotificationService;
 use App\Models\Planning\TaskActivities;
-use App\Models\Quality\QualityNonConformity;
-use Illuminate\Support\Facades\Notification;
 use App\Services\QualityNonConformityService;
 use App\Models\Products\StockLocationProducts;
-use App\Notifications\NonConformityNotification;
 
 class TaskStatu extends Component
 {
@@ -51,12 +49,14 @@ class TaskStatu extends Component
     public $userSelect;
     protected $notificationService;
     protected $qualityNonConformityService;
-
+    protected $taskService;
+    
     public function __construct()
     {
         // Résoudre le service via le container Laravel
         $this->notificationService = App::make(NotificationService::class);
         $this->qualityNonConformityService = App::make(QualityNonConformityService::class);
+        $this->taskService = App::make(TaskService::class);
     }
     
     // Validation Rules
@@ -236,14 +236,8 @@ class TaskStatu extends Component
 
     public function StartTimeTask($taskId)
     {
-        // Create Line
-        TaskActivities::create([
-            'task_id'=> $taskId,
-            'user_id'=>$this->user_id,
-            'type'=>'1',
-            'timestamp' =>Carbon::now(),
-            'comment'=>'',
-        ]);
+        //create entry qty int task
+        $this->taskService->recordTaskActivity( $taskId, 1, 0, 0);
 
         $StatusUpdate = Status::select('id')->where('title', 'In progress')->first();
 
@@ -261,14 +255,8 @@ class TaskStatu extends Component
 
     public function EndTimeTask($taskId)
     {
-        // Create Line
-        TaskActivities::create([
-            'task_id'=> $taskId,
-            'user_id'=>$this->user_id,
-            'type'=>'2',
-            'timestamp' =>Carbon::now(),
-            'comment'=>'',
-        ]);
+        //create entry qty int task
+        $this->taskService->recordTaskActivity( $taskId, 2, 0, 0);
 
         $this->render();
 
@@ -278,14 +266,9 @@ class TaskStatu extends Component
     
     public function EndTask($taskId)
     {
-        // Create Line
-        TaskActivities::create([
-            'task_id'=> $taskId,
-            'user_id'=>$this->user_id,
-            'type'=>'3',
-            'timestamp' =>Carbon::now(),
-            'comment'=>'',
-        ]);
+        //create entry qty int task
+        $this->taskService->recordTaskActivity( $taskId, 3, 0, 0);
+
         $StatusUpdate = Status::select('id')->where('title', 'Finished')->first();
 
         /* // update task statu on Kanban*/
@@ -303,14 +286,8 @@ class TaskStatu extends Component
     public function addGoodQtFromUser()
     {
         $this->validate();
-        // Create Line
-        TaskActivities::create([
-            'task_id'=> $this->search,
-            'user_id'=>$this->user_id,
-            'type'=>'4',
-            'good_qt'=>$this->addGoodQt,
-            'comment'=>'',
-        ]);
+        //create entry qty int task
+        $this->taskService->recordTaskActivity( $this->search, 4, $this->addGoodQt, 0);
 
         $this->render();
 
@@ -321,14 +298,8 @@ class TaskStatu extends Component
     public function FastaddGoodQt($qty)
     {
         $this->addGoodQt += $qty;
-        // Create Line
-        TaskActivities::create([
-            'task_id'=> $this->search,
-            'user_id'=>$this->user_id,
-            'type'=>'4',
-            'good_qt'=>$qty,
-            'comment'=>'',
-        ]);
+        //create entry qty int task
+        $this->taskService->recordTaskActivity( $this->search, 4, $qty, 0);
 
         $this->render();
 
@@ -367,14 +338,9 @@ class TaskStatu extends Component
         }
         
         $this->validate();
-        // Create Line
-        TaskActivities::create([
-            'task_id'=> $this->search,
-            'user_id'=>$this->user_id,
-            'type'=>'4',
-            'good_qt'=>$this->addGoodQt,
-            'comment'=>'',
-        ]);
+        
+        //create entry qty int task
+        $this->taskService->recordTaskActivity( $this->search, 4, $this->addGoodQt, 0);
 
         $this->render();
         
@@ -390,14 +356,8 @@ class TaskStatu extends Component
     public function addRejectedQt()
     {
         $this->validate();
-        // Create Line
-        TaskActivities::create([
-            'task_id'=> $this->search,
-            'user_id'=>$this->user_id,
-            'type'=>'5',
-            'bad_qt'=>$this->addBadQt,
-            'comment'=>'',
-        ]);
+        //create entry qty int task
+        $this->taskService->recordTaskActivity( $this->search, 5, 0, $this->addBadQt);
 
         $this->render();
 
@@ -408,14 +368,8 @@ class TaskStatu extends Component
     public function FastaddBadQt($qty)
     {
         $this->addGoodQt -= $qty;
-        // Create Line
-        TaskActivities::create([
-            'task_id'=> $this->search,
-            'user_id'=>$this->user_id,
-            'type'=>'5',
-            'bad_qt'=>$qty,
-            'comment'=>'',
-        ]);
+        //create entry qty int task
+        $this->taskService->recordTaskActivity( $this->search, 5, 0, $qty);
 
         $this->render();
 

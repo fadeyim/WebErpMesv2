@@ -3,12 +3,13 @@
 namespace App\Services;
 
 
-use App\Models\Planning\Status;
-use App\Models\Planning\Task;
-use App\Models\Planning\TaskActivities;
-use Illuminate\Support\Facades\Event;
-use App\Events\TaskChangeStatu;
 use Carbon\Carbon;
+use App\Models\Planning\Task;
+use App\Events\TaskChangeStatu;
+use App\Models\Planning\Status;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
+use App\Models\Planning\TaskActivities;
 
 class TaskService
 {
@@ -25,7 +26,7 @@ class TaskService
                 $task->update(['status_id' => $statusUpdate->id]);
 
                 // Enregistrer une activité de fermeture
-                $this->recordTaskActivity($task->id);
+                $this->recordTaskActivity($task->id, 3, 0, 0);
 
                 // Déclencher un événement pour notifier le changement de statut
                 Event::dispatch(new TaskChangeStatu($task->id));
@@ -33,12 +34,15 @@ class TaskService
         }
     }
 
-    public function recordTaskActivity($taskId)
+    public function recordTaskActivity($taskId, $type, $goodQty, $addBadQt)
     {
         TaskActivities::create([
             'task_id' => $taskId,
-            'type' => '3',
+            'user_id'=> Auth::user()->id,
+            'type' => $type,
             'timestamp' => Carbon::now(),
+            'good_qt'=> $goodQty,
+            'bad_qt'=> $addBadQt,
             'comment' => '',
         ]);
     }
