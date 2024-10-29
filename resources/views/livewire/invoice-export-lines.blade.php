@@ -55,17 +55,17 @@
                             <td>{{ $InvoiceExportLines->orderLine['label'] }}</td>
                             <td>{{ $InvoiceExportLines->qty }}</td>
                             <td>{{ $InvoiceExportLines->OrderLine->Unit['label'] }}</td>
-                            <td>{{ $InvoiceExportLines->OrderLine['selling_price'] }} {{ $Factory->curency }}</td>
+                            <td>{{ number_format($InvoiceExportLines->OrderLine['selling_price'], 2, '.', ',') }} {{ $Factory->curency }}</td>
                             <td>{{ $InvoiceExportLines->OrderLine['discount'] }} %</td>
                             <td>{{ $InvoiceExportLines->OrderLine->VAT['rate'] }} %</td>
                             <td>
                                 <div class="custom-control custom-checkbox">
                                     <input class="custom-control-input" 
-                                           wire:model="selectedInvoiceLine.{{ $InvoiceExportLines->id }}" 
-                                           id="{{ $InvoiceExportLines->id }}.invoice_line_id"  
-                                           type="checkbox">
+                                            wire:model="selectedInvoiceLine.{{ $InvoiceExportLines->id }}" 
+                                            id="{{ $InvoiceExportLines->id }}.invoice_line_id"  
+                                            type="checkbox">
                                     <label for="{{ $InvoiceExportLines->id }}.invoice_line_id" 
-                                           class="custom-control-label">
+                                            class="custom-control-label">
                                         {{ __('general_content.add_export_trans_key') }}
                                     </label>
                                 </div>

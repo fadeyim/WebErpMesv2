@@ -12,7 +12,6 @@ use App\Models\Workflow\InvoiceLines;
 class InvoiceExportLines extends Component
 {
     public $InvoiceExportLineslist;
-    public $code, $label, $companies_id, $companies_addresses_id, $companies_contacts_id, $user_id; 
     public $data = [];
 
     //export
@@ -22,7 +21,6 @@ class InvoiceExportLines extends Component
     {
         $this->selectedInvoiceLine = collect();
     }
-
 
     public function render()
     {

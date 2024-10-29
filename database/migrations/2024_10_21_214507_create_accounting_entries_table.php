@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('currency_code', 15)->nullable();  // Montant en devise
             $table->unsignedBigInteger('invoice_line_id', 3)->nullable();  
             $table->unsignedBigInteger('purchase_invoice_line_id', 3)->nullable(); 
+            $table->boolean('exported')->default(false); 
             $table->timestamps(); // Created at and updated at
         });
     }

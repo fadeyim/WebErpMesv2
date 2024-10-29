@@ -144,7 +144,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
         Route::get('/', 'App\Http\Controllers\Workflow\InvoicesController@index')->name('invoices'); 
         Route::get('/store/delevery/{id}', 'App\Http\Controllers\Workflow\InvoicesController@storeFromDelevery')->name('invoices.store.from.delivery'); 
         Route::get('/request', 'App\Http\Controllers\Workflow\InvoicesController@request')->name('invoices-request'); 
-        Route::get('/export', 'App\Http\Controllers\Workflow\InvoicesController@export')->name('invoices.export');
         Route::post('/edit/{id}', 'App\Http\Controllers\Workflow\InvoicesController@update')->name('invoices.update');
         Route::get('/{id}', 'App\Http\Controllers\Workflow\InvoicesController@show')->name('invoices.show');
     });

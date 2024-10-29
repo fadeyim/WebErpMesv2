@@ -435,12 +435,6 @@ return [
                     'icon_color' => 'warning',
                 ],
                 [
-                    'text' => 'export_invoices_lines_list_trans_key',
-                    'url'  => 'invoices/export',
-                    'icon_color' => 'info',
-                ],
-                
-                [
                     'text' => 'credit_notes_trans_key',
                     'url'  => 'credit-notes',
                     'icon_color' => 'primary',

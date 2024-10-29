@@ -36,7 +36,7 @@
     <form action="{{ route('production.load.planning') }}" method="GET">
       <div class="row">
         <div class="form-group col-2">
-          <label for="start_date">Date de début:</label>
+          <label for="start_date">{{ __('general_content.start_date_trans_key') }} :</label>
           <input type="date" class="form-control" id="start_date" name="start_date" required value="{{ $startDate ?? '' }}">
         </div>
         <div class="form-group col-2">

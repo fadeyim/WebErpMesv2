@@ -30,6 +30,7 @@ class AccountingEntry extends Model
         'currency_code',
         'invoice_line_id',
         'purchase_invoice_line_id',
+        'exported'
     ];
 
     // Cast to specific data types
@@ -38,9 +39,9 @@ class AccountingEntry extends Model
         'justification_date' => 'date',
         'lettering_date' => 'date',
         'validation_date' => 'date',
+        'document_date' => 'date',
         'debit_amount' => 'decimal:2',
         'credit_amount' => 'decimal:2',
-        'currency_code' => 'decimal:2',
     ];
 
     // Example relationships (if necessary)

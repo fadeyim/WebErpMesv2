@@ -10,7 +10,9 @@
 <div class="card">
     <div class="card-header p-2">
         <ul class="nav nav-pills">
-            <li class="nav-item "><a class="nav-link active" href="#CustomerImport" data-toggle="tab">{{ __('general_content.customer_import_trans_key') }}</a></li>
+            <li class="nav-item "><a class="nav-link active" href="#FECExport" data-toggle="tab">{{ __('general_content.export_fec_trans_key') }}</a></li>
+            <li class="nav-item "><a class="nav-link" href="#InvoicesExport" data-toggle="tab">{{ __('general_content.invoices_export_trans_key') }}</a></li>
+            <li class="nav-item "><a class="nav-link" href="#CustomerImport" data-toggle="tab">{{ __('general_content.customer_import_trans_key') }}</a></li>
             <li class="nav-item "><a class="nav-link" href="#QuotesImport" data-toggle="tab">{{ __('general_content.quotes_import_trans_key') }}</a></li>
             <li class="nav-item "><a class="nav-link" href="#OrderImport" data-toggle="tab">{{ __('general_content.orders_import_trans_key') }}</a></li>
             <li class="nav-item "><a class="nav-link" href="#ProductImport" data-toggle="tab">{{ __('general_content.products_import_trans_key') }}</a></li>
@@ -18,7 +20,13 @@
     </div>
     <div class="card-body">
         <div class="tab-content">
-            <div class="tab-pane active" id="CustomerImport">
+            <div class="tab-pane active" id="FECExport">
+                @livewire('fec-export-lines')
+            </div>
+            <div class="tab-pane" id="InvoicesExport">
+                @livewire('invoice-export-lines')
+            </div>
+            <div class="tab-pane" id="CustomerImport">
                 @include('include.alert-result')
                 <form method="POST" action="{{ route('companies.import') }}" enctype="multipart/form-data">
                     @csrf
