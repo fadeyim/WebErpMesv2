@@ -22,7 +22,7 @@ class Leads extends Model
         'companies_contacts_id',
         'companies_addresses_id',
         'user_id',
-        'status',
+        'statu',
         'source',
         'priority',
         'campaign',

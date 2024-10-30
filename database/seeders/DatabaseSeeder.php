@@ -2,18 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-
 use Illuminate\Database\Seeder;
+use Database\Seeders\LeadsSeeder;
 use App\Models\Companies\Companies;
 use Database\Seeders\AllocationSeeder;
 use Database\Seeders\CreateTaskSeeder;
 use Database\Seeders\OrderTableSeeder;
 use Database\Seeders\QuotesTableSeeder;
-
-use App\Models\Accounting\AccountingVat;
+use Database\Seeders\OpportunitiesSeeder;
 use App\Models\Companies\CompaniesContacts;
 use Database\Seeders\CreateAdminUserSeeder;
+use Database\Seeders\MethodsFamiliesSeeder;
 use Database\Seeders\OrderLinesTableSeeder;
 use Database\Seeders\PermissionTableSeeder;
 use Database\Seeders\QuoteLinesTableSeeder;
@@ -21,6 +20,7 @@ use App\Models\Companies\CompaniesAddresses;
 use Database\Seeders\EstimatedBudgetsSeeder;
 use Database\Seeders\MethodsUnitTableSeeder;
 use App\Models\Accounting\AccountingDelivery;
+use Database\Seeders\MethodsRessourcesSeeder;
 use Database\Seeders\MethodsSectionTableSeeder;
 use Database\Seeders\MethodsServicesTableSeeder;
 use App\Models\Accounting\AccountingPaymentMethod;
@@ -43,6 +43,8 @@ class DatabaseSeeder extends Seeder
             MethodsServicesTableSeeder::class,
             MethodsUnitTableSeeder::class,
             MethodsSectionTableSeeder::class,
+            MethodsRessourcesSeeder::class,
+            MethodsFamiliesSeeder::class,
             PermissionTableSeeder::class,
             CreateAdminUserSeeder::class,
             AllocationSeeder::class,
@@ -61,14 +63,9 @@ class DatabaseSeeder extends Seeder
         AccountingPaymentConditions::factory()->count(5)->create();
         AccountingPaymentMethod::factory()->count(3)->create();
         AccountingDelivery::factory()->count(3)->create();
-        /*A
-        *Accounting allocation seeder
-        */
 
         
         /*
-        *Famillies  seeder
-        *Section  seeder
         *Ressources  seeder
         *Location  seeder
         */
@@ -78,6 +75,10 @@ class DatabaseSeeder extends Seeder
         *Products  seeder
         */
 
+        //Leads
+        $this->call(LeadsSeeder::class);
+        //Oppotunities 
+        $this->call(OpportunitiesSeeder::class);
         //Quotes
         $this->call(QuotesTableSeeder::class);
         $this->call(QuoteLinesTableSeeder::class);

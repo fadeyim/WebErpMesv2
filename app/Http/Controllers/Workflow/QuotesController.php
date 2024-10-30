@@ -98,7 +98,7 @@ class QuotesController extends Controller
     {
         $validated = $request->validated();
 
-        $Quote = Quotes::findOrFail($validated['id']);
+        $Quote = Quotes::findOrFail($request->id);
         $Quote->fill($validated);
         $Quote->save();
         

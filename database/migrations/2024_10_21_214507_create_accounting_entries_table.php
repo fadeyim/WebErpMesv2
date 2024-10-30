@@ -32,8 +32,8 @@ return new class extends Migration
             $table->date('lettering_date')->nullable();  // Date de lettrage
             $table->date('validation_date');  // Date de validation de l'écriture comptable
             $table->string('currency_code', 15)->nullable();  // Montant en devise
-            $table->unsignedBigInteger('invoice_line_id', 3)->nullable();  
-            $table->unsignedBigInteger('purchase_invoice_line_id', 3)->nullable(); 
+            $table->unsignedBigInteger('invoice_line_id')->nullable();  
+            $table->unsignedBigInteger('purchase_invoice_line_id')->nullable(); 
             $table->boolean('exported')->default(false); 
             $table->timestamps(); // Created at and updated at
         });

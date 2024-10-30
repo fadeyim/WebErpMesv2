@@ -21,7 +21,7 @@ class AllocationSeeder extends Seeder
         $vat20 = AccountingVat::factory()->create(['rate' => 20]);
 
         // Insérer les enregistrements dans la table allocations
-        DB::table('allocations')->insert([
+        DB::table('accounting_allocations')->insert([
             // Exonéré de TVA (0%) - Vente
             [
                 'account' => '707000',
