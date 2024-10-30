@@ -56,8 +56,11 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
         $role->name = $request->name;
         $role->save();
+
+            // Récupère les noms des permissions à partir des IDs
+        $permissions = Permission::whereIn('id', $request->permission)->pluck('name');
         
-        $role->syncPermissions($request->permission);
+        $role->syncPermissions($permissions);
         
         return to_route('admin.roles.permissions')->with('success', 'Role updated successfully.');
     }
