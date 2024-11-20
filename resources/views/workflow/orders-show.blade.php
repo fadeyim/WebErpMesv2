@@ -59,7 +59,7 @@
                   </div>
                   <div class="row">
                     <div class="form-group col-md-6">
-                      @if($Order->quotes_id)
+                      @if($Order->quotes_id  or $Order->statu != 1)
                       {{ __('general_content.companie_trans_key') }} :  <x-CompanieButton id="{{ $Order->companie['id'] }}" label="{{ $Order->companie['label'] }}"  />
                       <input type="hidden" name="companies_id" value="{{ $Order->companies_id }}">
                       @else

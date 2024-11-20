@@ -44,7 +44,12 @@
                   </div>
                   <div class="row">
                     <div class="form-group col-md-12">
-                      @include('include.form.form-select-companie',['companiesId' =>  $Opportunity->companies_id])
+                      @if($Opportunity->opportunities_id or $Opportunity->statu != 1)
+                          {{ __('general_content.companie_trans_key') }} :  <x-CompanieButton id="{{ $Opportunity->companie['id'] }}" label="{{ $Opportunity->companie['label'] }}"  />
+                          <input type="hidden" name="companies_id" value="{{ $Opportunity->companies_id }}">
+                      @else
+                          @include('include.form.form-select-companie',['companiesId' =>  $Opportunity->companies_id])
+                      @endif
                     </div>
                   </div>
                   <div class="row">

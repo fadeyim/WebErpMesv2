@@ -54,7 +54,7 @@
                   </div>
                   <div class="row">
                     <div class="form-group col-md-6">
-                        @if($Quote->opportunities_id)
+                        @if($Quote->opportunities_id or $Quote->statu != 1)
                         {{ __('general_content.companie_trans_key') }} :  <x-CompanieButton id="{{ $Quote->companie['id'] }}" label="{{ $Quote->companie['label'] }}"  />
                           <input type="hidden" name="companies_id" value="{{ $Quote->companies_id }}">
                           @else
