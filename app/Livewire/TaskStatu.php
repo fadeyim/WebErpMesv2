@@ -130,29 +130,29 @@ class TaskStatu extends Component
             else{$userName = 'System'; }
 
             if($taskActivitie->type == 1){
-                $class = '';
+                $icon = 'fas fa-play-circle bg-primary';
                 $content =  $userName .' - '. __('general_content.set_to_start_trans_key');
             }
             elseif ($taskActivitie->type == 2){
-                $class = 'primary';
+                $icon = 'fas fa-stop-circle bg-warning';
                 $content =  $userName .' - '. __('general_content.set_to_end_trans_key');
             }
             elseif ($taskActivitie->type == 3){
-                $class = 'info';
+                $icon = 'fas fa-check-circle bg-info';
                 $content =  $userName .' - '. __('general_content.set_to_finish_trans_key');
             }
             elseif ($taskActivitie->type == 4){
-                $class = 'success';
+                $icon = 'fas fa-thumbs-up bg-success';
                 $content =  $userName .' - '. __('general_content.declare_finish_trans_key') .' '. $taskActivitie->good_qt .' '.  __('general_content.part_trans_key');
             }
             elseif ($taskActivitie->type == 5){
-                $class = 'danger';
+                $icon = 'fas fa-thumbs-down bg-danger';
                 $content =  $userName .' - '. __('general_content.declare_rejected_trans_key') .' '. $taskActivitie->bad_qt .' '. __('general_content.part_trans_key');
             }
 
             $this->timelineData[] = [
                 'date' => $taskActivitie->created_at->format('d M Y'),
-                'icon' => 'fas fa-calendar-alt  bg-'. $class,
+                'icon' => $icon,
                 'content' => $content,
                 'details' => $taskActivitie->GetPrettyCreatedAttribute(),
             ];

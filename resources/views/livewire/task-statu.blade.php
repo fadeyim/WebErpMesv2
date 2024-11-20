@@ -242,53 +242,32 @@
               <div class="row">
                 <div class="col-12">
                   <h4>{{ __('general_content.logs_activity_trans_key') }}</h4>   
-                  @if($Task->service->type == 1 )
-                    @forelse ($taskActivities as $taskActivitie)
-                          @if($taskActivitie->type == 1)
-                            <p class="lead">{{ $taskActivitie->user->name }} - {{ __('general_content.set_to_start_trans_key') }} - {{ $taskActivitie->GetPrettyCreatedAttribute() }} </p>
-                          @elseif ($taskActivitie->type == 2)
-                          <p class="text-primary">{{ $taskActivitie->user->name }} - {{ __('general_content.set_to_end_trans_key') }} - {{ $taskActivitie->GetPrettyCreatedAttribute() }} </p>
-                          @elseif ($taskActivitie->type == 3)
-                          <p class="text-info">{{ $taskActivitie->user->name }} - {{ __('general_content.set_to_finish_trans_key') }} - {{ $taskActivitie->GetPrettyCreatedAttribute() }} </p>
-                          @elseif ($taskActivitie->type == 4)
-                            <p class="text-success">{{ $taskActivitie->user->name }} - {{ __('general_content.declare_finish_trans_key') }} <strong>{{ $taskActivitie->good_qt }}</strong> {{ __('general_content.part_trans_key') }} - {{ $taskActivitie->GetPrettyCreatedAttribute() }} </p>
-                          @elseif ($taskActivitie->type == 5)
-                            <p class="text-danger">{{ $taskActivitie->user->name }} - {{ __('general_content.declare_rejected_trans_key') }} <strong>{{ $taskActivitie->bad_qt }}</strong> {{ __('general_content.part_trans_key') }} - {{ $taskActivitie->GetPrettyCreatedAttribute() }} </p>
+                  @php
+                      $previousDate = null;
+                  @endphp
+                  <div class="timeline timeline-inverse">
+                        @foreach($timelineData as $item)
+                          @if ($item['date'] != $previousDate)
+                          <div class="time-label">
+                              <span class="bg-info">{{ $item['date'] }}</span>
+                          </div>
                           @endif
-                          <hr>
-                    @empty
-                      <p>
-                        {{ __('general_content.no_activity_trans_key') }} 
-                      </p>
-                    @endforelse
-                  @else
-                    <div class="timeline timeline-inverse">
-                      @php
-                          $previousDate = null;
-                      @endphp
-            
-                      @foreach($timelineData as $item)
-                        @if ($item['date'] != $previousDate)
-                        <div class="time-label">
-                            <span class="bg-info">{{ $item['date'] }}</span>
-                        </div>
-                        @endif
-                        <div>
-                            <i class="{{ $item['icon'] }}"></i>
-                            <div class="timeline-item">
-                                <span class="time"><i class="far fa-clock"></i> {{ $item['details'] }}</span>
-                                <h3 class="timeline-header">{{ $item['content'] }}</h3>
-                            </div>
-                        </div>
-                        @php
-                          $previousDate = $item['date'];
-                        @endphp
-                    @endforeach
-                      <div>
-                        <i class="far fa-clock bg-gray"></i>
-                      </div>
+                          <div>
+                              <i class="{{ $item['icon'] }}"></i>
+                              <div class="timeline-item">
+                                  <span class="time"><i class="far fa-clock"></i> {{ $item['details'] }}</span>
+                                  <h3 class="timeline-header">{{ $item['content'] }}</h3>
+                              </div>
+                          </div>
+                          @php
+                            $previousDate = $item['date'];
+                          @endphp
+                      @endforeach
+                    
+                    <div>
+                      <i class="far fa-clock bg-gray"></i>
                     </div>
-                  @endif
+                  </div>
                   <!-- /.row -->
                 </div>
               </div>
