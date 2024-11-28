@@ -38,10 +38,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
         Route::get('/Stock/Detail', 'App\Http\Controllers\Workshop\WorkshopController@stockDetail')->name('workshop.stock.detail');
 
         
-        Route::get('/andon', 'App\Http\Controllers\Planning\AndonAlertController@dashboard')->name('workshop.andon');
+        Route::get('/andon', 'App\Http\Controllers\Planning\AndonAlertController@taskAlertsDashboard')->name('workshop.andon');
         Route::post('/andon/store', 'App\Http\Controllers\Planning\AndonAlertController@triggerAlert')->name('workshop.andon.store');
         Route::post('/andon/inProgress/{id}', 'App\Http\Controllers\Planning\AndonAlertController@inProgressAlert')->name('workshop.andon.inProgress');
         Route::post('/andon/resolve/{id}', 'App\Http\Controllers\Planning\AndonAlertController@resolveAlert')->name('workshop.andon.resolve');
+
+        Route::get('/andon/task-activity', 'App\Http\Controllers\Planning\AndonAlertController@taskActivityDashboard')->name('workshop.andon.task-activity');
     });
     
 

@@ -20,7 +20,7 @@ class TaskActivities extends Model
                             'comment',];
 
 
-    public function Taks()
+    public function Tasks()
     {
         return $this->belongsTo(Task::class, 'task_id');
     }

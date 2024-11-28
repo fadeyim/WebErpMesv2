@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Planning;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Events\AndonAlertTriggered;
 use App\Http\Controllers\Controller;
 use App\Models\Planning\AndonAlerts;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Planning\TaskActivities;
 
 class AndonAlertController extends Controller
 {
@@ -21,7 +23,7 @@ class AndonAlertController extends Controller
             'user_id' => Auth::id(),
             'triggered_at' => now(),
         ]);
-        $alertData= ['message' => 'Une alerte Andon a été déclenchée'];
+
         // Émettre l'événement
         broadcast(new AndonAlertTriggered($alert));
 
@@ -50,9 +52,17 @@ class AndonAlertController extends Controller
         return redirect()->back();
     }
 
-    public function dashboard()
+    public function taskAlertsDashboard()
     {
         $andonAlerts = AndonAlerts::orderByRaw("FIELD(status, '1', '2', '3')")->orderByDesc('id')->get();
         return view('workshop/workshop-andon', compact('andonAlerts'));
+    }
+
+    public function taskActivityDashboard()
+    {
+        $taskActivities = TaskActivities::where('timestamp', '>=', Carbon::now()->subDay())
+                                        ->orderByDesc('id')
+                                        ->get();
+        return view('workshop/workshop-andon-task-activity', compact('taskActivities'));
     }
 }

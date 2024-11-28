@@ -13,7 +13,7 @@
             <!-- Première colonne : Type et Déclenchement -->
             <div class="col-3">
                 <h3>{{ $alert->type }}</h3>
-                <small>{{ $alert->GetPrettyCreatedAttribute() }} par {{ $alert->UserManagement['name'] }}</small>
+                <small>{{ $alert->GetPrettyCreatedAttribute() }} / {{ $alert->UserManagement['name'] }}</small>
             </div>
             
             <!-- Deuxième colonne : Description -->

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-
+use App\Events\TaskActivityTriggered;
 use Carbon\Carbon;
 use App\Models\Planning\Task;
 use App\Events\TaskChangeStatu;
@@ -36,7 +36,7 @@ class TaskService
 
     public function recordTaskActivity($taskId, $type, $goodQty, $addBadQt)
     {
-        TaskActivities::create([
+        $taskActivity = TaskActivities::create([
             'task_id' => $taskId,
             'user_id'=> Auth::user()->id,
             'type' => $type,
@@ -45,5 +45,7 @@ class TaskService
             'bad_qt'=> $addBadQt,
             'comment' => '',
         ]);
+
+        broadcast(new TaskActivityTriggered($taskActivity));
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Broadcasting\AndonAlert;
+use App\Broadcasting\TaskActivity;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -19,8 +20,5 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 });
 
 Broadcast::channel('AndonAlert', AndonAlert::class);
-
-Broadcast::channel( 'my-channel', function ($user) {
-    return true; // Autorise tous les utilisateurs à rejoindre ce canal
-});
+Broadcast::channel('TaskActivity', TaskActivity::class);
 
