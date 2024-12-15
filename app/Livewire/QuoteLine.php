@@ -367,6 +367,7 @@ class QuoteLine extends Component
             $newTask = $Task->replicate();
             $newTask->quote_lines_id = $id;
             $newTask->products_id = null;
+            $newTask->status_id = $this->status_id['id'];
             $newTask->save();
         }
         $SubAssemblyLine = SubAssembly::where('products_id', $Quoteline->product_id)->get();

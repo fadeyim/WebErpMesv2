@@ -393,6 +393,7 @@ class OrderLine extends Component
             $newTask = $Task->replicate();
             $newTask->order_lines_id = $id;
             $newTask->products_id = null;
+            $newTask->status_id = $this->status_id['id'];
             $newTask->save();
         }
         $SubAssemblyLine = SubAssembly::where('products_id', $OrderLine->product_id)->get();
