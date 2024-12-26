@@ -46,7 +46,7 @@
                                 <label class="col-form-label" for="companie_header">{{ __('general_content.header_line_ask_trans_key') }}</label>
                             </div>
                             <div class="col-8">
-                                <x-adminlte-input-switch name="header" id="companie_header" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                                <x-adminlte-input-switch name="header" id="companie_header" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true"/>
                             </div>
                         </div>
                         @php
@@ -115,7 +115,7 @@
                                 <label class="col-form-label" for="quote_header">{{ __('general_content.header_line_ask_trans_key') }}</label>
                             </div>
                             <div class="col-8">
-                                <x-adminlte-input-switch name="header" id="quote_header" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                                <x-adminlte-input-switch name="header" id="quote_header" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true"/>
                             </div>
                         </div>
                         @php
@@ -179,7 +179,7 @@
                                 <label class="col-form-label" for="order_header">{{ __('general_content.header_line_ask_trans_key') }}</label>
                             </div>
                             <div class="col-8">
-                                <x-adminlte-input-switch name="header" id="order_header" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                                <x-adminlte-input-switch name="header" id="order_header" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true"/>
                             </div>
                         </div>
                         @php
@@ -296,7 +296,7 @@
                                 <label class="col-form-label" for="product_header">{{ __('general_content.header_line_ask_trans_key') }}</label>
                             </div>
                             <div class="col-8">
-                                <x-adminlte-input-switch name="header" id="product_header" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                                <x-adminlte-input-switch name="header" id="product_header" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true"/>
                             </div>
                         </div>
                         @php

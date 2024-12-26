@@ -67,7 +67,7 @@
                           <div class="col-4 text-left"><label for="etat_update{{ $MethodsTool->id }}" class="col-form-label">{{ __('general_content.etat_trans_key') }}</label></div>
                           <div class="col-8">
                               @if($MethodsTool->ETAT == 1)  
-                              <x-adminlte-input-switch id="etat_update{{ $MethodsTool->id }}" name="etat_update" data-on-text="{{ __('general_content.used_trans_key') }}" data-off-text="{{ __('general_content.unsed_trans_key') }}" data-on-color="teal" checked/>
+                              <x-adminlte-input-switch id="etat_update{{ $MethodsTool->id }}" name="etat_update" data-on-text="{{ __('general_content.used_trans_key') }}" data-off-text="{{ __('general_content.unsed_trans_key') }}" data-on-color="teal" is-checked="true" />
                               @else
                               <x-adminlte-input-switch id="etat_update{{ $MethodsTool->id }}" name="etat_update" data-on-text="{{ __('general_content.used_trans_key') }}" data-off-text="{{ __('general_content.unsed_trans_key') }}" data-on-color="teal" />
                               @endif
@@ -167,7 +167,7 @@
           <div class="form-group">
               <label for="ETAT" class="col-form-label">{{ __('general_content.etat_trans_key') }}</label>
               <x-adminlte-input-switch name="ETAT" data-on-text="{{ __('general_content.used_trans_key') }}" data-off-text="{{ __('general_content.unsed_trans_key') }}"
-              data-on-color="teal" checked/>
+              data-on-color="teal" is-checked="true" />
           </div>
           <div class="form-group">
             <label for="cost">{{ __('general_content.cost_trans_key') }}</label>

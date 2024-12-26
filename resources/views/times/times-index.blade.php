@@ -244,7 +244,7 @@
                               <div class="col-4 text-left"><label for="fixed_update{{ $TimesBanckHoliday->id }}" class="col-form-label">{{ __('general_content.mask_time_trans_key') }}</label></div>
                               <div class="col-8">
                                   @if($TimesBanckHoliday->fixed == 1)  
-                                  <x-adminlte-input-switch id="fixed_update{{ $TimesBanckHoliday->id }}" name="fixed_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                                  <x-adminlte-input-switch id="fixed_update{{ $TimesBanckHoliday->id }}" name="fixed_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true" />
                                   @else
                                   <x-adminlte-input-switch id="fixed_update{{ $TimesBanckHoliday->id }}" name="fixed_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" />
                                   @endif
@@ -295,7 +295,7 @@
               <div class="form-group">
                 <label for="fixed" class="col-form-label">{{ __('general_content.fixed_trans_key') }}</label>
                 <x-adminlte-input-switch name="fixed" id="fixed" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}"
-                data-on-color="teal" checked/>
+                data-on-color="teal" is-checked="true" />
               </div>
               <div class="form-group">
                 <label for="date">{{__('general_content.date_trans_key') }}</label>
@@ -372,7 +372,7 @@
                               <div class="col-4 text-left"><label for="resources_required_update{{ $TimesImproductTime->id }}" class="col-form-label">{{ __('general_content.resource_required_trans_key') }}</label></div>
                               <div class="col-8">
                                   @if($TimesImproductTime->resources_required == 1)  
-                                  <x-adminlte-input-switch id="resources_required_update{{ $TimesImproductTime->id }}" name="resources_required_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                                  <x-adminlte-input-switch id="resources_required_update{{ $TimesImproductTime->id }}" name="resources_required_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true" />
                                   @else
                                   <x-adminlte-input-switch id="resources_required_update{{ $TimesImproductTime->id }}" name="resources_required_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" />
                                   @endif
@@ -382,7 +382,7 @@
                               <div class="col-4 text-left"><label for="mask_time_non_product_update{{ $TimesImproductTime->id }}" class="col-form-label">{{ __('general_content.mask_time_trans_key') }}</label></div>
                               <div class="col-8">
                                   @if($TimesImproductTime->mask_time == 1)  
-                                  <x-adminlte-input-switch id="mask_time_non_product_update{{ $TimesImproductTime->id }}" name="mask_time_non_product_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                                  <x-adminlte-input-switch id="mask_time_non_product_update{{ $TimesImproductTime->id }}" name="mask_time_non_product_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true" />
                                   @else
                                   <x-adminlte-input-switch id="mask_time_non_product_update{{ $TimesImproductTime->id }}" name="mask_time_non_product_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" />
                                   @endif
@@ -439,12 +439,12 @@
               <div class="form-group">
                 <label for="resources_required" class="col-form-label">{{ __('general_content.resource_required_trans_key') }}</label>
                 <x-adminlte-input-switch name="resources_required" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}"
-                data-on-color="teal" checked/>
+                data-on-color="teal" is-checked="true" />
               </div>
               <div class="form-group">
                   <label for="mask_time" class="col-form-label">{{ __('general_content.mask_time_trans_key') }}</label>
                   <x-adminlte-input-switch name="mask_time" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}"
-                  data-on-color="teal" checked/>
+                  data-on-color="teal" is-checked="true" />
               </div>
               <x-slot name="footerSlot">
                 <x-adminlte-button class="btn-flat" type="submit" label="{{ __('general_content.submit_trans_key') }}" theme="danger" icon="fas fa-lg fa-save"/>
@@ -523,7 +523,7 @@
                               <div class="col-4 text-left"><label for="mask_time_event_update{{ $TimesMachineEvent->id }}" class="col-form-label">{{ __('general_content.mask_time_trans_key') }}</label></div>
                               <div class="col-8">
                                   @if($TimesMachineEvent->mask_time == 1)  
-                                  <x-adminlte-input-switch id="mask_time_event_update{{ $TimesMachineEvent->id }}" name="mask_time_event_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                                  <x-adminlte-input-switch id="mask_time_event_update{{ $TimesMachineEvent->id }}" name="mask_time_event_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true" />
                                   @else
                                   <x-adminlte-input-switch id="mask_time_event_update{{ $TimesMachineEvent->id }}" name="mask_time_event_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" />
                                   @endif
@@ -604,7 +604,7 @@
               <div class="form-group">
                   <label for="mask_time_event" class="col-form-label">{{ __('general_content.mask_time_trans_key') }}</label>
                   <x-adminlte-input-switch name="mask_time" id="mask_time_event" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}"
-                  data-on-color="teal" checked/>
+                  data-on-color="teal" is-checked="true" />
               </div>
               <div class="form-group">
                 <label for="color">{{ __('general_content.color_trans_key') }}</label>

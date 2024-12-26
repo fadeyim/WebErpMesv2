@@ -115,7 +115,7 @@
                         <div class="col-4 text-left"><label for="purchased" class="col-form-label">{{ __('general_content.purchased_trans_key') }}</label></div>
                         <div class="col-8">
                             @if($Product->purchased == 1)  
-                            <x-adminlte-input-switch id="purchased" name="purchased" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                            <x-adminlte-input-switch id="purchased" name="purchased" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true" />
                             @else
                             <x-adminlte-input-switch id="purchased" name="purchased" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" />
                             @endif
@@ -125,7 +125,7 @@
                         <div class="col-4 text-left"><label for="sold" class="col-form-label">{{ __('general_content.sold_trans_key') }}</label></div>
                         <div class="col-8">
                             @if($Product->sold == 1)  
-                            <x-adminlte-input-switch id="sold" name="sold" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                            <x-adminlte-input-switch id="sold" name="sold" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true" />
                             @else
                             <x-adminlte-input-switch id="sold" name="sold" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" />
                             @endif

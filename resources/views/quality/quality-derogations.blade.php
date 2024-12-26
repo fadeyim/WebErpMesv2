@@ -112,7 +112,7 @@
                             <div class="col-4 text-left"><label for="type_update{{ $QualityDerogation->id }}" class="col-form-label">{{ __('general_content.type_trans_key') }}</label></div>
                             <div class="col-8">
                                 @if($QualityDerogation->type == 1)  
-                                <x-adminlte-input-switch id="type_update{{ $QualityDerogation->id }}" name="type_update" data-on-text="{{ __('general_content.internal_trans_key') }}" data-off-text="{{ __('general_content.external_trans_key') }}" data-on-color="teal" checked/>
+                                <x-adminlte-input-switch id="type_update{{ $QualityDerogation->id }}" name="type_update" data-on-text="{{ __('general_content.internal_trans_key') }}" data-off-text="{{ __('general_content.external_trans_key') }}" data-on-color="teal" is-checked="true" />
                                 @else
                                 <x-adminlte-input-switch id="type_update{{ $QualityDerogation->id }}" name="type_update" data-on-text="{{ __('general_content.internal_trans_key') }}" data-off-text="{{ __('general_content.external_trans_key') }}" data-on-color="teal" />
                                 @endif
@@ -216,7 +216,7 @@
             <div class="form-group col-md-2">
               <label for="type" class="col-form-label">{{ __('general_content.type_trans_key') }}</label>
               <x-adminlte-input-switch name="type" data-on-text="{{ __('general_content.internal_trans_key') }}" data-off-text="{{ __('general_content.external_trans_key') }}"
-              data-on-color="teal" checked/>
+              data-on-color="teal" is-checked="true" />
             </div>
             <div class="form-group col-md-2">
               <label for="statu">{{ __('general_content.statu_trans_key') }}</label>

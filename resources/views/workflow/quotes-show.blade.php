@@ -192,7 +192,7 @@
               <label for="show_client_requirements_on_pdf">{{ __('general_content.show_client_requirements_on_pdf_trans_key') }}</label>
               
               @if(isset($projectEstimate) && $projectEstimate->show_client_requirements_on_pdf == 1)
-                  <x-adminlte-input-switch id="show_client_requirements_on_pdf" name="show_client_requirements_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                  <x-adminlte-input-switch id="show_client_requirements_on_pdf" name="show_client_requirements_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true" />
               @else
                   <x-adminlte-input-switch id="show_client_requirements_on_pdf" name="show_client_requirements_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal"/>
               @endif
@@ -208,7 +208,7 @@
           <div class="form-group">
               <label for="show_layout_on_pdf">{{ __('general_content.show_layout_on_pdf_trans_key') }}</label>
               @if(isset($projectEstimate) && $projectEstimate->show_layout_on_pdf == 1)
-                  <x-adminlte-input-switch id="show_layout_on_pdf" name="show_layout_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                  <x-adminlte-input-switch id="show_layout_on_pdf" name="show_layout_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true" />
               @else
                   <x-adminlte-input-switch id="show_layout_on_pdf" name="show_layout_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal"/>
               @endif
@@ -224,7 +224,7 @@
           <div class="form-group">
               <label for="show_materials_on_pdf">{{ __('general_content.show_materials_on_pdf_trans_key') }}</label>
               @if(isset($projectEstimate) && $projectEstimate->show_materials_on_pdf == 1)
-                  <x-adminlte-input-switch id="show_materials_on_pdf" name="show_materials_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                  <x-adminlte-input-switch id="show_materials_on_pdf" name="show_materials_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true" />
               @else
                   <x-adminlte-input-switch id="show_materials_on_pdf" name="show_materials_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal"/>
               @endif
@@ -246,7 +246,7 @@
           <div class="form-group">
               <label for="show_logistics_on_pdf">{{ __('general_content.show_logistics_on_pdf_trans_key') }}</label>
               @if(isset($projectEstimate) && $projectEstimate->show_logistics_on_pdf == 1)
-                  <x-adminlte-input-switch id="show_logistics_on_pdf" name="show_logistics_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                  <x-adminlte-input-switch id="show_logistics_on_pdf" name="show_logistics_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true" />
               @else
                   <x-adminlte-input-switch id="show_logistics_on_pdf" name="show_logistics_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal"/>
               @endif
@@ -268,7 +268,7 @@
           <div class="form-group">
               <label for="show_contractors_on_pdf">{{ __('general_content.show_contractors_on_pdf_trans_key') }}</label>
               @if(isset($projectEstimate) && $projectEstimate->show_contractors_on_pdf == 1)
-                  <x-adminlte-input-switch id="show_contractors_on_pdf" name="show_contractors_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                  <x-adminlte-input-switch id="show_contractors_on_pdf" name="show_contractors_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true" />
               @else
                   <x-adminlte-input-switch id="show_contractors_on_pdf" name="show_contractors_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal"/>
               @endif
@@ -290,7 +290,7 @@
           <div class="form-group">
               <label for="show_waste_on_pdf">{{ __('general_content.show_waste_on_pdf_trans_key') }}</label>
               @if(isset($projectEstimate) && $projectEstimate->show_waste_on_pdf == 1)
-                  <x-adminlte-input-switch id="show_waste_on_pdf" name="show_waste_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                  <x-adminlte-input-switch id="show_waste_on_pdf" name="show_waste_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true" />
               @else
                   <x-adminlte-input-switch id="show_waste_on_pdf" name="show_waste_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal"/>
               @endif
@@ -312,7 +312,7 @@
           <div class="form-group">
               <label for="show_taxes_on_pdf">{{ __('general_content.show_taxes_on_pdf_trans_key') }}</label>
               @if(isset($projectEstimate) && $projectEstimate->show_taxes_on_pdf == 1)
-                  <x-adminlte-input-switch id="show_taxes_on_pdf" name="show_taxes_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                  <x-adminlte-input-switch id="show_taxes_on_pdf" name="show_taxes_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true" />
               @else
                   <x-adminlte-input-switch id="show_taxes_on_pdf" name="show_taxes_on_pdf" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal"/>
               @endif
@@ -402,7 +402,7 @@
                   <div class="row">
                       <div class="col-4 text-right"><label class="col-form-label"> {{ __('general_content.header_line_ask_trans_key') }}</label></div>
                       <div class="col-8">
-                          <x-adminlte-input-switch name="header" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                          <x-adminlte-input-switch name="header" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true" />
                       </div>
                   </div>
                   

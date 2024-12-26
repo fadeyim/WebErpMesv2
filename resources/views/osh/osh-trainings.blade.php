@@ -118,7 +118,7 @@
                 <div class="form-group">
                     <label for="certification_obtained" class="col-form-label">{{ __('general_content.certification_obtained_trans_key') }}</label>
                     <x-adminlte-input-switch name="certification_obtained" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}"
-                    data-on-color="teal" checked/>
+                    data-on-color="teal" is-checked="true" />
                 </div>
                 <div class="form-group">
                     @include('include.form.form-select-user', ['userId' => null])

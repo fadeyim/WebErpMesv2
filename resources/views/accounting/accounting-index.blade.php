@@ -88,8 +88,9 @@
                             <div class="form-group">
                               <div class="col-4 text-left"><label for="month_end_update{{ $PaymentCondition->id }}" class="col-form-label">{{ __('general_content.end_of_month_trans_key') }}</label></div>
                               <div class="col-8">
+                                                          
                                   @if($PaymentCondition->month_end == 1)  
-                                  <x-adminlte-input-switch id="month_end_update{{ $PaymentCondition->id }}" name="month_end_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                                  <x-adminlte-input-switch id="month_end_update{{ $PaymentCondition->id }}" name="month_end_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true"/>
                                   @else
                                   <x-adminlte-input-switch id="month_end_update{{ $PaymentCondition->id }}" name="month_end_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" />
                                   @endif
@@ -164,7 +165,7 @@
               <div class="form-group">
                 <label for="month_end" class="col-form-label">{{ __('general_content.end_of_month_trans_key') }}</label>
                 <x-adminlte-input-switch name="month_end" id="month_end" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}"
-                data-on-color="teal" checked/>
+                data-on-color="teal" is-checked="true"/>
               </div>
               <x-slot name="footerSlot">
                 <x-adminlte-button class="btn-flat" type="submit" label="{{ __('general_content.submit_trans_key') }}" theme="danger" icon="fas fa-lg fa-save"/>

@@ -93,11 +93,12 @@
                   <div class="form-group col-md-2">
                     <label for="companies_notification">{{__('general_content.active_trans_key') }}</label>
                     <div class="input-group">
-                          @if($Companie->active == 1)  
-                              <x-adminlte-input-switch name="active" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal"  checked />
-                          @else
-                              <x-adminlte-input-switch name="active" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal"  />
-                          @endif
+                      <x-adminlte-input-switch name="active" 
+                        data-on-text="{{ __('general_content.yes_trans_key') }}" 
+                        data-off-text="{{ __('general_content.no_trans_key') }}"
+                        data-on-color="teal" 
+                        data-off-color="danger" 
+                        is-checked="{{ $Companie->active }}" />
                     </div>
                   </div>
                   @if($Companie->client_type == 1) 
@@ -338,7 +339,7 @@
                     <label for="quoted_delivery_note">{{ __('general_content.quoted_delivery_note_trans_key') }}</label>
                     <div class="input-group">
                         @if($Companie->quoted_delivery_note == 1)  
-                            <x-adminlte-input-switch name="quoted_delivery_note" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked />
+                            <x-adminlte-input-switch name="quoted_delivery_note" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true" />
                         @else
                             <x-adminlte-input-switch name="quoted_delivery_note" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" />
                         @endif
@@ -503,7 +504,7 @@
                                 <div class="col-4 text-left"><label for="defaultAddress{{ $Address->id }}" class="col-form-label">{{ __('general_content.by_default_trans_key') }}</label></div>
                                 <div class="col-8">
                                     @if($Address->default == 1)  
-                                    <x-adminlte-input-switch id="defaultAddress{{ $Address->id }}" name="defaultAdress_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                                    <x-adminlte-input-switch id="defaultAddress{{ $Address->id }}" name="defaultAdress_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true" />
                                     @else
                                     <x-adminlte-input-switch id="defaultAddress{{ $Address->id }}" name="defaultAdress_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" />
                                     @endif
@@ -715,7 +716,7 @@
                                 <div class="col-4 text-left"><label for="defaultContact{{ $Contact->id }}" class="col-form-label">{{ __('general_content.by_default_trans_key') }}</label></div>
                                 <div class="col-8">
                                     @if($Contact->default == 1)  
-                                    <x-adminlte-input-switch id="defaultContact{{ $Contact->id }}" name="defaultContact_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" checked/>
+                                    <x-adminlte-input-switch id="defaultContact{{ $Contact->id }}" name="defaultContact_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" is-checked="true" />
                                     @else
                                     <x-adminlte-input-switch id="defaultContact{{ $Contact->id }}" name="defaultContact_update" data-on-text="{{ __('general_content.yes_trans_key') }}" data-off-text="{{ __('general_content.no_trans_key') }}" data-on-color="teal" />
                                     @endif
