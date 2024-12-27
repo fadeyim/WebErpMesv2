@@ -21,6 +21,8 @@ class LeadsIndex extends Component
     public $sortField = 'statu'; // default sorting field
     public $sortAsc = true; // default sort direction
     
+    public $searchIdPriority = '';
+
     private $Leadslist;
     
     public $id;
@@ -68,7 +70,9 @@ class LeadsIndex extends Component
                                                 ->paginate(15);
         }
         else{
-            $Leadslist = $this->Leadslist = Leads::orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+            $Leadslist = $this->Leadslist = Leads::where('campaign','like', '%'.$this->search.'%')
+                                                ->where('priority', 'like', '%'.$this->searchIdPriority.'%')
+                                                ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
                                                 ->paginate(15);
         }
         

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Workflow;
 
 use Illuminate\Support\Str;
 use App\Models\Workflow\Leads;
+use App\Services\LeadsKPIService;
 use App\Traits\NextPreviousTrait;
 use App\Services\SelectDataService;
 use App\Http\Controllers\Controller;
@@ -16,10 +17,13 @@ class LeadsController extends Controller
     use NextPreviousTrait;
     
     protected $SelectDataService;
+    protected $leadsKPIService;
 
-    public function __construct(SelectDataService $SelectDataService)
+    public function __construct(SelectDataService $SelectDataService, 
+                                LeadsKPIService $LeadsKPIService)
     {
-        $this->SelectDataService = $SelectDataService;
+        $this->SelectDataService = $SelectDataService; 
+        $this->leadsKPIService = $LeadsKPIService;
     }
     
     /**
@@ -27,7 +31,16 @@ class LeadsController extends Controller
      */
     public function index()
     {    
-        return view('workflow/leads-index');
+        // Using the OpportunitiesKPIService to retrieve KPI data
+        $data['leadsCountRate'] = $this->leadsKPIService->getLeadsDataRate();
+        $leadByCompany = $this->leadsKPIService->getLeadsByCompany();
+        $leadsCount = $this->leadsKPIService->getLeadsCount();
+        $leadsCountByUser = $this->leadsKPIService->getLeadsCountByUser();
+        $leadsCountByPriority = $this->leadsKPIService->getLeadsCountByPriority();
+        return view('workflow/leads-index', array_merge(
+            compact(
+                    'leadByCompany', 'leadsCount', 'leadsCountByUser', 'leadsCountByPriority')
+        ))->with('data', $data);
     }
 
     /**

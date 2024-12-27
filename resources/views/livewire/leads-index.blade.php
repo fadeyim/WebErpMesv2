@@ -1,12 +1,39 @@
 <div class="card-body">
     <!-- View toggle button -->
-    <div class="mb-3">
-        <button class="btn btn-primary" wire:click="changeView('table')">
-            <i class="fas fa-table mr-1"></i> Table
-        </button>
-        <button class="btn btn-secondary" wire:click="changeView('cards')">
-            <i class="fas fa-th-large mr-1"></i> Cards
-        </button>
+    <div class="row">
+        <!-- View toggle button -->
+        <div class="col-2">
+            <button class="btn btn-primary" wire:click="changeView('table')">
+                <i class="fas fa-table mr-1"></i> Table
+            </button>
+            <button class="btn btn-secondary" wire:click="changeView('cards')">
+                <i class="fas fa-th-large mr-1"></i> Cards
+            </button>
+        </div>
+        <div class="col-6">
+            @include('include.search-card')
+        </div>
+        <div class="col-2">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-list"></i></span>
+                    </div>
+                    <select class="form-control" name="searchIdPriority" id="searchIdPriority" wire:model.live="searchIdPriority">
+                        <option value="" selected>{{ __('general_content.select_statu_trans_key') }}</option>
+                        <option value="1">{{ __('general_content.burning_trans_key') }}</option>
+                        <option value="2">{{ __('general_content.hot_trans_key') }}</option>
+                        <option value="3">{{ __('general_content.lukewarm_trans_key') }}</option>
+                        <option value="4">{{ __('general_content.cold_trans_key') }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <button type="button" class="btn btn-success float-sm-right" data-toggle="modal" data-target="#ModalLead">
+                {{ __('general_content.new_leads_trans_key')}}
+            </button>
+        </div>
     </div>
 
     <!-- Modal -->
@@ -158,75 +185,82 @@
     </div>
     <!-- End Modal -->
     @if($viewType === 'table')
-    <div class="card">
-        <div class="table-responsive p-0">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>{{__('general_content.customer_trans_key') }}</th>
-                        <th>{{ __('general_content.contact_name_trans_key') }}</th>
-                        <th>{{ __('general_content.adress_name_trans_key') }}</th>
-                        <th>{{ __('general_content.user_trans_key') }}</th>
-                        <th>{{ __('general_content.source_trans_key') }}</th>
-                        <th>{{ __('general_content.priority_trans_key') }}</th>
-                        <th>{{ __('general_content.campaign_trans_key') }}</th>
-                        <th>
-                            <a class="btn btn-secondary" wire:click.prevent="sortBy('statu')" role="button" href="#">{{ __('general_content.status_trans_key') }} @include('include.sort-icon', ['field' => 'statu'])</a>
-                        </th>
-                        <th>{{__('general_content.action_trans_key') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($Leadslist as $Lead)
-                    <tr>
-                        <td>#{{ $Lead->id }}</td>
-                        <td><x-CompanieButton id="{{ $Lead->companies_id }}" label="{{ $Lead->companie['label'] }}"  /></td>
-                        <td>{{ $Lead->companie['first_name'] }} {{ $Lead->contact['name'] }}</td>
-                        <td>{{ $Lead->adresse['adress'] }} {{ $Lead->adresse['zipcode'] }}  {{ $Lead->adresse['city'] }}</td>
-                        <td><img src="{{ Avatar::create($Lead->UserManagement['name'])->toBase64() }}" /></td>
-                        <td>{{ $Lead->source }}</td>
-                        <td>
-                            @if(1 == $Lead->priority )  <span class="badge badge-danger">{{ __('general_content.burning_trans_key') }}</span>@endif
-                            @if(2 == $Lead->priority )  <span class="badge badge-warning">{{ __('general_content.hot_trans_key') }}</span>@endif
-                            @if(3 == $Lead->priority )  <span class="badge badge-primary">{{ __('general_content.lukewarm_trans_key') }}</span>@endif
-                            @if(4 == $Lead->priority )  <span class="badge badge-success">{{ __('general_content.cold_trans_key') }}</span>@endif
-                        </td>
-                        <td>{{ $Lead->campaign }}</td>
-                        <td>
-                            @if(1 == $Lead->statu )  <span class="badge badge-info">{{ __('general_content.new_trans_key') }}</span>@endif
-                            @if(2 == $Lead->statu )  <span class="badge badge-warning">{{ __('general_content.assigned_trans_key') }}</span>@endif
-                            @if(3 == $Lead->statu )  <span class="badge badge-primary">{{ __('general_content.in_progress_trans_key') }}</span>@endif
-                            @if(4 == $Lead->statu )  <span class="badge badge-success">{{ __('general_content.converted_trans_key') }}</span>@endif
-                            @if(5 == $Lead->statu )  <span class="badge badge-danger">{{ __('general_content.lost_trans_key') }}</span>@endif 
-                        </td>
-                        <td> 
-                            <x-ButtonTextView route="{{ route('leads.show', ['id' => $Lead->id])}}" />
-                        </td>
-                    </tr>
-                    @empty
-                        <x-EmptyDataLine col="10" text=" {{ __('general_content.no_data_trans_key') }}"  />
-                    @endforelse
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th></th>
-                        <th>{{__('general_content.customer_trans_key') }}</th>
-                        <th>{{ __('general_content.contact_name_trans_key') }}</th>
-                        <th>{{ __('general_content.adress_name_trans_key') }}</th>
-                        <th>{{ __('general_content.user_trans_key') }}</th>
-                        <th>{{ __('general_content.source_trans_key') }}</th>
-                        <th>{{ __('general_content.priority_trans_key') }}</th>
-                        <th>{{ __('general_content.campaign_trans_key') }}</th>
-                        <th>{{__('general_content.status_trans_key') }}</th>
-                        <th>{{__('general_content.action_trans_key') }}</th>
-                    </tr>
-                </tfoot>
-            </table>
-        <!-- /.row -->
+        <div class="card">
+            <div class="table-responsive p-0">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>{{__('general_content.customer_trans_key') }}</th>
+                            <th>{{ __('general_content.contact_name_trans_key') }}</th>
+                            <th>{{ __('general_content.adress_name_trans_key') }}</th>
+                            <th>{{ __('general_content.user_trans_key') }}</th>
+                            <th>{{ __('general_content.source_trans_key') }}</th>
+                            <th>
+                                <a class="btn btn-secondary" wire:click.prevent="sortBy('priority')" role="button" href="#">{{ __('general_content.priority_trans_key') }} @include('include.sort-icon', ['field' => 'priority'])</a>
+                            </th>
+                            <th>{{ __('general_content.campaign_trans_key') }}</th>
+                            <th>
+                                <a class="btn btn-secondary" wire:click.prevent="sortBy('statu')" role="button" href="#">{{ __('general_content.status_trans_key') }} @include('include.sort-icon', ['field' => 'statu'])</a>
+                            </th>
+                            <th>
+                                <a class="btn btn-secondary" wire:click.prevent="sortBy('created_at')" role="button" href="#">{{__('general_content.created_at_trans_key') }}@include('include.sort-icon', ['field' => 'created_at'])</a>
+                            </th>
+                            <th>{{__('general_content.action_trans_key') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($Leadslist as $Lead)
+                        <tr>
+                            <td>#{{ $Lead->id }}</td>
+                            <td><x-CompanieButton id="{{ $Lead->companies_id }}" label="{{ $Lead->companie['label'] }}"  /></td>
+                            <td>{{ $Lead->companie['first_name'] }} {{ $Lead->contact['name'] }}</td>
+                            <td>{{ $Lead->adresse['adress'] }} {{ $Lead->adresse['zipcode'] }}  {{ $Lead->adresse['city'] }}</td>
+                            <td><img src="{{ Avatar::create($Lead->UserManagement['name'])->toBase64() }}" /></td>
+                            <td>{{ $Lead->source }}</td>
+                            <td>
+                                @if(1 == $Lead->priority )  <span class="badge badge-danger">{{ __('general_content.burning_trans_key') }}</span>@endif
+                                @if(2 == $Lead->priority )  <span class="badge badge-warning">{{ __('general_content.hot_trans_key') }}</span>@endif
+                                @if(3 == $Lead->priority )  <span class="badge badge-primary">{{ __('general_content.lukewarm_trans_key') }}</span>@endif
+                                @if(4 == $Lead->priority )  <span class="badge badge-success">{{ __('general_content.cold_trans_key') }}</span>@endif
+                            </td>
+                            <td>{{ $Lead->campaign }}</td>
+                            <td>
+                                @if(1 == $Lead->statu )  <span class="badge badge-info">{{ __('general_content.new_trans_key') }}</span>@endif
+                                @if(2 == $Lead->statu )  <span class="badge badge-warning">{{ __('general_content.assigned_trans_key') }}</span>@endif
+                                @if(3 == $Lead->statu )  <span class="badge badge-primary">{{ __('general_content.in_progress_trans_key') }}</span>@endif
+                                @if(4 == $Lead->statu )  <span class="badge badge-success">{{ __('general_content.converted_trans_key') }}</span>@endif
+                                @if(5 == $Lead->statu )  <span class="badge badge-danger">{{ __('general_content.lost_trans_key') }}</span>@endif 
+                            </td>
+                            <td>{{ $Lead->GetPrettyCreatedAttribute() }}</td>
+                            <td> 
+                                <x-ButtonTextView route="{{ route('leads.show', ['id' => $Lead->id])}}" />
+                            </td>
+                        </tr>
+                        @empty
+                            <x-EmptyDataLine col="10" text=" {{ __('general_content.no_data_trans_key') }}"  />
+                        @endforelse
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th>{{__('general_content.customer_trans_key') }}</th>
+                            <th>{{ __('general_content.contact_name_trans_key') }}</th>
+                            <th>{{ __('general_content.adress_name_trans_key') }}</th>
+                            <th>{{ __('general_content.user_trans_key') }}</th>
+                            <th>{{ __('general_content.source_trans_key') }}</th>
+                            <th>{{ __('general_content.priority_trans_key') }}</th>
+                            <th>{{ __('general_content.campaign_trans_key') }}</th>
+                            <th>{{__('general_content.status_trans_key') }}</th>
+                            <th>{{__('general_content.created_at_trans_key') }}</th>
+                            <th>{{__('general_content.action_trans_key') }}</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            <!-- /.row -->
+            </div>
+        <!-- /.card -->
         </div>
-    <!-- /.card -->
-    </div>
     @else
         <!-- Vue en cartes -->
         <div class="row">
