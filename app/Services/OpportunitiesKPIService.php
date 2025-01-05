@@ -25,6 +25,7 @@ class OpportunitiesKPIService
     public function getOpportunitiesByAmount()
     {
         return Opportunities::select('probality', DB::raw('SUM(budget) as total_amount'))
+                            ->whereIn('statu', [1, 2, 3]) // Filtrer les statuts 1, 2, 3
                             ->groupBy('probality')
                             ->get();
     }
@@ -41,6 +42,7 @@ class OpportunitiesKPIService
         return Opportunities::with('companie')
                             ->select('companies_id', DB::raw('count(*) as count'))
                             ->groupBy('companies_id')
+                            ->limit(10)
                             ->get();
     }
 

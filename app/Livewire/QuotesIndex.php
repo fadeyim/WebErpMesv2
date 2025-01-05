@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Str;
@@ -23,6 +24,9 @@ class QuotesIndex extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
+    protected $listeners = ['changeView'];
+
+    public $viewType = 'table'; // Defaults to 'table'
     
     public $search = '';
     public $sortField = 'created_at'; // default sorting field
@@ -54,6 +58,7 @@ class QuotesIndex extends Component
     
 
     public $idCompanie = '';
+    public $statuses;
     protected $notificationService;
 
     public function __construct()
@@ -84,6 +89,12 @@ class QuotesIndex extends Component
         $this->sortField = $field;
     }
 
+    public function changeView($view)
+    {
+        $this->viewType = $view;
+        session()->put('viewType', $view);
+    }
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -100,6 +111,58 @@ class QuotesIndex extends Component
         $this->accounting_deliveries_id = $this->getDefaultId(AccountingDelivery::class);
     
         $this->setQuoteCodeAndLabel();
+
+        
+        $this->statuses = [
+            [
+                'id' => 1, 
+                'title' => __('general_content.open_trans_key'), 
+                'Quotes' => Quotes::with(['companie', 'contact']) 
+                                    ->where('statu', 1)
+                                    ->get()  // Garder les objets Eloquent
+            ],
+            [
+                'id' => 2, 
+                'title' => __('general_content.send_trans_key'), 
+                'Quotes' => Quotes::with(['companie', 'contact'])
+                                    ->where('statu', 2)
+                                    ->get()  // Garder les objets Eloquent
+            ],
+            [
+                'id' => 3, 
+                'title' => __('general_content.win_trans_key'), 
+                'Quotes' => Quotes::with(['companie', 'contact'])
+                                    ->where('statu', 3)
+                                    ->where('updated_at', '>=', Carbon::now()->subHours(48))
+                                    ->get()  // Garder les objets Eloquent
+            ],
+            [
+                'id' => 4, 
+                'title' => __('general_content.lost_trans_key'), 
+                'Quotes' => Quotes::with(['companie', 'contact'])
+                                    ->where('statu', 4)
+                                    ->where('updated_at', '>=', Carbon::now()->subHours(48))
+                                    ->get()  // Garder les objets Eloquent
+            ],
+            [
+                'id' => 5, 
+                'title' => __('general_content.closed_trans_key'), 
+                'Quotes' => Quotes::with(['companie', 'contact'])
+                                    ->where('statu', 5)
+                                    ->where('updated_at', '>=', Carbon::now()->subHours(48))
+                                    ->get()  // Garder les objets Eloquent
+            ],
+            [
+                'id' => 6, 
+                'title' => __('general_content.obsolete_trans_key'), 
+                'Quotes' => Quotes::with(['companie', 'contact'])
+                                    ->where('statu', 6)
+                                    ->where('updated_at', '>=', Carbon::now()->subHours(48))
+                                    ->get()  // Garder les objets Eloquent
+            ]
+        ];
+
+        $this->viewType = session()->get('viewType', 'table'); 
     }
     
     private function getDefaultId($model)

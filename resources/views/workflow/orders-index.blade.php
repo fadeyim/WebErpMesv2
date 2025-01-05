@@ -35,88 +35,89 @@
             theme="primary"
               />
         </div>
-    </div>
+      </div>
     
-    <div class="row">
-      <div class="col-lg-4 col-4">
-        <x-adminlte-small-box title="{{ number_format($remainingDeliveryOrder->orderSum ?? 0 -$remainingDeliveryOrder->orderSum   ?? 0 ,2)}}  {{ $Factory->curency }}" 
-          text="{{ __('general_content.remaining_month_trans_key') }}" 
-          icon="icon fas fa-info"
-          theme="danger" />
+      <div class="row">
+        <div class="col-lg-4 col-4">
+          <x-adminlte-small-box title="{{ number_format($remainingDeliveryOrder->orderSum ?? 0 -$remainingDeliveryOrder->orderSum   ?? 0 ,2)}}  {{ $Factory->curency }}" 
+            text="{{ __('general_content.remaining_month_trans_key') }}" 
+            icon="icon fas fa-info"
+            theme="danger" />
 
-        <x-adminlte-small-box 
-          title="{{ $averageProcessingTime }} {{ __('general_content.day_trans_key') }}" 
-          text="{{ __('general_content.average_order_processing_time_trans_key') }}" 
-          icon="icon fas fa-clock"
-          theme="info" />
+          <x-adminlte-small-box 
+            title="{{ $averageProcessingTime }} {{ __('general_content.day_trans_key') }}" 
+            text="{{ __('general_content.average_order_processing_time_trans_key') }}" 
+            icon="icon fas fa-clock"
+            theme="info" />
 
-        <div class="podium">
-            @foreach ($topCustomers as $index => $customer)
-                <div class="podium-place place-{{ $index + 1 }}">
-                    <h3 class="text-center">
-                        @if ($index == 0)
-                            🥇
-                        @elseif ($index == 1)
-                            🥈
-                        @elseif ($index == 2)
-                            🥉
-                        @endif
-                    </h3>
-                    <div class="customer-details text-center">
-                        @if($customer->companie)
-                        <strong>{{ $customer->companie->label }}</strong>
-                        @else
-                        <strong>internal</strong>
-                        @endif
-                        <p>{{ __('general_content.orders_trans_key') }}: {{ $customer->order_count }}</p> 
-                    </div>
-                </div>
-            @endforeach
+          <div class="podium">
+              @foreach ($topCustomers as $index => $customer)
+                  <div class="podium-place place-{{ $index + 1 }}">
+                      <h3 class="text-center">
+                          @if ($index == 0)
+                              🥇
+                          @elseif ($index == 1)
+                              🥈
+                          @elseif ($index == 2)
+                              🥉
+                          @endif
+                      </h3>
+                      <div class="customer-details text-center">
+                          @if($customer->companie)
+                          <strong>{{ $customer->companie->label }}</strong>
+                          @else
+                          <strong>internal</strong>
+                          @endif
+                          <p>{{ __('general_content.orders_trans_key') }}: {{ $customer->order_count }}</p> 
+                      </div>
+                  </div>
+              @endforeach
+          </div>
         </div>
-      </div>
-      <div class="col-lg-8 col-8">
-        <!-- CHART: TOTAL OVERVIEW -->
-        <div class="col-lg-12 col-md-12">
-          <x-adminlte-card title="{{ __('general_content.monthly_recap_report_trans_key') }}" theme="purple" icon="fas fa-chart-bar text-white" collapsible removable maximizable>
-            <div class="row">
-              <div class="col-md-12">
-                <p class="text-center">
-                  <strong>{{ __('general_content.sales_period_trans_key', ['year' => now()->year]) }}</strong>
-                </p>
-                <div class="chart">
-                  <!-- Sales Chart Canvas -->
-                    <canvas id="lineChart" style="min-height: 400px; height: 100%; max-height: 100%; max-width: 100%;"></canvas>
+        <div class="col-lg-8 col-8">
+          <!-- CHART: TOTAL OVERVIEW -->
+          <div class="col-lg-12 col-md-12">
+            <x-adminlte-card title="{{ __('general_content.monthly_recap_report_trans_key') }}" theme="purple" icon="fas fa-chart-bar text-white" collapsible removable maximizable>
+              <div class="row">
+                <div class="col-md-12">
+                  <p class="text-center">
+                    <strong>{{ __('general_content.sales_period_trans_key', ['year' => now()->year]) }}</strong>
+                  </p>
+                  <div class="chart">
+                    <!-- Sales Chart Canvas -->
+                      <canvas id="lineChart" style="min-height: 400px; height: 100%; max-height: 100%; max-width: 100%;"></canvas>
+                  </div>
+                  <!-- /.chart-responsive -->
                 </div>
-                <!-- /.chart-responsive -->
+                <!-- /.col -->
               </div>
-              <!-- /.col -->
-            </div>
-            <!-- ./card-body -->
-          </x-adminlte-card>
+              <!-- ./card-body -->
+            </x-adminlte-card>
+          </div>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-lg-4">
+          <x-adminlte-small-box title="{{ number_format($remainingInvoiceOrder->orderSum ?? 0)}}  {{ $Factory->curency }}" 
+            text="{{ __('general_content.remaining_invoice_month_trans_key') }}" 
+            icon="icon fas fa-info"
+            theme="warning" />
+          </div>
+        <div class="col-lg-4">
+          <x-adminlte-small-box title="{{ $lateOrdersCount }}" text="{{ __('general_content.late_orders_trans_key') }}" icon="fas fa-exclamation-triangle" theme="orange"/>
+        </div>
+        <div class="col-lg-4">
+          <x-adminlte-small-box title="{{ $pendingDeliveries }}" text="{{ __('general_content.order_waiting_trans_key') }}" icon="fas fa-hourglass-half" theme="warning"/>
+        </div>
     </div>
 
-    <div class="row">
-      <div class="col-lg-4">
-        <x-adminlte-small-box title="{{ number_format($remainingInvoiceOrder->orderSum ?? 0)}}  {{ $Factory->curency }}" 
-          text="{{ __('general_content.remaining_invoice_month_trans_key') }}" 
-          icon="icon fas fa-info"
-          theme="warning" />
-        </div>
-      <div class="col-lg-4">
-        <x-adminlte-small-box title="{{ $lateOrdersCount }}" text="{{ __('general_content.late_orders_trans_key') }}" icon="fas fa-exclamation-triangle" theme="orange"/>
-      </div>
-      <div class="col-lg-4">
-        <x-adminlte-small-box title="{{ $pendingDeliveries }}" text="{{ __('general_content.order_waiting_trans_key') }}" icon="fas fa-hourglass-half" theme="warning"/>
-      </div>
+    </div>
+    <div class="tab-pane" id="List">
+      @livewire('orders-index')
+    </div>
+    <!-- /.card -->
   </div>
-
-  </div>
-  <div class="tab-pane" id="List">
-    @livewire('orders-index')
-  </div>
-  <!-- /.card -->
 </div>
 @stop
 

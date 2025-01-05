@@ -341,7 +341,19 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-8">
+                <!-- View toggle button -->
+                <div class="col-2">
+                    <button class="btn {{ $viewType === 'table' ? 'btn-primary' : 'btn-secondary' }}" wire:click="changeView('table')">
+                        <i class="fas fa-table mr-1"></i> Table
+                    </button>
+                    <button class="btn {{ $viewType === 'cards' ? 'btn-primary' : 'btn-secondary' }}" wire:click="changeView('cards')">
+                        <i class="fas fa-th-large mr-1"></i> Cards
+                    </button>
+                    <button class="btn {{ $viewType === 'kanban' ? 'btn-primary' : 'btn-secondary' }}" wire:click="changeView('kanban')">
+                        <i class="fas  fa-tasks mr-1"></i> Kanban
+                    </button>
+                </div>
+                <div class="col-6">
                     @include('include.search-card')
                 </div>
                 <div class="col-md-3">
@@ -368,80 +380,212 @@
                     </button>
                 </div>
             </div>
-            <div class="card-body table-responsive p-0">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>
-                                <a class="btn btn-secondary" wire:click.prevent="sortBy('code')" role="button" href="#">{{__('general_content.id_trans_key') }} @include('include.sort-icon', ['field' => 'code'])</a>
-                            </th>
-                            <th>
-                                <a class="btn btn-secondary" wire:click.prevent="sortBy('label')" role="button" href="#">{{__('general_content.label_trans_key') }} @include('include.sort-icon', ['field' => 'label'])</a>
-                            </th>
-                            <th>
-                                <a class="btn btn-secondary" wire:click.prevent="sortBy('companies_id')" role="button" href="#">{{__('general_content.customer_trans_key') }} @include('include.sort-icon', ['field' => 'companies_id'])</a>
-                            </th>
-                            <th>{{__('general_content.code_trans_key') }}</th>
-                            <th>{{__('general_content.lines_count_trans_key') }}</th>
-                            <th>{{__('general_content.total_price_trans_key') }}</th>
-                            <th>{{__('general_content.status_trans_key') }}</th>
-                            <th>{{ __('general_content.user_trans_key') }}</th>
-                            <th>
-                                <a class="btn btn-secondary" wire:click.prevent="sortBy('created_at')" role="button" href="#">{{__('general_content.created_at_trans_key') }}@include('include.sort-icon', ['field' => 'created_at'])</a>
-                            </th>
-                            <th>{{__('general_content.action_trans_key') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($Quoteslist as $Quote)
-                        <tr>
-                            <td>{{ $Quote->code }}</td>
-                            <td>{{ $Quote->label }}</td>
-                            <td>
-                                <x-CompanieButton id="{{ $Quote->companies_id }}" label="{{ $Quote->companie['label'] }}"  />
-                            </td>
-                            <td>{{ $Quote->customer_reference }}</td>
-                            <td>{{ $Quote->quote_lines_count }}</td>
-                            <td>{{ number_format($Quote->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</td>
-                            <td>
-                                @if(1 == $Quote->statu )   <span class="badge badge-info"> {{ __('general_content.open_trans_key') }}</span>@endif
-                                @if(2 == $Quote->statu )  <span class="badge badge-warning">{{ __('general_content.send_trans_key') }}</span>@endif
-                                @if(3 == $Quote->statu )  <span class="badge badge-success">{{ __('general_content.win_trans_key') }}</span>@endif
-                                @if(4 == $Quote->statu )  <span class="badge badge-danger">{{ __('general_content.lost_trans_key') }}</span>@endif
-                                @if(5 == $Quote->statu )  <span class="badge badge-secondary">{{ __('general_content.closed_trans_key') }}</span>@endif
-                                @if(6 == $Quote->statu )   <span class="badge badge-secondary">{{ __('general_content.obsolete_trans_key') }}</span>@endif
-                            </td>
-                            <td><img src="{{ Avatar::create($Quote->UserManagement['name'])->toBase64() }}" /></td>
-                            <td>{{ $Quote->GetPrettyCreatedAttribute() }}</td>
-                            <td>
-                                <x-ButtonTextView route="{{ route('quotes.show', ['id' => $Quote->id])}}" />
-                                <x-ButtonTextPDF route="{{ route('pdf.quote', ['Document' => $Quote->id])}}" />
-                            </td>
-                        </tr>
-                        @empty
-                            <x-EmptyDataLine col="10" text="{{ __('general_content.no_data_trans_key') }}"  />
-                        @endforelse
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>{{__('general_content.id_trans_key') }} </th>
-                            <th>{{__('general_content.label_trans_key') }}</th>
-                            <th>{{__('general_content.customer_trans_key') }}</th>
-                            <th>{{__('general_content.code_trans_key') }}</th>
-                            <th>{{__('general_content.lines_count_trans_key') }}</th>
-                            <th>{{__('general_content.total_price_trans_key') }}</th>
-                            <th>{{__('general_content.status_trans_key') }}</th>
-                            <th>{{ __('general_content.user_trans_key') }}</th>
-                            <th>{{__('general_content.created_at_trans_key') }}</th>
-                            <th>{{__('general_content.action_trans_key') }}</th>
-                        </tr>
-                    </tfoot>
-                </table>
+            @if($viewType === 'table')
+                <!-- Vue en table -->
+                <div class="table-responsive p-0">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <a class="btn btn-secondary" wire:click.prevent="sortBy('code')" role="button" href="#">{{__('general_content.id_trans_key') }} @include('include.sort-icon', ['field' => 'code'])</a>
+                                </th>
+                                <th>
+                                    <a class="btn btn-secondary" wire:click.prevent="sortBy('label')" role="button" href="#">{{__('general_content.label_trans_key') }} @include('include.sort-icon', ['field' => 'label'])</a>
+                                </th>
+                                <th>
+                                    <a class="btn btn-secondary" wire:click.prevent="sortBy('companies_id')" role="button" href="#">{{__('general_content.customer_trans_key') }} @include('include.sort-icon', ['field' => 'companies_id'])</a>
+                                </th>
+                                <th>{{__('general_content.code_trans_key') }}</th>
+                                <th>{{__('general_content.lines_count_trans_key') }}</th>
+                                <th>{{__('general_content.total_price_trans_key') }}</th>
+                                <th>{{__('general_content.status_trans_key') }}</th>
+                                <th>{{ __('general_content.user_trans_key') }}</th>
+                                <th>
+                                    <a class="btn btn-secondary" wire:click.prevent="sortBy('created_at')" role="button" href="#">{{__('general_content.created_at_trans_key') }}@include('include.sort-icon', ['field' => 'created_at'])</a>
+                                </th>
+                                <th>{{__('general_content.action_trans_key') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($Quoteslist as $Quote)
+                            <tr>
+                                <td>{{ $Quote->code }}</td>
+                                <td>{{ $Quote->label }}</td>
+                                <td>
+                                    <x-CompanieButton id="{{ $Quote->companies_id }}" label="{{ $Quote->companie['label'] }}"  />
+                                </td>
+                                <td>{{ $Quote->customer_reference }}</td>
+                                <td>{{ $Quote->quote_lines_count }}</td>
+                                <td>{{ number_format($Quote->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</td>
+                                <td>
+                                    @if(1 == $Quote->statu )   <span class="badge badge-info"> {{ __('general_content.open_trans_key') }}</span>@endif
+                                    @if(2 == $Quote->statu )  <span class="badge badge-warning">{{ __('general_content.send_trans_key') }}</span>@endif
+                                    @if(3 == $Quote->statu )  <span class="badge badge-success">{{ __('general_content.win_trans_key') }}</span>@endif
+                                    @if(4 == $Quote->statu )  <span class="badge badge-danger">{{ __('general_content.lost_trans_key') }}</span>@endif
+                                    @if(5 == $Quote->statu )  <span class="badge badge-secondary">{{ __('general_content.closed_trans_key') }}</span>@endif
+                                    @if(6 == $Quote->statu )   <span class="badge badge-secondary">{{ __('general_content.obsolete_trans_key') }}</span>@endif
+                                </td>
+                                <td><img src="{{ Avatar::create($Quote->UserManagement['name'])->toBase64() }}" /></td>
+                                <td>{{ $Quote->GetPrettyCreatedAttribute() }}</td>
+                                <td>
+                                    <x-ButtonTextView route="{{ route('quotes.show', ['id' => $Quote->id])}}" />
+                                    <x-ButtonTextPDF route="{{ route('pdf.quote', ['Document' => $Quote->id])}}" />
+                                </td>
+                            </tr>
+                            @empty
+                                <x-EmptyDataLine col="10" text="{{ __('general_content.no_data_trans_key') }}"  />
+                            @endforelse
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>{{__('general_content.id_trans_key') }} </th>
+                                <th>{{__('general_content.label_trans_key') }}</th>
+                                <th>{{__('general_content.customer_trans_key') }}</th>
+                                <th>{{__('general_content.code_trans_key') }}</th>
+                                <th>{{__('general_content.lines_count_trans_key') }}</th>
+                                <th>{{__('general_content.total_price_trans_key') }}</th>
+                                <th>{{__('general_content.status_trans_key') }}</th>
+                                <th>{{ __('general_content.user_trans_key') }}</th>
+                                <th>{{__('general_content.created_at_trans_key') }}</th>
+                                <th>{{__('general_content.action_trans_key') }}</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    {{ $Quoteslist->links() }}
+                </div>
+            <!-- /.row -->
+            @elseif($viewType === 'cards')
+            <div class="row">
+                @forelse ($Quoteslist as $Quote)
+                    <div class="col-md-3 ">
+                        <div class="card">
+                            
+                            @if(1 == $Quote->statu )  @php $backgroud="bg-info" @endphp @endif
+                            @if(2 == $Quote->statu )  @php $backgroud="bg-warning" @endphp @endif
+                            @if(3 == $Quote->statu )  @php $backgroud="bg-success" @endphp @endif
+                            @if(4 == $Quote->statu )  @php $backgroud="bg-danger" @endphp @endif
+                            @if(5 == $Quote->statu )  @php $backgroud="bg-secondary" @endphp @endif
+                            @if(6 == $Quote->statu )  @php $backgroud="bg-secondary" @endphp @endif
+
+                            <div class="card-header {{ $backgroud }}">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img src="{{ Avatar::create($Quote->UserManagement['name'])->toBase64() }}" />
+                                    </div>
+                                    <div class="col-10">
+                                        {{ $Quote->code }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text"><strong>{{__('general_content.total_price_trans_key') }}</strong> : {{ number_format($Quote->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</p>
+                                <p class="card-text"><strong>{{__('general_content.lines_count_trans_key') }}</strong> : {{ $Quote->quote_lines_count  }}</p>
+                            </div>
+                            <div class="card-footer bg-secondary">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <x-CompanieButton id="{{ $Quote->companies_id }}" label="{{ $Quote->companie['label'] }}"  />
+                                    </div>
+                                    <div class="col-4">
+                                        <x-ButtonTextView route="{{ route('quotes.show', ['id' => $Quote->id])}}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12">
+                        <div class="alert alert-warning">{{ __('general_content.no_data_trans_key') }}</div>
+                    </div>
+                @endforelse
             </div>
-            {{ $Quoteslist->links() }}
-        <!-- /.card-body -->
+                <div class="row">
+                    <div class="col-12">
+                        {{ $Quoteslist->links() }}
+                    </div> 
+                </div>
+            @elseif($viewType === 'kanban')
+                <!-- Kanban View -->
+                <div wire:sortable="updateColumnOrder" wire:sortable-group="updateTaskOrder" style="display: flex; flex-wrap: wrap;z-index: 0;">
+                    @foreach($statuses as $status)
+                        <div wire:sortable.item="{{ $status['id'] }}" wire:key="status-{{ $status['id'] }}" class="col-12 col-lg-6 col-xl-2" >
+                            <div class="card">
+                                {{-- Gestion des couleurs en fonction du statut --}}
+                                @php
+                                    $backgroud = '';
+                                    switch ($status['id']) {
+                                        case 1:
+                                            $backgroud = 'bg-info';
+                                            break;
+                                        case 2:
+                                            $backgroud = 'bg-primary';
+                                            break;
+                                        case 3:
+                                            $backgroud = 'bg-success';
+                                            break;
+                                        case 4:
+                                            $backgroud = 'bg-danger';
+                                            break;
+                                        case 5:
+                                            $backgroud = 'bg-secondary';
+                                            break;
+                                        case 6:
+                                            $backgroud = 'bg-secondary';
+                                            break;
+                                    }
+                                @endphp
+                
+                                <div class="card-header {{ $backgroud }}">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <h5 wire:sortable.handle>{{ $status['title'] }}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                                <div class="card-body">
+                                    <ul wire:sortable-group.item-group="{{ $status['id'] }}" >
+                                        @forelse ($status['Quotes'] as $Quote)
+                                            <li wire:key="task-{{ $Quote['id'] }}" wire:sortable-group.item="{{ $Quote['id'] }}" class="card bg-light" style="z-index: 10;">
+                                                <div wire:sortable-group.handle >
+                                                    <div class="card-header bg-success">
+                                                        <div class="row">
+                                                            <div class="col-2">
+                                                                <img src="{{ Avatar::create($Quote->UserManagement['name'])->toBase64() }}" />
+                                                            </div>
+                                                            <div class="col-10">
+                                                                {{ $Quote->code }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="card-text"><strong>{{__('general_content.total_price_trans_key') }}</strong> : {{ number_format($Quote->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</p>
+                                                    </div>
+                                                    <div class="card-footer bg-secondary">
+                                                        <div class="row">
+                                                            <div class="col-8">
+                                                                <x-CompanieButton id="{{ $Quote->companies_id }}" label="{{ $Quote->companie['label'] }}"  />
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <x-ButtonTextView route="{{ route('quotes.show', ['id' => $Quote->id])}}" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            @empty
+                                            <div class="card-header">
+                                                {{ __('general_content.no_data_trans_key') }}
+                                            </div>
+                                        @endforelse
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
-    <!-- /.card -->
+    <!-- /.div -->
     </div>
-<!-- /.div -->
 </div>

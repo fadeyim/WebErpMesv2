@@ -3,6 +3,7 @@ import './bootstrap';
 
 import { createApp } from 'vue';
 import KanbanBoard from './components/KanbanBoard.vue';
+import 'livewire-sortable';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

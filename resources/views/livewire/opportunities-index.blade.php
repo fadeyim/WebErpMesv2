@@ -195,62 +195,63 @@
                 </div>
             </div>
             @if($viewType === 'table')
-            <div class="card-body table-responsive p-0">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>
-                                <a class="btn btn-secondary" wire:click.prevent="sortBy('label')" role="button" href="#">{{__('general_content.label_trans_key') }} @include('include.sort-icon', ['field' => 'label'])</a>
-                            </th>
-                            <th>
-                                <a class="btn btn-secondary" wire:click.prevent="sortBy('companies_id')" role="button" href="#">{{__('general_content.customer_trans_key') }} @include('include.sort-icon', ['field' => 'companies_id'])</a>
-                            </th>
-                            <th>{{__('general_content.status_trans_key') }}</th>
-                            <th>{{ __('general_content.user_trans_key') }}</th>
-                            <th>
-                                <a class="btn btn-secondary" wire:click.prevent="sortBy('created_at')" role="button" href="#">{{__('general_content.created_at_trans_key') }}@include('include.sort-icon', ['field' => 'created_at'])</a>
-                            </th>
-                            <th>{{__('general_content.action_trans_key') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($Opportunities as $Opportunity)
+                <!-- Vue en table -->
+                <div class="table-responsive p-0">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td>{{ $Opportunity->label }}</td>
-                                <td>
-                                    <x-CompanieButton id="{{ $Opportunity->companies_id }}" label="{{ $Opportunity->companie['label'] }}"  />
-                                </td>
-                                <td>
-                                    @if(1 == $Opportunity->statu )   <span class="badge badge-info"> {{ __('general_content.new_trans_key') }}</span>@endif
-                                    @if(2 == $Opportunity->statu )  <span class="badge badge-primary">{{ __('general_content.quote_made_trans_key') }}</span>@endif
-                                    @if(3 == $Opportunity->statu )  <span class="badge badge-warning">{{ __('general_content.negotiation_trans_key') }}</span>@endif
-                                    @if(4 == $Opportunity->statu )  <span class="badge badge-success">{{ __('general_content.closed_won_trans_key') }}</span>@endif
-                                    @if(5 == $Opportunity->statu )  <span class="badge badge-danger">{{ __('general_content.closed_lost_trans_key') }}</span>@endif
-                                    @if(6 == $Opportunity->statu )   <span class="badge badge-secondary">{{ __('general_content.informational_trans_key') }}</span>@endif
-                                </td>
-                                <td><img src="{{ Avatar::create($Opportunity->UserManagement['name'])->toBase64() }}" /></td>
-                                <td>{{ $Opportunity->GetPrettyCreatedAttribute() }}</td>
-                                <td>
-                                    <x-ButtonTextView route="{{ route('opportunities.show', ['id' => $Opportunity->id])}}" />
-                                </td>
+                                <th>
+                                    <a class="btn btn-secondary" wire:click.prevent="sortBy('label')" role="button" href="#">{{__('general_content.label_trans_key') }} @include('include.sort-icon', ['field' => 'label'])</a>
+                                </th>
+                                <th>
+                                    <a class="btn btn-secondary" wire:click.prevent="sortBy('companies_id')" role="button" href="#">{{__('general_content.customer_trans_key') }} @include('include.sort-icon', ['field' => 'companies_id'])</a>
+                                </th>
+                                <th>{{__('general_content.status_trans_key') }}</th>
+                                <th>{{ __('general_content.user_trans_key') }}</th>
+                                <th>
+                                    <a class="btn btn-secondary" wire:click.prevent="sortBy('created_at')" role="button" href="#">{{__('general_content.created_at_trans_key') }}@include('include.sort-icon', ['field' => 'created_at'])</a>
+                                </th>
+                                <th>{{__('general_content.action_trans_key') }}</th>
                             </tr>
-                        @empty
-                            <x-EmptyDataLine col="8" text="{{ __('general_content.no_data_trans_key') }}"  />
-                        @endforelse
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>{{__('general_content.label_trans_key') }}</th>
-                            <th>{{__('general_content.customer_trans_key') }}</th>
-                            <th>{{__('general_content.status_trans_key') }}</th>
-                            <th>{{ __('general_content.user_trans_key') }}</th>
-                            <th>{{__('general_content.created_at_trans_key') }}</th>
-                            <th>{{__('general_content.action_trans_key') }}</th>
-                        </tr>
-                    </tfoot>
-                </table>
-                
-                {{ $Opportunities->links() }}
+                        </thead>
+                        <tbody>
+                            @forelse ($Opportunities as $Opportunity)
+                                <tr>
+                                    <td>{{ $Opportunity->label }}</td>
+                                    <td>
+                                        <x-CompanieButton id="{{ $Opportunity->companies_id }}" label="{{ $Opportunity->companie['label'] }}"  />
+                                    </td>
+                                    <td>
+                                        @if(1 == $Opportunity->statu )   <span class="badge badge-info"> {{ __('general_content.new_trans_key') }}</span>@endif
+                                        @if(2 == $Opportunity->statu )  <span class="badge badge-primary">{{ __('general_content.quote_made_trans_key') }}</span>@endif
+                                        @if(3 == $Opportunity->statu )  <span class="badge badge-warning">{{ __('general_content.negotiation_trans_key') }}</span>@endif
+                                        @if(4 == $Opportunity->statu )  <span class="badge badge-success">{{ __('general_content.closed_won_trans_key') }}</span>@endif
+                                        @if(5 == $Opportunity->statu )  <span class="badge badge-danger">{{ __('general_content.closed_lost_trans_key') }}</span>@endif
+                                        @if(6 == $Opportunity->statu )   <span class="badge badge-secondary">{{ __('general_content.informational_trans_key') }}</span>@endif
+                                    </td>
+                                    <td><img src="{{ Avatar::create($Opportunity->UserManagement['name'])->toBase64() }}" /></td>
+                                    <td>{{ $Opportunity->GetPrettyCreatedAttribute() }}</td>
+                                    <td>
+                                        <x-ButtonTextView route="{{ route('opportunities.show', ['id' => $Opportunity->id])}}" />
+                                    </td>
+                                </tr>
+                            @empty
+                                <x-EmptyDataLine col="8" text="{{ __('general_content.no_data_trans_key') }}"  />
+                            @endforelse
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>{{__('general_content.label_trans_key') }}</th>
+                                <th>{{__('general_content.customer_trans_key') }}</th>
+                                <th>{{__('general_content.status_trans_key') }}</th>
+                                <th>{{ __('general_content.user_trans_key') }}</th>
+                                <th>{{__('general_content.created_at_trans_key') }}</th>
+                                <th>{{__('general_content.action_trans_key') }}</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    {{ $Opportunities->links() }}
+                </div>
             @elseif($viewType === 'cards')
                 <!-- Vue en cartes -->
                 <div class="row">
@@ -270,11 +271,8 @@
                                         <div class="col-2">
                                             <img src="{{ Avatar::create($Opportunity->UserManagement['name'])->toBase64() }}" />
                                         </div>
-                                        <div class="col-8">
+                                        <div class="col-10">
                                             {{ $Opportunity->label }}
-                                        </div>
-                                        <div class="col-2">
-                                            <x-ButtonTextView route="{{ route('opportunities.show', ['id' => $Opportunity->id])}}" />
                                         </div>
                                     </div>
                                 </div>
@@ -290,7 +288,14 @@
                                     </p>
                                 </div>
                                 <div class="card-footer bg-secondary">
-                                    <x-CompanieButton id="{{ $Opportunity->companies_id }}" label="{{ $Opportunity->companie['label'] }}"  />
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <x-CompanieButton id="{{ $Opportunity->companies_id }}" label="{{ $Opportunity->companie['label'] }}"  />
+                                        </div>
+                                        <div class="col-2">
+                                            <x-ButtonTextView route="{{ route('opportunities.show', ['id' => $Opportunity->id])}}" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -308,75 +313,85 @@
                 </div>
                 
             @elseif($viewType === 'kanban')
-            <!-- Kanban View -->
-            <div wire:sortable="updateColumnOrder" wire:sortable-group="updateTaskOrder" style="display: flex; flex-wrap: wrap;z-index: 0;">
-                @foreach($statuses as $status)
-                    <div wire:sortable.item="{{ $status['id'] }}" wire:key="status-{{ $status['id'] }}" class="col-12 col-lg-6 col-xl-2" >
-                        <div class="card">
-                            {{-- Gestion des couleurs en fonction du statut --}}
-                            @php
-                                $backgroud = '';
-                                switch ($status['id']) {
-                                    case 1:
-                                        $backgroud = 'bg-info';
-                                        break;
-                                    case 2:
-                                        $backgroud = 'bg-primary';
-                                        break;
-                                    case 3:
-                                        $backgroud = 'bg-warning';
-                                        break;
-                                    case 4:
-                                        $backgroud = 'bg-success';
-                                        break;
-                                    case 5:
-                                        $backgroud = 'bg-danger';
-                                        break;
-                                    case 6:
-                                        $backgroud = 'bg-secondary';
-                                        break;
-                                }
-                            @endphp
-            
-                            <div class="card-header {{ $backgroud }}">
-                                <div class="row">
-                                    <div class="col-10">
-                                        <h5 wire:sortable.handle>{{ $status['title'] }}</h5>
+                <!-- Kanban View -->
+                <div wire:sortable="updateColumnOrder" wire:sortable-group="updateTaskOrder" style="display: flex; flex-wrap: wrap;z-index: 0;">
+                    @foreach($statuses as $status)
+                        <div wire:sortable.item="{{ $status['id'] }}" wire:key="status-{{ $status['id'] }}" class="col-12 col-lg-6 col-xl-2" >
+                            <div class="card">
+                                {{-- Gestion des couleurs en fonction du statut --}}
+                                @php
+                                    $backgroud = '';
+                                    switch ($status['id']) {
+                                        case 1:
+                                            $backgroud = 'bg-info';
+                                            break;
+                                        case 2:
+                                            $backgroud = 'bg-primary';
+                                            break;
+                                        case 3:
+                                            $backgroud = 'bg-warning';
+                                            break;
+                                        case 4:
+                                            $backgroud = 'bg-success';
+                                            break;
+                                        case 5:
+                                            $backgroud = 'bg-danger';
+                                            break;
+                                        case 6:
+                                            $backgroud = 'bg-secondary';
+                                            break;
+                                    }
+                                @endphp
+                
+                                <div class="card-header {{ $backgroud }}">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <h5 wire:sortable.handle>{{ $status['title'] }}</h5>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-            
-                            <div class="card-body">
-                                <ul wire:sortable-group.item-group="{{ $status['id'] }}" >
-                                    @forelse ($status['Opportunities'] as $Opportunity)
-                                        <li wire:key="task-{{ $Opportunity['id'] }}" wire:sortable-group.item="{{ $Opportunity['id'] }}" class="card bg-light" style="z-index: 10;">
-                                            <div wire:sortable-group.handle >
-                                                <div class="card-header">
-                                                    <div class="row">
-                                                        <div class="col-8">
-                                                            {{ $Opportunity['label'] }}
+                
+                                <div class="card-body">
+                                    <ul wire:sortable-group.item-group="{{ $status['id'] }}" >
+                                        @forelse ($status['Opportunities'] as $Opportunity)
+                                            <li wire:key="task-{{ $Opportunity['id'] }}" wire:sortable-group.item="{{ $Opportunity['id'] }}" class="card bg-light" style="z-index: 10;">
+                                                <div wire:sortable-group.handle >
+                                                    <div class="card-header bg-danger">
+                                                        <div class="row">
+                                                            <div class="col-2">
+                                                                <img src="{{ Avatar::create($Opportunity->UserManagement['name'])->toBase64() }}" />
+                                                            </div>
+                                                            <div class="col-10">
+                                                                {{ $Opportunity['label'] }}
+                                                            </div>
                                                         </div>
-                                                        <div class="col-4">
-                                                            <x-ButtonTextView route="{{ route('opportunities.show', ['id' => $Opportunity['id']] )}}" />
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="card-text"><strong>{{ __('general_content.probality_trans_key') }}</strong> {{ $Opportunity['probality'] }} %</p>
+                                                    </div>
+                                                    <div class="card-footer bg-secondary">
+                                                        <div class="row">
+                                                            <div class="col-8">
+                                                                <x-CompanieButton id="{{ $Opportunity->companies_id }}" label="{{ $Opportunity->companie['label'] }}"  />
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <x-ButtonTextView route="{{ route('opportunities.show', ['id' => $Opportunity['id']] )}}" />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="card-footer bg-secondary">
-                                                    {{ __('general_content.probality_trans_key') }}</strong> {{ $Opportunity['probality'] }} %
-                                                </div>
+                                            </li>
+                                            @empty
+                                            <div class="card-header">
+                                                {{ __('general_content.no_data_trans_key') }}
                                             </div>
-                                        </li>
-                                        @empty
-                                        <div class="card-header">
-                                            {{ __('general_content.no_data_trans_key') }}
-                                        </div>
-                                    @endforelse
-                                </ul>
+                                        @endforelse
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
+                    @endforeach
+                </div>
             @endif
         <!-- /.card-body -->
         </div>

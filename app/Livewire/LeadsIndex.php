@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -22,7 +23,7 @@ class LeadsIndex extends Component
     public $sortAsc = true; // default sort direction
     
     public $searchIdPriority = '';
-
+    public $userSelect = [];
     private $Leadslist;
     
     public $id;
@@ -36,7 +37,8 @@ class LeadsIndex extends Component
     public $comment;
 
     public $idCompanie = '';
-    
+    public $statuses;
+
     public function sortBy($field)
     {
         if ($this->sortField === $field) {
@@ -47,9 +49,16 @@ class LeadsIndex extends Component
         $this->sortField = $field;
     }
 
+
     public function changeView($view)
     {
         $this->viewType = $view;
+        session()->put('viewType', $view);
+    }
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
     }
 
     // Validation Rules
@@ -61,6 +70,54 @@ class LeadsIndex extends Component
         'source'=>'required',
         'priority'=>'required',
     ];
+
+    public function mount()
+    {
+
+        $this->userSelect = User::select('id', 'name')->get();
+        // Retrieve statuses and Leads
+        $this->statuses = [
+            [
+                'id' => 1, 
+                'title' => __('general_content.new_trans_key'), 
+                'Leads' => Leads::with(['companie', 'contact'])
+                                ->where('statu', 1)
+                                ->get()  // Keep Eloquent objects, no `toArray()`
+            ],
+            [
+                'id' => 2, 
+                'title' => __('general_content.assigned_trans_key'), 
+                'Leads' => Leads::with(['companie', 'contact'])
+                                ->where('statu', 2)
+                                ->get()  // Keep Eloquent objects, no `toArray()`
+            ],
+            [
+                'id' => 3, 
+                'title' => __('general_content.in_progress_trans_key'), 
+                'Leads' => Leads::with(['companie', 'contact'])
+                                ->where('statu', 3)
+                                ->get()  // Keep Eloquent objects, no `toArray()`
+            ],
+            [
+                'id' => 4, 
+                'title' => __('general_content.converted_trans_key'), 
+                'Leads' => Leads::with(['companie', 'contact'])
+                                ->where('statu', 4)
+                                ->where('updated_at', '>=', Carbon::now()->subHours(48))
+                                ->get()  // Keep Eloquent objects, no `toArray()`
+            ],
+            [
+                'id' => 5, 
+                'title' => __('general_content.lost_trans_key'), 
+                'Leads' => Leads::with(['companie', 'contact'])
+                                ->where('statu', 5)
+                                ->where('updated_at', '>=', Carbon::now()->subHours(48))
+                                ->get()  // Keep Eloquent objects, no `toArray()`
+            ]
+        ];
+
+        $this->viewType = session()->get('viewType', 'table'); 
+    }
 
     public function render()
     {
@@ -107,5 +164,26 @@ class LeadsIndex extends Component
         ]);
         
         return redirect()->route('leads')->with('success', 'New lead add successfully');
+    }
+
+    public function updateColumnOrder($order)
+    {
+        foreach ($order as $item) {
+            // Update the order of the columns (statuses) if necessary
+            //Leads::find($item['value'])->update(['statu_order' => $item['order']]);
+        }
+
+        $this->mount(); // Reload data after update
+    }
+
+    public function updateTaskOrder($groupOrder)
+    {
+        foreach ($groupOrder as $group) {
+            foreach ($group['items'] as $item) {
+                Leads::find($item['value'])->update(['statu' => $group['value']]);
+            }
+        }
+
+        $this->mount(); // Reload data after update
     }
 }

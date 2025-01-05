@@ -3,9 +3,9 @@
 @section('title', __('general_content.opportunities_trans_key'))
 
 @section('content_header')
-<div class="row mb-2">
-    <h1>{{ __('general_content.opportunities_trans_key')}}</h1>
-</div>
+  <div class="row mb-2">
+      <h1>{{ __('general_content.opportunities_trans_key')}}</h1>
+  </div>
 @stop
 
 @section('right-sidebar')
@@ -52,62 +52,63 @@
           </x-adminlte-card>
           <x-adminlte-small-box title="{{ __('general_content.total_amount_won_trans_key') }}" text="{{ $totalQuotesWon }} {{ $Factory->curency }}" icon="fas fa-shopping-cart text-white"
             theme="danger"/>
+          <x-adminlte-small-box title="{{ __('general_content.total_amount_lost_trans_key') }}" text="{{ $totalQuotesLost }}  {{ $Factory->curency }}" icon="fas fa-times-circle "
+              theme="warning"/>
         </div>
 
-      <div class="col-md-3">
-        <x-adminlte-small-box title="{{ __('general_content.opportunities_count_trans_key') }}" text="{{ $opportunitiesCount }}" icon="fas fa-chart-bar text-white"
-          theme="teal"/>
-          
-          <x-adminlte-card title="{{ __('general_content.opportunities_by_company_trans_key') }}" theme="secondary" maximizable>
+        <div class="col-md-3">
+          <x-adminlte-small-box title="{{ __('general_content.opportunities_count_trans_key') }}" text="{{ $opportunitiesCount }}" icon="fas fa-chart-bar text-white"
+            theme="teal"/>
+            
+            <x-adminlte-card title="{{ __('general_content.opportunities_by_company_trans_key') }}" theme="secondary" maximizable>
+              <table class="table">
+                  <thead>
+                      <tr>
+                          <th>{{ __('general_content.companie_name_trans_key') }}</th>
+                          <th>{{ __('general_content.opportunities_count_trans_key') }}</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      @forelse ($opportunitiesByCompany as $opportunity)
+                          <tr>
+                              <td><x-CompanieButton id="{{ $opportunity->companies_id }}" label="{{ $opportunity->companie->label }}"  /></td>
+                              <td>{{ $opportunity->count }}</td>
+                          </tr>
+                        @empty
+                          <x-EmptyDataLine col="2" text="{{ __('general_content.no_data_trans_key') }}"  />
+                        @endforelse
+                  </tbody>
+              </table>
+            </x-adminlte-card>
+        </div>
+
+        <div class="col-md-3">
+          <x-adminlte-card title="{{ __('general_content.opportunities_by_probability_trans_key') }}" theme="dark" maximizable>
             <table class="table">
-                <thead>
-                    <tr>
-                        <th>{{ __('general_content.companie_name_trans_key') }}</th>
-                        <th>{{ __('general_content.opportunities_count_trans_key') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($opportunitiesByCompany as $opportunity)
-                        <tr>
-                            <td><x-CompanieButton id="{{ $opportunity->companies_id }}" label="{{ $opportunity->companie->label }}"  /></td>
-                            <td>{{ $opportunity->count }}</td>
-                        </tr>
-                      @empty
-                        <x-EmptyDataLine col="2" text="{{ __('general_content.no_data_trans_key') }}"  />
-                      @endforelse
-                </tbody>
+              <thead>
+                  <tr>
+                      <th>{{ __('general_content.probality_trans_key') }}</th>
+                      <th>{{ __('general_content.amount_trans_key') }}</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  @foreach ($opportunitiesByAmount as $opportunity)
+                      <tr>
+                          <td>{{ $opportunity->probality }} %</td>
+                          <td>{{ number_format($opportunity->total_amount, 2, '.', ',') }}  {{ $Factory->curency }}</td>
+                      </tr>
+                  @endforeach
+              </tbody>
             </table>
           </x-adminlte-card>
-      </div>
-
-      <div class="col-md-3">
-        <x-adminlte-card title="{{ __('general_content.opportunities_by_probability_trans_key') }}" theme="dark" maximizable>
-          <table class="table">
-            <thead>
-                <tr>
-                    <th>{{ __('general_content.probality_trans_key') }}</th>
-                    <th>{{ __('general_content.amount_trans_key') }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($opportunitiesByAmount as $opportunity)
-                    <tr>
-                        <td>{{ $opportunity->probality }} %</td>
-                        <td>{{ number_format($opportunity->total_amount, 2, '.', ',') }}  {{ $Factory->curency }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-          </table>
-        </x-adminlte-card>
-        <x-adminlte-small-box title="{{ __('general_content.total_amount_lost_trans_key') }}" text="{{ $totalQuotesLost }}  {{ $Factory->curency }}" icon="fas fa-times-circle "
-          theme="warning"/>
+        </div>
       </div>
     </div>
+    <div class="tab-pane" id="List">
+      @livewire('opportunities-index')
+    </div>
+  <!-- /.card -->
   </div>
-  <div class="tab-pane" id="List">
-    @livewire('opportunities-index')
-  </div>
-<!-- /.card -->
 </div>
 @stop
 

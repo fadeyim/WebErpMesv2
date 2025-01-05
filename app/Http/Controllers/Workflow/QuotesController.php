@@ -40,7 +40,8 @@ class QuotesController extends Controller
         //Quote data for chart
         $data['quotesDataRate'] = $this->quoteKPIService->getQuotesDataRate($CurentYear);
         //Quote data for chart
-        $data['quoteMonthlyRecap'] = $this->quoteKPIService->getQuotesrMonthlyRecap($CurentYear);
+        $data['quoteMonthlyRecap'] = $this->quoteKPIService->getQuoteMonthlyRecap($CurentYear);
+        $data['quoteMonthlyRecapPreviousYear'] = $this->quoteKPIService->getQuoteMonthlyRecapPreviousYear($CurentYear);
 
         return view('workflow/quotes-index')->with('data',$data);
     }

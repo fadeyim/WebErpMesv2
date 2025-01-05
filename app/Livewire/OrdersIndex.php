@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Livewire\Component;
 use App\Events\OrderCreated;
@@ -21,6 +22,10 @@ class OrdersIndex extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
+
+    protected $listeners = ['changeView'];
+
+    public $viewType = 'table'; // Defaults to 'table'
 
     public $search = '';
     public $sortField = 'created_at'; // default sorting field
@@ -46,6 +51,8 @@ class OrdersIndex extends Component
     public $type = '1';
     
     public $idCompanie = '';
+
+    public $statuses;
 
     protected $orderService;
 
@@ -93,6 +100,12 @@ class OrdersIndex extends Component
         $this->sortField = $field;
     }
 
+    public function changeView($view)
+    {
+        $this->viewType = $view;
+        session()->put('viewType', $view);
+    }
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -109,6 +122,55 @@ class OrdersIndex extends Component
         $this->accounting_deliveries_id = $this->getDefaultId(AccountingDelivery::class);
     
         $this->setOrderCodeAndLabel();
+
+        $this->statuses = [
+            [
+                'id' => 1, 
+                'title' => __('general_content.open_trans_key'), 
+                'Orders' => Orders::with(['companie', 'contact']) 
+                                    ->where('statu', 1)
+                                    ->get()  // Garder les objets Eloquent
+            ],
+            [
+                'id' => 2, 
+                'title' => __('general_content.in_progress_trans_key'), 
+                'Orders' => Orders::with(['companie', 'contact'])
+                                    ->where('statu', 2)
+                                    ->get()  // Garder les objets Eloquent
+            ],
+            [
+                'id' => 3, 
+                'title' => __('general_content.delivered_trans_key'), 
+                'Orders' => Orders::with(['companie', 'contact'])
+                                    ->where('statu', 3)
+                                    ->where('updated_at', '>=', Carbon::now()->subHours(48))
+                                    ->get()  // Garder les objets Eloquent
+            ],
+            [
+                'id' => 4, 
+                'title' => __('general_content.partly_delivered_trans_key'), 
+                'Orders' => Orders::with(['companie', 'contact'])
+                                    ->where('statu', 4)
+                                    ->where('updated_at', '>=', Carbon::now()->subHours(48))
+                                    ->get()  // Garder les objets Eloquent
+            ],
+            [
+                'id' => 5, 
+                'title' => __('general_content.stopped_trans_key'), 
+                'Orders' => Orders::with(['companie', 'contact'])
+                                    ->where('statu', 5)
+                                    ->get()  // Garder les objets Eloquent
+            ],
+            [
+                'id' => 6, 
+                'title' => __('general_content.canceled_trans_key'), 
+                'Orders' => Orders::with(['companie', 'contact'])
+                                    ->where('statu', 6)
+                                    ->get()  // Garder les objets Eloquent
+            ]
+        ];
+
+        $this->viewType = session()->get('viewType', 'table'); 
     }
     
     public function changeLabel()

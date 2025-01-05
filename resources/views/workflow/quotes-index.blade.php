@@ -9,19 +9,51 @@
 @section('right-sidebar')
 
 @section('content')
-  <div class="row">
-    <div class="col-md-3">
-      <x-adminlte-card title="{{ __('general_content.statistiques_trans_key') }}" theme="teal" icon="fas fa-chart-bar text-white" collapsible removable maximizable>
-        <canvas id="donutChart" width="400" height="400"></canvas>
-      </x-adminlte-card>
-      <x-adminlte-card title="{{ __('general_content.statistiques_trans_key') }}" theme="warning" icon="fas fa-chart-bar text-white" collapsible removable maximizable>
-        <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-      </x-adminlte-card>
-    </div>
-    <div class="col-md-9">
-        @livewire('quotes-index')
-    </div>
+<div class="card">
+  <div class="card-header p-2">
+    <ul class="nav nav-pills">
+      <li class="nav-item"><a class="nav-link active" href="#Dashboard" data-toggle="tab">{{ __('general_content.dashboard_trans_key') }}</a></li> 
+      <li class="nav-item"><a class="nav-link" href="#List" data-toggle="tab">{{ __('general_content.quotes_list_trans_key') }}</a></li> 
+    </ul>
   </div>
+  <!-- /.card-header -->
+  <div class="tab-content p-3">
+    <div class="tab-pane active" id="Dashboard">
+      <div class="row">
+        <div class="col-md-3">
+          <x-adminlte-card title="{{ __('general_content.statistiques_trans_key') }}" theme="teal" icon="fas fa-chart-bar text-white" collapsible removable maximizable>
+            <canvas id="donutChart" width="400" height="400"></canvas>
+          </x-adminlte-card>
+        </div>
+        <div class="col-lg-8 col-8">
+          <!-- CHART: TOTAL OVERVIEW -->
+          <div class="col-lg-12 col-md-12">
+            <x-adminlte-card title="{{ __('general_content.monthly_recap_report_trans_key') }}" theme="purple" icon="fas fa-chart-bar text-white" collapsible removable maximizable>
+              <div class="row">
+                <div class="col-md-12">
+                  <p class="text-center">
+                    <strong>{{ __('general_content.sales_period_trans_key', ['year' => now()->year]) }}</strong>
+                  </p>
+                  <div class="chart">
+                    <!-- Sales Chart Canvas -->
+                      <canvas id="lineChart" style="min-height: 400px; height: 100%; max-height: 100%; max-width: 100%;"></canvas>
+                  </div>
+                  <!-- /.chart-responsive -->
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- ./card-body -->
+            </x-adminlte-card>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane" id="List">
+      @livewire('quotes-index')
+    </div>
+    <!-- /.card -->
+  </div>
+</div>
 @stop
 
 @section('css')
@@ -74,18 +106,18 @@
       options: donutOptions
     })
 
- //-------------
-    //- BAR CHART -
-    //-------------
-    var barChartCanvas = $('#barChart').get(0).getContext('2d')
-    var barChartData =  {
-      labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August','September','October','September','December ' ],
+   //--------------
+  //- LINE CHART -
+  //--------------
+  // Get context with jQuery - using jQuery's .get() method.
+  var areaChartCanvas = $('#lineChart').get(0).getContext('2d')
+  var areaChartData = {
+      labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August','September','October','November','December' ],
       datasets: [
         {
-          label               : 'Total estimated',
-          backgroundColor     : 'rgba(60,141,188,0.9)',
-          borderColor         : 'rgba(60,141,188,0.8)',
-          pointRadius          : false,
+          label               : 'Quote forecast',
+          borderColor         : 'rgba(60,141,188,0.5)',
+          pointRadius          : 5,
           pointColor          : '#3b8bba',
           pointStrokeColor    : 'rgba(60,141,188,1)',
           pointHighlightFill  : '#fff',
@@ -107,19 +139,73 @@
                                 @endif
                               @endfor ]
         },
+        {
+          label               : 'Quote from last year',
+          borderColor         : 'rgba(240, 173, 78,0.5)',
+          pointRadius          : 5,
+          pointColor          : '#f0ad4e',
+          pointStrokeColor    : 'rgba(240, 173, 78,1)',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(240, 173, 78,1)',
+          data                : [
+                              @php ($j = 1)
+                              @for($iM =1;$iM<=12;$iM++)
+                                @foreach ($data['quoteMonthlyRecapPreviousYear'] as $key => $item)
+                                @php ($j = 1)
+                                  @if($iM  == $item->month) 
+                                  "{{ $item->quoteSum }}",
+                                    @php ($j = 2)
+                                    @break
+                                  @endif
+                                @endforeach
+                                @if($j == 1) 
+                                  0,
+                                  @php ($j = 1)
+                                @endif
+                              @endfor ]
+        },
       ]
     }
-
-    var barChartOptions = {
-      responsive              : true,
-      maintainAspectRatio     : false,
-      datasetFill             : false
+    var areaChartOptions = {
+      maintainAspectRatio : false,
+      responsive : true,
+      legend: {
+        display: true,
+      },
+      scales: {
+        xAxes: [{
+          gridLines : {
+            color:'rgba(0,0,0,0.4)',
+            display : true,
+          }
+        }],
+        yAxes: [{
+          gridLines : {
+            color:'rgba(0,0,0,0.4)',
+            display : true,
+          }
+        }]
+      }
     }
 
-    new Chart(barChartCanvas, {
-      type: 'bar',
-      data: barChartData,
-      options: barChartOptions
+    // This will get the first returned node in the jQuery collection.
+    new Chart(areaChartCanvas, {
+      type: 'line',
+      data: areaChartData,
+      options: areaChartOptions
+    })
+
+    var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
+    var lineChartOptions = $.extend(true, {}, areaChartOptions)
+    var lineChartData = $.extend(true, {}, areaChartData)
+    lineChartData.datasets[0].fill = true;
+    lineChartData.datasets[1].fill = false;
+    lineChartOptions.datasetFill = false
+
+    var lineChart = new Chart(lineChartCanvas, {
+      type: 'line',
+      data: lineChartData,
+      options: lineChartOptions
     })
   </script>
 @stop

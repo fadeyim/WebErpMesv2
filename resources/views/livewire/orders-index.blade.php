@@ -216,7 +216,19 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-8">
+                <!-- View toggle button -->
+                <div class="col-2">
+                    <button class="btn {{ $viewType === 'table' ? 'btn-primary' : 'btn-secondary' }}" wire:click="changeView('table')">
+                        <i class="fas fa-table mr-1"></i> Table
+                    </button>
+                    <button class="btn {{ $viewType === 'cards' ? 'btn-primary' : 'btn-secondary' }}" wire:click="changeView('cards')">
+                        <i class="fas fa-th-large mr-1"></i> Cards
+                    </button>
+                    <button class="btn {{ $viewType === 'kanban' ? 'btn-primary' : 'btn-secondary' }}" wire:click="changeView('kanban')">
+                        <i class="fas  fa-tasks mr-1"></i> Kanban
+                    </button>
+                </div>
+                <div class="col-6">
                     @include('include.search-card')
                 </div>
                 <div class="col-md-3">
@@ -243,92 +255,226 @@
                     </button>
                 </div>
             </div>
-            <div class="card-body table-responsive p-0">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>
-                                <a class="btn btn-secondary" wire:click.prevent="sortBy('code')" role="button" href="#">{{__('general_content.id_trans_key') }} @include('include.sort-icon', ['field' => 'code'])</a>
-                            </th>
-                            <th>
-                                <a class="btn btn-secondary" wire:click.prevent="sortBy('label')" role="button" href="#">{{__('general_content.label_trans_key') }} @include('include.sort-icon', ['field' => 'label'])</a>
-                            </th>
-                            <th>
-                                <a class="btn btn-secondary" wire:click.prevent="sortBy('companies_id')"   role="button" href="#">{{__('general_content.customer_trans_key') }} @include('include.sort-icon', ['field' => 'companies_id'])</a>
-                            </th>
-                            <th>{{__('general_content.code_trans_key') }}</th>
-                            <th>{{__('general_content.lines_count_trans_key') }}</th>
-                            <th>{{ __('general_content.progress_trans_key') }}</th>
-                            <th>{{__('general_content.total_price_trans_key') }}</th>
-                            <th>{{__('general_content.status_trans_key') }}</th>
-                            <th>{{ __('general_content.user_trans_key') }}</th>
-                            <th>
-                                <a class="btn btn-secondary" wire:click.prevent="sortBy('created_at')" role="button" href="#">{{__('general_content.created_at_trans_key') }} @include('include.sort-icon', ['field' => 'created_at'])</a>
-                            </th>
-                            <th>{{__('general_content.action_trans_key') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($Orderslist as $Order)
-                        <tr>
-                            <td>{{ $Order->code }}</td>
-                            <td>{{ $Order->label }}</td>
-                            <td>
-                                @if($Order->type == 1 )
-                                <x-CompanieButton id="{{ $Order->companies_id }}" label="{{ $Order->companie['label'] }}"  />
-                                @else
-                                {{ __('general_content.internal_order_trans_key') }}
-                                @endif
-                            </td>
-                            <td>{{ $Order->customer_reference }}</td>
-                            <td>{{ $Order->order_lines_count }}</td>
-                            <td><x-adminlte-progress theme="teal" value="{{ $Order->getAveragePercentProgressLinesAttribute() }}" with-label animated/></td>
-                            <td>{{ number_format($Order->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</td>
-                            <td>
-                                @if(1 == $Order->statu )  <span class="badge badge-info">{{ __('general_content.open_trans_key') }}</span>@endif
-                                @if(2 == $Order->statu )  <span class="badge badge-warning">{{ __('general_content.in_progress_trans_key') }}</span>@endif
-                                @if($Order->type == 1 )
-                                    @if(3 == $Order->statu )  <span class="badge badge-success">{{ __('general_content.delivered_trans_key') }}</span>@endif
-                                    @if(4 == $Order->statu )  <span class="badge badge-danger">{{ __('general_content.partly_delivered_trans_key') }}</span>@endif
-                                @else
-                                    @if(3 == $Order->statu )  <span class="badge badge-success">{{ __('general_content.stock_trans_key') }}</span>@endif
-                                    @if(4 == $Order->statu )  <span class="badge badge-danger">{{ __('general_content.partly_stored_trans_key') }}</span>@endif
-                                @endif
+            @if($viewType === 'table')
+                <!-- Vue en table -->
+                <div class="table-responsive p-0">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <a class="btn btn-secondary" wire:click.prevent="sortBy('code')" role="button" href="#">{{__('general_content.id_trans_key') }} @include('include.sort-icon', ['field' => 'code'])</a>
+                                </th>
+                                <th>
+                                    <a class="btn btn-secondary" wire:click.prevent="sortBy('label')" role="button" href="#">{{__('general_content.label_trans_key') }} @include('include.sort-icon', ['field' => 'label'])</a>
+                                </th>
+                                <th>
+                                    <a class="btn btn-secondary" wire:click.prevent="sortBy('companies_id')"   role="button" href="#">{{__('general_content.customer_trans_key') }} @include('include.sort-icon', ['field' => 'companies_id'])</a>
+                                </th>
+                                <th>{{__('general_content.code_trans_key') }}</th>
+                                <th>{{__('general_content.lines_count_trans_key') }}</th>
+                                <th>{{ __('general_content.progress_trans_key') }}</th>
+                                <th>{{__('general_content.total_price_trans_key') }}</th>
+                                <th>{{__('general_content.status_trans_key') }}</th>
+                                <th>{{ __('general_content.user_trans_key') }}</th>
+                                <th>
+                                    <a class="btn btn-secondary" wire:click.prevent="sortBy('created_at')" role="button" href="#">{{__('general_content.created_at_trans_key') }} @include('include.sort-icon', ['field' => 'created_at'])</a>
+                                </th>
+                                <th>{{__('general_content.action_trans_key') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($Orderslist as $Order)
+                            <tr>
+                                <td>{{ $Order->code }}</td>
+                                <td>{{ $Order->label }}</td>
+                                <td>
+                                    @if($Order->type == 1 )
+                                    <x-CompanieButton id="{{ $Order->companies_id }}" label="{{ $Order->companie['label'] }}"  />
+                                    @else
+                                    {{ __('general_content.internal_order_trans_key') }}
+                                    @endif
+                                </td>
+                                <td>{{ $Order->customer_reference }}</td>
+                                <td>{{ $Order->order_lines_count }}</td>
+                                <td><x-adminlte-progress theme="teal" value="{{ $Order->getAveragePercentProgressLinesAttribute() }}" with-label animated/></td>
+                                <td>{{ number_format($Order->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</td>
+                                <td>
+                                    @if(1 == $Order->statu )  <span class="badge badge-info">{{ __('general_content.open_trans_key') }}</span>@endif
+                                    @if(2 == $Order->statu )  <span class="badge badge-warning">{{ __('general_content.in_progress_trans_key') }}</span>@endif
+                                    @if($Order->type == 1 )
+                                        @if(3 == $Order->statu )  <span class="badge badge-success">{{ __('general_content.delivered_trans_key') }}</span>@endif
+                                        @if(4 == $Order->statu )  <span class="badge badge-danger">{{ __('general_content.partly_delivered_trans_key') }}</span>@endif
+                                    @else
+                                        @if(3 == $Order->statu )  <span class="badge badge-success">{{ __('general_content.stock_trans_key') }}</span>@endif
+                                        @if(4 == $Order->statu )  <span class="badge badge-danger">{{ __('general_content.partly_stored_trans_key') }}</span>@endif
+                                    @endif
+                                    
+                                    @if(5 == $Order->statu )  <span class="badge badge-danger">{{ __('general_content.stopped_trans_key') }}</span>@endif
+                                    @if(6 == $Order->statu )  <span class="badge badge-warning">{{ __('general_content.canceled_trans_key') }}</span>@endif
+                                </td>
+                                <td><img src="{{ Avatar::create($Order->UserManagement['name'])->toBase64() }}" /></td>
+                                <td>{{ $Order->GetPrettyCreatedAttribute() }}</td>
+                                <td>
+                                    <x-ButtonTextView route="{{ route('orders.show', ['id' => $Order->id])}}" />
+                                    <x-ButtonTextPDF route="{{ route('pdf.order', ['Document' => $Order->id])}}" />
+                                </td>
+                            </tr>
+                            @empty
+                                <x-EmptyDataLine col="11" text="{{ __('general_content.no_data_trans_key') }}"  />
+                            @endforelse
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>{{__('general_content.id_trans_key') }}</th>
+                                <th>{{__('general_content.label_trans_key') }}</th>
+                                <th>{{__('general_content.customer_trans_key') }}</th>
+                                <th>{{__('general_content.code_trans_key') }}</th>
+                                <th>{{__('general_content.lines_count_trans_key') }}</th>
+                                <th>{{ __('general_content.progress_trans_key') }}</th>
+                                <th>{{__('general_content.total_price_trans_key') }}</th>
+                                <th>{{__('general_content.status_trans_key') }}</th>
+                                <th>{{ __('general_content.user_trans_key') }}</th>
+                                <th>{{__('general_content.created_at_trans_key') }}</th>
+                                <th>{{__('general_content.action_trans_key') }}</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    {{ $Orderslist->links() }}
+                </div>
+                <!-- /.row -->
+            @elseif($viewType === 'cards')
+                <div class="row">
+                    @forelse ($Orderslist as $Order)
+                        <div class="col-md-3 ">
+                            <div class="card">
                                 
-                                @if(5 == $Order->statu )  <span class="badge badge-danger">{{ __('general_content.stopped_trans_key') }}</span>@endif
-                                @if(6 == $Order->statu )  <span class="badge badge-warning">{{ __('general_content.canceled_trans_key') }}</span>@endif
-                            </td>
-                            <td><img src="{{ Avatar::create($Order->UserManagement['name'])->toBase64() }}" /></td>
-                            <td>{{ $Order->GetPrettyCreatedAttribute() }}</td>
-                            <td>
-                                <x-ButtonTextView route="{{ route('orders.show', ['id' => $Order->id])}}" />
-                                <x-ButtonTextPDF route="{{ route('pdf.order', ['Document' => $Order->id])}}" />
-                            </td>
-                        </tr>
-                        @empty
-                            <x-EmptyDataLine col="11" text="{{ __('general_content.no_data_trans_key') }}"  />
-                        @endforelse
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>{{__('general_content.id_trans_key') }}</th>
-                            <th>{{__('general_content.label_trans_key') }}</th>
-                            <th>{{__('general_content.customer_trans_key') }}</th>
-                            <th>{{__('general_content.code_trans_key') }}</th>
-                            <th>{{__('general_content.lines_count_trans_key') }}</th>
-                            <th>{{ __('general_content.progress_trans_key') }}</th>
-                            <th>{{__('general_content.total_price_trans_key') }}</th>
-                            <th>{{__('general_content.status_trans_key') }}</th>
-                            <th>{{ __('general_content.user_trans_key') }}</th>
-                            <th>{{__('general_content.created_at_trans_key') }}</th>
-                            <th>{{__('general_content.action_trans_key') }}</th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-            <!-- /.row -->
-            {{ $Orderslist->links() }}
-        <!-- /.card-body -->
+                                @if(1 == $Order->statu )  @php $backgroud="bg-info" @endphp @endif
+                                @if(2 == $Order->statu )  @php $backgroud="bg-warning" @endphp @endif
+                                @if(3 == $Order->statu )  @php $backgroud="bg-success" @endphp @endif
+                                @if(4 == $Order->statu )  @php $backgroud="bg-danger" @endphp @endif
+                                @if(5 == $Order->statu )  @php $backgroud="bg-danger" @endphp @endif
+                                @if(6 == $Order->statu )  @php $backgroud="bg-warning" @endphp @endif
+
+                                <div class="card-header {{ $backgroud }}">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <img src="{{ Avatar::create($Order->UserManagement['name'])->toBase64() }}" />
+                                        </div>
+                                        <div class="col-10">
+                                            {{ $Order->code }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text"><strong>{{__('general_content.progress_trans_key') }}</strong> : <x-adminlte-progress theme="teal" value="{{ $Order->getAveragePercentProgressLinesAttribute() }}" with-label animated/></p>
+                                    <p class="card-text"><strong>{{__('general_content.total_price_trans_key') }}</strong> : {{ number_format($Order->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</p>
+                                </div>
+                                <div class="card-footer bg-secondary">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <x-CompanieButton id="{{ $Order->companies_id }}" label="{{ $Order->companie['label'] }}"  />
+                                        </div>
+                                        <div class="col-4">
+                                            <x-ButtonTextView route="{{ route('orders.show', ['id' => $Order->id])}}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12">
+                            <div class="alert alert-warning">{{ __('general_content.no_data_trans_key') }}</div>
+                        </div>
+                    @endforelse
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        {{ $Orderslist->links() }}
+                    </div> 
+                </div>
+            @elseif($viewType === 'kanban')
+                <!-- Kanban View -->
+                <div wire:sortable="updateColumnOrder" wire:sortable-group="updateTaskOrder" style="display: flex; flex-wrap: wrap;z-index: 0;">
+                    @foreach($statuses as $status)
+                        <div wire:sortable.item="{{ $status['id'] }}" wire:key="status-{{ $status['id'] }}" class="col-12 col-lg-6 col-xl-2" >
+                            <div class="card">
+                                {{-- Gestion des couleurs en fonction du statut --}}
+                                @php
+                                    $backgroud = '';
+                                    switch ($status['id']) {
+                                        case 1:
+                                            $backgroud = 'bg-info';
+                                            break;
+                                        case 2:
+                                            $backgroud = 'bg-primary';
+                                            break;
+                                        case 3:
+                                            $backgroud = 'bg-warning';
+                                            break;
+                                        case 4:
+                                            $backgroud = 'bg-success';
+                                            break;
+                                        case 5:
+                                            $backgroud = 'bg-danger';
+                                            break;
+                                        case 6:
+                                            $backgroud = 'bg-secondary';
+                                            break;
+                                    }
+                                @endphp
+                
+                                <div class="card-header {{ $backgroud }}">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <h5 wire:sortable.handle>{{ $status['title'] }}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                                <div class="card-body">
+                                    <ul wire:sortable-group.item-group="{{ $status['id'] }}" >
+                                        @forelse ($status['Orders'] as $Order)
+                                            <li wire:key="task-{{ $Order['id'] }}" wire:sortable-group.item="{{ $Order['id'] }}" class="card bg-light" style="z-index: 10;">
+                                                <div wire:sortable-group.handle >
+                                                    <div class="card-header bg-warning">
+                                                        <div class="row">
+                                                            <div class="col-2">
+                                                                <img src="{{ Avatar::create($Order->UserManagement['name'])->toBase64() }}" />
+                                                            </div>
+                                                            <div class="col-10">
+                                                                {{ $Order->code }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="card-text"><strong>{{__('general_content.progress_trans_key') }}</strong> : <x-adminlte-progress theme="teal" value="{{ $Order->getAveragePercentProgressLinesAttribute() }}" with-label animated/></p>
+                                                        <p class="card-text"><strong>{{__('general_content.total_price_trans_key') }}</strong> : {{ number_format($Order->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</p>
+                                                    </div>
+                                                    <div class="card-footer bg-secondary">
+                                                        <div class="row">
+                                                            <div class="col-8">
+                                                                <x-CompanieButton id="{{ $Order->companies_id }}" label="{{ $Order->companie['label'] }}"  />
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <x-ButtonTextView route="{{ route('orders.show', ['id' => $Order->id])}}" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            @empty
+                                            <div class="card-header">
+                                                {{ __('general_content.no_data_trans_key') }}
+                                            </div>
+                                        @endforelse
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
         <!-- /.card -->
     </div>
