@@ -22,6 +22,7 @@
       @if(count($CustomFields)> 0)
       <li class="nav-item"><a class="nav-link" href="#CustomFields" data-toggle="tab">{{ __('general_content.custom_fields_trans_key') }} ({{ count($CustomFields) }})</a></li>
       @endif
+      <li class="nav-item"><a class="nav-link" href="#Logs" data-toggle="tab">Logs</a></li>
     </ul>
   </div>
   <!-- /.card-header -->
@@ -67,7 +68,7 @@
                               <i class="fas fa-list"></i>
                           </div>
                       </x-slot>
-                      <option value="NULL">{{ __('general_content.select_purchase_order_trans_key') }}</option>
+                      <option value="">{{ __('general_content.select_purchase_order_trans_key') }}</option>
                         @foreach ($PruchasesSelect as $item)
                         <option value="{{ $item->id }}" @if($item->id == $Delivery->purchases_id) Selected @endif>{{ $item->code }}</option>
                         @endforeach
@@ -534,6 +535,9 @@
         @include('include.custom-fields-form', ['id' => $Delivery->id, 'type' => 'delivery'])
       </div>
       @endif
+      <div class="tab-pane " id="Logs">
+        @livewire('logs-viewer', ['subjectType' => 'App\Models\Workflow\Deliverys', 'subjectId' => $Delivery->id])
+      </div>
   </div>
   <!-- /.card-body -->
 </div>

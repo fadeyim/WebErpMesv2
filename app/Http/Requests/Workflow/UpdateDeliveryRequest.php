@@ -26,7 +26,8 @@ class UpdateDeliveryRequest extends FormRequest
         return [
             //
             'label'=>'required',
-            'tracking_number'=>'string',
+            'tracking_number'=>'nullable|string',
+            'comment'=>'nullable|string',
         ];
     }
 }
