@@ -32,6 +32,21 @@ class Purchases extends Model
                             'csv_file_name',
                         ];
 
+    // Only log changes
+    protected static $logOnlyDirty = true;
+
+    // Add a contextual log
+    protected static $logName = 'purchase';
+
+    // Do not store empty values
+    protected static $submitEmptyLogs = false;
+
+    // Customize the log description
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "Purchase has been {$eventName}";
+    }
+
     public function companie()
     {
         return $this->belongsTo(Companies::class, 'companies_id');
@@ -93,7 +108,15 @@ class Purchases extends Model
     
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()->logOnly([ 'code', 'label', 'statu']);
+        return LogOptions::defaults()->logOnly([ 'code', 
+                                                'label', 
+                                                'companies_id', 
+                                                'companies_contacts_id',   
+                                                'companies_addresses_id',  
+                                                'statu',  
+                                                'user_id',
+                                                'comment',
+                                                'csv_file_name',]);
         // Chain fluent methods for configuration options
     }
 }

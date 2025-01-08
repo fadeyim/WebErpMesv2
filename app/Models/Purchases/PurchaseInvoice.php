@@ -25,6 +25,21 @@ class PurchaseInvoice extends Model
                             'comment', 
                         ];
 
+    // Only log changes
+    protected static $logOnlyDirty = true;
+
+    // Add a contextual log
+    protected static $logName = 'purchase_invoice';
+
+    // Do not store empty values
+    protected static $submitEmptyLogs = false;
+
+    // Customize the log description
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "Purchse invoice has been {$eventName}";
+    }
+
     public function companie()
     {
         return $this->belongsTo(Companies::class, 'companies_id');

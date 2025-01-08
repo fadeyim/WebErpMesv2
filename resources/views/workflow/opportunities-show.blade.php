@@ -20,6 +20,7 @@
       <li class="nav-item"><a class="nav-link" href="#TimeLine" data-toggle="tab">TimeLine</a></li>
       <li class="nav-item"><a class="nav-link" href="#Activities" data-toggle="tab">{{ __('general_content.activities_trans_key') }} ({{ count($ActivitiesList) }})</a></li>
       <li class="nav-item"><a class="nav-link" href="#Events" data-toggle="tab">{{ __('general_content.events_trans_key') }} ({{ count($EventsList) }})</a></li>
+      <li class="nav-item"><a class="nav-link" href="#Logs" data-toggle="tab">Logs</a></li>
     </ul>
   </div>
   <!-- /.card-header -->
@@ -505,7 +506,9 @@
           </div>
         </div>
       </div>
-
+      <div class="tab-pane " id="Logs">
+        @livewire('logs-viewer', ['subjectType' => 'App\Models\Workflow\Opportunities', 'subjectId' => $Opportunity->id])
+      </div>
     </div>
   <!-- /.card-body -->
   </div>

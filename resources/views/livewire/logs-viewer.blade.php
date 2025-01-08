@@ -1,5 +1,7 @@
 <div class="table-responsive">
     <form wire:submit.prevent="filterLogs">
+        
+        @if(!$subjectType)
         <div class="form-group col-md-3">
             <label for="model">Subject Type</label>
             <select class="form-control" id="model" wire:model.defer="model" placeholder="Subject Type">
@@ -10,6 +12,7 @@
             </select>
             @error('model') <span class="text-danger">{{ $message }}<br/></span>@enderror
         </div>
+        @endif
         <div class="form-group col-md-3">
             <label for="date">{{__('general_content.start_date_trans_key') }}</label>
             <input type="date" class="form-control" id="start_date" wire:model.defer="startDate" placeholder="{{__('general_content.start_date_trans_key') }}">
@@ -39,36 +42,48 @@
                 </tr>
             </thead>
             <tbody>
-                    @forelse ($logs as $log)
-                        <tr>
-                            <th>{{ $log->id }}</th>
-                            <td>{{ $log->description }}</td>
-                            <td>{{ $log->subject_type }}</td>
-                            <td>{{ $log->causer_type }}</td>
-                            <td>
-                                @if (!empty($log->properties['old']))
-                                    <p>Old:</p>
-                                    <ul>
-                                        @foreach ($log->properties['old'] as $key => $value)
-                                            <li>{{ $key }}: {{ $value }}</li>
+                @forelse ($logs as $log)
+                    <tr>
+                        <th>{{ $log->id }}</th>
+                        <td>{{ $log->description }}</td>
+                        <td>{{ $log->subject_type }}</td>
+                        <td>{{ $log->causer_type }}</td>
+                        <td>
+                            @if (!empty($log->properties['old']) || !empty($log->properties['attributes']))
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Field</th>
+                                            <th>Old Value</th>
+                                            <th>New Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($log->properties['attributes'] as $key => $newValue)
+                                        
+                                            <tr>
+                                                <td>{{ ucfirst($key) }}</td>
+                                                <td>{{ $log->properties['old'][$key] ?? 'N/A' }}</td>
+                                                <td>
+                                                    @if (isset($log->properties['old'][$key]) && $log->properties['old'][$key] != $newValue)
+                                                        <!-- Only show badge if old and new values are different -->
+                                                        <span class="badge badge-warning">{{ $newValue }}</span>
+                                                    @else
+                                                        <!-- Display the new value without the badge if it's the same as old -->
+                                                        {{ $newValue ?? 'N/A' }}
+                                                    @endif
+                                                </td>
+                                            </tr>
                                         @endforeach
-                                    </ul>
-                                @endif
-
-                                @if (!empty($log->properties['attributes']))
-                                    <p>New:</p>
-                                    <ul>
-                                        @foreach ($log->properties['attributes'] as $key => $value)
-                                            <li>{{ $key }}: {{ $value }}</li>
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </td>
-                            <td>{{ $log->created_at }}</td>
-                        </tr>
-                    @empty
-                        <x-EmptyDataLine col="6" text="{{ __('general_content.no_data_trans_key') }}"  />
-                    @endforelse
+                                    </tbody>
+                                </table>
+                            @endif
+                        </td>
+                        <td>{{ $log->created_at }}</td>
+                    </tr>
+                @empty
+                    <x-EmptyDataLine col="6" text="{{ __('general_content.no_data_trans_key') }}" />
+                @endforelse
             </tbody>
         </table>
     @endisset

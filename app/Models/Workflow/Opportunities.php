@@ -36,6 +36,21 @@ class Opportunities extends Model
         'comment',
     ];
 
+    // Only log changes
+    protected static $logOnlyDirty = true;
+
+    // Add a contextual log
+    protected static $logName = 'opportunity';
+
+    // Do not store empty values
+    protected static $submitEmptyLogs = false;
+
+    // Customize the log description
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "Opportunity has been {$eventName}";
+    }
+
     // Relationship with the company associated with the Opportunities
     public function companie()
     {
@@ -98,7 +113,18 @@ class Opportunities extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()->logOnly(['label', 'statu', 'probality']);
+        return LogOptions::defaults()->logOnly([
+                                                'companies_id',
+                                                'companies_contacts_id',
+                                                'companies_addresses_id',
+                                                'user_id',
+                                                'leads_id',
+                                                'label',
+                                                'budget',
+                                                'close_date',
+                                                'statu',
+                                                'probality',
+                                                'comment',]);
         // Chain fluent methods for configuration options
     }
 }

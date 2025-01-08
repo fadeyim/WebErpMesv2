@@ -38,6 +38,20 @@ class Invoices extends Model
                             'incoterm',
                             ];
 
+    // Only log changes
+    protected static $logOnlyDirty = true;
+
+    // Add a contextual log
+    protected static $logName = 'invoice';
+
+    // Do not store empty values
+    protected static $submitEmptyLogs = false;
+
+    // Customize the log description
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "Invoice has been {$eventName}";
+    }
 
     public function companie()
     {
@@ -89,7 +103,23 @@ class Invoices extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()->logOnly(['code', 'label', 'statu']);
+        return LogOptions::defaults()->logOnly([
+                                                'code', 
+                                                'label', 
+                                                'companies_id', 
+                                                'companies_contacts_id',   
+                                                'companies_addresses_id',  
+                                                'statu',
+                                                'invoice_type',
+                                                'accounting_status',
+                                                'user_id',
+                                                'bank_id',
+                                                'comment',
+                                                'order_id',
+                                                'payment_date',
+                                                'due_date',
+                                                'export_date',
+                                                'incoterm',]);
         // Chain fluent methods for configuration options
     }
 }

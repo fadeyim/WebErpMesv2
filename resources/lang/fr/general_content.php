@@ -790,7 +790,7 @@ return [
     //DELIVERY
     'delivery_notes_trans_key'                 => 'Bons de livraisons',
     'deliverys_notes_request_trans_key'        => 'Attente de bons de livraison',
-    'deliverys_notes_list_trans_key'           => 'Liste des nons de livraisons',
+    'deliverys_notes_list_trans_key'           => 'Liste des bons de livraisons',
     'name_of_deliverys_notes_trans_key'        => 'Nom du bon de livraison',
     'new_delivery_note_trans_key'              => 'Nouveau bon de livraison',
     'tracking_number_note_trans_key'           => 'Numéro de suivis',

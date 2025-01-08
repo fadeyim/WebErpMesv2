@@ -356,7 +356,7 @@
                                         @forelse ($status['Opportunities'] as $Opportunity)
                                             <li wire:key="task-{{ $Opportunity['id'] }}" wire:sortable-group.item="{{ $Opportunity['id'] }}" class="card bg-light" style="z-index: 10;">
                                                 <div wire:sortable-group.handle >
-                                                    <div class="card-header bg-danger">
+                                                    <div class="card-header bg-lightblue disabled color-palette">
                                                         <div class="row">
                                                             <div class="col-2">
                                                                 <img src="{{ Avatar::create($Opportunity->UserManagement['name'])->toBase64() }}" />

@@ -42,6 +42,21 @@ class Quotes extends Model
                             'comment', 
                             'csv_file_name',];
 
+    // Only log changes
+    protected static $logOnlyDirty = true;
+
+    // Add a contextual log
+    protected static $logName = 'quote';
+
+    // Do not store empty values
+    protected static $submitEmptyLogs = false;
+
+    // Customize the log description
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "Quote has been {$eventName}";
+    }
+
     // Relationship with the company associated with the quote
     public function companie()
     {
@@ -133,7 +148,20 @@ class Quotes extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()->logOnly(['code', 'label', 'statu']);
+        return LogOptions::defaults()->logOnly(['code', 
+                                                'label', 
+                                                'customer_reference',
+                                                'companies_id', 
+                                                'companies_contacts_id',   
+                                                'companies_addresses_id',  
+                                                'validity_date',  
+                                                'statu',  
+                                                'user_id',  
+                                                'opportunities_id',  
+                                                'accounting_payment_conditions_id',  
+                                                'accounting_payment_methods_id',  
+                                                'accounting_deliveries_id',  
+                                                'comment', ]);
         // Chain fluent methods for configuration options
     }
 }

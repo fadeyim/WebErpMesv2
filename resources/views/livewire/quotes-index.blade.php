@@ -548,7 +548,7 @@
                                         @forelse ($status['Quotes'] as $Quote)
                                             <li wire:key="task-{{ $Quote['id'] }}" wire:sortable-group.item="{{ $Quote['id'] }}" class="card bg-light" style="z-index: 10;">
                                                 <div wire:sortable-group.handle >
-                                                    <div class="card-header bg-success">
+                                                    <div class="card-header bg-lightblue disabled color-palette">
                                                         <div class="row">
                                                             <div class="col-2">
                                                                 <img src="{{ Avatar::create($Quote->UserManagement['name'])->toBase64() }}" />

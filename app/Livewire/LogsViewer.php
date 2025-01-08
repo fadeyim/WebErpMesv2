@@ -13,12 +13,16 @@ class LogsViewer extends Component
     public $endDate;
     public $logs;
     public $availableModels;
+    public $subjectType;  // Variable for the model type (quote, order, etc.)
+    public $subjectId;    // Variable for the model ID
 
-    public function mount()
+    public function mount($subjectType = null, $subjectId = null)  // Pass the model type and ID
     {
         $this->startDate = Carbon::now()->toDateString();
         $this->endDate = Carbon::now()->toDateString();
         $this->availableModels = Activity::select('subject_type')->distinct()->pluck('subject_type');
+        $this->subjectType = $subjectType;  // Initialize the model type
+        $this->subjectId = $subjectId;      // Initialize the model ID
     }
 
     public function filterLogs()
@@ -32,18 +36,24 @@ class LogsViewer extends Component
 
     public function render()
     {
-        // Check if the form has been submitted
-        if ($this->model || $this->startDate || $this->endDate) {
+        // If filters are submitted or a specific topic is set
+        if ($this->model || $this->startDate || $this->endDate || $this->subjectType || $this->subjectId) {
             $query = Activity::query();
-    
+
             if ($this->model) {
                 $query->where('subject_type', $this->model);
             }
-    
+
+            if ($this->subjectType && $this->subjectId) {
+                // Filter by model type and ID (e.g., Quote, Order, etc.)
+                $query->where('subject_type', $this->subjectType)
+                    ->where('subject_id', $this->subjectId);
+            }
+
             if ($this->startDate) {
                 $query->whereDate('created_at', '>=', $this->startDate);
             }
-    
+
             if ($this->endDate) {
                 $query->whereDate('created_at', '<=', $this->endDate);
             }

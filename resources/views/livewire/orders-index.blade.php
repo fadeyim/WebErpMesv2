@@ -372,7 +372,11 @@
                                 <div class="card-footer bg-secondary">
                                     <div class="row">
                                         <div class="col-8">
+                                            @if($Order->type == 1 )
                                             <x-CompanieButton id="{{ $Order->companies_id }}" label="{{ $Order->companie['label'] }}"  />
+                                            @else
+                                            {{ __('general_content.internal_order_trans_key') }}
+                                            @endif
                                         </div>
                                         <div class="col-4">
                                             <x-ButtonTextView route="{{ route('orders.show', ['id' => $Order->id])}}" />
@@ -437,7 +441,7 @@
                                         @forelse ($status['Orders'] as $Order)
                                             <li wire:key="task-{{ $Order['id'] }}" wire:sortable-group.item="{{ $Order['id'] }}" class="card bg-light" style="z-index: 10;">
                                                 <div wire:sortable-group.handle >
-                                                    <div class="card-header bg-warning">
+                                                    <div class="card-header bg-lightblue disabled color-palette">
                                                         <div class="row">
                                                             <div class="col-2">
                                                                 <img src="{{ Avatar::create($Order->UserManagement['name'])->toBase64() }}" />
@@ -454,7 +458,11 @@
                                                     <div class="card-footer bg-secondary">
                                                         <div class="row">
                                                             <div class="col-8">
+                                                                @if($Order->type == 1 )
                                                                 <x-CompanieButton id="{{ $Order->companies_id }}" label="{{ $Order->companie['label'] }}"  />
+                                                                @else
+                                                                {{ __('general_content.internal_order_trans_key') }}
+                                                                @endif
                                                             </div>
                                                             <div class="col-4">
                                                                 <x-ButtonTextView route="{{ route('orders.show', ['id' => $Order->id])}}" />

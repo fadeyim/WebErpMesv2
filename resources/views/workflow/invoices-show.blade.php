@@ -21,6 +21,7 @@
       @if(count($CustomFields)> 0)
       <li class="nav-item"><a class="nav-link" href="#CustomFields" data-toggle="tab">{{ __('general_content.custom_fields_trans_key') }}  ({{ count($CustomFields) }})</a></li>
       @endif
+      <li class="nav-item"><a class="nav-link" href="#Logs" data-toggle="tab">Logs</a></li>
     </ul>
   </div>
   <!-- /.card-header -->
@@ -204,6 +205,9 @@
       @if($CustomFields)
       <div class="tab-pane " id="CustomFields">
         @include('include.custom-fields-form', ['id' => $Invoice->id, 'type' => 'invoice'])
+      </div>
+      <div class="tab-pane " id="Logs">
+        @livewire('logs-viewer', ['subjectType' => 'App\Models\Workflow\Invoices', 'subjectId' => $Invoice->id])
       </div>
       @endif
   </div>

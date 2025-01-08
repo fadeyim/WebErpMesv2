@@ -36,6 +36,21 @@ class Deliverys extends Model
                             'tracking_number',
                         ];
 
+    // Only log changes
+    protected static $logOnlyDirty = true;
+
+    // Add a contextual log
+    protected static $logName = 'delivery';
+
+    // Do not store empty values
+    protected static $submitEmptyLogs = false;
+
+    // Customize the log description
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "Dilevery has been {$eventName}";
+    }
+
     public function companie()
     {
         return $this->belongsTo(Companies::class, 'companies_id');
@@ -108,7 +123,18 @@ class Deliverys extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()->logOnly([ 'code', 'label', 'statu']);
+        return LogOptions::defaults()->logOnly([ 
+                                                'code', 
+                                                'label', 
+                                                'companies_id', 
+                                                'companies_contacts_id',   
+                                                'companies_addresses_id',  
+                                                'statu',  
+                                                'user_id',
+                                                'comment',
+                                                'order_id',
+                                                'purchases_id',
+                                                'tracking_number',]);
         // Chain fluent methods for configuration options
     }
 }

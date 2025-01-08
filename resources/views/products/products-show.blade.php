@@ -34,6 +34,7 @@
       @if($Product->svg_file)
       <li class="nav-item"><a class="nav-link" href="#SVGViewer" data-toggle="tab">SVG {{ __('general_content.viewer_file_trans_key') }}</a></li>
       @endif
+      <li class="nav-item"><a class="nav-link" href="#Logs" data-toggle="tab">Logs</a></li>
     </ul>
   </div>
   <!-- /.card-header -->
@@ -677,6 +678,9 @@
         <img src="{{ asset('svg/') }}/{{ $Product->svg_file }}" width="800" height="800">
       </div>
       @endif
+      <div class="tab-pane " id="Logs">
+        @livewire('logs-viewer', ['subjectType' => 'App\Models\Products\Products', 'subjectId' => $Product->id])
+      </div>
     </div>
   </div>
 </div>

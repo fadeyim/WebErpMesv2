@@ -27,6 +27,21 @@ class PurchaseReceipt extends Model
                             'reception_control_date',
                             'reception_control_user_id',
                         ];
+                        
+    // Only log changes
+    protected static $logOnlyDirty = true;
+
+    // Add a contextual log
+    protected static $logName = 'purchase';
+
+    // Do not store empty values
+    protected static $submitEmptyLogs = false;
+
+    // Customize the log description
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "Purchase has been {$eventName}";
+    }
 
     public function companie()
     {
@@ -71,7 +86,16 @@ class PurchaseReceipt extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()->logOnly([ 'code', 'label', 'statu']);
+        return LogOptions::defaults()->logOnly(['code', 
+                                                'label', 
+                                                'companies_id', 
+                                                'delivery_note_number',  
+                                                'statu',  
+                                                'user_id',
+                                                'comment',
+                                                'reception_controlled',  
+                                                'reception_control_date',
+                                                'reception_control_user_id']);
         // Chain fluent methods for configuration options
     }
 }

@@ -372,7 +372,7 @@
                                     <li wire:key="task-{{ $Lead['id'] }}" wire:sortable-group.item="{{ $Lead['id'] }}" class="card bg-light" style="z-index: 10;">
                                         <div wire:sortable-group.handle >
                                             <div wire:sortable-group.handle >
-                                                <div class="card-header bg-primary">
+                                                <div class="card-header bg-lightblue disabled color-palette">
                                                     <div class="row">
                                                         <div class="col-8">
                                                             #{{ $Lead->id }}

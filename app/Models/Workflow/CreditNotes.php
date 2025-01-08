@@ -34,6 +34,21 @@ class CreditNotes extends Model
         'validated_at'
     ];
 
+    // Only log changes
+    protected static $logOnlyDirty = true;
+
+    // Add a contextual log
+    protected static $logName = 'credit_note';
+
+    // Do not store empty values
+    protected static $submitEmptyLogs = false;
+
+    // Customize the log description
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "Credit note has been {$eventName}";
+    }
+
     public function invoice()
     {
         return $this->belongsTo(Invoices::class);
@@ -89,7 +104,18 @@ class CreditNotes extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()->logOnly([ 'code', 'label', 'statu']);
+        return LogOptions::defaults()->logOnly([ 
+                                                'code', 
+                                                'label', 
+                                                'invoices_id', 
+                                                'companies_id', 
+                                                'companies_contacts_id', 
+                                                'companies_addresses_id', 
+                                                'statu', 
+                                                'user_id', 
+                                                'reason', 
+                                                'validated_by', 
+                                                'validated_at']);
         // Chain fluent methods for configuration options
     }
 }

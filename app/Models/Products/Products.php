@@ -57,6 +57,21 @@ class Products extends Model
                             'svg_file',
                             'csv_file_name',];
 
+    // Only log changes
+    protected static $logOnlyDirty = true;
+
+    // Add a contextual log
+    protected static $logName = 'product';
+
+    // Do not store empty values
+    protected static $submitEmptyLogs = false;
+
+    // Customize the log description
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "Product has been {$eventName}";
+    }
+
     public function service()
     {
         return $this->belongsTo(MethodsServices::class, 'methods_services_id');
@@ -311,7 +326,38 @@ class Products extends Model
     
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()->logOnly(['code', 'label']);
+        return LogOptions::defaults()->logOnly(['code',
+                                                'label', 
+                                                'ind',
+                                                'methods_services_id', 
+                                                'methods_families_id', 
+                                                'purchased', 
+                                                'purchased_price', 
+                                                'sold', 
+                                                'selling_price', 
+                                                'methods_units_id', 
+                                                'material', 
+                                                'thickness', 
+                                                'weight', 
+                                                'x_size', 
+                                                'y_size', 
+                                                'z_size', 
+                                                'x_oversize',
+                                                'y_oversize',
+                                                'z_oversize',
+                                                'comment',
+                                                'tracability_type',
+                                                'qty_eco_min',
+                                                'qty_eco_max',
+                                                'diameter',
+                                                'diameter_oversize',
+                                                'section_size',
+                                                'finishing',
+                                                'picture',
+                                                'drawing_file',
+                                                'stl_file',
+                                                'svg_file',
+                                                'csv_file_name',]);
         // Chain fluent methods for configuration options
     }
 }

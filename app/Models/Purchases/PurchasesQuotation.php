@@ -27,6 +27,21 @@ class PurchasesQuotation extends Model
                             'comment',
                         ];
 
+    // Only log changes
+    protected static $logOnlyDirty = true;
+
+    // Add a contextual log
+    protected static $logName = 'purchase_quotation';
+
+    // Do not store empty values
+    protected static $submitEmptyLogs = false;
+
+    // Customize the log description
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "Purchase quotation has been {$eventName}";
+    }
+
     public function companie()
     {
         return $this->belongsTo(Companies::class, 'companies_id');

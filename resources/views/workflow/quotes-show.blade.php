@@ -26,6 +26,7 @@
       <li class="nav-item"><a class="nav-link" href="#CustomFields" data-toggle="tab">{{ __('general_content.custom_fields_trans_key') }} ({{ count($CustomFields) }})</a></li>
       @endif
       <li class="nav-item"><a class="nav-link" href="#LinesImport" data-toggle="tab">{{ __('general_content.lines_import_trans_key') }}</a></li>
+      <li class="nav-item"><a class="nav-link" href="#Logs" data-toggle="tab">Logs</a></li>
     </ul>
   </div>
   <!-- /.card-header -->
@@ -455,6 +456,9 @@
             {{ __('general_content.info_statu_trans_key') }}
         </x-adminlte-alert>
         @endif
+      </div>
+      <div class="tab-pane " id="Logs">
+        @livewire('logs-viewer', ['subjectType' => 'App\Models\Workflow\Quotes', 'subjectId' => $Quote->id])
       </div>
   </div>
   <!-- /.card-body -->

@@ -29,6 +29,21 @@ class Leads extends Model
         'comment',
     ];
 
+    // Only log changes
+    protected static $logOnlyDirty = true;
+
+    // Add a contextual log
+    protected static $logName = 'lead';
+
+    // Do not store empty values
+    protected static $submitEmptyLogs = false;
+
+    // Customize the log description
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "Lead has been {$eventName}";
+    }
+
     // Relationship with the company associated with the lead
     public function companie()
     {
@@ -67,7 +82,16 @@ class Leads extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()->logOnly(['campaign', 'source', 'status']);
+        return LogOptions::defaults()->logOnly([
+                                                'companies_id',
+                                                'companies_contacts_id',
+                                                'companies_addresses_id',
+                                                'user_id',
+                                                'statu',
+                                                'source',
+                                                'priority',
+                                                'campaign',
+                                                'comment',]);
         // Chain fluent methods for configuration options
     }
 }
