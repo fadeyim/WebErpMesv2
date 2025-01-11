@@ -284,86 +284,57 @@
                 </h5>
               @endif
               <div class="row">
-                @if($Task->service->type == 1 )
-                  @if($lastTaskActivities)
-                    <div class="form-group col-md-4 ">
-                      <a class="btn btn-app bg-success @if($lastTaskActivities->type == 1 || $lastTaskActivities->type == 3) disabled @endif " wire:click="StartTimeTask({{$Task->id}})">
-                        <i class="fas fa-play"></i> {{ __('general_content.play_trans_key') }}
-                      </a>
+                <div class="col-12">
+                  <x-adminlte-card >
+                    <div class="row">
+                        @if($Task->service->type == 1 )
+                          @if($lastTaskActivities)
+                            <div class="form-group col-md-4 ">
+                              <a class="btn btn-app bg-success @if($lastTaskActivities->type == 1 || $lastTaskActivities->type == 3) disabled @endif " wire:click="StartTimeTask({{$Task->id}})">
+                                <i class="fas fa-play"></i> {{ __('general_content.play_trans_key') }}
+                              </a>
+                            </div>
+                            <div class="form-group col-md-4 ">
+                              <a class="btn btn-app bg-warning @if($lastTaskActivities->type == 2 || $lastTaskActivities->type == 3) disabled @endif " wire:click="EndTimeTask({{$Task->id}})">
+                                <i class="fas fa-pause"></i> {{ __('general_content.pause_trans_key') }}
+                              </a>
+                            </div>
+                            <div class="form-group col-md-4 ">
+                              <a class="btn btn-app bg-danger @if($lastTaskActivities->type == 3) disabled @endif " wire:click="EndTask({{$Task->id}})">
+                                <i class="fas fa-stop"></i> {{ __('general_content.end_trans_key') }}
+                              </a>
+                            </div>
+                          @else
+                            <div class="form-group col-md-4 ">
+                              <a class="btn btn-app bg-success" wire:click="StartTimeTask({{$Task->id}})">
+                                <i class="fas fa-play"></i> {{ __('general_content.play_trans_key') }}
+                              </a>
+                            </div>
+                          @endif
+                        @else
+                          <div class="form-group col-md-4 ">
+                            <a class="btn btn-app bg-success" href="{{ route('purchases.request') }}" >
+                              <i class="fas  fa-cash-register"></i>{{ __('general_content.new_purchase_document_trans_key') }}
+                            </a>
+                          </div>
+                          
+                          <div class="form-group col-md-4 ">
+                            <a class="btn btn-app bg-danger " wire:click="EndTask({{$Task->id}})">
+                              <i class="fas fa-stop"></i> {{ __('general_content.end_trans_key') }}
+                            </a>
+                          </div>
+                        @endif
                     </div>
-                    <div class="form-group col-md-4 ">
-                      <a class="btn btn-app bg-warning @if($lastTaskActivities->type == 2 || $lastTaskActivities->type == 3) disabled @endif " wire:click="EndTimeTask({{$Task->id}})">
-                        <i class="fas fa-pause"></i> {{ __('general_content.pause_trans_key') }}
-                      </a>
-                    </div>
-                    <div class="form-group col-md-4 ">
-                      <a class="btn btn-app bg-danger @if($lastTaskActivities->type == 3) disabled @endif " wire:click="EndTask({{$Task->id}})">
-                        <i class="fas fa-stop"></i> {{ __('general_content.end_trans_key') }}
-                      </a>
-                    </div>
-                  @else
-                  <div class="form-group col-md-4 ">
-                      <a class="btn btn-app bg-success" wire:click="StartTimeTask({{$Task->id}})">
-                        <i class="fas fa-play"></i> {{ __('general_content.play_trans_key') }}
-                      </a>
-                    </div>
-                  @endif
-                @else
-                <div class="form-group col-md-4 ">
-                  <a class="btn btn-app bg-success" href="{{ route('purchases.request') }}" >
-                    <i class="fas  fa-cash-register"></i>{{ __('general_content.new_purchase_document_trans_key') }}
-                  </a>
+                  </x-adminlte-card>
                 </div>
-                
-                <div class="form-group col-md-4 ">
-                  <a class="btn btn-app bg-danger " wire:click="EndTask({{$Task->id}})">
-                    <i class="fas fa-stop"></i> {{ __('general_content.end_trans_key') }}
-                  </a>
-                </div>
-                @endif
               </div>
               @if( $Task->component_id)
               <hr>
               <div class="row">
                 <div class="col-12 ">
-                  <form wire:submit.prevent="addGoodQtFromStock({{ $Task->component_id }},{{ $Task->id }})">
-                    <label for="addGoodQt">{{ __('general_content.remove_from_stock_trans_key') }} :</label>
-                    <div class="input-group input-group-sm">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-times"></i></span>
-                        </div>
-                        <input type="number" class="form-control @error('addGoodQt') is-invalid @enderror" id="addGoodQt" placeholder="{{ __('general_content.good_rejected_trans_key') }}" min="0" wire:model.live="addGoodQt">
-                        <span class="input-group-append">
-                          <button type="submit" class="btn btn-info btn-flat">Set</button>
-                        </span>
-                      </div>
-                    @error('addGoodQt') <span class="text-danger">{{ $message }}<br/></span>@enderror
-                  </form>
-                </div>
-              </div>
-              @endif
-              <hr>
-              <div class="row">
-                <div class="col-12 ">
-                  <form wire:submit.prevent="addGoodQtFromUser">
-                      <label for="addGoodQt">{{ __('general_content.good_rejected_trans_key') }} :</label>
-                      <div class="row">
-                        <div class="form-group col-md-4 ">
-                          <a class="btn btn-app bg-info " wire:click="FastaddGoodQt(1)">
-                            <i class="fas fa-thumbs-up"></i> +1
-                          </a>
-                        </div>
-                        <div class="form-group col-md-4 ">
-                          <a class="btn btn-app bg-info " wire:click="FastaddGoodQt(10)">
-                            <i class="fas fa-thumbs-up"></i> +10
-                          </a>
-                        </div>
-                        <div class="form-group col-md-4 ">
-                          <a class="btn btn-app bg-info " wire:click="FastaddGoodQt(100)">
-                            <i class="fas fa-thumbs-up"></i> +100
-                          </a>
-                        </div>
-                      </div>
+                  <x-adminlte-card theme="lime" theme-mode="outline">
+                    <form wire:submit.prevent="addGoodQtFromStock({{ $Task->component_id }},{{ $Task->id }})">
+                      <label for="addGoodQt">{{ __('general_content.remove_from_stock_trans_key') }} :</label>
                       <div class="input-group input-group-sm">
                           <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-times"></i></span>
@@ -374,105 +345,184 @@
                           </span>
                         </div>
                       @error('addGoodQt') <span class="text-danger">{{ $message }}<br/></span>@enderror
-                  </form>
+                    </form>
+                  </x-adminlte-card>
+                </div>
+              </div>
+              @endif
+              <div class="row">
+                <div class="col-12">
+                  <x-adminlte-card theme="warning" theme-mode="outline">
+                    <form wire:submit.prevent="addGoodQtFromUser">
+                        <label for="addGoodQt">{{ __('general_content.good_rejected_trans_key') }} :</label>
+                        <div class="row">
+                          <div class="form-group col-md-4 ">
+                            <a class="btn btn-app bg-info " wire:click="FastaddGoodQt(1)">
+                              <i class="fas fa-thumbs-up"></i> +1
+                            </a>
+                          </div>
+                          <div class="form-group col-md-4 ">
+                            <a class="btn btn-app bg-info " wire:click="FastaddGoodQt(10)">
+                              <i class="fas fa-thumbs-up"></i> +10
+                            </a>
+                          </div>
+                          <div class="form-group col-md-4 ">
+                            <a class="btn btn-app bg-info " wire:click="FastaddGoodQt(100)">
+                              <i class="fas fa-thumbs-up"></i> +100
+                            </a>
+                          </div>
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-times"></i></span>
+                            </div>
+                            <input type="number" class="form-control @error('addGoodQt') is-invalid @enderror" id="addGoodQt" placeholder="{{ __('general_content.good_rejected_trans_key') }}" min="0" wire:model.live="addGoodQt">
+                            <span class="input-group-append">
+                              <button type="submit" class="btn btn-info btn-flat">Set</button>
+                            </span>
+                          </div>
+                        @error('addGoodQt') <span class="text-danger">{{ $message }}<br/></span>@enderror
+                    </form>
+                  </x-adminlte-card>
                 </div>
               </div>
               <div class="row">
                 <div class="col-12 ">
-                  <form wire:submit.prevent="addRejectedQt">
-                    <label for="addBadQt">{{ __('general_content.quantity_rejected_trans_key') }} :</label>
+                  <x-adminlte-card theme="lime" theme-mode="outline">
+                    <form wire:submit.prevent="addRejectedQt">
+                      <label for="addBadQt">{{ __('general_content.quantity_rejected_trans_key') }} :</label>
+                      <div class="row">
+                        <div class="form-group col-md-4 ">
+                          <a class="btn btn-app bg-orange " wire:click="FastaddBadQt(1)">
+                            <i class="fas fa-thumbs-down"></i> -1
+                          </a>
+                        </div>
+                        <div class="form-group col-md-4 ">
+                          <a class="btn btn-app bg-orange " wire:click="FastaddBadQt(10)">
+                            <i class="fas fa-thumbs-down"></i> -10
+                          </a>
+                        </div>
+                        <div class="form-group col-md-4 ">
+                          <a class="btn btn-app bg-orange " wire:click="FastaddBadQt(100)">
+                            <i class="fas fa-thumbs-down"></i> -100
+                          </a>
+                        </div>
+                      </div>
+                      <div class="input-group input-group-sm">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-times"></i></span>
+                          </div>
+                          <input type="number" class="form-control @error('addBadQt') is-invalid @enderror" id="addBadQt" placeholder="{{ __('general_content.quantity_rejected_trans_key') }}" min="0" wire:model.live="addBadQt">
+                          <span class="input-group-append">
+                            <button type="submit" class="btn btn-info btn-flat">Set</button>
+                          </span>
+                        </div>
+                      @error('addBadQt') <span class="text-danger">{{ $message }}<br/></span>@enderror
+                    </form>
+                  </x-adminlte-card>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <x-adminlte-card theme="info" theme-mode="outline">
                     <div class="row">
-                      <div class="form-group col-md-4 ">
-                        <a class="btn btn-app bg-orange " wire:click="FastaddBadQt(1)">
-                          <i class="fas fa-thumbs-down"></i> -1
-                        </a>
+                      <div class="col-md-2 text-muted">
+                        <p class="text-sm">{{ __('general_content.end_date_trans_key') }}  
+                          <b class="d-block">{{ $Task->getFormattedEndDateAttribute() }}</b>
+                        </p>
                       </div>
-                      <div class="form-group col-md-4 ">
-                        <a class="btn btn-app bg-orange " wire:click="FastaddBadQt(10)">
-                          <i class="fas fa-thumbs-down"></i> -10
-                        </a>
+                      <div class="col-md-2 text-muted">
+                        <div class="form-group">
+                          <label for="not_recalculate">Not Recalculate</label>
+                          <input type="checkbox" id="not_recalculate" wire:model.live="not_recalculate" style=" display:flex; align-items:center;">
+                        </div>
                       </div>
-                      <div class="form-group col-md-4 ">
-                        <a class="btn btn-app bg-orange " wire:click="FastaddBadQt(100)">
-                          <i class="fas fa-thumbs-down"></i> -100
-                        </a>
+                      <div class="col-md-8 text-muted">
+                        <form wire:submit.prevent="updateDateTask">
+                          <label for="end_date">{{ __('general_content.end_date_trans_key') }} :</label>
+                          <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                              </div>
+                              <input type="datetime-local" class="form-control @error('end_date') is-invalid @enderror" id="end_date"  wire:model.live="end_date">
+                              <span class="input-group-append">
+                                <button type="submit" class="btn btn-info btn-flat">Set</button>
+                              </span>
+                            </div>
+                          @error('end_date') <span class="text-danger">{{ $message }}<br/></span>@enderror
+                        </form>
                       </div>
                     </div>
-                    <div class="input-group input-group-sm">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-times"></i></span>
-                        </div>
-                        <input type="number" class="form-control @error('addBadQt') is-invalid @enderror" id="addBadQt" placeholder="{{ __('general_content.quantity_rejected_trans_key') }}" min="0" wire:model.live="addBadQt">
-                        <span class="input-group-append">
-                          <button type="submit" class="btn btn-info btn-flat">Set</button>
-                        </span>
-                      </div>
-                    @error('addBadQt') <span class="text-danger">{{ $message }}<br/></span>@enderror
-                  </form>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-md-2 text-muted">
-                  <p class="text-sm">{{ __('general_content.end_date_trans_key') }}  
-                    <b class="d-block">{{ $Task->getFormattedEndDateAttribute() }}</b>
-                  </p>
-                </div>
-                <div class="col-md-2 text-muted">
-                  <div class="form-group">
-                    <label for="not_recalculate">Not Recalculate</label>
-                    <input type="checkbox" id="not_recalculate" wire:model.live="not_recalculate" style=" display:flex; align-items:center;">
-                </div>
-                </div>
-                <div class="col-md-8 text-muted">
-                  <form wire:submit.prevent="updateDateTask">
-                    <label for="end_date">{{ __('general_content.end_date_trans_key') }} :</label>
-                    <div class="input-group input-group-sm">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-calendar"></i></span>
-                        </div>
-                        <input type="datetime-local" class="form-control @error('end_date') is-invalid @enderror" id="end_date"  wire:model.live="end_date">
-                        <span class="input-group-append">
-                          <button type="submit" class="btn btn-info btn-flat">Set</button>
-                        </span>
-                      </div>
-                    @error('end_date') <span class="text-danger">{{ $message }}<br/></span>@enderror
-                  </form>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-12">
-                  <a href="#"  wire:click="createNC({{$Task->id}}, {{$Task->OrderLines->order->companies_id}}, {{$Task->methods_services_id}})" ><span class="text-warning"><i class="fa fa-light fa-fw  fa-exclamation"></i>{{ __('general_content.new_non_conformitie_trans_key') }}</span></a>
+                  </x-adminlte-card>
                 </div>
               </div>
               <div class="row">
                 <div class="col-12">
-                  <!-- Lien pour ouvrir le modal -->
-                  <a href="#"  data-toggle="modal" data-target="#andonAlertModal"><span class="text-danger"><i class="fa fa-light fa-fw  fa-exclamation"></i> Ajouter une alerte</a>
-
-                  <!-- Modal -->
-                  <x-adminlte-modal id="andonAlertModal" title="Ajouter une alerte Andon" theme="danger"
-                      icon="fas fa-bolt" size='lg' disable-animations>
-
-                    <form action="{{ route('workshop.andon.store')}}" method="POST">
-                      @csrf
-                      <div class="form-group">
-                        <label for="type">Type d'alerte</label>
-                        <input type="text" class="form-control" id="type" name="type" required>
+                  <x-adminlte-card theme="info" theme-mode="outline">
+                    <div class="row">
+                      <div class="col-md-4 text-muted">
+                        <div class="form-group">
+                          <label for="userforced_ressource">{{ __('general_content.user_choise_trans_key') }}</label>
+                          <input type="checkbox" id="userforced_ressource" wire:model.live="userforced_ressource" style=" display:flex; align-items:center;">
+                        </div>
                       </div>
-                      <div class="form-group">
-                        <label for="message">Description</label>
-                        <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
+                      <div class="col-md-8">
+                        <form wire:submit.prevent="updateRessource">
+                          <div class="input-group input-group-sm">
+                              <select wire:model="selectedRessource" id="ressource" class="form-control">
+                                  <option value="">{{ __('general_content.select_ressource_trans_key') }}</option> 
+                                  @foreach($ressources as $id => $label)
+                                      <option value="{{ $id }}">{{ $label }}</option>
+                                  @endforeach
+                              </select>
+                              <span class="input-group-append">
+                                <button type="submit" class="btn btn-info btn-flat">Set</button>
+                              </span>
+                          </div>
+                        </form>
                       </div>
-                      
-                      <!-- Champs cachés pour task_id et resource_id -->
-                      <input type="hidden" id="task_id" name="task_id" value="{{$Task->id}}">
-                      <input type="hidden" id="resource_id" name="resource_id" value="1"> <!-- Remplacez la valeur par l'ID réel de la ressource -->
+                    </div>
+                  </x-adminlte-card>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <x-adminlte-card theme="danger" theme-mode="outline">
+                    <div class="row">
+                      <div class="col-12">
+                        <a href="#"  wire:click="createNC({{$Task->id}}, {{$Task->OrderLines->order->companies_id}}, {{$Task->methods_services_id}})" ><span class="text-warning"><i class="fa fa-light fa-fw  fa-exclamation"></i>{{ __('general_content.new_non_conformitie_trans_key') }}</span></a>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <!-- Lien pour ouvrir le modal -->
+                        <a href="#"  data-toggle="modal" data-target="#andonAlertModal"><span class="text-danger"><i class="fa fa-light fa-fw  fa-exclamation"></i> Ajouter une alerte</a>
 
-                      <button type="submit" class="btn btn-primary">Ajouter l'alerte</button>
-                    </form>
-                  </x-adminlte-modal>
+                        <!-- Modal -->
+                        <x-adminlte-modal id="andonAlertModal" title="Ajouter une alerte Andon" theme="danger"
+                            icon="fas fa-bolt" size='lg' disable-animations>
+
+                          <form action="{{ route('workshop.andon.store')}}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                              <label for="type">Type d'alerte</label>
+                              <input type="text" class="form-control" id="type" name="type" required>
+                            </div>
+                            <div class="form-group">
+                              <label for="message">Description</label>
+                              <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
+                            </div>
+                            
+                            <!-- Champs cachés pour task_id et resource_id -->
+                            <input type="hidden" id="task_id" name="task_id" value="{{$Task->id}}">
+                            <input type="hidden" id="resource_id" name="resource_id" value="1"> <!-- Remplacez la valeur par l'ID réel de la ressource -->
+
+                            <button type="submit" class="btn btn-primary">Ajouter l'alerte</button>
+                          </form>
+                        </x-adminlte-modal>
+                      </div>
+                    </div>
+                  </x-adminlte-card>
                 </div>
               </div>
             </div>

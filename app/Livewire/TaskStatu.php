@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use Carbon\Carbon;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -40,6 +39,9 @@ class TaskStatu extends Component
     public $addBadQt = 0;
     public $not_recalculate = true;
     private $RecalculateBooleanValue = 0;
+
+    public $userforced_ressource = false;
+
     public $end_date;
 
     public $tasksOpen, $tasksInProgress, $tasksPending, $tasksOngoing, $tasksCompleted, $averageProcessingTime, $userProductivity, $totalResourcesAllocated, $resourceHours, $totalProducedHours, $averageTRS;  
@@ -47,6 +49,7 @@ class TaskStatu extends Component
     public $StockLocationsProducts = null; 
 
     public $userSelect;
+    public $selectedRessource;
     protected $notificationService;
     protected $qualityNonConformityService;
     protected $taskService;
@@ -75,7 +78,7 @@ class TaskStatu extends Component
         $this->Task = Task::with('OrderLines.order')->find($this->search);
         $this->userSelect = User::select('id', 'name')->get();
        // $this->end_date = $this->Task->end_date;
-       if($this->Task){
+        if($this->Task){
             if($this->Task->component_id){
                 $this->StockLocationsProducts = StockLocationProducts::where('products_id', $this->Task->component_id)->get(); 
             }
@@ -200,11 +203,13 @@ class TaskStatu extends Component
 
     public function render()
     {
-        
+        // Initialisation de la variable $ressources pour éviter les erreurs
+        $ressources = [];
+
         if(!empty($this->search)){
             $this->lastTaskActivities = TaskActivities::where('task_id', $this->search)->latest()->first();
             $this->taskActivities = TaskActivities::where('task_id', $this->search)->get();
-            $this->Task = Task::with('OrderLines.order')->find($this->search);
+            $this->Task = Task::with('OrderLines.order', 'resources')->find($this->search);
             if($this->Task){
                 // Récupérer la tâche précédente
                 $this->previousTask = Task::where('order_lines_id', $this->Task->order_lines_id)
@@ -217,6 +222,22 @@ class TaskStatu extends Component
                     ->where('ordre', '>', $this->Task->ordre)
                     ->orderBy('ordre', 'asc')
                     ->first();
+            }
+
+            // Récupérer le service lié à la tâche
+            $service = $this->Task->service;
+            
+            // Récupérer les moyens de production associés à ce service
+            $ressources = $service ? $service->ressources()->pluck('label', 'id') : [];
+
+            // Vérifier si une ressource est déjà affectée et initialiser `selectedRessource` et `userforced_ressource`
+            if ($this->Task->resources()->exists()) {
+                $resource = $this->Task->resources()->first();
+                $this->selectedRessource = $resource->id;
+                 // Pivot table field
+                if($resource->pivot->userforced_ressource == 1){
+                    $this->userforced_ressource = true;
+                }
             }
         }
 
@@ -231,6 +252,7 @@ class TaskStatu extends Component
             'taskActivities' => $this->taskActivities,
             'lastTaskActivities' => $this->lastTaskActivities,
             'StockLocationsProducts' => $this->StockLocationsProducts,
+            'ressources' => $ressources,
         ]);
     }
 
@@ -398,5 +420,24 @@ class TaskStatu extends Component
     {
         // Rédirection ou mise à jour de la vue avec la nouvelle tâche
         $this->mount($taskId);
+    }
+
+    public function updateRessource()
+    {
+        // Valider que la ressource a bien été sélectionnée
+        $this->validate([
+            'selectedRessource' => 'required|exists:methods_ressources,id',
+        ]);
+
+        // Mettre à jour la tâche avec la ressource sélectionnée
+        $this->Task->resources()->sync([$this->selectedRessource => [
+            'autoselected_ressource' => 0,
+            'userforced_ressource' => 1,  // Indiquer que l'utilisateur a forcé la ressource
+        ]]);
+
+        $this->userforced_ressource =true; 
+
+        // Optionnel : Ajouter un message de succès ou rediriger l'utilisateur
+        session()->flash('message', 'Le moyen de production a été mis à jour avec succès.');
     }
 }

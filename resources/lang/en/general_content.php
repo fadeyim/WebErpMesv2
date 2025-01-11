@@ -396,6 +396,7 @@ return [
     'select_payement_methods_trans_key'        => 'Select payment method',
     'select_delivery_trans_key'                => 'Select delivery',
     'select_service_trans_key'                 => 'Select service',
+    'select_ressource_trans_key'               => 'Select ressource',
     'select_family_trans_key'                  => 'Select family',
     'select_unit_trans_key'                    => 'Select unit',
     'select_statu_trans_key'                   => 'Select status',
@@ -786,6 +787,7 @@ return [
     'trs_per_month_trans_key'                  => 'OEE over the month',
     'active_calculated_price_trans_key'        => 'Activate calculated price',
     'deactivate_calculated_price_trans_key'    => 'Deactivate calculated price',
+    'user_choise_trans_key'                    => 'User choice',
     
     //DELIVERY
     'delivery_notes_trans_key'                 => 'Delivery notes',

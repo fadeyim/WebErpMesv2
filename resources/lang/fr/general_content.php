@@ -396,6 +396,7 @@ return [
     'select_payement_methods_trans_key'        => 'Selectionner méthode de paiement',
     'select_delivery_trans_key'                => 'Selectionner mode de livraison',
     'select_service_trans_key'                 => 'Selectionner service',
+    'select_ressource_trans_key'               => 'Selectionner ressource',
     'select_family_trans_key'                  => 'Selectionner famille',
     'select_unit_trans_key'                    => 'Selectionner unité',
     'select_statu_trans_key'                   => 'Selectionner statu',
@@ -786,6 +787,7 @@ return [
     'trs_per_month_trans_key'                  => 'TRS sur le mois',
     'active_calculated_price_trans_key'        => 'Activer le prix calculé',
     'deactivate_calculated_price_trans_key'    => 'Désactiver le prix calculé',
+    'user_choise_trans_key'                    => 'Choix de l\'utilisateur',
     
     //DELIVERY
     'delivery_notes_trans_key'                 => 'Bons de livraisons',
