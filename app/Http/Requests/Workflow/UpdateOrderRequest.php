@@ -26,13 +26,13 @@ class UpdateOrderRequest extends FormRequest
         return [
             'label' => 'required|string|max:255',
             'customer_reference' => 'nullable|string|max:255',
-            'companies_id' => 'required|exists:companies,id',
-            'companies_contacts_id' => 'required|exists:companies_contacts,id',
-            'companies_addresses_id' => 'required|exists:companies_addresses,id',
+            'companies_id' => 'required_if:type,1|nullable|exists:companies,id',
+            'companies_contacts_id' => 'required_if:type,1|nullable|exists:companies_contacts,id',
+            'companies_addresses_id' => 'required_if:type,1|nullable|exists:companies_addresses,id',
             'validity_date' => 'nullable|date',
-            'accounting_payment_conditions_id' => 'required|exists:accounting_payment_conditions,id',
-            'accounting_payment_methods_id' => 'required|exists:accounting_payment_methods,id',
-            'accounting_deliveries_id' => 'required|exists:accounting_deliveries,id',
+            'accounting_payment_conditions_id' => 'required_if:type,1|nullable|exists:accounting_payment_conditions,id',
+            'accounting_payment_methods_id' => 'required_if:type,1|nullable|exists:accounting_payment_methods,id',
+            'accounting_deliveries_id' => 'required_if:type,1|nullable|exists:accounting_deliveries,id',
             'comment' => 'nullable|string',
         ];
     }

@@ -46,6 +46,7 @@
                 @csrf
                 <div class="row">
                   <div class="form-group col-md-6">
+                    <input type="hidden" name="type" value="{{ $Order->type }}">
                     <p><label for="code" class="text-success">{{ __('general_content.external_id_trans_key') }}</label>  {{  $Order->code }}</p>
                     <p><label for="date" class="text-success">{{ __('general_content.date_trans_key') }}</label>  {{  $Order->GetshortCreatedAttribute() }}</p>
                   </div>
