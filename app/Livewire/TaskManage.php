@@ -402,6 +402,9 @@ class TaskManage extends Component
     }
 
     public function editTaskLine($id){
+        
+        $this->updateLines = true;
+
         $Line = Task::findOrFail($id);
         $this->taskId = $id;
         $this->ordre = $Line->ordre;
@@ -414,7 +417,16 @@ class TaskManage extends Component
         $this->unit_cost = $Line->unit_cost;
         $this->unit_price = $Line->unit_price;     
         $this->methods_units_id = $Line->methods_units_id;
-        $this->updateLines = true;
+
+                
+        if($Line->type == 1 Or $Line->type == 2 ) {
+            $this->TaskType = 'TechCut';
+        }
+        else{
+            $this->TaskType = 'BOM';
+        }
+
+        $this->ChangeTaskType();
     }
 
     public function updateTask(){
