@@ -4,16 +4,13 @@ namespace App\Livewire;
 
 use App\Models\User;
 use Livewire\Component;
-use App\Models\Planning\Task;
 use App\Services\TaskService;
-use App\Models\Planning\Status;
 use App\Models\Companies\Companies;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use App\Events\PurchaseReceiptCreated;
 use App\Models\Purchases\PurchaseLines;
+use App\Services\PurchaseReceiptService;
 use App\Models\Purchases\PurchaseReceipt;
-use App\Models\Purchases\PurchaseReceiptLines;
 
 class PurchasesWaintingReceipt extends Component
 {
@@ -35,11 +32,13 @@ class PurchasesWaintingReceipt extends Component
     private $ordre = 10;
 
     protected $taskService;
-    
+    protected $purchaseReceiptService;
+
     public function __construct()
     {
-        // Résoudre le service via le container Laravel
+        // Resolve the service via the Laravel container
         $this->taskService = App::make(TaskService::class);
+        $this->purchaseReceiptService = App::make(PurchaseReceiptService::class);
     }
 
 
@@ -102,69 +101,27 @@ class PurchasesWaintingReceipt extends Component
         ]);
     }
 
-    public function storeReciep(){
-        //check rules
-        $this->validate(); 
+    public function storeReciep()
+    {
+        $this->validate();
 
-         //check if line exist
-        $i = 0;
-        foreach ($this->data as $key => $item) {
-            if(array_key_exists("purchase_line_id",$this->data[$key])){
-                if($this->data[$key]['purchase_line_id'] != false ){
-                    $i++;
-                }
-            }
-        }
+        try {
+            // Données du reçu d'achat
+            $receiptData = [
+                'code' => $this->code,
+                'label' => $this->label,
+                'companies_id' => $this->companies_id,
+                'delivery_note_number' => $this->deliveryNoteNumber,
+                'user_id' => $this->user_id,
+            ];
 
-        if($i>0){
-            $StatusUpdate = Status::select('id')->where('title', 'Finished')->first();
-            if(is_null($StatusUpdate)){
-                return redirect()->back()->with('error', 'No status in kanban for define finiched task');
-            }
-            // Create puchase order
-            $ReceiptCreated = PurchaseReceipt::create([
-                'code'=>$this->code,  
-                'label'=>$this->label, 
-                'companies_id'=>$this->companies_id,
-                'delivery_note_number'=>$this->deliveryNoteNumber, 
-                'user_id'=>$this->user_id,
-            ]);
+            // Appel au service pour la création du reçu
+            $ReceiptCreated = $this->purchaseReceiptService->createPurchaseReceipt($this->data, $receiptData);
 
-            // Create lines
-            foreach ($this->data as $key => $item) {
-                //check if add line to new receipt line is aviable
-                //if not best to find request value, but we cant send hidden data with livewire
-                //How pass all information from task information ?
-                $PurchaseLines = PurchaseLines::find($key);
-                // Create delivery line
-                $ReceiptLines = PurchaseReceiptLines::create([
-                    'purchase_receipt_id' => $ReceiptCreated->id, 
-                    'purchase_line_id' => $PurchaseLines->id, 
-                    'ordre' => $this->ordre, 
-                    'receipt_qty' => $PurchaseLines->qty, 
-                ]); 
-                /* // up order line for next record*/
-                $this->ordre= $this->ordre+10;
-                /* // update statu line of purchase order line*/
-                PurchaseLines::where('id',$PurchaseLines->id)->update(['receipt_qty'=>$PurchaseLines->qty]);
-                /* // update task statu Supplied on Kanban*/
-                if($StatusUpdate->id){
-                    $Task = Task::where('id',$PurchaseLines->tasks_id)->update(['status_id'=>$StatusUpdate->id]);
-                }
-
-                //create entry qty int task
-                $this->taskService->recordTaskActivity($PurchaseLines->tasks_id, 4, $PurchaseLines->qty, 0);
-            } 
-
-            
-            //event for purchase statu
-            event(new PurchaseReceiptCreated($ReceiptCreated));
-
-            return redirect()->route('purchase.receipts.show', ['id' => $ReceiptCreated->id])->with('success', 'Successfully created new receipt');
-        }
-        else{
-            $errors = $this->getErrorBag();
-            $errors->add('errors', 'no lines selected');
+            return redirect()->route('purchase.receipts.show', ['id' => $ReceiptCreated->id])
+                ->with('success', 'Successfully created new receipt');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

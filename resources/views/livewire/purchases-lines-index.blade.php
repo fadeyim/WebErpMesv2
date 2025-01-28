@@ -44,6 +44,7 @@
                                 <th>{{ __('general_content.discount_trans_key') }}</th>
                                 <th>{{ __('general_content.vat_trans_key') }}</th> 
                                 <th>{{__('general_content.action_trans_key') }}</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -114,6 +115,15 @@
                                     </div>
                                     @endif
                                 </td>
+                                
+                                <td>
+                                    @if($PurchaseLine->qty > $PurchaseLine->receipt_qty)
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" value="{{ $PurchaseLine->id }}" wire:model.live="data.{{ $PurchaseLine->id }}.purchase_line_id" id="data.{{ $PurchaseLine->id }}.purchase_line_id"  type="checkbox">
+                                        <label for="data.{{ $PurchaseLine->id }}.purchase_line_id" class="custom-control-label">+</label>
+                                    </div>
+                                    @endif
+                                </td>
                             </tr>
                             @empty
                             <x-EmptyDataLine col="11" text="{{ __('general_content.no_data_trans_key') }}"  />
@@ -132,6 +142,14 @@
                                 <th>{{ __('general_content.discount_trans_key') }}</th>
                                 <th>{{ __('general_content.vat_trans_key') }}</th>
                                 <th>{{__('general_content.action_trans_key') }}</th>
+                                <th >
+                                    @if($OrderStatu == 1)
+                                    <a class="btn btn-primary btn-sm" wire:click="storeReciep({{ $purchase_id }})" href="#">
+                                        <i class="fas fa-folder"></i>
+                                        {{ __('general_content.new_receipt_document_trans_key') }}
+                                    </a>
+                                    @endif
+                                </th>
                             </tr>
                         </tfoot>
                     </table>

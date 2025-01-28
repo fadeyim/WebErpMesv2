@@ -58,7 +58,7 @@ class OrdersIndex extends Component
 
     public function __construct()
     {
-        // Résoudre le service via le container Laravel
+        // Resolve the service via the Laravel container
         $this->orderService = App::make(OrderService::class);
     }
 

@@ -74,7 +74,7 @@ class OrderLine extends Component
 
     public function __construct()
     {
-        // Résoudre le service via le container Laravel
+        // Resolve the service via the Laravel container
         $this->notificationService = App::make(NotificationService::class);
         $this->deliveryService = App::make(DeliveryService::class);
         $this->deliveryLineService = App::make(DeliveryLineService::class);

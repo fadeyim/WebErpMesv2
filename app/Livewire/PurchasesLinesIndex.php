@@ -7,9 +7,13 @@ use Livewire\WithPagination;
 use App\Models\Admin\Factory;
 use App\Models\Planning\Status;
 use App\Models\Products\Products;
+use App\Models\Purchases\Purchases;
+use Illuminate\Support\Facades\App;
 use App\Models\Methods\MethodsUnits;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Purchases\PurchaseLines;
 use App\Models\Accounting\AccountingVat;
+use App\Services\PurchaseReceiptService;
 
 class PurchasesLinesIndex extends Component
 {
@@ -43,6 +47,15 @@ class PurchasesLinesIndex extends Component
     public $BOMServicesSelect = [];
     public $TechProductList = [];
     public $BOMProductList = [];
+    public $data = [];
+
+    protected $purchaseReceiptService;
+
+    public function __construct()
+    {
+        // Resolve the service via the Laravel container
+        $this->purchaseReceiptService = App::make(PurchaseReceiptService::class);
+    }
 
     // Validation Rules
     protected $rules = [
@@ -197,5 +210,27 @@ class PurchasesLinesIndex extends Component
             'statu'=>$this->statu,
         ])->save();
         session()->flash('success','Line Updated Successfully');
+    }
+
+    public function storeReciep($PurchaseID)
+    {
+        $Purchase = Purchases::findOrFail($PurchaseID);
+        try {
+            // Données du reçu d'achat
+            $receiptData = [
+                'code' => "RC-to-".$Purchase->code,
+                'label' => "RC-to-".$Purchase->code,
+                'companies_id' => $Purchase->companies_id,
+                'user_id' => Auth::id(),
+            ];
+
+            // Appel au service pour la création du reçu
+            $ReceiptCreated = $this->purchaseReceiptService->createPurchaseReceipt($this->data, $receiptData);
+
+            return redirect()->route('purchase.receipts.show', ['id' => $ReceiptCreated->id])
+                ->with('success', 'Successfully created new receipt');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }

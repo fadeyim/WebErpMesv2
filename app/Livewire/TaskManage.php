@@ -419,13 +419,7 @@ class TaskManage extends Component
         $this->methods_units_id = $Line->methods_units_id;
 
                 
-        if($Line->type == 1 Or $Line->type == 2 ) {
-            $this->TaskType = 'TechCut';
-        }
-        else{
-            $this->TaskType = 'BOM';
-        }
-
+        $this->TaskType = in_array($Line->type, [1, 2]) ? 'TechCut' : 'BOM';
         $this->ChangeTaskType();
     }
 

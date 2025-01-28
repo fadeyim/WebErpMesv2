@@ -56,7 +56,7 @@ class TaskStatu extends Component
     
     public function __construct()
     {
-        // Résoudre le service via le container Laravel
+        // Resolve the service via the Laravel container
         $this->notificationService = App::make(NotificationService::class);
         $this->qualityNonConformityService = App::make(QualityNonConformityService::class);
         $this->taskService = App::make(TaskService::class);
@@ -249,7 +249,7 @@ class TaskStatu extends Component
         
         return view('livewire.task-statu', [
             'Task' => $this->Task,
-            'taskActivities' => $this->taskActivities,
+            'taskActivities' => [$this->taskActivities],
             'lastTaskActivities' => $this->lastTaskActivities,
             'StockLocationsProducts' => $this->StockLocationsProducts,
             'ressources' => $ressources,

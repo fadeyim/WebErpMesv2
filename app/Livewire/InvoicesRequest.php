@@ -37,7 +37,7 @@ class InvoicesRequest extends Component
 
     public function __construct()
     {
-        // Résoudre le service via le container Laravel
+        // Resolve the service via the Laravel container
         $this->invoiceLineService = App::make(InvoiceLineService::class);
         $this->invoiceService = App::make(InvoiceService::class);
     }

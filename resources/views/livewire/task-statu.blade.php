@@ -530,11 +530,7 @@
         </div>
       </x-adminlte-card>
 
-      @if($StockLocationsProducts && ($Task->service->type != 1 || $Task->service->type != 7))
-        <x-adminlte-card title="{{ __('general_content.stock_location_product_list_trans_key') }}" theme="primary" maximizable>
-          @include('include.table-stock-locations-products')
-        </x-adminlte-card>
-      @endif
+
     @endif
   @endempty
   

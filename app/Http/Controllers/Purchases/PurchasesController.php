@@ -398,7 +398,7 @@ class PurchasesController extends Controller
 
         $purchaseReceipt->reception_controlled = 1;
         $purchaseReceipt->reception_control_date = now(); 
-        $purchaseReceipt->reception_control_user_id = auth()->user()->id; 
+        $purchaseReceipt->reception_control_user_id = Auth::id(); 
 
         $purchaseReceipt->save();
 
