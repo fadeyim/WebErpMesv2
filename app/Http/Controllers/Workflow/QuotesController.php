@@ -22,13 +22,13 @@ class QuotesController extends Controller
     protected $customFieldService;
 
     public function __construct(
-        SelectDataService $SelectDataService, 
-        QuoteKPIService $quoteKPIService,
-        CustomFieldService $customFieldService
+            SelectDataService $SelectDataService, 
+            QuoteKPIService $quoteKPIService,
+            CustomFieldService $customFieldService
         ){
-        $this->SelectDataService = $SelectDataService;
-        $this->quoteKPIService = $quoteKPIService;
-        $this->customFieldService = $customFieldService;
+            $this->SelectDataService = $SelectDataService;
+            $this->quoteKPIService = $quoteKPIService;
+            $this->customFieldService = $customFieldService;
     }
 
     /**
@@ -42,8 +42,18 @@ class QuotesController extends Controller
         //Quote data for chart
         $data['quoteMonthlyRecap'] = $this->quoteKPIService->getQuoteMonthlyRecap($CurentYear);
         $data['quoteMonthlyRecapPreviousYear'] = $this->quoteKPIService->getQuoteMonthlyRecapPreviousYear($CurentYear);
+        $topCustomers = $this->quoteKPIService->getTopCustomersByQuoteVolume(3);
+        $quotesCountByUser = $this->quoteKPIService->getQuotesCountByUser();
+        $averageAmount =  $this->quoteKPIService->getAverageQuoteAmount();
+        $conversionRate =  $this->quoteKPIService->getQuoteConversionRate();
+        $responseRate =  $this->quoteKPIService->getQuoteResponseRate();
 
-        return view('workflow/quotes-index')->with('data',$data);
+        return view('workflow/quotes-index', compact('data', 
+                                                    'topCustomers', 
+                                                    'quotesCountByUser',
+                                                    'averageAmount', 
+                                                    'conversionRate', 
+                                                    'responseRate'));
     }
 
     /**

@@ -20,12 +20,60 @@
   <div class="tab-content p-3">
     <div class="tab-pane active" id="Dashboard">
       <div class="row">
+        <div class="col-lg-4">
+            <x-adminlte-small-box 
+              title="{{ number_format($averageAmount,2) }} {{ $Factory->curency }}" 
+              text="{{ __('general_content.average_quote_amount') }}" 
+              icon="fas fa-shipping-fast" 
+              theme="success"/>
+        </div>
+        <div class="col-lg-4">
+            <x-adminlte-small-box 
+              title="{{ $conversionRate }} %" 
+              text="{{ __('general_content.quote_conversion_rate') }}" 
+              icon="fas fa-file-invoice-dollar" 
+              theme="info"/>
+        </div>
+        <div class="col-lg-4">
+          <x-adminlte-small-box 
+              title="{{ $responseRate }}%" 
+              text="{{ __('general_content.quote_response_rate') }}" 
+              icon="fas fa-chart-line" 
+              theme="primary"
+              />
+        </div>
+      </div>
+      <div class="row">
         <div class="col-md-3">
           <x-adminlte-card title="{{ __('general_content.statistiques_trans_key') }}" theme="teal" icon="fas fa-chart-bar text-white" collapsible removable maximizable>
             <canvas id="donutChart" width="400" height="400"></canvas>
           </x-adminlte-card>
+
+          <div class="podium">
+            @foreach ($topCustomers as $index => $customer)
+                <div class="podium-place place-{{ $index + 1 }}">
+                    <h3 class="text-center">
+                        @if ($index == 0)
+                            🥇
+                        @elseif ($index == 1)
+                            🥈
+                        @elseif ($index == 2)
+                            🥉
+                        @endif
+                    </h3>
+                    <div class="customer-details text-center">
+                        @if($customer->companie)
+                        <strong>{{ $customer->companie->label }}</strong>
+                        @else
+                        <strong>internal</strong>
+                        @endif
+                        <p>{{ __('general_content.quote_trans_key') }}: {{ $customer->quote_count }}</p> 
+                    </div>
+                </div>
+            @endforeach
+          </div>
         </div>
-        <div class="col-lg-8 col-8">
+        <div class="col-lg-6 col-6">
           <!-- CHART: TOTAL OVERVIEW -->
           <div class="col-lg-12 col-md-12">
             <x-adminlte-card title="{{ __('general_content.monthly_recap_report_trans_key') }}" theme="purple" icon="fas fa-chart-bar text-white" collapsible removable maximizable>
@@ -45,6 +93,36 @@
               <!-- ./card-body -->
             </x-adminlte-card>
           </div>
+        </div>
+        <div class="col-md-3">
+          <x-adminlte-card title="{{ __('general_content.statistiques_trans_key') }}" theme="orange" icon="fas fa-users text-white" collapsible removable maximizable>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>{{ __('general_content.user_trans_key') }}</th>
+                        <th>{{ __('general_content.open_trans_key') }}</th>
+                        <th>{{ __('general_content.send_trans_key') }}</th>
+                        <th>{{ __('general_content.win_trans_key') }}</th>
+                        <th>{{ __('general_content.lost_trans_key') }}</th>
+                        <th>{{ __('general_content.closed_trans_key') }}</th>
+                        <th>{{ __('general_content.obsolete_trans_key') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  @foreach ($quotesCountByUser as $userId => $quotes)
+                  <tr>
+                    <td>{{ $quotes->first()->UserManagement->name ?? 'N/A' }}</td>
+                      @for ($i = 1; $i <= 6; $i++)
+                          <td>
+                              {{ $quotes->where('statu', $i)->sum('total') ?? 0 }}
+                              <!-- Shows 0 if no leads for this user with this status -->
+                          </td>
+                      @endfor
+                  </tr>
+                  @endforeach
+                </tbody>
+            </table>
+          </x-adminlte-card>
         </div>
       </div>
     </div>

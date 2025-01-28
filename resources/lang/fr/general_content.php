@@ -633,6 +633,9 @@ return [
     'order_processing_time_trans_key'          => 'Temps de traitement',
     'niko_niko_team_trans_key'                 => 'Niko Niko - Humeur de l\'équipe aujourd\'hui',
     'no_niko_niko_team_trans_key'              => 'Aucune humeur aujourd\'hui',
+    'average_quote_amount'                     => 'Montant moyen par devis',
+    'quote_conversion_rate'                    => 'Taux de conversion des devis',
+    'quote_response_rate'                      => 'Taux de réponse des devis',
 
     //COMPANIES
     'companies_trans_key'                      => 'Tiers',

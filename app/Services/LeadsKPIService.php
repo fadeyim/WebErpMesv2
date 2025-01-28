@@ -66,8 +66,8 @@ class LeadsKPIService
     public function getLeadsCountByUser()
     {
         return Leads::select('user_id', 'statu', \DB::raw('count(*) as total'))
-                ->with('UserManagement:id,name') // Charge la relation UserManagement avec les champs id et name
-                ->whereIn('statu', [1, 2, 3, 4, 5, 6]) // Statuts allant de 1 à 6
+                ->with('UserManagement:id,name') // Load the UserManagement relationship with the id and name fields
+                ->whereIn('statu', [1, 2, 3, 4, 5, 6]) // Statuses ranging from 1 to 6
                 ->groupBy('user_id', 'statu')
                 ->get()
                 ->groupBy('user_id');

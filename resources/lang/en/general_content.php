@@ -633,6 +633,9 @@ return [
     'order_processing_time_trans_key'          => 'Processing time',
     'niko_niko_team_trans_key'                 => 'Niko Niko - Team Moods Today',
     'no_niko_niko_team_trans_key'              => 'No team mood today',
+    'average_quote_amount'                     => 'Average Quote Amount',
+    'quote_conversion_rate'                    => 'Quote Conversion Rate',
+    'quote_response_rate'                       => 'Quote Response Rate',
     
     //COMPANIES
     'companies_trans_key'                      => 'Third party',

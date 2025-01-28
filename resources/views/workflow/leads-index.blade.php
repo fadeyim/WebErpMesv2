@@ -51,7 +51,7 @@
                       @for ($i = 1; $i <= 5; $i++)
                           <td>
                               {{ $leads->where('statu', $i)->sum('total') ?? 0 }}
-                              <!-- Affiche 0 si aucun lead pour cet utilisateur avec ce statut -->
+                              <!-- Shows 0 if no leads for this user with this status -->
                           </td>
                       @endfor
                   </tr>
