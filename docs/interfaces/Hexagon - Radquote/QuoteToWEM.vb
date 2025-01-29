@@ -86,6 +86,7 @@ Const TaskQty As String = "qty"
 Const TaskUnitCost As String = "unit_cost"
 Const TaskUnitPrice As String = "unit_price"
 Const TaskMethodsUnitsId As String = "methods_units_id"
+Const TaskOrigin As String = "origin"
 
 Dim messages As New Dictionary(Of Integer, String)
 Dim MyCon As New Odbc.OdbcConnection
@@ -173,7 +174,8 @@ Dim CreatePartOperation As Action(Of RadQuote.Business.Operations.Overview.Opera
 																					TaskUnitTime & "," & _
 																					TaskUnitCost & "," & _
 																					TaskUnitPrice & "," & _
-																					TaskMethodsUnitsId & ")" & _
+																					TaskMethodsUnitsId & "," & _
+																					TaskOrigin & ")" & _
 																					" VALUES ('" & _
 																					op.OperationDefinition.Name & "','" & _
 																					op.OperationDefinition.Index & "','" & _
@@ -184,7 +186,8 @@ Dim CreatePartOperation As Action(Of RadQuote.Business.Operations.Overview.Opera
 																					Math.Round(op.FullUnitProductTime/100,2).ToString().Replace(",",".") & "','" & _
 																					Math.Round(op.UnitCost,2).ToString().Replace(",",".") & "','" & _
 																					Math.Round(op.UnitPrice,2).ToString().Replace(",",".") & "','" & _
-																					MethodsUnitId & "')"
+																					MethodsUnitId & "',
+																					'7')"
 																					
 																					
     		Dim operationCommand As New Odbc.OdbcCommand(operationQueryString, MyCon)

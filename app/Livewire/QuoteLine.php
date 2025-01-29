@@ -258,6 +258,7 @@ class QuoteLine extends Component
         foreach ($tasks as $task) {
             $newTask = $task->replicate();
             $newTask->quote_lines_id = $newQuoteLineId;
+            $newTask->origin = "5";
             $newTask->save();
         }
     }
@@ -344,6 +345,7 @@ class QuoteLine extends Component
             $newTask = $task->replicate();
             $newTask->products_id = $newProductId;
             $newTask->quote_lines_id = null;
+            $newTask->origin = "5";
             $newTask->save();
         }
     }
@@ -368,6 +370,7 @@ class QuoteLine extends Component
             $newTask->quote_lines_id = $id;
             $newTask->products_id = null;
             $newTask->status_id = $this->status_id['id'];
+            $newTask->origin = "3";
             $newTask->save();
         }
         $SubAssemblyLine = SubAssembly::where('products_id', $Quoteline->product_id)->get();
@@ -508,6 +511,7 @@ class QuoteLine extends Component
                         $newTask = $Task->replicate();
                         $newTask->order_lines_id = $newOrderline->id;
                         $newTask->quote_lines_id = null;
+                        $newTask->origin = "6";
                         $newTask->save();
 
                         //update info that order line as task

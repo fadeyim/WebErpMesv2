@@ -306,7 +306,8 @@ class TaskManage extends Component
                         'material', 
                         'thickness', 
                         'weight', 
-                        'methods_tools_id'];
+                        'methods_tools_id',
+                        'origin' => "0"];
 
             if ($this->idType == 'nomenclature_lines_id') {
                 $taskData['methods_nomenclature_standard_id'] = $this->nomenclature_lines_id;
@@ -457,6 +458,7 @@ class TaskManage extends Component
         $newTask = $Task->replicate();
         $newTask->ordre = $Task->ordre+1;
         $newTask->label = $Task->label ."#duplicate". $Task->id;
+        $newTask->origin = "5";
         $newTask->save();
     }
     
@@ -586,6 +588,7 @@ class TaskManage extends Component
                 'thickness' => $standardTask->thickness,
                 'weight' => $standardTask->weight,
                 'methods_tools_id' => $standardTask->methods_tools_id,
+                'origin' => "1",
                 // Autres champs nécessaires
             ];
 

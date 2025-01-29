@@ -62,7 +62,8 @@ class Task extends Model
                             'material', 
                             'thickness', 
                             'weight', 
-                            'methods_tools_id'];
+                            'methods_tools_id',
+                            'origin'];
 
     protected $appends = ["open"];
 

@@ -279,6 +279,7 @@ class OrderLine extends Component
         foreach ($tasks as $task) {
             $newTask = $task->replicate();
             $newTask->order_lines_id = $newOrderLineId;
+            $newTask->origin = "5";
             $newTask->save();
         }
     }
@@ -370,6 +371,7 @@ class OrderLine extends Component
             $newTask = $task->replicate();
             $newTask->products_id = $newProductId;
             $newTask->order_lines_id = null;
+            $newTask->origin = "5";
             $newTask->save();
         }
     }
@@ -394,6 +396,7 @@ class OrderLine extends Component
             $newTask->order_lines_id = $id;
             $newTask->products_id = null;
             $newTask->status_id = $this->status_id['id'];
+            $newTask->origin = "3";
             $newTask->save();
         }
         $SubAssemblyLine = SubAssembly::where('products_id', $OrderLine->product_id)->get();
