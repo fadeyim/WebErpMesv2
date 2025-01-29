@@ -145,7 +145,7 @@
               </div>
               <input type="number" class="form-control" name="qty" id="qty" placeholder="Ex: 10" min="1" step=".001">
               <input type="hidden" name="stock_location_products_id" id="stock_location_products_id" value="{{ $StockLocationProduct->id }}">
-              <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
+              <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}">
             </div>
           </div>
           <div class="form-group">
@@ -218,7 +218,7 @@
               </div>
               <input type="number" class="form-control" name="qty" id="qty" placeholder="Ex: 10" min="1" step=".001">
               <input type="hidden" name="stock_location_products_id" id="stock_location_products_id" value="{{ $StockLocationProduct->id }}">
-              <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
+              <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}">
             </div>
           </div>
           <div class="form-group">

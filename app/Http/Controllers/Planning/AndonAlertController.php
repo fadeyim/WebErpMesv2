@@ -33,7 +33,7 @@ class AndonAlertController extends Controller
     public function resolveAlert($id)
     {
         $alert = AndonAlerts::findOrFail($id);
-        $alert->markAsResolved(auth()->id());
+        $alert->markAsResolved(Auth::id());
         
         // Émettre l'événement
         broadcast(new AndonAlertTriggered($alert));
@@ -44,7 +44,7 @@ class AndonAlertController extends Controller
     public function inProgressAlert($id)
     {
         $alert = AndonAlerts::findOrFail($id);
-        $alert->markinProgressAlert(auth()->id());
+        $alert->markinProgressAlert(Auth::id());
         
         // Émettre l'événement
         broadcast(new AndonAlertTriggered($alert));

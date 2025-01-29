@@ -26,6 +26,28 @@ class WorkshopController extends Controller
         return view('workshop/workshop-task-lines');
     }
 
+    /**
+     * Display the status of tasks in the workshop.
+     *
+     * This method calculates and returns various statistics related to tasks in the workshop, 
+     * including the number of tasks in different statuses, the average processing time of tasks, 
+     * user productivity, and resource allocation.
+     *
+     * @param \Illuminate\Http\Request $request The incoming request instance.
+     * 
+     * @return \Illuminate\View\View The view displaying the task status.
+     *
+     * Statistics returned:
+     * - Number of tasks with status 'Open'
+     * - Number of tasks with status 'In Progress'
+     * - Number of tasks with status 'Pending'
+     * - Number of tasks with status 'Supplied'
+     * - Number of tasks with status 'Finished'
+     * - Average processing time of tasks (in seconds)
+     * - User productivity (number of tasks each user has worked on)
+     * - Total number of resources allocated to tasks
+     * - Total hours allocated to each resource
+     */
     public function statu(Request $request)
     {
         // Number of current OFs
@@ -99,6 +121,15 @@ class WorkshopController extends Controller
                                                     ), ['TaskId' => $request->id]);
     }
 
+    /**
+     * Display the stock detail view.
+     *
+     * This method handles the request to display the stock detail view for a specific stock item.
+     * It retrieves the stock item ID from the request and passes it to the view.
+     *
+     * @param \Illuminate\Http\Request $request The HTTP request instance.
+     * @return \Illuminate\View\View The view for the stock detail page.
+     */
     public function stockDetail(Request $request)
     {
         return view('workshop/workshop-stock-detail', ['StockDetailId' => $request->id]);

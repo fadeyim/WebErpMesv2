@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Times;
 
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Models\Times\TimesAbsence;
 use App\Services\SelectDataService;
 use App\Http\Controllers\Controller;

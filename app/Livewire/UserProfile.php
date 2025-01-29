@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserProfile extends Component
@@ -50,7 +51,7 @@ class UserProfile extends Component
 
     public function mount()
     {
-        $this->userId = auth()->user()->id;
+        $this->userId = Auth::id();
         $User = User::find($this->userId);
         $this->name = $User->name;
         $this->email = $User->email;

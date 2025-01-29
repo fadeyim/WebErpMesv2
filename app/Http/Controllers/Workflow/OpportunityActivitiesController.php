@@ -10,7 +10,7 @@ use App\Http\Requests\Workflow\UpdateOpportunityActivityRequest;
 class OpportunityActivitiesController extends Controller
 {
     /**
-     * @param \App\Http\Requests\StoreOpportunityActivityRequest $request
+     * @param \App\Http\Requests\Workflow\StoreOpportunityActivityRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreOpportunityActivityRequest $request)
@@ -20,7 +20,7 @@ class OpportunityActivitiesController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\UpdateOpportunityActivityRequest $request
+     * @param \App\Http\Requests\Workflow\UpdateOpportunityActivityRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateOpportunityActivityRequest $request)

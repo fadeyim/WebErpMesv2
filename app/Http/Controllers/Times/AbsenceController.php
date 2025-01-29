@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Times;
 
-use Illuminate\Http\Request;
 use App\Models\Times\TimesAbsence;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;

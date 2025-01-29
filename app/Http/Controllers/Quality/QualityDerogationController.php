@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Quality;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Services\SelectDataService;
 use App\Models\Quality\QualityDerogation;

@@ -19,7 +19,7 @@ class OrderLinesController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\UpdateOrderLineDetailsRequest $request
+     * @param \App\Http\Requests\Workflow\UpdateOrderLineDetailsRequest $request
      * @param int $idOrder
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -56,6 +56,14 @@ class OrderLinesController extends Controller
         }
     }
 
+    /**
+     * Imports order lines from a CSV file.
+     *
+     * @param int $idOrder The ID of the order to import lines into.
+     * @param \Illuminate\Http\Request $request The HTTP request instance containing the CSV file.
+     * @param \App\Services\ImportCsvService $importCsvService The service responsible for importing CSV data.
+     * @return \Illuminate\Http\RedirectResponse Redirects back to the previous page after import.
+     */
     public function import($idOrder, Request $request, ImportCsvService $importCsvService)
     {   
         $importCsvService->importOrderLines($idOrder, $request);

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Quality;
 
-use Illuminate\Http\Request;
 use App\Models\Quality\QualityCorrection;
 use App\Http\Requests\Quality\UpdateQualityCorrectionRequest;
 use App\Http\Requests\Quality\StoreQualityCorrectionRequest;

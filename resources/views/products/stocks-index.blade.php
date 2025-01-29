@@ -182,7 +182,7 @@
                       <input type="hidden" name="mini_qty" id="mini_qty" value="{{ $InternalOrderRequestsLines->delivered_remaining_qty }}" >
                       <input type="hidden" name="component_price" id="component_price" value="{{ $InternalOrderRequestsLines->selling_price }}" >
                       <input type="hidden" name="order_line_id" id="order_line_id" value="{{ $InternalOrderRequestsLines->id }}" >
-                      <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}" >
+                      <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}" >
                       <div class="form-group">
                         <label for="stock_locations_id">{{ __('general_content.stock_location_list_trans_key') }}</label>
                         <div class="input-group">
@@ -202,7 +202,7 @@
                     </form>
                     <form  method="POST" action="{{ route('products.stockline.entry.from.internal.order') }}" class="form-horizontal">
                       @csrf
-                      <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}" >
+                      <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}" >
                       <input type="hidden" name="qty" id="qty" value="{{ $InternalOrderRequestsLines->delivered_remaining_qty }}" >
                       <input type="hidden" name="order_line_id" id="order_line_id" value="{{ $InternalOrderRequestsLines->id }}" >
                       <input type="hidden" name="component_price" id="component_price" value="{{ $InternalOrderRequestsLines->selling_price }}" >

@@ -57,7 +57,7 @@
             <p class="text-muted">{{ $User->postal_code }} {{ $User->city }} </p>
         </x-adminlte-card>
 
-        @if($User->id != auth()->id() )
+        @if($User->id != Auth::id() )
         <x-adminlte-card title="{{ __('general_content.blocked_unti_trans_key') }}" theme="warning" maximizable>
             <form method="POST" action="{{ route('human.resources.lock.user', ['id' => $User->id]) }}" enctype="multipart/form-data">
                 @csrf

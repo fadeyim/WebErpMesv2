@@ -19,7 +19,7 @@ class QuoteLinesController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\UpdateQuoteLineDetailsRequest $request
+     * @param \App\Http\Requests\Workflow\UpdateQuoteLineDetailsRequest $request
      * @param int $idQuote
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -56,6 +56,14 @@ class QuoteLinesController extends Controller
         }
     }
 
+    /**
+     * Imports quote lines from a CSV file.
+     *
+     * @param int $idQuote The ID of the quote to import lines into.
+     * @param \Illuminate\Http\Request $request The HTTP request object containing the CSV file.
+     * @param \App\Services\ImportCsvService $importCsvService The service used to import quote lines from the CSV file.
+     * @return \Illuminate\Http\RedirectResponse A redirect response back to the previous page.
+     */
     public function import($idQuote, Request $request, ImportCsvService $importCsvService)
     {   
         $importCsvService->importQuoteLines($idQuote, $request);

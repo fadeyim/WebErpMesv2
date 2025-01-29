@@ -56,6 +56,13 @@ class GuestController extends Controller
         ]);
     }
 
+    /**
+     * Logs the visit information to the database.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $quoteId
+     * @return void
+     */
     private function logVisit(Request $request, $quoteId)
     {
         // Save information to the log table

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Products;
 
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Models\Planning\Task;
 use App\Models\Products\Stocks;
 use App\Events\OrderLineUpdated;

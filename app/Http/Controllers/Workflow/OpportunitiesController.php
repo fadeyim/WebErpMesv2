@@ -67,26 +67,56 @@ class OpportunitiesController extends Controller
         ))->with('data', $data);
     }
 
+    /**
+     * Load the relations for the given opportunity.
+     *
+     * @param Opportunities $opportunity
+     * @return Opportunities
+     */
     private function loadOpportunityRelations(Opportunities $opportunity)
     {
         return $opportunity->load('lead', 'activities', 'events', 'quotes');
     }
 
+    /**
+     * Get the activities logs for the given opportunity.
+     *
+     * @param int $opportunityId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     private function getActivities($opportunityId)
     {
         return OpportunitiesActivitiesLogs::where('opportunities_id', $opportunityId)->orderBy('id')->get();
     }
 
+    /**
+     * Get the events logs for the given opportunity.
+     *
+     * @param int $opportunityId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     private function getEvents($opportunityId)
     {
         return OpportunitiesEventsLogs::where('opportunities_id', $opportunityId)->orderBy('id')->get();
     }
 
+    /**
+     * Get the first factory record.
+     *
+     * @return Factory
+     */
     private function getFactory()
     {
         return Factory::first();
     }
     
+    /**
+     * Organize timeline data for the given opportunity.
+     *
+     * @param Opportunities $opportunity
+     * @param $factory
+     * @return array
+     */
     private function organizeTimelineData(Opportunities $opportunity, $factory)
     {
         $timelineData = [];

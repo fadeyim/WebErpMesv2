@@ -192,7 +192,7 @@
                                             <form method="POST" action="{{ route('times.absence.update', ['id' => $TimesAbsence->id] ) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="card-body">
-                                                    <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
+                                                    <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}">
                                                     <div class="form-group">
                                                         <label for="absence_type">{{ __('general_content.absence_type_trans_key') }}</label>
                                                         <select class="form-control" name="absence_type" id="absence_type">
@@ -258,7 +258,7 @@
                                         <option value="3">{{ __('general_content.2_half_day_absence_trans_key') }}</option>
                                         <option value="4">{{ __('general_content.absence_in_hours_trans_key') }}</option>
                                     </select>
-                                    <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
+                                    <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="absence_type_day">{{ __('general_content.absence_type_day_trans_key') }}</label>

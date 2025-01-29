@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Times;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Times\TimesMachineEvent;
 use App\Http\Requests\Times\StoreMachineEventRequest;

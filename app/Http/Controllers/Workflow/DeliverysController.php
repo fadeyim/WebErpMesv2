@@ -93,6 +93,13 @@ class DeliverysController extends Controller
         return redirect()->route('deliverys.show', ['id' =>  $Delivery->id])->with('success', 'Successfully updated Delivery');
     }
 
+    /**
+     * Store a newly created packaging in storage.
+     *
+     * @param StorePackagingRequest $request
+     * @param Deliverys $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function packagingsStore(StorePackagingRequest $request, Deliverys $id)
     {
         // Création et sauvegarde du packaging
@@ -113,11 +120,11 @@ class DeliverysController extends Controller
                 'load_comment',
             ]) + [
                 'user_id' => Auth::id(),
-                ] 
+            ]
         );
 
         // Redirection avec un message de succès
-        return redirect()->route('deliverys.show', ['id' =>  $id->id])->with('success', 'Successfully add packaging');
+        return redirect()->route('deliverys.show', ['id' => $id->id])->with('success', 'Successfully add packaging');
     }
 
     public function packagingsUpdate(UpdatePackagingRequest $request, Deliverys $id)

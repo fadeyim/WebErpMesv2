@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Quality;
 
-use Illuminate\Http\Request;
 use App\Models\Quality\QualityControlDevice;
 use App\Http\Requests\Quality\StoreQualityControlDeviceRequest;
 use App\Http\Requests\Quality\UpdateQualityControlDeviceRequest;

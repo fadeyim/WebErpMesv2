@@ -11,6 +11,7 @@ use App\Models\Products\StockMove;
 use App\Models\Workflow\Deliverys;
 use App\Models\Companies\Companies;
 use App\Models\Purchases\Purchases;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Workflow\Opportunities;
 use App\Http\Requests\StoreFileRequest;
 use App\Models\Purchases\PurchaseReceipt;
@@ -46,7 +47,7 @@ class FileUpload extends Controller
      */
     private function handleFileUpload(StoreFileRequest $request, string $directory, bool $asPhoto = false)
     {
-        $fileName = auth()->id() . '_' . time() . '.' . $request->file->extension();
+        $fileName = Auth::id() . '_' . time() . '.' . $request->file->extension();
         $originalFileName = $request->file->getClientOriginalName();
         $type = $request->file->getClientMimeType();
         $size = $request->file->getSize();
@@ -54,7 +55,7 @@ class FileUpload extends Controller
         $request->file->move(public_path($directory), $fileName);
 
         $fileData = [
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'name' => $fileName,
             'original_file_name' => $originalFileName,
             'type' => $type,

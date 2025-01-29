@@ -11,6 +11,7 @@ use App\Traits\NextPreviousTrait;
 use App\Services\SelectDataService;
 use App\Http\Controllers\Controller;
 use App\Models\Planning\SubAssembly;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Purchases\PurchaseLines;
 use App\Services\StockCalculationService;
 use App\Services\ABC_MFR_CalculatorService;
@@ -179,7 +180,7 @@ class ProductsController extends Controller
         if ($request->hasFile($fileKey)) {
             $Product = Products::findOrFail($request->id);
             $file = $request->file($fileKey);
-            $fileName = auth()->id() . '_' . time() . '.' . $fileExtension;
+            $fileName = Auth::id() . '_' . time() . '.' . $fileExtension;
             $file->move(public_path($filePath), $fileName);
             $Product->update([$dbColumn => $fileName]);
             $Product->save();

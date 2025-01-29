@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Quality;
 
-use Illuminate\Http\Request;
 use App\Models\Quality\QualityFailure;
 use App\Http\Requests\Quality\StoreQualityFailureRequest;
 use App\Http\Requests\Quality\UpdateQualityFailureRequest;

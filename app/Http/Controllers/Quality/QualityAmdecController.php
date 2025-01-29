@@ -17,7 +17,6 @@ class QualityAmdecController extends Controller
         $this->SelectDataService = $SelectDataService;
     }
     
-    
     /**
      * @return \Illuminate\Contracts\View\View
      */

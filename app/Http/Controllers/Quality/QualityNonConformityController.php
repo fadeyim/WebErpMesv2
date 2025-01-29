@@ -97,6 +97,15 @@ class QualityNonConformityController extends Controller
         return redirect()->route('quality.nonConformitie')->with('success', 'Successfully updated non conformitie.');
     }
 
+    /**
+     * Close the resolution date for a specific non-conformity.
+     *
+     * This method finds a non-conformity by its ID, sets the resolution date to the current date and time,
+     * updates the status to 3, and saves the changes. If successful, it redirects back with a success message.
+     *
+     * @param int $id The ID of the non-conformity to be updated.
+     * @return \Illuminate\Http\RedirectResponse Redirects back with a success message upon successful update.
+     */
     public function closeResolutionDate($id)
     {
         $nonConformity = QualityNonConformity::findOrFail($id);
@@ -110,6 +119,16 @@ class QualityNonConformityController extends Controller
         }
     }
 
+    /**
+     * Reopen the resolution date of a non-conformity.
+     *
+     * This method sets the resolution date of the specified non-conformity to null
+     * and updates its status to 1, indicating that it has been reopened. After
+     * saving the changes, it redirects back to the previous page with a success message.
+     *
+     * @param int $id The ID of the non-conformity to be reopened.
+     * @return \Illuminate\Http\RedirectResponse Redirects back with a success message.
+     */
     public function reopenResolutionDate($id)
     {
         $nonConformity = QualityNonConformity::findOrFail($id);
