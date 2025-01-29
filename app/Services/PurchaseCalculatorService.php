@@ -19,6 +19,14 @@ class PurchaseCalculatorService
         $this->purchase = $purchase;
     }
 
+    /**
+     * Calculate the total VAT for the purchase lines.
+     *
+     * This function iterates through the purchase lines and calculates the VAT for each line.
+     * It then aggregates the VAT amounts by their respective VAT rates.
+     *
+     * @return array An associative array where the keys are the VAT IDs and the values are arrays containing the VAT rate and the total VAT amount for that rate.
+     */
     public function getVatTotal()
     {
         $tableauTVA = array();
@@ -41,6 +49,16 @@ class PurchaseCalculatorService
         return $tableauTVA;
     }
 
+    /**
+     * Calculate the total price of all purchase lines including VAT and discounts.
+     *
+     * This method iterates through each purchase line, calculates the line total 
+     * price by considering the quantity, selling price, and discount. It also 
+     * calculates the VAT for each line if applicable and adds it to the line total.
+     * The sum of all line totals including VAT is returned as the total price.
+     *
+     * @return float The total price of all purchase lines including VAT and discounts.
+     */
     public function getTotalPrice()
     {
         $TotalPrice = 0;
@@ -59,6 +77,15 @@ class PurchaseCalculatorService
         return $TotalPrice;
     }
 
+    /**
+     * Calculate the subtotal for the purchase.
+     *
+     * This method iterates through all purchase lines associated with the purchase
+     * and calculates the subtotal by summing up the product of quantity and selling price
+     * for each purchase line, adjusted for any discounts.
+     *
+     * @return float The calculated subtotal for the purchase.
+     */
     public function getSubTotal()
     {
         $SubTotal = 0;

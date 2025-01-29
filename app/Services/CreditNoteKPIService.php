@@ -19,6 +19,17 @@ class CreditNoteKPIService
                     ->get();
     }
 
+    /**
+     * Get a monthly recap of credit notes for a given year.
+     *
+     * This function retrieves the monthly summary of credit notes for the specified year.
+     * It joins the `credit_note_lines` table with the `order_lines` table to calculate
+     * the total sum of credit notes for each month, considering the selling price, quantity,
+     * and discount of the order lines.
+     *
+     * @param int $year The year for which to retrieve the credit notes monthly recap.
+     * @return \Illuminate\Support\Collection A collection of objects containing the month and the total sum of credit notes for that month.
+     */
     public function getCreditNotesMonthlyRecap($year)
     {
         return DB::table('credit_note_lines')

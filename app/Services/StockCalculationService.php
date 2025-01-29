@@ -14,13 +14,18 @@ class StockCalculationService
     }
 
     /**
-     * Calcul du prix pondéré moyen d'un produit dans un emplacement de stock.
+     * Calculate the weighted average cost of a product in a stock location.
+     *
+     * This function calculates the weighted average cost of a product based on its stock movements
+     * in a specific stock location. It considers only the input movements (types 1, 3, 5, and 12)
+     * to compute the total quantity and total value, and then calculates the average cost.
+     *
+     * @param int $stockLocationProductId The ID of the stock location product.
+     * @return float The weighted average cost of the product. Returns 0 if there is no quantity.
      */
     public function calculateWeightedAverageCost($stockLocationProductId)
     {
         $stockLocationProduct = StockLocationProducts::find($stockLocationProductId);
-
-        // Récupérer tous les mouvements de stock pour ce produit dans l'emplacement
         $stockMoves = $stockLocationProduct->StockMove;
 
         $totalQuantity = 0;

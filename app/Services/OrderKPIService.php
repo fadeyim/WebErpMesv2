@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Cache;
 class OrderKPIService
 {
 
-        /**
+    /**
     * Calculates the percentage of orders fully delivered for the current year.
     *
     * An order is considered fully delivered if the delivered quantity (`delivered_qty`)
@@ -38,7 +38,7 @@ class OrderKPIService
         });
     }
 
-        /**
+    /**
     * Calculates the percentage of orders that are fully invoiced for the current year.
     *
     * An order is considered fully invoiced if all of its order lines
@@ -85,7 +85,7 @@ class OrderKPIService
         });
     }
 
-        /**
+    /**
     * Retrieve all orders that have quantities still to be delivered for the current year.
     *
     * An order is considered to have a pending delivery if statu != 3
@@ -132,7 +132,7 @@ class OrderKPIService
         });
     }
 
-        /**
+    /**
      * Retrieves the monthly summary of order for the last year.
      *
      * @return \Illuminate\Support\Collection
@@ -178,7 +178,7 @@ class OrderKPIService
         });
     }
 
-        /**
+    /**
      * Retrieves the monthly summary of order for the current month.
      *
      * @return \Illuminate\Support\Collection

@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Services\TaskService;
 use App\Models\Workflow\InvoiceLines;
-use App\Models\Accounting\AccountingAllocation;
 
 class InvoiceLineService
 {
@@ -17,6 +16,21 @@ class InvoiceLineService
         $this->accountingEntryService = $accountingEntryService;
     }
 
+    /**
+     * Create an invoice line and associated accounting entry.
+     *
+     * This method creates a new invoice line with the provided details and 
+     * generates an associated accounting entry if the allocation ID is not null.
+     * If the delivery ID is null, it updates related tasks as well.
+     *
+     * @param object $invoiceCreated The created invoice object.
+     * @param int $key The order line ID.
+     * @param int|null $deliveryId The delivery line ID, or null if not applicable.
+     * @param int $ordre The order of the invoice line.
+     * @param float $qty The quantity for the invoice line.
+     * @param int $VatID The VAT ID for the invoice line.
+     * @return \App\Models\Workflow\InvoiceLines The created invoice line.
+     */
     public function createInvoiceLine($invoiceCreated, $key, $deliveryId, $ordre, $qty , $VatID)
     {
 

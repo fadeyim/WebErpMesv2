@@ -13,6 +13,17 @@ use App\Models\Planning\TaskActivities;
 
 class TaskService
 {
+    /**
+     * Close tasks associated with a specific order line.
+     *
+     * This function retrieves the status ID for the "Finished" status and updates
+     * the status of all tasks associated with the given order line ID to "Finished".
+     * It also records a task activity for each task and dispatches an event to notify
+     * about the status change.
+     *
+     * @param int $orderLineId The ID of the order line whose tasks need to be closed.
+     * @return void
+     */
     public function closeTasks($orderLineId)
     {
         // Récupérer l'ID du statut "Finished"
@@ -34,6 +45,15 @@ class TaskService
         }
     }
 
+    /**
+     * Records a task activity and broadcasts an event.
+     *
+     * @param int $taskId The ID of the task.
+     * @param string $type The type of activity.
+     * @param int $goodQty The quantity of good items.
+     * @param int $addBadQt The quantity of bad items.
+     * @return void
+     */
     public function recordTaskActivity($taskId, $type, $goodQty, $addBadQt)
     {
         $taskActivity = TaskActivities::create([

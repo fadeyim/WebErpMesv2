@@ -7,6 +7,19 @@ use Illuminate\Support\Facades\DB;
 
 class ABC_MFR_CalculatorService
 {
+    /**
+     * Calculate ABC and FMR analysis for a given product.
+     *
+     * This function performs the following steps:
+     * 1. Collects sales data for the specified product.
+     * 2. Calculates the ABC analysis based on the total value of sales.
+     * 3. Categorizes products into A, B, and C categories based on their total sales value.
+     * 4. Calculates the FMR analysis based on product usage frequency and movement.
+     * 5. Integrates the ABC and FMR data to determine the final category for each product.
+     *
+     * @param int|null $productId The ID of the product to analyze. If null, all products are analyzed.
+     * @return \Illuminate\Support\Collection A collection of products with their ABC and FMR categories.
+     */
     public function calculateABC_FMR($productId = null)
     {
         

@@ -21,6 +21,14 @@ class CreditNoteCalculatorService
         $this->creditNotes = $creditNotes;
     }
 
+    /**
+     * Calculate the total VAT for the credit notes.
+     *
+     * This function iterates through the credit note lines and calculates the total VAT for each line.
+     * It then aggregates the VAT totals by accounting VAT ID and returns an array with the VAT rate and total VAT amount.
+     *
+     * @return array An associative array where the key is the accounting VAT ID and the value is an array containing the VAT rate and the total VAT amount.
+     */
     public function getVatTotal()
     {
         $tableauTVA = array();
@@ -40,6 +48,15 @@ class CreditNoteCalculatorService
     }
 
 
+    /**
+     * Calculate the total price of all credit note lines including VAT and discount.
+     *
+     * This method iterates through each credit note line, calculates the line total 
+     * by considering the quantity, selling price, and discount. It then adds the VAT 
+     * to the line total and accumulates the total price.
+     *
+     * @return float The total price of all credit note lines including VAT and discount.
+     */
     public function getTotalPrice()
     {
         $TotalPrice = 0;
@@ -53,10 +70,18 @@ class CreditNoteCalculatorService
             
         }
         
-        
         return $TotalPrice;
     }
 
+    /**
+     * Calculate the subtotal for the credit notes.
+     *
+     * This method iterates through the credit note lines and calculates the subtotal
+     * by summing up the product of quantity and selling price for each line, 
+     * adjusted for any discounts.
+     *
+     * @return float The calculated subtotal for the credit notes.
+     */
     public function getSubTotal()
     {
         $SubTotal = 0;

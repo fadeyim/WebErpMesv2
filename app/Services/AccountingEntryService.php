@@ -74,7 +74,7 @@ class AccountingEntryService
         return $this->createEntry('ACHAT', 'Journal des Achats', $PurchaseInvoiceLine->purchaseInvoice, $PurchaseInvoiceLine, $PurchaseInvoiceLine->purchaseLines->total, 0, $PurchaseInvoiceLine->purchaseLines->label );
     }
     /**
-     * Obtenir le prochain numéro de séquence pour le journal comptable
+     * Get next sequence number for accounting journal
      *
      * @return int
      */

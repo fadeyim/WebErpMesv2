@@ -20,6 +20,17 @@ class DeliveryKPIService
                 ->get();
     }
 
+    /**
+     * Get the monthly recap of deliveries for a given year.
+     *
+     * This function retrieves the monthly summary of deliveries for the specified year.
+     * It calculates the total order sum for each month by joining the `delivery_lines`
+     * and `order_lines` tables, and applying the necessary calculations for the order sum.
+     * The result is cached for 1 hour to improve performance.
+     *
+     * @param int $year The year for which to retrieve the delivery monthly recap.
+     * @return \Illuminate\Support\Collection The collection containing the monthly recap of deliveries.
+     */
     public function getDeliveryMonthlyRecap($year)
     {
         $cacheKey = 'delivery_monthly_recap_' . now()->year;
@@ -36,6 +47,16 @@ class DeliveryKPIService
         });
     }
 
+    /**
+     * Get the monthly delivery progress.
+     *
+     * This method retrieves the total sum of delivered orders for a given month and year.
+     * The result is cached for one hour to improve performance.
+     *
+     * @param int $month The month for which to retrieve the delivery progress.
+     * @param int $year The year for which to retrieve the delivery progress.
+     * @return object An object containing the total sum of delivered orders (orderSum).
+     */
     public function getDeliveryMonthlyProgress($month ,$year)
     {
         $cacheKey = 'delivery_monthly_progress_' . now()->year;

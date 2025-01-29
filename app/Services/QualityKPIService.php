@@ -15,6 +15,20 @@ use App\Models\Quality\QualityNonConformity;
 
 class QualityKPIService
 {
+    /**
+     * Get general statistics for quality KPIs.
+     *
+     * This function retrieves the total number of entries and the number of open entries
+     * for each of the following categories: Derogations, Non-Conformities, and Actions.
+     *
+     * @return array An associative array containing:
+     *               - 'totalDerogations': Total number of derogations.
+     *               - 'totalDerogationsOpen': Total number of open derogations.
+     *               - 'totalNonConformities': Total number of non-conformities.
+     *               - 'totalNonConformitiesOpen': Total number of open non-conformities.
+     *               - 'totalActions': Total number of actions.
+     *               - 'totalActionsOpen': Total number of open actions.
+     */
     public function getGeneralStatistics()
     {
         // Total number of entries for each category
@@ -28,6 +42,20 @@ class QualityKPIService
         return compact('totalDerogations', 'totalDerogationsOpen', 'totalNonConformities', 'totalNonConformitiesOpen', 'totalActions', 'totalActionsOpen');
     }
 
+    /**
+     * Calculate and return the internal and external rates for derogations, non-conformities, and actions.
+     *
+     * This function calculates the internal rates as a percentage for each category (derogations, non-conformities, and actions)
+     * based on the number of internal entries. It also calculates the external rates as the complement to 100% of the internal rates.
+     *
+     * @return array An associative array containing:
+     *               - 'internalDerogationRate': The internal derogation rate as a percentage.
+     *               - 'externalDerogationRate': The external derogation rate as a percentage.
+     *               - 'internalNonConformityRate': The internal non-conformity rate as a percentage.
+     *               - 'externalNonConformityRate': The external non-conformity rate as a percentage.
+     *               - 'internalActionRate': The internal action rate as a percentage.
+     *               - 'externalActionRate': The external action rate as a percentage.
+     */
     public function getInternalExternalRates()
     {
         // Number of internal entries for each category
@@ -51,6 +79,17 @@ class QualityKPIService
         return compact('internalDerogationRate', 'externalDerogationRate', 'internalNonConformityRate', 'externalNonConformityRate', 'internalActionRate', 'externalActionRate');
     }
 
+    /**
+     * Retrieve the top 7 companies generating the most non-conformities and prepare data for a chart.
+     *
+     * This function performs the following steps:
+     * 1. Queries the `QualityNonConformity` model to get the top 7 companies with the highest count of non-conformities.
+     * 2. Retrieves the names of these companies using their IDs from the `Companies` model.
+     * 3. Defines a default set of colors for the chart.
+     * 4. Prepares the data structure required for rendering a chart, including labels, data points, and colors.
+     *
+     * @return array The chart data including labels, datasets, and other configurations.
+     */
     public function getTopGenerators()
     {
         // Query to obtain the 10 largest generators of non-conformities
@@ -92,6 +131,19 @@ class QualityKPIService
         return $chartData;
     }
 
+    /**
+     * Get the counts of different statuses for Quality Derogation, Non-Conformity, and Action.
+     *
+     * This method retrieves the counts of records grouped by their status for three different models:
+     * QualityDerogation, QualityNonConformity, and QualityAction. It ensures that all possible statuses
+     * (defined in $allStatus) are accounted for, even if there are no records for a particular status.
+     * The counts are returned in an associative array with the status as the key and the count as the value.
+     *
+     * @return array An associative array containing the counts of statuses for each model:
+     *               - 'derogationStatusCounts': array with counts of statuses for QualityDerogation
+     *               - 'nonConformityStatusCounts': array with counts of statuses for QualityNonConformity
+     *               - 'actionStatusCounts': array with counts of statuses for QualityAction
+     */
     public function getStatusCounts()
     {
         $allStatus = [1, 2, 3, 4];
@@ -125,6 +177,14 @@ class QualityKPIService
         return compact('derogationStatusCounts', 'nonConformityStatusCounts', 'actionStatusCounts');
     }
 
+    /**
+     * Calculate the litigation rate for order lines.
+     *
+     * This function calculates the litigation rate by determining the ratio of disputed order lines
+     * to the total number of order lines, and then converting that ratio to a percentage.
+     *
+     * @return float The litigation rate as a percentage, rounded to two decimal places.
+     */
     public function GetCalculateLitigationRate()
     {
         // Calculate the total number of order lines
@@ -140,6 +200,7 @@ class QualityKPIService
         // Return the result
         return round($litigationRate,2);
     }
+    
     /*
      * Calculates the average resolution time for non-conformities.
     *

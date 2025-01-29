@@ -6,14 +6,23 @@ use App\Models\Workflow\Orders;
 
 class OrderBusinessBalanceService
 {
+    /**
+     * Get the business balance for the given order.
+     *
+     * This function calculates the total hours, total cost, total price, realized hours,
+     * realized cost, difference in hours, and difference in cost for each service in the order.
+     *
+     * @param Orders $order The order object containing order lines and tasks.
+     * @return array The business balance details for each service.
+     */
     public function getBusinessBalance($order)
     {
-        $orderLines = $order->orderLines; // Récupère toutes les lignes de commande
+        $orderLines = $order->orderLines; // Retrieve all order lines
         $businessBalance = [];
 
         foreach ($orderLines as $line) {
             
-            $tasks = $line->task; // Collection de tâches
+            $tasks = $line->task; // Collection of tasks
 
             foreach ($tasks as $task) {
                 $service = $task->service;
@@ -48,6 +57,22 @@ class OrderBusinessBalanceService
         return $businessBalance;
     }
 
+    /**
+     * Calculate and return the total business balance for a given order.
+     *
+     * This method aggregates various totals from the business balance details
+     * of the provided order. The totals include:
+     * - total_hours: Sum of all total hours.
+     * - total_cost: Sum of all total costs.
+     * - total_price: Sum of all total prices.
+     * - realized_hours: Sum of all realized hours.
+     * - realized_cost: Sum of all realized costs.
+     * - difference_hours: Sum of all difference hours.
+     * - difference_cost: Sum of all difference costs.
+     *
+     * @param array $order The order data for which the business balance is calculated.
+     * @return array An associative array containing the aggregated totals.
+     */
     public function getBusinessBalanceTotals($order)
     {
         $businessBalance = $this->getBusinessBalance($order);

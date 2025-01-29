@@ -8,7 +8,6 @@ use App\Models\Purchases\PurchaseLines;
 use App\Models\Planning\Status;
 use App\Models\Planning\Task;
 use App\Events\PurchaseReceiptCreated;
-
 class PurchaseReceiptService
 {
     protected $taskService;
@@ -18,6 +17,24 @@ class PurchaseReceiptService
         $this->taskService = $taskService;
     }
 
+    /**
+     * Create a purchase receipt with the provided data and receipt data.
+     *
+     * This function performs the following steps:
+     * 1. Checks if there are any purchase lines in the provided data.
+     * 2. Retrieves the "Finished" status from the Status model.
+     * 3. Creates a purchase receipt using the provided receipt data.
+     * 4. Iterates through the purchase lines and creates corresponding receipt lines.
+     * 5. Updates the received quantity in the purchase lines.
+     * 6. Updates the status of the associated tasks to "Finished".
+     * 7. Records the task activity.
+     * 8. Emits an event to update the purchase status.
+     *
+     * @param array $data The data containing purchase lines.
+     * @param array $receiptData The data for creating the purchase receipt.
+     * @return \App\Models\\Purchases\PurchaseReceipt The created purchase receipt.
+     * @throws \Exception If no purchase lines are selected or if the "Finished" status is not found.
+     */
     public function createPurchaseReceipt($data, $receiptData)
     {
         // Vérifier si des lignes existent

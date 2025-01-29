@@ -5,7 +5,6 @@ namespace App\Services;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Models\Companies\Companies;
-use App\Models\Purchases\Purchases;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Purchases\PurchaseLines;
 use App\Models\Purchases\PurchaseReceiptLines;
@@ -13,6 +12,15 @@ use App\Models\Purchases\PurchaseReceiptLines;
 class PurchaseKPIService
 {
 
+    /**
+     * Retrieve the purchase quotation data rate.
+     *
+     * This function queries the 'purchases_quotations' table, selects the 'statu' column,
+     * and counts the number of occurrences for each 'statu' value. The results are grouped
+     * by the 'statu' column and returned as a collection.
+     *
+     * @return \Illuminate\Support\Collection The collection of purchase quotation data rates.
+     */
     public function getPurchaseQuotationDataRate()
     {
         return DB::table('purchases_quotations')
@@ -21,6 +29,15 @@ class PurchaseKPIService
                     ->get();
     }
     
+    /**
+     * Retrieve the purchase data rate grouped by status.
+     *
+     * This function queries the 'purchases' table and selects the status ('statu')
+     * and the count of purchases for each status. The results are grouped by the
+     * status and returned as a collection.
+     *
+     * @return \Illuminate\Support\Collection The collection of purchase data rates.
+     */
     public function getPurchasesDataRate()
     {
         return DB::table('purchases')
@@ -29,6 +46,15 @@ class PurchaseKPIService
             ->get();
     }
 
+    /**
+     * Get the monthly recap of purchases for the current year.
+     *
+     * This function retrieves the monthly summary of purchases for the current year.
+     * It uses caching to store the results for one hour to improve performance.
+     * The data is fetched from the 'purchase_lines', 'tasks', and 'order_lines' tables.
+     *
+     * @return \Illuminate\Support\Collection The monthly recap of purchases, including the month and the total purchase sum.
+     */
     public function getPurchaseMonthlyRecap()
     {
         $currentYear = Carbon::now()->format('Y');
@@ -47,6 +73,14 @@ class PurchaseKPIService
         });
     }
 
+    /**
+     * Retrieve the top 5 rated suppliers.
+     *
+     * This method fetches suppliers with a status of 2 (active suppliers) and calculates their average rating.
+     * It returns the top 5 suppliers based on their average rating, only including those with at least one rating.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function getTopRatedSuppliers()
     {
         return Companies::where('statu_supplier', 2)
@@ -61,6 +95,17 @@ class PurchaseKPIService
             ->get();
     }
 
+    /**
+     * Get the average reception delay by supplier.
+     *
+     * This function calculates the average delay between the creation of purchase lines
+     * and the creation of purchase receipt lines for each supplier. It joins the 
+     * purchase receipt lines, purchase lines, purchases, and companies tables to 
+     * retrieve the necessary data. The result is grouped by supplier name and 
+     * includes the average reception delay for each supplier.
+     *
+     * @return \Illuminate\Support\Collection A collection of suppliers with their average reception delay, sorted by the delay.
+     */
     public function getAverageReceptionDelayBySupplier()
     {
         $averageReceptionDelayBySupplier = PurchaseReceiptLines::join('purchase_lines', 'purchase_receipt_lines.purchase_line_id', '=', 'purchase_lines.id')
@@ -73,6 +118,16 @@ class PurchaseKPIService
         return $averageReceptionDelayBySupplier->sortBy('avg_reception_delay');
     }
 
+    /**
+     * Retrieve the top 5 products based on the total quantity purchased.
+     *
+     * This function selects the product label and product ID from the purchase lines,
+     * joins the products table to get the product details, groups the results by product ID
+     * and product label, orders the results by the total quantity in descending order,
+     * and limits the results to the top 5 products.
+     *
+     * @return \Illuminate\Support\Collection The collection of top 5 products with their labels, IDs, and total quantities.
+     */
     public function getTopProducts()
     {
         return PurchaseLines::select('products.label', 'purchase_lines.product_id', DB::raw('SUM(purchase_lines.qty) as total_quantity'))
@@ -83,16 +138,42 @@ class PurchaseKPIService
             ->get();
     }
 
+    /**
+     * Get the total purchase amount.
+     *
+     * This function calculates the sum of the 'total_selling_price' column
+     * from the PurchaseLines model.
+     *
+     * @return float The total purchase amount.
+     */
     public function getTotalPurchaseAmount()
     {
         return PurchaseLines::sum('total_selling_price');
     }
 
+    /**
+     * Get the total count of purchase lines.
+     *
+     * This method retrieves the total number of purchase lines
+     * from the database using the PurchaseLines model.
+     *
+     * @return int The total count of purchase lines.
+     */
     public function getTotalPurchaseCount()
     {
         return PurchaseLines::count();
     }
 
+    /**
+     * Calculate the average purchase amount.
+     *
+     * This method retrieves the total purchase count and the total purchase amount,
+     * then calculates the average purchase amount by dividing the total purchase amount
+     * by the total purchase count. If the total purchase count is zero, it returns 0
+     * to avoid division by zero.
+     *
+     * @return float The average purchase amount or 0 if there are no purchases.
+     */
     public function getAverageAmount()
     {
         $totalPurchaseCount = $this->getTotalPurchaseCount();
@@ -101,6 +182,14 @@ class PurchaseKPIService
         return $totalPurchaseCount > 0 ? $totalPurchaseAmount / $totalPurchaseCount : 0;
     }
 
+    /**
+     * Retrieve the count of purchase receipts grouped by their status.
+     *
+     * This function queries the 'purchase_receipts' table and returns the count
+     * of receipts for each status. The result is grouped by the 'statu' column.
+     *
+     * @return \Illuminate\Support\Collection The collection of purchase receipt counts grouped by status.
+     */
     public function getPurchaseReciepCountDataRate()
     {
         return DB::table('purchase_receipts')
@@ -109,6 +198,15 @@ class PurchaseKPIService
                     ->get();
     }
 
+    /**
+     * Retrieve the purchase invoice data rate.
+     *
+     * This function queries the 'purchase_invoices' table and returns the count of purchase invoices
+     * grouped by their status ('statu'). The result is a collection of objects where each object contains
+     * the status and the count of purchase invoices for that status.
+     *
+     * @return \Illuminate\Support\Collection A collection of objects with 'statu' and 'PurchaseInvoiceCountRate' properties.
+     */
     public function getPurchaseInvoiceDataRate()
     {
         return DB::table('purchase_invoices')
@@ -117,6 +215,17 @@ class PurchaseKPIService
                     ->get();
     }
 
+    /**
+     * Get the monthly recap of purchase invoices for the current year.
+     *
+     * This function retrieves data from the 'purchase_invoice_lines', 'purchase_lines', 'tasks', 
+     * and 'order_lines' tables to calculate the monthly sum of purchases for the current year.
+     * The sum is calculated as the total selling price of order lines minus any discounts applied.
+     *
+     * @return \Illuminate\Support\Collection A collection of objects where each object contains:
+     * - month: The month of the purchase invoice.
+     * - purchaseSum: The total sum of purchases for that month.
+     */
     public function getPurchaseInvoiceMonthlyRecap()
     {
         $CurentYear = Carbon::now()->format('Y');

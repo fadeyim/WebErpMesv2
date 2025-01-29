@@ -50,7 +50,14 @@ class TaskKPIService
         })->count();
     }
 
-    // Calculation of average task processing time
+    /**
+     * Get the average processing time for tasks with an end date.
+     *
+     * This method calculates the average processing time for tasks that have an end date.
+     * The result is cached for 10 minutes to improve performance.
+     *
+     * @return float The average processing time in seconds.
+     */
     public function getAverageProcessingTime()
     {
         $cacheKey = 'average_processing_time_' . now()->year;
@@ -88,7 +95,16 @@ class TaskKPIService
         return TaskResources::count();
     }
 
-    // Hours allocated per resource
+    /**
+     * Retrieve the total hours worked by each resource across all tasks.
+     *
+     * This function fetches all tasks along with their associated resources,
+     * then calculates the total time spent by each resource on all tasks.
+     * The result is an associative array where the keys are resource names
+     * and the values are the total hours worked by those resources.
+     *
+     * @return array An associative array with resource names as keys and total hours as values.
+     */
     public function getResourceHours()
     {
         $tasks = Task::with('resources')->get();
@@ -111,9 +127,12 @@ class TaskKPIService
     }
 
     /**
-     * Calculates the total hours produced in the current month
-     * 
-     * @return float
+     * Get the total produced hours for the current month.
+     *
+     * This method calculates the total hours produced by tasks that have been completed
+     * within the current month. The result is cached for 10 minutes to improve performance.
+     *
+     * @return float The total produced hours for the current month, rounded to two decimal places.
      */
     public function getTotalProducedHoursCurrentMonth(): float
     {
@@ -135,9 +154,12 @@ class TaskKPIService
     }
 
     /**
-     * Calculates the TRS in the current month
-     * 
-     * @return float
+     * Get the monthly average TRS (Task Rating Score) for the current month.
+     *
+     * This method retrieves all tasks for the current month and calculates the average TRS.
+     * The result is cached for 10 minutes to improve performance.
+     *
+     * @return float The average TRS for the current month. Returns 0 if there are no tasks.
      */
     public function getMonthlyAverageTRS()
     {
