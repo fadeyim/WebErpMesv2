@@ -65,12 +65,6 @@
                         @if($Document->type == 1 || empty($Document->type))
                             <h3>{{ $Document->companie['label'] }} </h3>
                             <pre>
-{{ $Document->contact['civility'] }} {{ $Document->contact['first_name'] }} {{ $Document->contact['name'] }}
-{{ $Document->adresse['adress'] }}
-{{ $Document->adresse['zipcode'] }} {{ $Document->adresse['city'] }}
-{{ $Document->adresse['country'] }}
-{{ __('general_content.phone_trans_key') }} : {{ $Document->contact['number'] }}
-{{ __('general_content.email_trans_key') }} : {{ $Document->contact['mail'] }}
 <br />
 {{ __('general_content.identifier_trans_key') }}: {{ $Document->customer_reference }}
                             </pre>
