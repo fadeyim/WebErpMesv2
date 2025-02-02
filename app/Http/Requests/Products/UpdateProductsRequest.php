@@ -25,7 +25,7 @@ class UpdateProductsRequest extends FormRequest
     {
         return [
             'label' => 'required|string|max:255',
-            'ind' => 'required|string',
+            'ind' => 'nullable|string',
             'methods_services_id' => 'required|integer',
             'methods_families_id' => 'required|integer',
             'purchased_price' => 'nullable|numeric',
