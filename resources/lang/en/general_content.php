@@ -805,8 +805,8 @@ return [
     //INVOICE
     'invoices_trans_key'                       => 'Invoices',    
     'invoice_trans_key'                        => 'Invoice',
-    'invoices_request_trans_key'               => 'Invoices  request',
-    'invoices_list_trans_key'                  => 'Invoices  list',
+    'invoices_request_trans_key'               => 'Invoices request',
+    'invoices_list_trans_key'                  => 'Invoices list',
     'invoices_export_trans_key'                => 'Invoice lines export',
     'others_trans_key'                         => 'Others',
     'new_invoice_trans_key'                    => 'New invoice',

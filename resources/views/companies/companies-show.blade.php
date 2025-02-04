@@ -13,10 +13,12 @@
       <li class="nav-item"><a class="nav-link active" href="#Dashboard" data-toggle="tab">{{ __('general_content.dashboard_trans_key') }}</a></li>
       <li class="nav-item"><a class="nav-link" href="#Company" data-toggle="tab">{{ __('general_content.detail_trans_key') }}</a></li>
       <li class="nav-item"><a class="nav-link" href="#Adresses" data-toggle="tab">{{ __('general_content.adress_trans_key') }} ({{ $Companie->getAddressesCountAttribute() }})</a></li>
-      <li class="nav-item"><a class="nav-link" href="#Contact" data-toggle="tab">{{ __('general_content.contacts_trans_key') }} ({{ $Companie->geContactsCountAttribute() }})</a></li>
+      <li class="nav-item"><a class="nav-link" href="#Contact" data-toggle="tab">{{ __('general_content.contacts_trans_key') }} ({{ $Companie->getContactsCountAttribute() }})</a></li>
       <li class="nav-item"><a class="nav-link" href="#lead" data-toggle="tab">{{ __('general_content.leads_trans_key') }} ({{ $Companie->getLeadsCountAttribute() }})</a></li>
       <li class="nav-item"><a class="nav-link" href="#quote" data-toggle="tab">{{ __('general_content.quotes_list_trans_key') }} ({{ $Companie->getQuotesCountAttribute() }})</a></li>
       <li class="nav-item"><a class="nav-link" href="#order" data-toggle="tab">{{ __('general_content.orders_list_trans_key') }} ({{ $Companie->getOrdersCountAttribute() }})</a></li>
+      <li class="nav-item"><a class="nav-link" href="#delivery" data-toggle="tab">{{ __('general_content.deliverys_notes_list_trans_key') }} ({{ $Companie->getDeliverysCountAttribute() }})</a></li>
+      <li class="nav-item"><a class="nav-link" href="#invoice" data-toggle="tab">{{ __('general_content.invoices_list_trans_key') }} ({{ $Companie->getInvoicesCountAttribute() }})</a></li>
       <li class="nav-item"><a class="nav-link" href="#purchase" data-toggle="tab">{{ __('general_content.purchase_list_trans_key') }} ({{ $Companie->getPurchasesCountAttribute() }})</a></li>
     </ul>
   </div>
@@ -25,12 +27,6 @@
     <div class="tab-content">
       <div class="tab-pane active" id="Dashboard">
         <div class="row">
-          <div class="col-lg-3 col-md-3">
-            <x-adminlte-small-box title="{{ number_format($remainingInvoiceOrder->orderSum ?? 0)}}  {{ $Factory->curency }}" 
-              text="{{ __('general_content.remaining_invoice_month_trans_key') }}" 
-              icon="icon fas fa-info"
-              theme="warning" />
-          </div>
 
           <div class="col-lg-3 col-md-3">
             <x-adminlte-small-box title="{{ number_format($data['orderAverage'] ?? 0)}}  {{ $Factory->curency }}" 
@@ -38,12 +34,27 @@
               icon="icon fas fa-info"
               theme="orange" />
           </div>
+
+          <div class="col-lg-3 col-md-3">
+            <x-adminlte-small-box title="{{ number_format($data['orderAverage'] ?? 0)}}  {{ $Factory->curency }}" 
+              text="{{ __('general_content.remaining_month_trans_key') }}" 
+              icon="icon fas fa-info"
+              theme="info" />
+          </div>
           
           <div class="col-lg-3 col-md-3">
             <x-adminlte-card  theme="primary" theme-mode="outline">
               <p class="card-text">{{ __('general_content.bills_paid_trans_key') }} : {{ $paidInvoices }}</p>
               <p class="card-text">{{ __('general_content.bills_unpaid_trans_key') }}  : {{ $unpaidInvoices }}</p>
             </x-adminlte-card>
+          </div>
+
+          
+          <div class="col-lg-3 col-md-3">
+            <x-adminlte-small-box title="Since " 
+              text="{{ $Companie->GetPrettyCreatedAttribute() }}" 
+              icon="icon fas fa-info"
+              theme="warning" />
           </div>
         </div>
 
@@ -829,6 +840,12 @@
       </div>
       <div class="tab-pane" id="order">
         @livewire('orders-index' , ['idCompanie' => $Companie->id ])
+      </div>
+      <div class="tab-pane" id="delivery">
+        @livewire('deliverys-index' , ['idCompanie' => $Companie->id ])
+      </div>
+      <div class="tab-pane" id="invoice">
+        @livewire('invoices-index' , ['idCompanie' => $Companie->id ])
       </div>
       <div class="tab-pane" id="purchase">
         @livewire('purchases-index' , ['idCompanie' => $Companie->id ])

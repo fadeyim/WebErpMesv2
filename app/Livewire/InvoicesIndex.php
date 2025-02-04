@@ -15,6 +15,7 @@ class InvoicesIndex extends Component
     public $sortField = 'created_at'; // default sorting field
     public $sortAsc = false; // default sort direction
     public $searchIdStatus = '';
+    public $idCompanie = '';
 
     public function sortBy($field)
     {
@@ -38,11 +39,21 @@ class InvoicesIndex extends Component
 
     public function render()
     {
-        $Invoices = Invoices::withCount('InvoiceLines')
+        if(is_numeric($this->idCompanie)){
+            $Invoices = Invoices::withCount('InvoiceLines')
+                                ->where('companies_id', $this->idCompanie)
                                 ->where('label','like', '%'.$this->search.'%')
                                 ->where('statu', 'like', '%'.$this->searchIdStatus.'%')
                                 ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
                                 ->paginate(15);
+        }
+        else{
+            $Invoices = Invoices::withCount('InvoiceLines')
+                                ->where('label','like', '%'.$this->search.'%')
+                                ->where('statu', 'like', '%'.$this->searchIdStatus.'%')
+                                ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                                ->paginate(15);
+        }
 
         return view('livewire.invoices-index', [
             'InvoicesList' => $Invoices,

@@ -16,6 +16,8 @@ class DeliverysIndex extends Component
     public $sortAsc = false; // default sort direction
     public $searchIdStatus = '';
 
+    public $idCompanie = '';
+
     public function sortBy($field)
     {
         if ($this->sortField === $field) {
@@ -38,11 +40,21 @@ class DeliverysIndex extends Component
 
     public function render()
     {
-        $Deliverys = Deliverys::withCount('DeliveryLines')
-                    ->where('label','like', '%'.$this->search.'%')
-                    ->where('statu', 'like', '%'.$this->searchIdStatus.'%')
-                    ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-                    ->paginate(15);
+        if(is_numeric($this->idCompanie)){
+            $Deliverys = Deliverys::withCount('DeliveryLines')
+                                    ->where('companies_id', $this->idCompanie)
+                                    ->where('label','like', '%'.$this->search.'%')
+                                    ->where('statu', 'like', '%'.$this->searchIdStatus.'%')
+                                    ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                                    ->paginate(15);
+        }
+        else{
+            $Deliverys = Deliverys::withCount('DeliveryLines')
+                                ->where('label','like', '%'.$this->search.'%')
+                                ->where('statu', 'like', '%'.$this->searchIdStatus.'%')
+                                ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                                ->paginate(15);
+        }
                     
         return view('livewire.deliverys-index', [
             'Deliveryslist' => $Deliverys,
