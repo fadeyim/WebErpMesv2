@@ -12,7 +12,8 @@ class Factory extends Model
 
     protected $table = 'factory';
 
-    protected $fillable = ['name', 
+    // Fillable attributes for mass assignment
+    protected $fillable= ['name', 
                             'address',
                             'city', 
                             'zipcode',

@@ -11,7 +11,8 @@ class QualityDerogation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['code',
+    // Fillable attributes for mass assignment
+    protected $fillable= ['code',
                             'label', 
                             'statu',
                             'type', 
@@ -33,6 +34,14 @@ class QualityDerogation extends Model
         return $this->belongsTo(QualityNonConformity::class, 'quality_non_conformitie_id');
     }
     
+    /**
+     * Get the formatted creation date of the line.
+     *
+     * This accessor method returns the creation date of line
+     * formatted as 'day month year' (e.g., '01 January 2023').
+     *
+     * @return string The formatted creation date.
+     */
     public function GetPrettyCreatedAttribute()
     {
         return date('d F Y', strtotime($this->created_at));

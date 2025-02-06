@@ -11,7 +11,8 @@ class OpportunitiesActivitiesLogs extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+    // Fillable attributes for mass assignment
+    protected $fillable= [
         'opportunities_id',
         'label',
         'type',
@@ -27,7 +28,14 @@ class OpportunitiesActivitiesLogs extends Model
     }
 
     
-    //Get Created attribute like '	06 December 2023'
+    /**
+     * Get the formatted creation date of the line.
+     *
+     * This accessor method returns the creation date of line
+     * formatted as 'day month year' (e.g., '01 January 2023').
+     *
+     * @return string The formatted creation date.
+     */
     public function GetPrettyCreatedAttribute()
     {
         return Carbon::parse($this->created_at)->diffForHumans();

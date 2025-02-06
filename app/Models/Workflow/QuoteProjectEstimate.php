@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class QuoteProjectEstimate extends Model
 {
-    protected $fillable = [
+    // Fillable attributes for mass assignment
+    protected $fillable= [
         'quotes_id',
         'client_requirements',
         'show_client_requirements_on_pdf',

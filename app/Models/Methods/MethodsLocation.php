@@ -10,7 +10,8 @@ class MethodsLocation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['code',  'label',  'ressource_id', 'color'];
+    // Fillable attributes for mass assignment
+    protected $fillable= ['code',  'label',  'ressource_id', 'color'];
 
     public function ressources()
     {

@@ -27,7 +27,7 @@ class Companies extends Model
      *
      * @var array
      */
-    protected $fillable = [
+    protected $fillable= [
                             'uuid',
                             'code', 
                             'client_type',
@@ -158,12 +158,13 @@ class Companies extends Model
     }
 
     /**
-     * Get the leads associated with the company.
+     * Get the count of leads associated with the company.
      *
-     * This function defines a one-to-many relationship between the Company model
-     * and the Leads model. It indicates that a company can have multiple leads.
+     * This accessor method returns the total number of leads
+     * related to the company by calling the count method on the
+     * Leads relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return int The count of leads.
      */
     public function getLeadsCountAttribute()
     {
@@ -184,12 +185,13 @@ class Companies extends Model
     }
 
     /**
-     * Get the quotes associated with the company.
+     * Get the count of quotes associated with the company.
      *
-     * This function defines a one-to-many relationship between the Company model
-     * and the Quotes model. It indicates that a company can have multiple quotes.
+     * This accessor method returns the total number of quotes
+     * related to the company by calling the count method on the
+     * Quotes relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return int The count of quotes.
      */
     public function getQuotesCountAttribute()
     {

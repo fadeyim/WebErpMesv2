@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Status extends Model
 {
-    protected $fillable = ['title', 'order'];
+    // Fillable attributes for mass assignment
+    protected $fillable= ['title', 'order'];
 
     public $timestamps = false;
 

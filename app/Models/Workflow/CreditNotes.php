@@ -20,7 +20,8 @@ class CreditNotes extends Model
 {
     use HasFactory, LogsActivity;
 
-    protected $fillable = [
+    // Fillable attributes for mass assignment
+    protected $fillable= [
         'code', 
         'label', 
         'invoices_id', 
@@ -96,7 +97,14 @@ class CreditNotes extends Model
         return date('d F Y', strtotime($this->created_at));
     }
     
-    //Get Created attribute like '	06 December 2023'
+    /**
+     * Get the formatted creation date of the line.
+     *
+     * This accessor method returns the creation date of line
+     * formatted as 'day month year' (e.g., '01 January 2023').
+     *
+     * @return string The formatted creation date.
+     */
     public function GetPrettyCreatedAttribute()
     {
         return Carbon::parse($this->created_at)->diffForHumans();

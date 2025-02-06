@@ -9,5 +9,6 @@ class QualityCause extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['code',  'label'];
+    // Fillable attributes for mass assignment
+    protected $fillable= ['code',  'label'];
 }

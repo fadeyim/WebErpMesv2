@@ -16,7 +16,8 @@ class UserEmploymentContracts extends Model
      *
      * @var array
      */
-    protected $fillable = [
+    // Fillable attributes for mass assignment
+    protected $fillable= [
         'user_id',
         'statu',
         'methods_section_id',

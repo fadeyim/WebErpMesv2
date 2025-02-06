@@ -11,7 +11,8 @@ class ProductsQuantityPrice extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+    // Fillable attributes for mass assignment
+    protected $fillable= [
         'products_id',
         'companies_id',
         'min_qty',

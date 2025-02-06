@@ -9,7 +9,8 @@ class TaskResources extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['task_id', 
+    // Fillable attributes for mass assignment
+    protected $fillable= ['task_id', 
                             'methods_ressources_id',
                             'autoselected_ressource',
                             'userforced_ressource',];

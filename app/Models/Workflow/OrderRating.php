@@ -11,7 +11,8 @@ class OrderRating extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['orders_id', 'companies_id', 'rating', 'comment'];
+    // Fillable attributes for mass assignment
+    protected $fillable= ['orders_id', 'companies_id', 'rating', 'comment'];
 
     public function order()
     {

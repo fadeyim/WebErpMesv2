@@ -10,7 +10,8 @@ class QuoteLineDetails extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+    // Fillable attributes for mass assignment
+    protected $fillable= [
                             'quote_lines_id',
                             'x_size', 
                             'y_size', 

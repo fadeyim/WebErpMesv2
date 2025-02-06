@@ -38,7 +38,8 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
+    // Fillable attributes for mass assignment
+    protected $fillable= [
         'name',
         'email', //crypt 
         'password',
@@ -90,6 +91,7 @@ class User extends Authenticatable
      *
      * @var array
      */
+    // Hidden attributes for arrays
     protected $hidden = [
         'password',
         'remember_token',
@@ -100,348 +102,644 @@ class User extends Authenticatable
      *
      * @var array
      */
+    // Cast attributes to native types
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
+    // Dates attributes
     protected $dates = [
         'banned_until'
     ];
 
+    /**
+     * Get the URL for the user's profile image.
+     *
+     * This method checks if the user's image URL is empty. If it is, it sets a default image URL.
+     * It then returns the full URL to the user's profile image.
+     *
+     * @return string The URL to the user's profile image.
+     */
     public function adminlte_image()
     {
-        if(empty($this->image_url)){
-            $this->image_url="img_avatar.png";
+        if (empty($this->image_url)) {
+            $this->image_url = "img_avatar.png";
         }
 
         return asset('/images/profiles/' . $this->image_url);
     }
-  
+
+    /**
+     * Get the URL for the user's profile.
+     *
+     * @return string
+     */
     public function adminlte_profile_url()
     {
         return route('user.profile', $this->id);
     }
 
+    /**
+     * Get the description for the user.
+     *
+     * @return string
+     */
     public function adminlte_desc()
     {
         return $this->desc;
     }
 
+    /**
+     * Get the formatted creation date of the line.
+     *
+     * This accessor method returns the creation date of line
+     * formatted as 'day month year' (e.g., '01 January 2023').
+     *
+     * @return string The formatted creation date.
+     */
     public function GetPrettyCreatedAttribute()
     {
         return date('d F Y', strtotime($this->created_at));
     }
 
+    /**
+     * Define a one-to-many relationship with the Announcements model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function Announcements()
     {
         return $this->hasMany(Announcements::class);
     }
 
+    /**
+     * Define a one-to-many relationship with the Companies model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function companie()
     {
         return $this->hasMany(Companies::class);
     }
 
+    /**
+     * Define a one-to-many relationship with the MethodsSection model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function section()
     {
         return $this->hasMany(MethodsSection::class);
     }
 
+    /**
+     * Define a one-to-many relationship with the QualityAction model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function quality_actions()
     {
         return $this->hasMany(QualityAction::class);
     }
 
+    /**
+     * Define a one-to-many relationship with the QualityControlDevice model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function quality_control_device()
     {
         return $this->hasMany(QualityControlDevice::class);
     }
 
+    /**
+     * Define a one-to-many relationship with the QualityDerogation model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function quality_derogations()
     {
         return $this->hasMany(QualityDerogation::class);
     }
 
+    /**
+     * Define a one-to-many relationship with the QualityNonConformity model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function quality_non_conformities()
     {
         return $this->hasMany(QualityNonConformity::class);
     }
+
+    /**
+     * Get the count of quality non-conformities.
+     *
+     * @return int
+     */
     public function getNcCountAttribute()
     {
         return $this->quality_non_conformities()->count();
     }
 
+    /**
+     * Define a one-to-many relationship with the TimesAbsence model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function absence_request()
     {
         return $this->hasMany(TimesAbsence::class);
     }
 
+    /**
+     * Define a one-to-many relationship with the StockLocation model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function stock_location()
     {
         return $this->hasMany(StockLocation::class);
     }
 
+    /**
+     * Define a one-to-many relationship with the StockLocationProducts model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function stock_location_product()
     {
         return $this->hasMany(StockLocationProducts::class);
     }
 
+    /**
+     * Define a one-to-many relationship with the Leads model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function leads()
     {
         return $this->hasMany(Leads::class);
     }
 
+    /**
+     * Get the count of leads.
+     *
+     * @return int
+     */
     public function getLeadsCountAttribute()
     {
         return $this->leads()->count();
     }
 
+    /**
+     * Define a one-to-many relationship with the Quotes model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function quotes()
     {
         return $this->hasMany(Quotes::class);
     }
 
+    /**
+     * Get the count of quotes.
+     *
+     * @return int
+     */
     public function getQuotesCountAttribute()
     {
         return $this->quotes()->count();
     }
 
+    /**
+     * Define a one-to-many relationship with the Orders model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function orders()
     {
         return $this->hasMany(Orders::class);
     }
 
+    /**
+     * Get the count of orders.
+     *
+     * @return int
+     */
     public function getOrdersCountAttribute()
     {
         return $this->orders()->count();
     }
-    
+
+    /**
+     * Define a one-to-many relationship with the Task model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function tasks()
     {
         return $this->hasMany(Task::class)->orderBy('ordre')->whereNotNull('order_lines_id');
     }
 
+    /**
+     * Define a one-to-many relationship with the TaskActivities model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function taskActivities()
     {
         return $this->hasMany(TaskActivities::class);
     }
 
+    /**
+     * Define a one-to-many relationship with the File model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function files()
     {
         return $this->hasMany(File::class);
     }
 
+    /**
+     * Define a one-to-many relationship with the AndonAlerts model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function andon()
     {
         return $this->hasMany(AndonAlerts::class);
     }
 
+    /**
+     * Define a one-to-many relationship with the UserEmploymentContracts model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function userEmploymentContracts()
     {
         return $this->hasMany(UserEmploymentContracts::class);
     }
 
+    /**
+     * Get the activity log options.
+     *
+     * @return \Spatie\Activitylog\LogOptions
+     */
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->logOnly(['name', 'email']);
         // Chain fluent methods for configuration options
     }
 
-    // Encrypt while setting
+    /**
+     * Encrypt the personal phone number while setting.
+     *
+     * @param string $value
+     */
     public function setPersonnalPhoneNumberAttribute($value)
     {
         $this->attributes['personnal_phone_number'] = Crypt::encrypt($value);
     }
 
-    // Decrypt while getting
+    /**
+     * Decrypt the personal phone number while getting.
+     *
+     * @param string $value
+     * @return string|null
+     */
     public function getPersonnalPhoneNumberAttribute($value)
     {
         try {
             return decrypt($value);
         } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-            return null; 
+            return null;
         }
     }
 
+    /**
+     * Encrypt the born date while setting.
+     *
+     * @param string $value
+     */
     public function setBornDateAttribute($value)
     {
         $this->attributes['born_date'] = Crypt::encrypt($value);
     }
 
+    /**
+     * Decrypt the born date while getting.
+     *
+     * @param string $value
+     * @return string|null
+     */
     public function getBornDateAttribute($value)
     {
         try {
             return decrypt($value);
         } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-            return null; 
+            return null;
         }
     }
 
+    /**
+     * Encrypt the SSN number while setting.
+     *
+     * @param string $value
+     */
     public function setSsnNumAttribute($value)
     {
         $this->attributes['ssn_num'] = Crypt::encrypt($value);
     }
 
+    /**
+     * Decrypt the SSN number while getting.
+     *
+     * @param string $value
+     * @return string|null
+     */
     public function getSsnNumAttribute($value)
     {
         try {
             return decrypt($value);
         } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-            return null; 
+            return null;
         }
     }
 
+    /**
+     * Encrypt the NIC number while setting.
+     *
+     * @param string $value
+     */
     public function setNicNumAttribute($value)
     {
         $this->attributes['nic_num'] = Crypt::encrypt($value);
     }
 
+    /**
+     * Decrypt the NIC number while getting.
+     *
+     * @param string $value
+     * @return string|null
+     */
     public function getNicNumAttribute($value)
     {
         try {
             return decrypt($value);
         } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-            return null; 
+            return null;
         }
     }
 
+    /**
+     * Encrypt the driving license while setting.
+     *
+     * @param string $value
+     */
     public function setDrivingLicenseAttribute($value)
     {
         $this->attributes['driving_license'] = Crypt::encrypt($value);
     }
 
+    /**
+     * Decrypt the driving license while getting.
+     *
+     * @param string $value
+     * @return string|null
+     */
     public function getDrivingLicenseAttribute($value)
     {
         try {
             return decrypt($value);
         } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-            return null; 
+            return null;
         }
     }
 
+    /**
+     * Encrypt the address1 while setting.
+     *
+     * @param string $value
+     */
     public function setAddress1Attribute($value)
     {
         $this->attributes['address1'] = Crypt::encrypt($value);
     }
 
+    /**
+     * Decrypt the address1 while getting.
+     *
+     * @param string $value
+     * @return string|null
+     */
     public function getAddress1Attribute($value)
     {
         try {
             return decrypt($value);
         } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-            return null; 
+            return null;
         }
     }
 
+    /**
+     * Encrypt the address2 while setting.
+     *
+     * @param string $value
+     */
     public function setAddress2Attribute($value)
     {
         $this->attributes['address2'] = Crypt::encrypt($value);
     }
 
+    /**
+     * Decrypt the address2 while getting.
+     *
+     * @param string $value
+     * @return string|null
+     */
     public function getAddress2Attribute($value)
     {
         try {
             return decrypt($value);
         } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-            return null; 
+            return null;
         }
     }
 
+    /**
+     * Encrypt the city while setting.
+     *
+     * @param string $value
+     */
     public function setCityAttribute($value)
     {
         $this->attributes['city'] = Crypt::encrypt($value);
     }
 
+    /**
+     * Decrypt the city while getting.
+     *
+     * @param string $value
+     * @return string|null
+     */
     public function getCityAttribute($value)
     {
         try {
             return decrypt($value);
         } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-            return null; 
+            return null;
         }
     }
 
+    /**
+     * Encrypt the country while setting.
+     *
+     * @param string $value
+     */
     public function setCountryAttribute($value)
     {
         $this->attributes['country'] = Crypt::encrypt($value);
     }
 
+    /**
+     * Decrypt the country while getting.
+     *
+     * @param string $value
+     * @return string|null
+     */
     public function getCountryAttribute($value)
     {
         try {
             return decrypt($value);
         } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-            return null; 
+            return null;
         }
     }
 
+    /**
+     * Encrypt the province while setting.
+     *
+     * @param string $value
+     */
     public function setProvinceAttribute($value)
     {
         $this->attributes['province'] = Crypt::encrypt($value);
     }
 
+    /**
+     * Decrypt the province while getting.
+     *
+     * @param string $value
+     * @return string|null
+     */
     public function getProvinceAttribute($value)
     {
         try {
             return decrypt($value);
         } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-            return null; 
+            return null;
         }
     }
 
+    /**
+     * Encrypt the postal code while setting.
+     *
+     * @param string $value
+     */
     public function setPostalCodeAttribute($value)
     {
         $this->attributes['postal_code'] = Crypt::encrypt($value);
     }
 
+    /**
+     * Decrypt the postal code while getting.
+     *
+     * @param string $value
+     * @return string|null
+     */
     public function getPostalCodeAttribute($value)
     {
         try {
             return decrypt($value);
         } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-            return null; 
+            return null;
         }
     }
 
+    /**
+     * Encrypt the home phone while setting.
+     *
+     * @param string $value
+     */
     public function setHomePhoneAttribute($value)
     {
         $this->attributes['home_phone'] = Crypt::encrypt($value);
     }
 
+    /**
+     * Decrypt the home phone while getting.
+     *
+     * @param string $value
+     * @return string|null
+     */
     public function getHomePhoneAttribute($value)
     {
         try {
             return decrypt($value);
         } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-            return null; 
+            return null;
         }
     }
 
+    /**
+     * Encrypt the mobile phone while setting.
+     *
+     * @param string $value
+     */
     public function setMobilePhoneAttribute($value)
     {
         $this->attributes['mobile_phone'] = Crypt::encrypt($value);
     }
 
+    /**
+     * Decrypt the mobile phone while getting.
+     *
+     * @param string $value
+     * @return string|null
+     */
     public function getMobilePhoneAttribute($value)
     {
         try {
             return decrypt($value);
         } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-            return null; 
+            return null;
         }
     }
 
+    /**
+     * Encrypt the private email while setting.
+     *
+     * @param string $value
+     */
     public function setPrivateEmailAttribute($value)
     {
         $this->attributes['private_email'] = Crypt::encrypt($value);
     }
 
+    /**
+     * Decrypt the private email while getting.
+     *
+     * @param string $value
+     * @return string|null
+     */
     public function getPrivateEmailAttribute($value)
     {
         try {
             return decrypt($value);
         } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-            return null; 
+            return null;
         }
     }
 }

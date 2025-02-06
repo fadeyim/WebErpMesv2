@@ -14,7 +14,8 @@ class MethodsSection extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['ordre','code', 'label', 'user_id','color'];
+    // Fillable attributes for mass assignment
+    protected $fillable= ['ordre','code', 'label', 'user_id','color'];
 
     public function UserManagement()
     {

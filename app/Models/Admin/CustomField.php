@@ -9,7 +9,8 @@ class CustomField extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'type', 'related_type'];
+    // Fillable attributes for mass assignment
+    protected $fillable= ['name', 'type', 'related_type'];
 
     public function values()
     {

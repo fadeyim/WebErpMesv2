@@ -10,7 +10,8 @@ class MethodsTools extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['code',  'label',  'ETAT', 'cost' , 'picture',  'end_date',  'comment',  'qty'];
+    // Fillable attributes for mass assignment
+    protected $fillable= ['code',  'label',  'ETAT', 'cost' , 'picture',  'end_date',  'comment',  'qty'];
 
     public function Task()
     {

@@ -10,7 +10,8 @@ class TimesImproductTime extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['label',  'times_machine_events_id',  'resources_required',  'mask_time'];
+    // Fillable attributes for mass assignment
+    protected $fillable= ['label',  'times_machine_events_id',  'resources_required',  'mask_time'];
 
     public function MachineEvent()
     {

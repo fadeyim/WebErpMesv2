@@ -17,7 +17,8 @@ class PurchasesQuotation extends Model
 {
     use HasFactory, LogsActivity;
 
-    protected $fillable = ['code', 
+    // Fillable attributes for mass assignment
+    protected $fillable= ['code', 
                             'label', 
                             'companies_id', 
                             'companies_contacts_id',   
@@ -72,6 +73,14 @@ class PurchasesQuotation extends Model
         return date('d F Y', strtotime($this->created_at));
     }
 
+    /**
+     * Get the formatted creation date of the line.
+     *
+     * This accessor method returns the creation date of line
+     * formatted as 'day month year' (e.g., '01 January 2023').
+     *
+     * @return string The formatted creation date.
+     */
     public function GetPrettyCreatedAttribute()
     {
         return Carbon::parse($this->created_at)->diffForHumans();

@@ -14,7 +14,8 @@ class SubAssembly extends Model
     use HasFactory;
 
 
-    protected $fillable = ['ordre',
+    // Fillable attributes for mass assignment
+    protected $fillable= ['ordre',
                             'quote_lines_id',
                             'order_lines_id',
                             'products_id',

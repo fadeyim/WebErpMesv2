@@ -12,7 +12,8 @@ class OSHFormation extends Model
 
     protected $table = 'osh_formations';
 
-    protected $fillable = [
+    // Fillable attributes for mass assignment
+    protected $fillable= [
         'user_id',
         'type_of_training',
         'training_date',

@@ -12,7 +12,8 @@ class OSHConformite extends Model
 
     protected $table = 'osh_conformites';
 
-    protected $fillable = [
+    // Fillable attributes for mass assignment
+    protected $fillable= [
         'document_type',
         'description',
         'expiration_date',

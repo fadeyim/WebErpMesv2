@@ -10,7 +10,8 @@ class TimesAbsence extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id',  'absence_type',  'absence_type_day',  'statu',  'start_date',  'end_date'];
+    // Fillable attributes for mass assignment
+    protected $fillable= ['user_id',  'absence_type',  'absence_type_day',  'statu',  'start_date',  'end_date'];
 
     public function User()
     {

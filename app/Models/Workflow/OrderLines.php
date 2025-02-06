@@ -24,7 +24,8 @@ class OrderLines extends Model
 {
     use HasFactory, LogsActivity;
 
-    protected $fillable = ['orders_id', 
+    // Fillable attributes for mass assignment
+    protected $fillable= ['orders_id', 
                             'ordre', 
                             'code',
                             'product_id',
@@ -280,6 +281,14 @@ class OrderLines extends Model
         return round($discountedTotal, 2);
     }
 
+    /**
+     * Get the formatted creation date of the line.
+     *
+     * This accessor method returns the creation date of line
+     * formatted as 'day month year' (e.g., '01 January 2023').
+     *
+     * @return string The formatted creation date.
+     */
     public function GetPrettyCreatedAttribute()
     {
         return date('d F Y', strtotime($this->created_at));

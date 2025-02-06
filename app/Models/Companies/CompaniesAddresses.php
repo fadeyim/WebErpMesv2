@@ -11,7 +11,8 @@ class CompaniesAddresses extends Model
 {
     use HasFactory, HasDefaultTrait;
 
-    protected $fillable = ['companies_id', 'ordre', 'label', 'adress','zipcode','city','country','number','mail', 'default'];
+    // Fillable attributes for mass assignment
+    protected $fillable= ['companies_id', 'ordre', 'label', 'adress','zipcode','city','country','number','mail', 'default'];
     
     public $timestamps = false;
 

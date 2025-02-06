@@ -6,9 +6,19 @@ use App\Models\Companies\Companies;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Accounting\AccountingAllocation;
 
+/**
+ * Class AccountingEntry
+ *
+ * This model represents an accounting entry in the system. It includes various attributes
+ * related to the accounting entry such as journal code, sequence number, account details,
+ * amounts, dates, and references. The model also defines relationships with other models
+ * such as Companies and AccountingAllocation.
+ *
+ */
 class AccountingEntry extends Model
 {
-    protected $fillable = [
+    // Fillable attributes for mass assignment
+    protected $fillable= [
         'journal_code',
         'journal_label',
         'sequence_number',
@@ -44,12 +54,21 @@ class AccountingEntry extends Model
         'credit_amount' => 'decimal:2',
     ];
 
-    // Example relationships (if necessary)
+    /**
+     * Get the company that owns the accounting entry.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function company()
     {
         return $this->belongsTo(Companies::class);
     }
 
+    /**
+     * Get the accounting allocation that owns the accounting entry.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function accountingAllocation()
     {
         return $this->belongsTo(AccountingAllocation::class);

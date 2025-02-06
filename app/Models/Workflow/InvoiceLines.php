@@ -15,7 +15,8 @@ class InvoiceLines extends Model
 {
     use HasFactory, LogsActivity;
 
-    protected $fillable = ['invoices_id',
+    // Fillable attributes for mass assignment
+    protected $fillable= ['invoices_id',
                             'order_line_id', 
                             'delivery_line_id',
                             'ordre',
@@ -45,6 +46,14 @@ class InvoiceLines extends Model
         return $this->hasOne(AccountingEntry::class, 'invoice_line_id');
     }
 
+    /**
+     * Get the formatted creation date of the line.
+     *
+     * This accessor method returns the creation date of line
+     * formatted as 'day month year' (e.g., '01 January 2023').
+     *
+     * @return string The formatted creation date.
+     */
     public function GetPrettyCreatedAttribute()
     {
         return date('d F Y', strtotime($this->created_at));

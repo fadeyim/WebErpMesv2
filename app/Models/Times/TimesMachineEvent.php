@@ -10,7 +10,8 @@ class TimesMachineEvent extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['code',  'ordre',  'label',  'mask_time',  'color',  'etat'];
+    // Fillable attributes for mass assignment
+    protected $fillable= ['code',  'ordre',  'label',  'mask_time',  'color',  'etat'];
 
     public function improductTime()
     {

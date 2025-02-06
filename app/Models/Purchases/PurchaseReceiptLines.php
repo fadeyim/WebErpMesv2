@@ -12,7 +12,8 @@ class PurchaseReceiptLines extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+    // Fillable attributes for mass assignment
+    protected $fillable= [
         'purchase_receipt_id',
         'purchase_line_id',
         'ordre',
@@ -40,6 +41,14 @@ class PurchaseReceiptLines extends Model
         return $this->hasMany(StockMove::class);
     }
 
+    /**
+     * Get the formatted creation date of the line.
+     *
+     * This accessor method returns the creation date of line
+     * formatted as 'day month year' (e.g., '01 January 2023').
+     *
+     * @return string The formatted creation date.
+     */
     public function GetPrettyCreatedAttribute()
     {
         return date('d F Y', strtotime($this->created_at));

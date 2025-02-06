@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ProductsPreferredSupplier extends Model
 {
     use HasFactory;
-    protected $fillable = ['product_id', 
+    // Fillable attributes for mass assignment
+    protected $fillable= ['product_id', 
                             'companies_id',];
 
     public function QuantityPrice()

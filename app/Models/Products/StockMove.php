@@ -15,7 +15,8 @@ class StockMove extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 
+    // Fillable attributes for mass assignment
+    protected $fillable= ['user_id', 
                             'qty', 
                             'reserve_qty',
                             'bad_qty',
@@ -74,6 +75,14 @@ class StockMove extends Model
         return $this->morphToMany(File::class, 'fileable')->where('as_photo', 1);
     }
     
+    /**
+     * Get the formatted creation date of the line.
+     *
+     * This accessor method returns the creation date of line
+     * formatted as 'day month year' (e.g., '01 January 2023').
+     *
+     * @return string The formatted creation date.
+     */
     public function GetPrettyCreatedAttribute()
     {
         return date('d F Y', strtotime($this->created_at));

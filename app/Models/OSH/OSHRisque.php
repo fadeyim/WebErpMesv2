@@ -13,7 +13,8 @@ class OSHRisque extends Model
 
     protected $table = 'osh_risques';
 
-    protected $fillable = [
+    // Fillable attributes for mass assignment
+    protected $fillable= [
         'section_id',
         'description',
         'severity',

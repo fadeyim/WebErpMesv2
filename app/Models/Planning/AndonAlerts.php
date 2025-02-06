@@ -13,7 +13,8 @@ class AndonAlerts extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+    // Fillable attributes for mass assignment
+    protected $fillable= [
         'task_id',
         'methods_ressources_id',
         'type',
@@ -91,6 +92,14 @@ class AndonAlerts extends Model
         return Carbon::parse($this->resolved_at)->diffForHumans();
     }
 
+    /**
+     * Get the formatted creation date of the line.
+     *
+     * This accessor method returns the creation date of line
+     * formatted as 'day month year' (e.g., '01 January 2023').
+     *
+     * @return string The formatted creation date.
+     */
     public function GetPrettyCreatedAttribute()
     {
         return Carbon::parse($this->triggered_at)->diffForHumans();

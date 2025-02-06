@@ -12,7 +12,8 @@ class OSHIncident extends Model
 
     protected $table = 'osh_incidents';
 
-    protected $fillable = [
+    // Fillable attributes for mass assignment
+    protected $fillable= [
         'incident_date',
         'description',
         'user_id',

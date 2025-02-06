@@ -10,7 +10,8 @@ class OrderLineDetails extends Model
 {
     use HasFactory;
     
-    protected $fillable = [
+    // Fillable attributes for mass assignment
+    protected $fillable= [
                             'order_lines_id',
                             'x_size', 
                             'y_size', 

@@ -10,7 +10,8 @@ use App\Models\Purchases\PurchaseReceiptLines;
 
 class PurchaseInvoiceLines extends Model
 {
-    protected $fillable = [
+    // Fillable attributes for mass assignment
+    protected $fillable= [
         
         'purchase_invoice_id',
         'purchase_receipt_line_id',
@@ -39,6 +40,14 @@ class PurchaseInvoiceLines extends Model
         return $this->hasOne(AccountingEntry::class, 'invoice_line_id');
     }
 
+    /**
+     * Get the formatted creation date of the line.
+     *
+     * This accessor method returns the creation date of line
+     * formatted as 'day month year' (e.g., '01 January 2023').
+     *
+     * @return string The formatted creation date.
+     */
     public function GetPrettyCreatedAttribute()
     {
         return date('d F Y', strtotime($this->created_at));

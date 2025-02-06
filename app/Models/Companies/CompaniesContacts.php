@@ -12,7 +12,8 @@ class CompaniesContacts extends Model
 {
     use HasFactory, HasDefaultTrait;
 
-    protected $fillable = ['companies_id', 'ordre', 'civility', 'first_name','name','function','number','mobile','mail',  'default'];
+    // Fillable attributes for mass assignment
+    protected $fillable= ['companies_id', 'ordre', 'civility', 'first_name','name','function','number','mobile','mail',  'default'];
 
     public $timestamps = false;
 

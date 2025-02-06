@@ -13,7 +13,8 @@ class MethodsUnits extends Model
 {
     use HasFactory; use HasDefaultTrait;
 
-    protected $fillable = ['code',  'label',  'type', 'default'];
+    // Fillable attributes for mass assignment
+    protected $fillable= ['code',  'label',  'type', 'default'];
 
     public function Product()
     {
@@ -30,6 +31,14 @@ class MethodsUnits extends Model
         return $this->hasMany(Task::class);
     }
 
+    /**
+     * Get the formatted creation date of the line.
+     *
+     * This accessor method returns the creation date of line
+     * formatted as 'day month year' (e.g., '01 January 2023').
+     *
+     * @return string The formatted creation date.
+     */
     public function GetPrettyCreatedAttribute()
     {
         return date('d F Y', strtotime($this->created_at));

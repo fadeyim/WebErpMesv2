@@ -17,7 +17,8 @@ class PurchaseInvoice extends Model
 {
     use HasFactory, LogsActivity;
     
-    protected $fillable = ['code', 
+    // Fillable attributes for mass assignment
+    protected $fillable= ['code', 
                             'label', 
                             'companies_id', 
                             'statu',  
