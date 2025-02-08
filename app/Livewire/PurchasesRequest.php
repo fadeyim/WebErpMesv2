@@ -7,20 +7,15 @@ use Livewire\Component;
 use App\Models\Planning\Task;
 use App\Models\Planning\Status;
 use App\Models\Companies\Companies;
-use App\Models\Purchases\Purchases;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Purchases\PurchaseLines;
-use App\Models\Accounting\AccountingVat;
+use Illuminate\Support\Facades\App;
+use App\Services\PurchaseOrderService;
+use App\Services\PurchaseQuotationService;
 use App\Models\Companies\CompaniesContacts;
 use App\Models\Companies\CompaniesAddresses;
-use App\Models\Purchases\PurchasesQuotation;
-use App\Models\Purchases\PurchaseQuotationLines;
 
 class PurchasesRequest extends Component
 {
-    //use WithPagination;
-    //protected $paginationTheme = 'bootstrap';
-
+    // Properties for managing state
     public $companies_id = '';
     public $sortField = 'tasks.id'; // default sorting field
     public $sortAsc = true; // default sort direction
@@ -31,13 +26,22 @@ class PurchasesRequest extends Component
     public $document_type_label = 'PU';
 
     public $PurchasesRequestsLineslist;
-    public $code, $label, $user_id; 
+    public $code, $label; 
     public $updateLines = false;
     public $CompanieSelect = [];
     public $data = [];
     public $qty = [];
 
-    private $ordre = 10;
+    // Services for handling purchase orders and quotations
+    protected $purchaseOrderService;
+    protected $purchaseQuotationService;
+
+    public function __construct()
+    {
+        // Resolve the service via the Laravel container
+        $this->purchaseOrderService = App::make(PurchaseOrderService::class);
+        $this->purchaseQuotationService = App::make(PurchaseQuotationService::class);
+    }
 
     // Validation Rules
     protected function rules()
@@ -47,7 +51,6 @@ class PurchasesRequest extends Component
                 'code' =>'required|unique:purchases',
                 'label' =>'required',
                 'companies_id'=>'required',
-                'user_id'=>'required',
             ];
         }
         elseif($this->document_type == 'PQ'){
@@ -55,13 +58,25 @@ class PurchasesRequest extends Component
                 'code' =>'required|unique:purchases_quotations',
                 'label' =>'required',
                 'companies_id'=>'required',
-                'user_id'=>'required',
             ];
         }
     }
 
+    public function mount() 
+    {
+        // Get the last purchase and quotation codes
+        $this->LastPurchase = $this->purchaseOrderService->generatePurchaseCode();
+        $this->LastPurchaseQuotation = $this->purchaseQuotationService->generatePurchasesQuotationCode();
+        // Get the list of companies that are suppliers
+        $this->CompanieSelect = Companies::select('id', 'code','client_type','civility','label','last_name')
+                                            ->where('statu_supplier', '=', 2)
+                                            ->orderBy('code')
+                                            ->get();
+    }
+    
     public function sortBy($field)
     {
+        // Toggle sorting direction if the same field is sorted, otherwise set to ascending
         if ($this->sortField === $field) {
             $this->sortAsc = !$this->sortAsc; 
         } else {
@@ -69,54 +84,26 @@ class PurchasesRequest extends Component
         }
         $this->sortField = $field;
     }
-
-    public function mount() 
-    {
-        $this->user_id = Auth::id();
-        // get last id
-        $this->LastPurchase =  Purchases::latest()->first();
-        //if we have no id, define 0 
-        if($this->LastPurchase == Null){
-            $this->LastPurchase = 0;
-            $this->code = $this->document_type ."-0";
-            $this->label = $this->document_type ."-0";
-        }
-        // else we use is from db
-        else{
-            $this->LastPurchase = $this->LastPurchase->id;
-            $this->code = $this->document_type ."-". $this->LastPurchase;
-            $this->label = $this->document_type ."-". $this->LastPurchase;
-        }
-
-        $this->LastPurchaseQuotation =  PurchasesQuotation::latest()->first();
-        if($this->LastPurchaseQuotation == Null){
-            $this->LastPurchaseQuotation = 0;
-        }
-        else{
-            $this->LastPurchaseQuotation = $this->LastPurchaseQuotation->id;
-        }
-
-        $this->CompanieSelect = Companies::select('id', 'code','client_type','civility','label','last_name')->where('statu_supplier', '=', 2)->orderBy('code')->get();
-    }
     
     public function changeDocument() 
     {
+        // Change the document code and label based on the document type
         if($this->document_type == 'PU'){ 
-            $this->code = $this->document_type ."-". $this->LastPurchase;
-            $this->label = $this->document_type ."-". $this->LastPurchase;
+            $this->code =  $this->LastPurchase;
+            $this->label =  $this->LastPurchase;
         }
         elseif($this->document_type == 'PQ'){
-            $this->code = $this->document_type ."-". $this->LastPurchaseQuotation;
-            $this->label = $this->document_type ."-". $this->LastPurchaseQuotation;
+            $this->code =  $this->LastPurchaseQuotation;
+            $this->label =  $this->LastPurchaseQuotation;
         }
         else{
-            
             session()->flash('error', 'Please select on type of document.');
         }
     }
 
     public function render()
     {
+        // Get the list of users and the first status
         $userSelect = User::select('id', 'name')->get();
         $Status = Status::select('id')->orderBy('order')->first();
         //Select task where statu is open and only purchase type
@@ -145,131 +132,89 @@ class PurchasesRequest extends Component
     }
 
     public function storePurchase(){
-        //check rules
+        // Validate the input data
         $this->validate(); 
         
-        //check if line exist
-        $i = 0;
-        foreach ($this->data as $key => $item) {
-            if(array_key_exists("task_id",$this->data[$key])){
-                if($this->data[$key]['task_id'] != false ){
-                    $i++;
-                }
-            }
-        }
+        // Check if any lines are selected
+        $taskIds = collect($this->data)->pluck('task_id')->filter()->count();
 
-        if($i>0){
-            $StatusUpdate = Status::select('id')->where('title', 'Supplied')->first();
-            if(is_null($StatusUpdate)){
-                $StatusUpdate = Status::select('id')->where('title', 'In progress')->first();
-            }
-            
-            if(is_null($StatusUpdate)){
-                return redirect()->back()->with('error', 'No status in kanban for define progress');
-            }
+        if ($taskIds > 0) {
 
-            $defaultAddress = CompaniesAddresses::getDefault(['companies_id' => $this->companies_id]);
-            $defaultContact = CompaniesContacts::getDefault(['companies_id' => $this->companies_id]);
-            $AccountingVat = AccountingVat::getDefault(); 
-            $defaultAddress = ($defaultAddress->id  ?? 0);
-            $defaultContact = ($defaultContact->id  ?? 0);
-            $AccountingVat = ($AccountingVat->id  ?? 0);
+            // Get default settings for the purchase order or quotation
+            $defaultSettings = [
+                'AccountingVat' => $this->purchaseOrderService->getAccountingVat(),
+                'defaultAddress' => CompaniesAddresses::getDefault(['companies_id' => $this->companies_id]),
+                'defaultContact' => CompaniesContacts::getDefault(['companies_id' => $this->companies_id]),
+            ];
     
-            if($defaultAddress == 0 || $defaultContact == 0 || $AccountingVat == 0){
-                return redirect()->back()->with('error', 'No default settings');
+            // Check if all default settings are available
+            foreach ($defaultSettings as $key => $setting) {
+                if (is_null($setting)) {
+                    return redirect()->back()->with('error', 'No default settings for ' . str_replace('_', ' ', $key));
+                }
+                $defaultSettings[$key] = $setting->id;
             }
 
             // Create puchase order
             if($this->document_type == 'PU'){
-                $PurchaseOrderCreated = Purchases::create([
-                    'code'=>$this->code,  
-                    'label'=>$this->label, 
-                    'companies_id'=>$this->companies_id,  
-                    'companies_addresses_id'=>$defaultAddress, 
-                    'companies_contacts_id'=>$defaultContact,  
-                    'user_id'=>$this->user_id,
-                ]);
 
-                if($PurchaseOrderCreated){
-                    // Create lines
-                    foreach ($this->data as $key => $item) {
-                        //if not best to find request value, but we cant send hidden data with livewire
-                        //How pass all information from task information ?
-                        $Task = Task::find($key);
-                        //we must multiply by qty to get from order line
-                        $TotalQtyTobuy = $Task->getQualityRequiredAttribute();
-                        // Create delivery line
-                        $PurchaseLines = PurchaseLines::create([
-                                'purchases_id' => $PurchaseOrderCreated->id,
-                                'tasks_id' => $key, 
-                                'ordre' => $this->ordre, 
-                                //'code' => , can be null
-                                'product_id' =>$Task->component_id,
-                                'label' => $Task->label,
-                                //'supplier_ref' => , can be null
-                                'qty' => $TotalQtyTobuy,
-                                'selling_price' => $Task->unit_cost,
-                                'discount' => 0,
-                                'unit_price_after_discount' => $Task->unit_cost,
-                                'total_selling_price' => $Task->unit_cost * $TotalQtyTobuy,
-                                //'receipt_qty' =>, defaut to 0
-                                //'invoiced_qty' =>, defaut to 0
-                                'methods_units_id' => $Task->methods_units_id,
-                                'accounting_vats_id' => $AccountingVat,
-                                //'stock_locations_id' => , can be null
-                                'statu' => 1
-                            ]); 
+                // Get the status update for the purchase order
+                $statusUpdate = $this->purchaseOrderService->getStatusUpdate();
+    
+                if (!$statusUpdate) {
+                    return redirect()->back()->with('error', 'No status "Supplied" or "In progress" in kanban for defining progress');
+                }
 
-                        /* // up order line for next record*/
-                        $this->ordre= $this->ordre+10;
-                        /* // update task statu Supplied on Kanban*/
-                        if($StatusUpdate->id){
-                            $Task = Task::where('id',$key)->update(['status_id'=>$StatusUpdate->id]);
-                        }
-                    } 
-                    return redirect()->route('purchases.show', ['id' => $PurchaseOrderCreated->id])->with('success', 'Successfully created new purchase order');
+                // Create the purchase order
+                $PurchaseOrderCreated = $this->purchaseOrderService->createPurchaseOrder($this->companies_id, 
+                                                                    $this->code , 
+                                                                    $this->label , 
+                                                                    $defaultSettings['defaultAddress'],
+                                                                    $defaultSettings['defaultContact']);
+
+                if (!$PurchaseOrderCreated) {
+                    return redirect()->back()->withErrors(['msg' => 'Something went wrong (like no default settings for address, contact or accounting vat)']);
                 }
-                else{
-                    return redirect()->back()->with('error', 'Something went wrong');
-                }
+
+                // Process the purchase request lines
+                $this->purchaseOrderService->processPurchaseRequestLines(
+                    $this->data,
+                    $PurchaseOrderCreated,
+                    $statusUpdate->id
+                );
+
+                return redirect()->route('purchases.show', ['id' => $PurchaseOrderCreated->id])
+                                    ->with('success', 'Successfully created new purchase order');
             }
+            // Create purchase quotation
             elseif($this->document_type == 'PQ'){
-                // Create puchase quotation
-                $PurchaseQuotationCreated = PurchasesQuotation::create([
-                    'code'=>$this->code,  
-                    'label'=>$this->label, 
-                    'companies_id'=>$this->companies_id,
-                    'companies_addresses_id'=>$defaultAddress, 
-                    'companies_contacts_id'=>$defaultContact,   
-                    'user_id'=>$this->user_id,
-                ]);
 
-                if($PurchaseQuotationCreated){
-                    // Create lines
-                    foreach ($this->data as $key => $item) {
-                        $Task = Task::find($key);
-                        $TotalQtyTobuy = $Task->getQualityRequiredAttribute();
-                        // Create delivery line
-                        $PurchaseQuotationLines = PurchaseQuotationLines::create([
-                                'purchases_quotation_id' => $PurchaseQuotationCreated->id,
-                                'tasks_id' => $key, 
-                                'ordre' => $this->ordre, 
-                                //'supplier_ref' => , can be null
-                                'qty_to_order' => $TotalQtyTobuy,
-                                'unit_price' => $Task->unit_cost,
-                                'total_price' => $Task->unit_cost * $TotalQtyTobuy,
-                                //'qty_accepted' =>, defaut to 0
-                                //'canceled_qty' =>, defaut to 0
-                            ]); 
-                        /* // up order line for next record*/
-                        $this->ordre= $this->ordre+10;
-                    }
+                // Get the status update for the purchase quotation
+                $statusUpdate = $this->purchaseQuotationService->getStatusUpdate();
+    
+                if (!$statusUpdate) {
+                    return redirect()->back()->with('error', 'No status "RFQ in progress" or "Started" in kanban for defining progress');
+                }
+
+                // Create the purchase quotation
+                $PurchaseQuotationCreated = $this->purchaseQuotationService->createPurchasesQuotation($this->companies_id, 
+                                                                                                    $this->code , 
+                                                                                                    $this->label , 
+                                                                                                    $defaultSettings['defaultAddress'],
+                                                                                                    $defaultSettings['defaultContact']);
+
+                if (!$PurchaseQuotationCreated) {
+                    return redirect()->back()->withErrors(['msg' => 'Something went wrong (like no default settings for address, contact or accounting vat)']);
+                }
+
+                // Process the purchase request lines
+                $this->purchaseQuotationService->processPurchaseRequestLines(
+                    $this->data,
+                    $PurchaseQuotationCreated,
+                    $statusUpdate->id
+                );
                     
-                    return redirect()->route('purchases.quotations.show', ['id' => $PurchaseQuotationCreated->id])->with('success', 'Successfully created new purchase quotation');
-                }
-                else{
-                    return redirect()->back()->with('error', 'Something went wrong');
-                }
+                return redirect()->route('purchases.quotations.show', ['id' => $PurchaseQuotationCreated->id])->with('success', 'Successfully created new purchase quotation');
             }
             else{
                 return redirect()->back()->with('error', 'no document type');

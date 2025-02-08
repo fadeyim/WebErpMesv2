@@ -5,7 +5,7 @@
             <form>
                 @csrf
                 <div class="form-row">
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-3">
                         <label for="companies_id">{{ __('general_content.document_type_trans_key') }}</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -19,7 +19,7 @@
                         </div>
                         @error('document_type') <span class="text-danger">{{ $message }}<br/></span>@enderror
                     </div>
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-3">
                         <label for="companies_id">{{ __('general_content.sort_companie_trans_key') }}</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -36,7 +36,7 @@
                         </div>
                         @error('companies_id') <span class="text-danger">{{ $message }}<br/></span>@enderror
                     </div>
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-3">
                         <label for="code">{{ __('general_content.external_id_trans_key') }}</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -46,7 +46,7 @@
                         </div>
                         @error('code') <span class="text-danger">{{ $message }}<br/></span>@enderror
                     </div>
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-3">
                         <label for="label">{{ __('general_content.label_trans_key') }}</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -57,29 +57,13 @@
                         @error('label') <span class="text-danger">{{ $message }}<br/></span>@enderror
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="user_id">{{ __('general_content.user_management_trans_key') }}</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                            </div>
-                            <select class="form-control" wire:model.live="user_id" name="user_id" id="user_id">
-                                <option value="">{{ __('general_content.select_user_management_trans_key') }}</option>
-                            @foreach ($userSelect as $item)
-                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                            @endforeach
-                            </select>
-                        </div>
-                        @error('user_id') <span class="text-danger">{{ $message }}<br/></span>@enderror
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-2">
                         <div class="input-group">
                             <br/>
                             <button type="Submit" wire:click.prevent="storePurchase()" class="btn btn-success btn-block">{{ __('general_content.new_purchase_document_trans_key') }}</button>
                         </div>
                     </div>
                 </div>
+                
             </form>
         </div>
         <div class="table-responsive p-0">

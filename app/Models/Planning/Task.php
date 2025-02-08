@@ -28,7 +28,8 @@ class Task extends Model
     use HasFactory, LogsActivity;
 
     // Fillable attributes for mass assignment
-    protected $fillable= ['label', 
+    protected $fillable= ['code',
+                            'label', 
                             'ordre',
                             'quote_lines_id',
                             'order_lines_id',

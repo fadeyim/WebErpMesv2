@@ -96,7 +96,27 @@
                                     @endif
                                 </td>
                                 <td>{{ number_format($PurchaseLine->qty, 0, '', ' ') }}</td>
-                                <td>{{ number_format($PurchaseLine->receipt_qty, 0, '', ' ') }}</td>
+                                <td>
+                                    @if($PurchaseLine->receipt_qty > 0)
+                                    <a href="#" data-toggle="modal" data-target="#modalReceiptFor{{ $PurchaseLine->id }}"><span class="badge badge-success">{{ number_format($PurchaseLine->receipt_qty, 0, '', ' ') }}</span></a>
+                                    {{-- Modal for purchase order detail --}}
+                                    <x-adminlte-modal id="modalReceiptFor{{ $PurchaseLine->id }}" title="{{__('general_content.po_receipt_trans_key') }}" theme="info"
+                                        icon="fas fa-bolt" size='lg' disable-animations>
+                                        <ul>
+                                            @foreach($PurchaseLine->purchaseReceiptLines as $purchaseReceiptLine)
+                                                <li>
+                                                    {{ __('general_content.delivery_notes_trans_key') }}: {{ $purchaseReceiptLine->purchaseReceipt->code }} <br>
+                                                    {{ __('general_content.qty_trans_key') }} : {{ $purchaseReceiptLine->receipt_qty }} <br>
+                                                    {{__('general_content.created_at_trans_key') }} : {{ $purchaseReceiptLine->GetPrettyCreatedAttribute() }} <br>
+                                                    <x-ButtonTextView route="{{ route('purchase.receipts.show', ['id' => $purchaseReceiptLine->purchase_receipt_id])}}" />
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </x-adminlte-modal>
+                                    @else
+                                    <span class="badge badge-primary" >{{ number_format($PurchaseLine->receipt_qty, 0, '', ' ') }}</span>
+                                    @endif
+                                </td>
                                 <td>{{ number_format($PurchaseLine->invoiced_qty, 0, '', ' ') }}</td>
                                 <td>{{ number_format($PurchaseLine->selling_price, 2, '.', ',') }} {{ $Factory->curency }}</td>
                                 <td>{{ $PurchaseLine->discount }} %</td>

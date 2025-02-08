@@ -3,6 +3,7 @@
 @section('title', __('general_content.requests_for_quotation_list_trans_key'))
 
 @section('content_header')
+  <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
   <x-Content-header-previous-button  h1="{{ __('general_content.requests_for_quotation_list_trans_key')}} : {{  $PurchaseQuotation->code }}" previous="{{ $previousUrl }}" list="{{ route('purchases.quotation') }}" next="{{ $nextUrl }}"/>
 @stop
 
@@ -23,6 +24,8 @@
   <div class="card-body">
     <div class="tab-content">
       <div class="tab-pane active" id="PurchaseQuotation">
+
+        @livewire('arrow-steps.arrow-rfq', ['RFQId' => $PurchaseQuotation->id, 'RFQStatu' => $PurchaseQuotation->statu])
         <div class="row">
           <div class="col-md-9">
             @include('include.alert-result')
@@ -32,19 +35,6 @@
                 <div class="row">
                   <div class="form-group col-md-3">
                     <label for="code" class="text-success">{{ __('general_content.external_id_trans_key') }}</label>  {{  $PurchaseQuotation->code }}
-                  </div>
-                  <div class="form-group col-md-3">
-                    <x-adminlte-select name="statu" label="{{ __('general_content.status_trans_key') }}" label-class="text-success">
-                      <x-slot name="prependSlot">
-                          <div class="input-group-text bg-gradient-success">
-                              <i class="fas fa-exclamation"></i>
-                          </div>
-                      </x-slot>
-                      <option value="1" @if(1 == $PurchaseQuotation->statu ) Selected @endif >{{ __('general_content.in_progress_trans_key') }}</option>
-                      <option value="2" @if(2 == $PurchaseQuotation->statu ) Selected @endif >{{ __('general_content.send_trans_key') }}</option>
-                      <option value="3" @if(3 == $PurchaseQuotation->statu ) Selected @endif >{{ __('general_content.partly_received_trans_key') }}</option>
-                      <option value="4" @if(4 == $PurchaseQuotation->statu ) Selected @endif >{{ __('general_content.rceived_trans_key') }}</option>
-                    </x-adminlte-select>
                   </div>
                   <div class="form-group col-md-6">
                     @include('include.form.form-input-label',['label' =>__('general_content.name_quote_request_trans_key'), 'Value' =>  $PurchaseQuotation->label])
@@ -165,13 +155,18 @@
                         <td>{{ number_format($PurchaseQuotationLine->unit_price, 2, '.', ',') }} {{ $Factory->curency }}</td>
                         <td>{{ number_format($PurchaseQuotationLine->total_price, 2, '.', ',') }} {{ $Factory->curency }}</td>
                         <td>
-                          <div class="form-group">
-                            <div class="custom-control custom-checkbox">
-                              <input type="hidden" value="{{ $PurchaseQuotationLine->tasks->id }}" name="PurchaseQuotationLineTaskid[]" >
-                              <input class="custom-control-input" value="{{ $PurchaseQuotationLine->id }}" name="PurchaseQuotationLine[]" id="PurchaseQuotationLine.{{ $PurchaseQuotationLine->id }}" type="checkbox">
-                              <label for="PurchaseQuotationLine.{{ $PurchaseQuotationLine->id }}" class="custom-control-label">+</label>
+                          @if($PurchaseQuotationLine->qty_to_order > $PurchaseQuotationLine->qty_accepted)
+                            <div class="form-group">
+                              <div class="custom-control custom-checkbox">
+                                <input type="hidden" value="{{ $PurchaseQuotationLine->tasks->id }}" name="PurchaseQuotationLineTaskid[]" >
+                                <input class="custom-control-input" value="{{ $PurchaseQuotationLine->id }}" name="PurchaseQuotationLine[]" id="PurchaseQuotationLine.{{ $PurchaseQuotationLine->id }}" type="checkbox">
+                                <label for="PurchaseQuotationLine.{{ $PurchaseQuotationLine->id }}" class="custom-control-label">+</label>
+                              </div>
+                            <!-- Champ pour le prix d'achat -->
+                              <label for="purchase_price_{{ $PurchaseQuotationLine->id }}">{{ __('general_content.proposed_purchase_price_trans_key') }}</label>
+                              <input type="number" class="form-control" name="PurchaseQuotationLinePrice[]" id="purchase_price_{{ $PurchaseQuotationLine->id }}" step="0.01" value="{{ $PurchaseQuotationLine->unit_price?? 0 }}">
                             </div>
-                          </div>
+                          @endif
                         </td>
                         <td>{{ number_format($PurchaseQuotationLine->qty_accepted, 0, '', ' ') }}</td>
                         <td>{{ number_format($PurchaseQuotationLine->canceled_qty, 0, '', ' ') }}</td>
@@ -191,7 +186,9 @@
                         <th>{{ __('general_content.price_trans_key') }}</th>
                         <th>{{__('general_content.total_price_trans_key') }}</th>
                         <th>
+                          @if($PurchaseQuotation->statu != 6)
                             <button type="Submit" class="btn btn-primary">{{ __('general_content.new_order_trans_key') }}</button>
+                          @endif
                         </th>
                         <th>{{__('general_content.qty_accepted_trans_key') }}</th>
                         <th>{{ __('general_content.qty_canceled_trans_key') }}</th>

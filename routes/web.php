@@ -163,14 +163,14 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
         Route::get('/quotation', 'App\Http\Controllers\Purchases\PurchasesController@quotation')->name('purchases.quotation'); 
         Route::get('/', 'App\Http\Controllers\Purchases\PurchasesController@purchase')->name('purchases'); 
         
-        Route::post('/', 'App\Http\Controllers\Purchases\PurchasesController@storePurchase')->name('purchases.store'); 
+        Route::post('/', 'App\Http\Controllers\Purchases\PurchasesController@storeBankPurchase')->name('purchases.store'); 
         Route::get('/waiting/receipt', 'App\Http\Controllers\Purchases\PurchasesController@waintingReceipt')->name('purchases.wainting.receipt'); 
         Route::get('/receipt', 'App\Http\Controllers\Purchases\PurchasesController@receipt')->name('purchases.receipt'); 
         Route::get('/waiting/invoice', 'App\Http\Controllers\Purchases\PurchasesController@waintingInvoice')->name('purchases.wainting.invoice'); 
         Route::get('/invoice', 'App\Http\Controllers\Purchases\PurchasesController@invoice')->name('purchases.invoice'); 
 
         //only for quote request to purchase order
-        Route::post('/Purchase/Order/Create/{id}', 'App\Http\Controllers\Purchases\PurchasesController@storePurchaseOrder')->middleware(['auth'])->name('purchases.orders.store');
+        Route::post('/Purchase/Order/Create/{id}', 'App\Http\Controllers\Purchases\PurchasesController@storePurchaseOrderFromRFQ')->middleware(['auth'])->name('purchases.orders.store');
         
         Route::post('/edit/{id}', 'App\Http\Controllers\Purchases\PurchasesController@updatePurchase')->middleware(['auth'])->name('purchase.update');
         Route::post('/quotation/edit/{id}', 'App\Http\Controllers\Purchases\PurchasesController@updatePurchaseQuotation')->middleware(['auth'])->name('quotation.update');

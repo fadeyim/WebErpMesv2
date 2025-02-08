@@ -32,6 +32,8 @@ return [
     'ordered_trans_key'                        => 'Ordered',
     'partly_received_trans_key'                => 'Partly received',
     'rceived_trans_key'                        => 'Received',
+    'po_partly_created_trans_key'              => 'PO partly created',
+    'po_created_trans_key'                     => 'PO Created',
     'canceled_trans_key'                       => 'Canceled',
     'stopped_trans_key'                        => 'Stopped',
     'no_task_trans_key'                        => 'No task',
@@ -891,6 +893,7 @@ return [
     'most_purchased_products_trans_key'        => 'Most purchased products',
     'suppliers_longest_times_trans_key'        => 'Suppliers with the longest receipt times',
     'suppliers_shortest_times_trans_key'       => 'Suppliers with the shortest receipt times',
+    'proposed_purchase_price_trans_key'        => 'Proposed purchase price',
     
     //PURCHASE REQUEST
     'purchase_request_trans_key'               => 'Purchase request',

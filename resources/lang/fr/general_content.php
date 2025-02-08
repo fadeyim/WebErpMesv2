@@ -32,6 +32,8 @@ return [
     'ordered_trans_key'                        => 'En commande',
     'partly_received_trans_key'                => 'Partiellement reçu',
     'rceived_trans_key'                        => 'Reçu',
+    'po_partly_created_trans_key'              => 'CA partiellement créé',
+    'po_created_trans_key'                     => 'CA créé',
     'canceled_trans_key'                       => 'Annulé',
     'stopped_trans_key'                        => 'Stopé',
     'no_task_trans_key'                        => 'Aucune taches',
@@ -891,6 +893,7 @@ return [
     'most_purchased_products_trans_key'        => 'Produits les plus achetés',
     'suppliers_longest_times_trans_key'        => 'Fournisseurs avec les délais de réception les plus longs',
     'suppliers_shortest_times_trans_key'       => 'Fournisseurs avec les délais de réception les plus courts',
+    'proposed_purchase_price_trans_key'        => 'Prix d\'achat proposé',
 
     //PURCHASE REQUEST
     'purchase_request_trans_key'               => 'Demande d\'achat',

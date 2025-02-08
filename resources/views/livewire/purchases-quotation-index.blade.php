@@ -36,11 +36,11 @@
                         <td>{{ $PurchaseQuotation->purchase_quotation_lines_count }}</td>
                         <td>
                             @if(1 == $PurchaseQuotation->statu )  <span class="badge badge-info">{{ __('general_content.in_progress_trans_key') }}</span>@endif
-                            @if(2 == $PurchaseQuotation->statu )  <span class="badge badge-warning">{{ __('general_content.send_trans_key') }}</span>@endif
-                            @if(3 == $PurchaseQuotation->statu )  <span class="badge badge-success">{{ __('general_content.partly_received_trans_key') }}</span>@endif
-                            @if(4 == $PurchaseQuotation->statu )  <span class="badge badge-danger">{{ __('general_content.rceived_trans_key') }}</span>@endif
-                            @if(5 == $PurchaseQuotation->statu )  <span class="badge badge-danger">PO partly created</span>@endif
-                            @if(5 == $PurchaseQuotation->statu )  <span class="badge badge-danger">PO Created</span>@endif
+                            @if(2 == $PurchaseQuotation->statu )  <span class="badge badge-primary">{{ __('general_content.send_trans_key') }}</span>@endif
+                            @if(3 == $PurchaseQuotation->statu )  <span class="badge badge-secondary">{{ __('general_content.partly_received_trans_key') }}</span>@endif
+                            @if(4 == $PurchaseQuotation->statu )  <span class="badge badge-info">{{ __('general_content.rceived_trans_key') }}</span>@endif
+                            @if(5 == $PurchaseQuotation->statu )  <span class="badge badge-warning">{{ __('general_content.po_partly_created_trans_key') }}</span>@endif
+                            @if(6 == $PurchaseQuotation->statu )  <span class="badge badge-success">{{ __('general_content.po_created_trans_key') }}</span>@endif
                         </td>
                         <td>{{ $PurchaseQuotation->GetPrettyCreatedAttribute() }}</td>
                         <td>

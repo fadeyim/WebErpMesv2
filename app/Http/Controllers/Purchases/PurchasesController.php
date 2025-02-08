@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Purchases;
 
 use Illuminate\Http\Request;
-use App\Models\Planning\Task;
-use App\Models\Planning\Status;
+use App\Events\PurchaseCreated;
 use App\Traits\NextPreviousTrait;
 use App\Models\Purchases\Purchases;
 use App\Services\SelectDataService;
@@ -13,8 +12,7 @@ use App\Services\CustomFieldService;
 use App\Services\PurchaseKPIService;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Products\StockLocation;
-use App\Models\Purchases\PurchaseLines;
-use App\Models\Accounting\AccountingVat;
+use App\Services\PurchaseOrderService;
 use App\Models\Purchases\PurchaseInvoice;
 use App\Models\Purchases\PurchaseReceipt;
 use App\Models\Companies\CompaniesContacts;
@@ -23,7 +21,6 @@ use App\Models\Companies\CompaniesAddresses;
 use App\Models\Purchases\PurchasesQuotation;
 use App\Models\Products\StockLocationProducts;
 use App\Models\Purchases\PurchaseReceiptLines;
-use App\Models\Purchases\PurchaseQuotationLines;
 use App\Http\Requests\Purchases\StorePurchaseRequest;
 use App\Http\Requests\Purchases\UpdatePurchaseRequest;
 use App\Http\Requests\Purchases\UpdatePurchaseInvoiceRequest;
@@ -37,18 +34,31 @@ class PurchasesController extends Controller
     protected $SelectDataService;
     protected $purchaseKPIService;
     protected $customFieldService;
+    protected $purchaseOrderService;
 
+    /**
+     * Constructor to initialize services.
+     *
+     * @param SelectDataService $SelectDataService
+     * @param PurchaseKPIService $purchaseKPIService
+     * @param CustomFieldService $customFieldService
+     * @param PurchaseOrderService $purchaseOrderService
+     */
     public function __construct(
             SelectDataService $SelectDataService, 
             PurchaseKPIService $purchaseKPIService,
-            CustomFieldService $customFieldService
+            CustomFieldService $customFieldService,
+            PurchaseOrderService $purchaseOrderService,
         ){
         $this->SelectDataService = $SelectDataService;
         $this->purchaseKPIService = $purchaseKPIService;
         $this->customFieldService = $customFieldService;
+        $this->purchaseOrderService = $purchaseOrderService;
     }
     
     /**
+     * Display the purchase request view.
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function request()
@@ -57,6 +67,8 @@ class PurchasesController extends Controller
     }
 
     /**
+     * Display the purchase quotation view.
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function quotation()
@@ -67,6 +79,8 @@ class PurchasesController extends Controller
     }
 
     /**
+     * Display the purchase view with various data.
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function purchase()
@@ -87,17 +101,9 @@ class PurchasesController extends Controller
         $userSelect = $this->SelectDataService->getUsers();
         $CompanieSelect = $this->SelectDataService->getSupplier();
 
-        $LastPurchase =  Purchases::latest()->first();
-        //if we have no id, define 0 
-        if($LastPurchase == Null){
-            $code =  "PU-0";
-            $label = "PU-0";
-        }
-        // else we use is from db
-        else{
-            $code = "PU-".  $LastPurchase->id;
-            $label = "PU-".  $LastPurchase->id;
-        }
+        $LastPurchase =   $this->purchaseOrderService->generatePurchaseCode();
+        $code = $LastPurchase;
+        $label = $LastPurchase;
 
         return view('purchases/purchases-index', [
                                                     'topRatedSuppliers' => $topRatedSuppliers,
@@ -115,32 +121,9 @@ class PurchasesController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function storePurchase(StorePurchaseRequest  $request)
-    {
-        $defaultAddress = CompaniesAddresses::getDefault(['companies_id' => $request->companies_id]);
-        $defaultContact = CompaniesContacts::getDefault(['companies_id' => $request->companies_id]);
-        $purchaseData = $request->only('code', 'label', 'companies_id', 'user_id');
-        
-        $defaultAddress = ($defaultAddress->id  ?? 0);
-        $defaultContact = ($defaultContact->id  ?? 0);
-
-        if($defaultAddress == 0 || $defaultContact == 0 ){
-            return redirect()->back()->with('error', 'No default settings');
-        }
-
-        $purchaseData['companies_addresses_id'] = $defaultAddress;
-        $purchaseData['companies_contacts_id'] = $defaultContact;
-
-        $purchaseOrderCreated = Purchases::create($purchaseData);
-
-        return redirect()->route('purchases.show', ['id' => $purchaseOrderCreated->id])->with('success', 'Successfully created new purchase order');
-    }
-
-    /**
-     * @param $id
+     * Display a specific purchase quotation.
+     *
+     * @param PurchasesQuotation $id
      * @return \Illuminate\Contracts\View\View
      */
     public function showQuotation(PurchasesQuotation $id)
@@ -161,7 +144,9 @@ class PurchasesController extends Controller
     }
 
     /**
-     * @param $id
+     * Display a specific purchase.
+     *
+     * @param Purchases $id
      * @return \Illuminate\Contracts\View\View
      */
     public function showPurchase(Purchases $id)
@@ -191,110 +176,93 @@ class PurchasesController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request, $id
-     * @return \Illuminate\Http\RedirectResponse
+     * Prepare purchase data for storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return array|bool The prepared purchase data or false if defaults are missing.
      */
-    public function storePurchaseOrder(Request $request, $id)
-    { 
-        if($request->PurchaseQuotationLine){
-            //get data to dulicate for new purchase order
-            $purchaseData = PurchasesQuotation::find($id);
+    protected function preparePurchaseData($request)
+    {
+        $defaultAddress = CompaniesAddresses::getDefault(['companies_id' => $request->companies_id]);
+        $defaultContact = CompaniesContacts::getDefault(['companies_id' => $request->companies_id]);
 
-            //get last order id for create new Code id
-            $LastPurchase =  Purchases::orderBy('id', 'desc')->first();
-            if($LastPurchase == Null){
-                $purchaseCode = "PU-0";
-            }
-            else{
-                $purchaseCode = "PU-". $LastPurchase->id;
-            }
-
-            $defaultAddress = CompaniesAddresses::getDefault(['companies_id' => $purchaseData->companies_id]);
-            $defaultContact = CompaniesContacts::getDefault(['companies_id' => $purchaseData->companies_id]);
-            $AccountingVat = AccountingVat::getDefault(); 
-            $defaultAddress = ($defaultAddress->id  ?? 0);
-            $defaultContact = ($defaultContact->id  ?? 0);
-            $AccountingVat = ($AccountingVat->id  ?? 0);
-    
-            if($defaultAddress == 0 || $defaultContact == 0 || $AccountingVat == 0){
-                return redirect()->back()->with('error', 'No default settings');
-            }
-
-            // Create order
-            $PurchaseOrderCreated = Purchases::create([
-                'code'=> $purchaseCode,  
-                'label'=> $purchaseCode, 
-                'companies_id'=>$purchaseData->companies_id, 
-                'companies_contacts_id' =>$defaultContact,
-                'companies_addresses_id' =>$defaultAddress,
-                //'statu' => defaut 1
-                'user_id'=>Auth::id(),
-                //'Comment' => defaut emtpy
-            ]);
-
-            $StatusUpdate = Status::select('id')->where('title', 'Supplied')->first();
-            if(is_null($StatusUpdate)){
-                $StatusUpdate = Status::select('id')->where('title', 'In progress')->first();
-            }
-            
-            if(is_null($StatusUpdate)){
-                return redirect()->back()->with('error', 'No status in kanban for define progress');
-            }
-            
-            if($PurchaseOrderCreated){
-                // Create lines
-                $ordre = 10;
-                foreach ($request->PurchaseQuotationLine as $key => $item) {
-                    //if not best to find request value, but we cant send hidden data with livewire
-                    //How pass all information from task information ?
-                    $Task = Task::find($request->PurchaseQuotationLineTaskid[$key]);
-
-                    // Create delivery line
-                    $PurchaseLines = PurchaseLines::create([
-                            'purchases_id' => $PurchaseOrderCreated->id,
-                            'tasks_id' => $request->PurchaseQuotationLineTaskid[$key], 
-                            'ordre' => $ordre, 
-                            //'code' => , can be null
-                            'product_id' =>$Task->products_id,
-                            'label' => $Task->label,
-                            //'supplier_ref' => , can be null
-                            'qty' => $Task->qty,
-                            'selling_price' => $Task->unit_cost,
-                            'discount' => 0,
-                            'unit_price_after_discount' => $Task->unit_cost,
-                            'total_selling_price' => $Task->unit_cost * $Task->qty,
-                            //'receipt_qty' =>, defaut to 0
-                            //'invoiced_qty' =>, defaut to 0
-                            'methods_units_id' => $Task->methods_units_id,
-                            'accounting_vats_id' => $AccountingVat,
-                            //'stock_locations_id' => , can be null
-                            'statu' => 1
-                        ]); 
-
-                    /* // up order line for next record*/
-                    $ordre= $ordre+10;
-                    /* // update task statu Supplied on Kanban*/
-                    if($StatusUpdate->id){
-                        $taskUpdated = Task::where('id',$request->PurchaseQuotationLineTaskid[$key])->update(['status_id'=>$StatusUpdate->id]);
-                    }
-                    /* update quotation line qty accepted*/
-                    $PurchasesQuotationLine = PurchaseQuotationLines::where('id', $item)->update(['qty_accepted'=> $Task->qty]);
-                }
-
-                return redirect()->route('purchases.show', ['id' => $PurchaseOrderCreated->id])->with('success', 'Successfully created new purchase order');
-                
-            }
-            else{
-                return redirect()->back()->withErrors(['msg' => 'Something went wrong']);
-            }
+        if (!$defaultAddress || !$defaultContact) {
+            return false;
         }
-        else{
-            return redirect()->back()->withErrors(['msg' => 'no lines selected']);
-        }
+
+        $purchaseData = $request->only('code', 'label', 'companies_id', 'user_id');
+        $purchaseData['companies_addresses_id'] = $defaultAddress->id;
+        $purchaseData['companies_contacts_id'] = $defaultContact->id;
+
+        return $purchaseData;
     }
 
     /**
-     * @param $id
+     * Store a new bank purchase.
+     *
+     * @param \App\Http\Requests\Purchases\StorePurchaseRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function storeBankPurchase(StorePurchaseRequest  $request)
+    {
+        $purchaseData = $this->preparePurchaseData($request);
+
+        if ($purchaseData === false) {
+            return redirect()->back()->with('error', 'No default settings fount for address, contact or accounting vat');
+        }
+    
+        $purchaseOrderCreated = Purchases::create($purchaseData);
+    
+        return redirect()->route('purchases.show', ['id' => $purchaseOrderCreated->id])
+                            ->with('success', 'Successfully created new purchase order');
+    }
+
+    /**
+     * Store a new purchase order from a request for quotation (RFQ).
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id The ID of the purchase quotation.
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function storePurchaseOrderFromRFQ(Request $request, $id)
+    { 
+        if (!$request->PurchaseQuotationLine) {
+            return redirect()->back()->withErrors(['msg' => 'no lines selected']);
+        }
+    
+        $PurchasesQuotationData = PurchasesQuotation::findOrFail($id);
+    
+        $purchaseOrder = $this->purchaseOrderService->createPurchaseOrderFromQuotation($PurchasesQuotationData);
+    
+        if (!$purchaseOrder) {
+            return redirect()->back()->withErrors(['msg' => 'Something went wrong (like no default settings for address, contact or accounting vat)']);
+        }
+    
+        $statusUpdate = $this->purchaseOrderService->getStatusUpdate();
+    
+        if (!$statusUpdate) {
+            return redirect()->back()->with('error', 'No status "Supplied" or "In progress" in kanban for defining progress');
+        }
+    
+        $this->purchaseOrderService->processPurchaseQuotationLines(
+            $request->PurchaseQuotationLine,
+            $request->PurchaseQuotationLineTaskid,
+            $purchaseOrder,
+            $statusUpdate->id,
+            $request->PurchaseQuotationLinePrice,
+        );
+
+        // Déclencher l'événement PurchaseCreated
+        event(new PurchaseCreated($PurchasesQuotationData));
+    
+        return redirect()->route('purchases.show', ['id' => $purchaseOrder->id])
+                            ->with('success', 'Successfully created new purchase order');
+    }
+
+    /**
+     * Display a specific purchase receipt.
+     *
+     * @param PurchaseReceipt $id
      * @return \Illuminate\Contracts\View\View
      */
     public function showReceipt(PurchaseReceipt $id)
@@ -320,12 +288,13 @@ class PurchasesController extends Controller
     }
 
     /**
-     * @param $id
+     * Display a specific purchase invoice.
+     *
+     * @param PurchaseInvoice $id
      * @return \Illuminate\Contracts\View\View
      */
     public function showInvoice(PurchaseInvoice $id)
     {   
-
         list($previousUrl, $nextUrl) = $this->getNextPrevious(new PurchaseInvoice(), $id->id);
 
         return view('purchases/purchases-invoice-show', [
@@ -337,7 +306,9 @@ class PurchasesController extends Controller
     
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * Update a purchase order.
+     *
+     * @param \App\Http\Requests\Purchases\UpdatePurchaseRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function updatePurchase(UpdatePurchaseRequest $request)
@@ -354,7 +325,9 @@ class PurchasesController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * Update a purchase quotation.
+     *
+     * @param \App\Http\Requests\Purchases\UpdatePurchaseQuotationRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function updatePurchaseQuotation(UpdatePurchaseQuotationRequest $request)
@@ -373,7 +346,9 @@ class PurchasesController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * Update a purchase receipt.
+     *
+     * @param \App\Http\Requests\Purchases\UpdatePurchaseReceiptRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function updatePurchaseReceipt(UpdatePurchaseReceiptRequest $request)
@@ -389,7 +364,10 @@ class PurchasesController extends Controller
     }
 
     /**
+     * Update the reception control of a purchase receipt.
+     *
      * @param \Illuminate\Http\Request $request
+     * @param int $id The ID of the purchase receipt.
      * @return \Illuminate\Http\RedirectResponse
      */
     public function updateReceptionControl(Request $request, $id)
@@ -406,7 +384,9 @@ class PurchasesController extends Controller
     }
     
     /**
-     * @param \Illuminate\Http\Request $request
+     * Update a purchase invoice.
+     *
+     * @param \App\Http\Requests\Purchases\UpdatePurchaseInvoiceRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function updatePurchaseInvoice(UpdatePurchaseInvoiceRequest $request)
@@ -421,6 +401,8 @@ class PurchasesController extends Controller
     }
 
     /**
+     * Display the waiting receipt view.
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function waintingReceipt()
@@ -429,6 +411,8 @@ class PurchasesController extends Controller
     }
 
     /**
+     * Display the receipt view with data.
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function receipt()
@@ -438,6 +422,8 @@ class PurchasesController extends Controller
     }
 
     /**
+     * Display the waiting invoice view.
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function waintingInvoice()
@@ -446,6 +432,8 @@ class PurchasesController extends Controller
     }
 
     /**
+     * Display the invoice view with data.
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function invoice()

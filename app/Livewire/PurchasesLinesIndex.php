@@ -11,8 +11,8 @@ use App\Models\Purchases\Purchases;
 use Illuminate\Support\Facades\App;
 use App\Models\Methods\MethodsUnits;
 use Illuminate\Support\Facades\Auth;
+use App\Services\PurchaseOrderService;
 use App\Models\Purchases\PurchaseLines;
-use App\Models\Accounting\AccountingVat;
 use App\Services\PurchaseReceiptService;
 
 class PurchasesLinesIndex extends Component
@@ -48,12 +48,13 @@ class PurchasesLinesIndex extends Component
     public $TechProductList = [];
     public $BOMProductList = [];
     public $data = [];
-
+    protected $purchaseOrderService;
     protected $purchaseReceiptService;
 
     public function __construct()
     {
         // Resolve the service via the Laravel container
+        $this->purchaseOrderService = App::make(PurchaseOrderService::class);
         $this->purchaseReceiptService = App::make(PurchaseReceiptService::class);
     }
 
@@ -88,7 +89,6 @@ class PurchasesLinesIndex extends Component
         $this->Factory = Factory::first();
         $this->status_id = Status::select('id')->orderBy('order')->first();
         $this->ProductsSelect = Products::select('id', 'label', 'code')->orderBy('code')->get();
-        $this->VATSelect = AccountingVat::select('id', 'label')->orderBy('rate')->get();
         $this->UnitsSelect = MethodsUnits::select('id', 'label', 'code')->orderBy('label')->get();
         $this->ProductSelect = Products::select('id', 'code','label', 'methods_services_id')->get();
 }
@@ -125,13 +125,28 @@ class PurchasesLinesIndex extends Component
             'methods_units_id'=>'required',
         ]);
 
-        $AccountingVat = AccountingVat::getDefault(); 
-        $AccountingVat = ($AccountingVat->id  ?? 0);
-
-        if($AccountingVat == 0){
+        $AccountingVat = $this->purchaseOrderService->getAccountingVat();
+        if(!$AccountingVat){
             return redirect()->route('purchases.show', ['id' =>  $this->purchase_id])->with('error', 'No default settings');
         }
         
+
+        /* can't use the Task model here,
+        because it's not the same qty we use 
+        getQualityRequiredAttribute in service 
+        
+        $task = new Task([
+            'id' => '0',
+            'component_id' => $this->product_id,
+            'label' => $this->label,
+            'qty'=>$this->qty,
+            'unit_cost'=>$this->selling_price,
+            'methods_units_id' => $this->methods_units_id,
+        ]);
+
+        $this->purchaseOrderService->createPurchaseOrderLine($this->purchase_id, $task, $accountingVat->id, $this->ordre, $this->discount);*/
+
+
         // Create Line
         $NewPurchaseLines = PurchaseLines::create([
             'purchases_id'=>$this->purchase_id,
@@ -143,7 +158,7 @@ class PurchasesLinesIndex extends Component
             'selling_price'=>$this->selling_price,
             'discount'=>$this->discount,
             'methods_units_id'=>$this->methods_units_id,
-            'accounting_vats_id'=>$AccountingVat,
+            'accounting_vats_id'=>$AccountingVat->id,
         ]);
 
         // Set Flash Message

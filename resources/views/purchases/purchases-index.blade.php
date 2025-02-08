@@ -119,7 +119,7 @@
                           <div class="card card-body">
                               @include('include.alert-result')
                               <div class="form-row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-12">
                                   <label for="code">{{ __('general_content.external_id_trans_key') }}</label>
                                   <div class="input-group">
                                       <div class="input-group-prepend">
@@ -129,7 +129,9 @@
                                   </div>
                                   @error('code') <span class="text-danger">{{ $message }}<br/></span>@enderror
                                 </div>
-                                <div class="form-group col-md-6">
+                              </div>
+                              <div class="form-row">
+                                <div class="form-group col-md-12">
                                     <label for="label">{{ __('general_content.label_trans_key') }}</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
@@ -141,11 +143,8 @@
                                 </div>
                               </div>
                               <div class="form-row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-12">
                                   @include('include.form.form-select-companie',['companiesId' =>  null])
-                                </div>
-                                <div class="form-group col-md-6">
-                                  @include('include.form.form-select-user',['userId' =>   null])
                                 </div>
                               </div>
                               <div class="modal-footer">

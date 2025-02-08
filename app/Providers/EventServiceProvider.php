@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Events\OrderCreated;
 use App\Events\QuoteCreated;
+use App\Events\PurchaseCreated;
 use App\Events\TaskChangeStatu;
 use App\Events\OrderLineUpdated;
 use App\Events\QuoteStatusChanged;
@@ -18,6 +19,7 @@ use App\Listeners\UpdateOpportunityStatus;
 use App\Listeners\CheckOrderLineTaskStatus;
 use App\Listeners\CheckOrderDeliveredStatus;
 use App\Listeners\UpdateCompanyStatusForOrder;
+use App\Listeners\UpdatePurchasesQuotationStatus;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -49,6 +51,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderCreated::class => [
             UpdateCompanyStatusForOrder::class,
+        ],
+        PurchaseCreated::class => [
+            UpdatePurchasesQuotationStatus::class,
         ],
         PurchaseReceiptCreated::class => [
             UpdatePurchaseStatus::class,
