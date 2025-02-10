@@ -4,7 +4,7 @@ return [
 
     /* GRENERAL TRANS KEY */
 
-    //STATUS
+    //STATUTS
     'open_trans_key'                           => 'Ouvert',
     'send_trans_key'                           => 'Envoyé',
     'win_trans_key'                            => 'Gagné',
@@ -164,16 +164,16 @@ return [
     'label_trans_key'                          => 'Label',
     'customer_trans_key'                       => 'Client',
     'id_customer_trans_key'                    => 'Code client',
-    'status_trans_key'                         => 'Status',
-    'statu_trans_key'                          => 'Statu',
+    'status_trans_key'                         => 'Statuts',
+    'statu_trans_key'                          => 'Statut',
     'total_price_trans_key'                    => 'Prix total',
     'lines_count_trans_key'                    => 'Nombre de ligne',
     'created_at_trans_key'                     => 'Créer le',
     'assigned_trans_key'                       => 'Assigné à',
     'action_trans_key'                         => 'Actions',
     'user_trans_key'                           => 'Utilisateur',
-    'status_client_trans_key'                  => 'Status client',
-    'status_supplier_trans_key'                => 'Status fournisseur',
+    'status_client_trans_key'                  => 'Etat client',
+    'status_supplier_trans_key'                => 'Etat fournisseur',
     'color_trans_key'                          => 'Couleur',
     'picture_trans_key'                        => 'Image',
     'ressource_trans_key'                      => 'Ressource',
@@ -200,8 +200,8 @@ return [
     'vat_trans_key'                            => 'TVA',
     'delivery_date_trans_key'                  => 'Date de livraison',
     'internal_delay_trans_key'                 => 'délai interne',
-    'tasks_status_trans_key'                   => 'Statu des taches',
-    'delivery_status_trans_key'                => 'Statu de livraison',
+    'tasks_status_trans_key'                   => 'Statut des taches',
+    'delivery_status_trans_key'                => 'Statut de livraison',
     'invoice_status_trans_key'                 => 'Statut de la facture',
     'delivered_qty_trans_key'                  => 'Qt livrée',
     'remaining_qty_trans_key'                  => 'Qt restante',
@@ -224,7 +224,7 @@ return [
     'type_of_contract_trans_key'               => 'Type de contra',
     'weekly_duration_trans_key'                => 'Durée hebdomadaire',
 
-    'employment_statu_trans_key'               => 'Statu de l\'employé',
+    'employment_statu_trans_key'               => 'Statut de l\'employé',
     'job_title_trans_key'                      => 'Poste',
     'role_trans_key'                           => 'Rôle', 
     'roles_trans_key'                          => 'Rôles', 
@@ -401,7 +401,7 @@ return [
     'select_ressource_trans_key'               => 'Selectionner ressource',
     'select_family_trans_key'                  => 'Selectionner famille',
     'select_unit_trans_key'                    => 'Selectionner unité',
-    'select_statu_trans_key'                   => 'Selectionner statu',
+    'select_statu_trans_key'                   => 'Selectionner statut',
     'select_type_trans_key'                    => 'Selectionner type',
     'select_control_type_trans_key'            => 'Selectionner type de controle',
     'select_task_type_trans_key'               => 'Selectionner type de tâche',
@@ -409,7 +409,7 @@ return [
     'select_year_trans_key'                    => 'Selectionner année',
     'select_gender_trans_key'                  => 'Selectionner genre',
     'select_marital_status_trans_key'          => 'Selectionner l\'état civil',
-    'select_status_trans_key'                  => 'Selectionner status',
+    'select_status_trans_key'                  => 'Selectionner statuts',
     'select_controle_trans_key'                => 'Selectionner type de contrôle',
     'select_document_trans_key'                => 'Selectionner le document',
     'select_task_trans_key'                    => 'Selectionner la tâche',
@@ -656,6 +656,7 @@ return [
     'leads_trans_key'                          => 'Leads',
     'lead_trans_key'                           => 'Lead',
     'new_leads_trans_key'                      => 'Nouveau Lead',
+    'lead_count_trans_key'                     => 'Nombre de leads',
     'list_leads_trans_key'                     => 'Liste des Lead',
 
     //OPPORTUNITIES
@@ -877,7 +878,7 @@ return [
     'remove_from_stock_trans_key'              => 'Retirer du stock',
     'remove_component_lines_stock_trans_key'   => 'Supprimer automatiquement les lignes de composants du stock',
     'create_serial_number_trans_key'           => 'Créer automatiquement un numéro de série si vous n\'en avez pas',
-    'current_stock_note_trans_key'             => 'L\'affichage des encours demandés comprend les lignes de commandes non terminées sans tâche et les tâches dont le status est égale à : Ouvert, Commencé, Progression',
+    'current_stock_note_trans_key'             => 'L\'affichage des encours demandés comprend les lignes de commandes non terminées sans tâche et les tâches dont le statuts est égale à : Ouvert, Commencé, Progression',
     'current_stock_note_2_trans_key'           => 'Attention, créer une commande interne aura pour but de refaire du stock basé sur l\'encours, cependant cela peux réaliser du surstock si l\'action est réalisée en doublons avec le flux normale.',
 
     'inventory_trans_key'                      => 'Inventory',
@@ -974,7 +975,7 @@ return [
     'new_machine_event_trans_key'              => 'Nouveau type d\'événement machine',
     'new_banck_holiday_trans_key'              => 'Nouveau jour férié',
     'new_improduct_time_trans_key'             => 'Nouveau temps improductif',
-    'machine_statu_trans_key'                  => 'Statu machine',  
+    'machine_statu_trans_key'                  => 'Statut machine',  
     'resource_required_trans_key'              => 'Ressource requise',  
     
     //HUMAN RESOURCES

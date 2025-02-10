@@ -28,7 +28,7 @@
           </x-adminlte-card>
         </div>
         <div class="col-md-3">
-          <x-adminlte-small-box title="{{ __('general_content.opportunities_count_trans_key') }}" text="{{ $leadsCount }}" icon="fas fa-chart-bar text-white"
+          <x-adminlte-small-box title="{{ __('general_content.lead_count_trans_key') }}" text="{{ $leadsCount }}" icon="fas fa-chart-bar text-white"
             theme="purple"/>
         </div>
         <div class="col-md-3">

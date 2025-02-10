@@ -656,6 +656,7 @@ return [
     'leads_trans_key'                          => 'Leads',
     'lead_trans_key'                           => 'Lead',
     'new_leads_trans_key'                      => 'New Lead',
+    'lead_count_trans_key'                     => 'Leads count',
     'list_leads_trans_key'                     => 'Lead list',
     
     //OPPORTUNITIES
