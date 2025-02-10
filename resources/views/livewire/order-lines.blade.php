@@ -344,7 +344,7 @@
                                             <a href="#" class="dropdown-item " wire:click="createNC({{$OrderLine->id}}, {{$OrderLine->order->companies_id}})" ><span class="text-warning"><i class="fa fa-light fa-fw  fa-exclamation"></i>{{ __('general_content.new_non_conformitie_trans_key') }}</span></a>
                                             
                                             @if($OrderLine->code && $OrderLine->label)
-                                                <a href="#" class="dropdown-item" wire:click="CreatProduct({{$OrderLine->id}})" ><span class="text-success"><i class="fa fa-lg fa-fw fas fa-barcode"></i>{{ __('general_content.create_product_trans_key') }}</span></a>
+                                                <a href="#" class="dropdown-item" wire:click="createProduct({{$OrderLine->id}})" ><span class="text-success"><i class="fa fa-lg fa-fw fas fa-barcode"></i>{{ __('general_content.create_product_trans_key') }}</span></a>
                                             @endif
                                         </div>
                                     </div>

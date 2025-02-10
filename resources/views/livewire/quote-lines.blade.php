@@ -263,7 +263,7 @@
                                             @endif
 
                                             @if($QuoteLine->code && $QuoteLine->label)
-                                                <a href="#" class="dropdown-item" wire:click="CreatProduct({{$QuoteLine->id}})" ><span class="text-success"><i class="fa fa-lg fa-fw fas fa-barcode"></i>{{ __('general_content.create_product_trans_key') }}</span></a>
+                                                <a href="#" class="dropdown-item" wire:click="createProduct({{$QuoteLine->id}})" ><span class="text-success"><i class="fa fa-lg fa-fw fas fa-barcode"></i>{{ __('general_content.create_product_trans_key') }}</span></a>
                                             @endif
                                         </div>
                                     </div>
