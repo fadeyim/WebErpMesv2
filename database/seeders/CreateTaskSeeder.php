@@ -13,7 +13,7 @@ class CreateTaskSeeder extends Seeder
      */
     public function run()
     {
-        // Créer 5000 tâches en utilisant la factory
+        // Créer 3000 tâches en utilisant la factory
         Task::factory()->count(3000)->create();
     }
 }

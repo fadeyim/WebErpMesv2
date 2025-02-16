@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Companies;
 
-use Illuminate\Http\Request;
-use App\Models\Companies\Companies;
 use App\Models\Companies\CompaniesContacts;
 use App\Http\Requests\Companies\StoreContactRequest;
 use App\Http\Requests\Companies\UpdateContactRequest;
