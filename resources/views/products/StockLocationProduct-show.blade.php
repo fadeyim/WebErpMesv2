@@ -93,7 +93,7 @@
                   <td>{{ $StockMove->component_price}} {{ $Factory->curency }}</td>
                   <td>
                     <div class="btn-group btn-group-sm">
-                      <a href="{{ route('products.stock.detail.show', ['id' => $StockMove->id])}}" class="btn btn-info"><i class="fa fa-lg fa-fw fa-eye"></i></a>
+                      <x-ButtonTextView route="{{ route('products.stock.detail.show', ['id' => $StockMove->id])}}" />
                     </div>
                   </td>
                 </tr>

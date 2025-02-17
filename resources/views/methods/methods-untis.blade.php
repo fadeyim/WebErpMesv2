@@ -47,9 +47,7 @@
                   </td>
                   <td class=" py-0 align-middle">
                     <!-- Button Modal -->
-                    <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#MethodsUnit{{ $MethodsUnit->id }}">
-                      <i class="fa fa-lg fa-fw  fa-edit"></i>
-                    </button>
+                    <x-ButtonTextEdit :modalTarget="'MethodsUnit' . $MethodsUnit->id" />
                     <!-- Modal {{ $MethodsUnit->id }} -->
                     <x-adminlte-modal id="MethodsUnit{{ $MethodsUnit->id }}" title="Update {{ $MethodsUnit->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                       <form method="POST" action="{{ route('methods.unit.update', ['id' => $MethodsUnit->id]) }}" enctype="multipart/form-data">

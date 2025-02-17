@@ -7,15 +7,25 @@ use Illuminate\View\Component;
 class ButtonTextView extends Component
 {
     public $route;
+    public $downloadFile;
+    public $modalTarget;
+    public $bankFile;
     
     /**
      * Create a new component instance.
      *
+     * @param  string  $route
+     * @param  string|null  $downloadFile
+     * @param  string|null  $modalTarget
+     * @param  string|null  $bankFile
      * @return void
      */
-    public function __construct( $route)
+    public function __construct( $route = null, $downloadFile = null, $modalTarget = null, $bankFile = null)
     {
         $this->route = $route;
+        $this->downloadFile = $downloadFile;
+        $this->modalTarget = $modalTarget;
+        $this->bankFile = $bankFile;
     }
 
     /**

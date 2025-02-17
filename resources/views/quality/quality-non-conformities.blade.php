@@ -77,9 +77,7 @@
                 <td>{{ $QualityNonConformity->GetPrettyCreatedAttribute() }}</td>
                 <td class=" py-0 align-middle">
                   <!-- Button Modal -->
-                  <button type="button" class="btn bg-info" data-toggle="modal" data-target="#QualityNonConformityView{{ $QualityNonConformity->id }}">
-                    <i class="fa fa-lg fa-fw fa-eye"></i>
-                  </button>
+                  <x-button-text-view :modalTarget="'QualityNonConformityView' . $QualityNonConformity->id" />
                   <!-- Modal {{ $QualityNonConformity->id }} -->
                   <x-adminlte-modal id="QualityNonConformityView{{ $QualityNonConformity->id }}" title="Info {{ $QualityNonConformity->label }}" theme="info" icon="fa fa-pen" size='lg' disable-animations>
                     
@@ -133,9 +131,7 @@
                   </x-adminlte-modal>
   
                   <!-- Button Modal -->
-                  <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#QualityNonConformity{{ $QualityNonConformity->id }}">
-                    <i class="fa fa-lg fa-fw  fa-edit"></i>
-                  </button>
+                  <x-ButtonTextEdit :modalTarget="'QualityNonConformity' . $QualityNonConformity->id" />
                   <!-- Modal {{ $QualityNonConformity->id }} -->
                   <x-adminlte-modal id="QualityNonConformity{{ $QualityNonConformity->id }}" title="Update {{ $QualityNonConformity->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                     <form method="POST" action="{{ route('quality.nonConformitie.update', ['id' => $QualityNonConformity->id]) }}" enctype="multipart/form-data">
@@ -371,6 +367,7 @@
                           <i class="fas fa-building"></i>
                       </div>
                   </x-slot>
+                  <option value="">{{ __('general_content.select_company_trans_key') }}</option>
                   @foreach ($CompanieSelect as $item)
                   <option value="{{ $item->id }}">{{ $item->code }} - {{ $item->label }}</option>
                   @endforeach

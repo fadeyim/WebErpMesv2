@@ -37,12 +37,10 @@
                 <td>{{ $StockLocationsProduct->addressing }}</td>
                 <td class=" py-0 align-middle">
                     <div class="btn-group btn-group-sm">
-                    <a href="{{ route('products.stockline.show', ['id' => $StockLocationsProduct->id])}}" class="btn btn-info"><i class="fa fa-lg fa-fw fa-eye"></i></a>
+                        <x-ButtonTextView route="{{ route('products.stockline.show', ['id' => $StockLocationsProduct->id])}}" />
                     </div>
                     <!-- Button Modal -->
-                    <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#StockLocationsProduct{{ $StockLocationsProduct->id }}">
-                    <i class="fa fa-lg fa-fw  fa-edit"></i>
-                    </button>
+                    <x-ButtonTextEdit :modalTarget="'StockLocationsProduct' . $StockLocationsProduct->id" />
                     <!-- Modal {{ $StockLocationsProduct->id }} -->
                     <x-adminlte-modal id="StockLocationsProduct{{ $StockLocationsProduct->id }}" title="Update {{ $StockLocationsProduct->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                     <form method="POST" action="{{ route('products.stockline.update', ['id' => $StockLocationsProduct->id]) }}" >

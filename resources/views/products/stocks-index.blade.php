@@ -34,12 +34,10 @@
                 <td>{{ $stock->GetPrettyCreatedAttribute() }}</td>
                 <td class="py-0 align-middle">
                   <div class="btn-group btn-group-sm">
-                    <a href="{{ route('products.stock.show', ['id' => $stock->id])}}" class="btn bg-primary"><i class="fa fa-lg fa-fw fa-eye"></i></a>
+                    <x-ButtonTextView route="{{ route('products.stock.show', ['id' => $stock->id])}}" />
                   </div>
                   <!-- Button Modal -->
-                  <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#StockModal{{ $stock->id }}">
-                    <i class="fa fa-lg fa-fw  fa-edit"></i>
-                  </button>
+                  <x-ButtonTextEdit :modalTarget="'StockModal' . $stock->id" />
                   <!-- Modal {{ $stock->id }} -->
                   <x-adminlte-modal id="StockModal{{ $stock->id }}" title="Update {{ $stock->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                     <form method="POST" action="{{ route('products.stock.update', ['id' => $stock->id]) }}" >

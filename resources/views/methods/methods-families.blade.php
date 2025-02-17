@@ -33,9 +33,7 @@
                 <td>{{ $MethodsFamilie->service['label'] }}</td>
                 <td class=" py-0 align-middle">
                   <!-- Button Modal -->
-                  <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#MethodsFamilie{{ $MethodsFamilie->id }}">
-                    <i class="fa fa-lg fa-fw  fa-edit"></i>
-                  </button>
+                  <x-ButtonTextEdit :modalTarget="'MethodsFamilie' . $MethodsFamilie->id" />
                   <!-- Modal {{ $MethodsFamilie->id }} -->
                   <x-adminlte-modal id="MethodsFamilie{{ $MethodsFamilie->id }}" title="Update {{ $MethodsFamilie->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                     <form method="POST" action="{{ route('methods.family.update', ['id' => $MethodsFamilie->id]) }}" enctype="multipart/form-data">

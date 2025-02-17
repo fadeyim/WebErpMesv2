@@ -708,7 +708,7 @@ return [
 
     //ORDERS
     'orders_trans_key'                         => 'Commandes',
-    'orders_list_trans_key'                    => 'Liste des commandes',
+    'orders_list_trans_key'                    => 'Commandes',
     'orders_lines_list_trans_key'              => 'Lignes de commande',
     'order_confirm_trans_key'                  => 'Confirmation de commande',
     'internal_order_trans_key'                 => 'Commande interne',

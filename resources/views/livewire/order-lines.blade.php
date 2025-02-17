@@ -327,13 +327,13 @@
                                     <div class="input-group-prepend">
                                         @if( $OrderLine->product_id && $OrderLine->Product->drawing_file)
                                         <!-- Drawing link -->
-                                        <a class="btn btn-info" href="{{ asset('drawing/'. $OrderLine->Product->drawing_file) }}" target="_blank"><i class="fa fa-lg fa-fw fa-eye"></i></a>
+                                        <x-button-text-view :bankFile="$OrderLine->Product->drawing_file" />
                                         @endif
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                         <div class="dropdown-menu">
                                             @if($OrderStatu == 1 && $OrderLine->delivery_status == 1 )
                                                 <a href="#" class="dropdown-item " wire:click="duplicateLine({{$OrderLine->id}})" ><span class="text-info"><i class="fa fa-light fa-fw  fa-copy"></i> {{ __('general_content.copie_line_trans_key') }}</span></a>
-                                                <a href="#" class="dropdown-item" wire:click="edit({{$OrderLine->id}})"><span class="text-primary"><i class="fa fa-lg fa-fw  fa-edit"></i> {{ __('general_content.edit_line_trans_key') }}</span></a>
+                                                <a href="#" class="dropdown-item" wire:click="edit({{$OrderLine->id}})"><span class="text-warning"><i class="fa fa-lg fa-fw  fa-edit"></i> {{ __('general_content.edit_line_trans_key') }}</span></a>
                                                 <a href="#" class="dropdown-item" wire:click="destroy({{$OrderLine->id}})" ><span class="text-danger"><i class="fa fa-lg fa-fw fa-trash"></i> {{ __('general_content.delete_line_trans_key') }}</span></a>
                                                 @if($OrderLine->product_id )
                                                     <a href="#" class="dropdown-item" wire:click="breakDown({{$OrderLine->id}})"><span class="text-success"><i class="fa fa-lg fa-fw  fas fa-list"></i>{{ __('general_content.break_down_task_trans_key') }}</span></a>

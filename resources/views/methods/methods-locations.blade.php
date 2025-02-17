@@ -33,9 +33,7 @@
                 <td><input type="color" class="form-control"  name="color" id="color" value="{{ $MethodsLocation->color }}"></td>
                 <td class=" py-0 align-middle">
                   <!-- Button Modal -->
-                  <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#MethodsLocation{{ $MethodsLocation->id }}">
-                    <i class="fa fa-lg fa-fw  fa-edit"></i>
-                  </button>
+                  <x-ButtonTextEdit :modalTarget="'MethodsLocation' . $MethodsLocation->id" />
                   <!-- Modal {{ $MethodsLocation->id }} -->
                   <x-adminlte-modal id="MethodsLocation{{ $MethodsLocation->id }}" title="Update {{ $MethodsLocation->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                     <form method="POST" action="{{ route('methods.location.update', ['id' => $MethodsLocation->id]) }}" enctype="multipart/form-data">

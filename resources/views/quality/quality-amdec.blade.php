@@ -62,9 +62,7 @@
                         <td>{{ $QualityAmdec->created_at->diffForHumans() }}</td>
                         <td class="py-0 align-middle">
                             <!-- Button Modal -->
-                            <button type="button" class="btn bg-info" data-toggle="modal" data-target="#QualityAmdecView{{ $QualityAmdec->id }}">
-                                <i class="fa fa-lg fa-fw fa-eye"></i>
-                            </button>
+                            <x-button-text-view :modalTarget="'QualityAmdecView' . $QualityAmdec->id" />
                             <!-- Modal {{ $QualityAmdec->id }} -->
                             <x-adminlte-modal id="QualityAmdecView{{ $QualityAmdec->id }}" title="Info {{ $QualityAmdec->failure_mode }}" theme="info" icon="fa fa-pen" size='lg' disable-animations>
                                 <div class="row">

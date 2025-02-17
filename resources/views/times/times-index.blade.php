@@ -63,9 +63,7 @@
                     <td>{{ $TimesAbsence->end_date }}</td>
                     <td class=" py-0 align-middle">
                       <!-- Button Modal -->
-                      <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#TimesAbsence{{ $TimesAbsence->id }}">
-                        <i class="fa fa-lg fa-fw  fa-edit"></i>
-                      </button>
+                      <x-ButtonTextEdit :modalTarget="'TimesAbsence' . $TimesAbsence->id" />
                       <!-- Modal {{ $TimesAbsence->id }} -->
                       <x-adminlte-modal id="TimesAbsence{{ $TimesAbsence->id }}" title="Update {{ $TimesAbsence->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                         <form method="POST" action="{{ route('times.absence.update', ['id' => $TimesAbsence->id]) }}" enctype="multipart/form-data">
@@ -223,9 +221,7 @@
                     <td>{{ $TimesBanckHoliday->label }}</td>
                     <td class=" py-0 align-middle">
                       <!-- Button Modal -->
-                      <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#TimesBanckHoliday{{ $TimesBanckHoliday->id }}">
-                        <i class="fa fa-lg fa-fw  fa-edit"></i>
-                      </button>
+                      <x-ButtonTextEdit :modalTarget="'TimesBanckHoliday' . $TimesBanckHoliday->id" />
                       <!-- Modal {{ $TimesBanckHoliday->id }} -->
                       <x-adminlte-modal id="TimesBanckHoliday{{ $TimesBanckHoliday->id }}" title="Update {{ $TimesBanckHoliday->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                         <form method="POST" action="{{ route('times.banckholiday.update', ['id' => $TimesBanckHoliday->id]) }}" enctype="multipart/form-data">
@@ -342,9 +338,7 @@
                     </td>
                     <td class=" py-0 align-middle">
                       <!-- Button Modal -->
-                      <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#TimesImproductTime{{ $TimesImproductTime->id }}">
-                        <i class="fa fa-lg fa-fw  fa-edit"></i>
-                      </button>
+                      <x-ButtonTextEdit :modalTarget="'TimesImproductTime' . $TimesImproductTime->id" />
                       <!-- Modal {{ $TimesImproductTime->id }} -->
                       <x-adminlte-modal id="TimesImproductTime{{ $TimesImproductTime->id }}" title="Update {{ $TimesImproductTime->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                         <form method="POST" action="{{ route('times.improducttime.update', ['id' => $TimesImproductTime->id]) }}" enctype="multipart/form-data">
@@ -493,9 +487,7 @@
                     </td>
                     <td class=" py-0 align-middle">
                       <!-- Button Modal -->
-                      <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#TimesMachineEvent{{ $TimesMachineEvent->id }}">
-                        <i class="fa fa-lg fa-fw  fa-edit"></i>
-                      </button>
+                      <x-ButtonTextEdit :modalTarget="'TimesMachineEvent' . $TimesMachineEvent->id" />
                       <!-- Modal {{ $TimesMachineEvent->id }} -->
                       <x-adminlte-modal id="TimesMachineEvent{{ $TimesMachineEvent->id }}" title="Update {{ $TimesMachineEvent->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                         <form method="POST" action="{{ route('times.machineevent.update', ['id' => $TimesMachineEvent->id]) }}" enctype="multipart/form-data">

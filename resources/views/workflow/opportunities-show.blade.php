@@ -208,9 +208,7 @@
                       <td>{{ $Activity->due_date }}</td>
                       <td class="py-0 align-middle">
                         <!-- Button Modal -->
-                        <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#Activity{{ $Activity->id }}">
-                          <i class="fa fa-lg fa-fw  fa-edit"></i>
-                        </button>
+                        <x-ButtonTextEdit :modalTarget="'Activity' . $Activity->id" />
                         <!-- Modal {{ $Activity->id }} -->
                         <form method="POST" action="{{ route('opportunities.update.activity', ['id' => $Opportunity->id]) }}" enctype="multipart/form-data">
                           @csrf
@@ -390,9 +388,7 @@
                       <td>{{ $Event->end_date }}</td>
                       <td class="py-0 align-middle">
                         <!-- Button Modal -->
-                        <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#Event{{ $Event->id }}">
-                          <i class="fa fa-lg fa-fw  fa-edit"></i>
-                        </button>
+                        <x-ButtonTextEdit :modalTarget="'Event' . $Event->id" />
                         <!-- Modal {{ $Event->id }} -->
                         <form method="POST" action="{{ route('opportunities.update.event', ['id' => $Opportunity->id]) }}" enctype="multipart/form-data">
                           @csrf

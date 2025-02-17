@@ -26,61 +26,59 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($risks as $risks)
+                        @forelse ($risks as $risk)
                         <tr>
-                            <td>{{ $risks->section->label ?? 'N/A' }}</td>
-                            <td>{{ $risks->description }}</td>
-                            <td>{{ ['1' => __('general_content.low_trans_key'), '2' => __('general_content.moderate_trans_key'), '3' => __('general_content.high_trans_key')][$risks->severity] }}</td>
-                            <td>{{ ['1' =>  __('general_content.rare_trans_key'), '2' =>  __('general_content.possible_trans_key'), '3' =>  __('general_content.probable_trans_key')][$risks->probability] }}</td>
-                            <td>{{ $risks->preventive_measures }}</td>
-                            <td><img src="{{  Avatar::create($risks->UserManagement['name'] ?? 'N/A')->toBase64() }}" /></td>
+                            <td>{{ $risk->section->label ?? 'N/A' }}</td>
+                            <td>{{ $risk->description }}</td>
+                            <td>{{ ['1' => __('general_content.low_trans_key'), '2' => __('general_content.moderate_trans_key'), '3' => __('general_content.high_trans_key')][$risk->severity] }}</td>
+                            <td>{{ ['1' =>  __('general_content.rare_trans_key'), '2' =>  __('general_content.possible_trans_key'), '3' =>  __('general_content.probable_trans_key')][$risk->probability] }}</td>
+                            <td>{{ $risk->preventive_measures }}</td>
+                            <td><img src="{{  Avatar::create($risk->UserManagement['name'] ?? 'N/A')->toBase64() }}" /></td>
                             <td class=" py-0 align-middle">
                                 <!-- Button Modal -->
-                                <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#risks{{ $risks->id }}">
-                                    <i class="fa fa-lg fa-fw  fa-edit"></i>
-                                </button>
+                                <x-ButtonTextEdit :modalTarget="'risks' . $risk->id" />
                                 <!-- Modal -->
-                                <x-adminlte-modal id="risks{{ $risks->id }}" title="{{ __('Update Risk') }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
-                                    <form method="POST" action="{{ route('osh.risks.update', ['id' => $risks->id]) }}">
+                                <x-adminlte-modal id="risks{{ $risk->id }}" title="{{ __('Update Risk') }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
+                                    <form method="POST" action="{{ route('osh.risks.update', ['id' => $risk->id]) }}">
                                         @csrf
                                         <div class="card-body">
                                             <div class="form-group">
                                                 <label for="section_id">{{ __('general_content.section_trans_key') }}</label>
                                                 <select class="form-control" name="section_id">
                                                     @foreach($sectionsSelect as $section)
-                                                        <option value="{{ $section->id }}" {{ $risks->section_id == $section->id ? 'selected' : '' }}>{{ $section->label }}</option>
+                                                        <option value="{{ $section->id }}" {{ $risk->section_id == $section->id ? 'selected' : '' }}>{{ $section->label }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="description">{{ __('general_content.description_trans_key') }}</label>
-                                                <textarea class="form-control" name="description" rows="3">{{ $risks->description }}</textarea>
+                                                <textarea class="form-control" name="description" rows="3">{{ $risk->description }}</textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label for="severity">{{ __('general_content.severity_class_trans_key') }}</label>
                                                 <select class="form-control" name="severity">
-                                                    <option value="1" {{ $risks->severity == 1 ? 'selected' : '' }}>{{ __('general_content.low_trans_key') }}</option>
-                                                    <option value="2" {{ $risks->severity == 2 ? 'selected' : '' }}>{{ __('general_content.moderate_trans_key') }}</option>
-                                                    <option value="3" {{ $risks->severity == 3 ? 'selected' : '' }}>{{ __('general_content.high_trans_key') }}</option>
+                                                    <option value="1" {{ $risk->severity == 1 ? 'selected' : '' }}>{{ __('general_content.low_trans_key') }}</option>
+                                                    <option value="2" {{ $risk->severity == 2 ? 'selected' : '' }}>{{ __('general_content.moderate_trans_key') }}</option>
+                                                    <option value="3" {{ $risk->severity == 3 ? 'selected' : '' }}>{{ __('general_content.high_trans_key') }}</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="probability">{{ __('general_content.probality_trans_key') }}</label>
                                                 <select class="form-control" name="probability">
-                                                    <option value="1" {{ $risks->probability == 1 ? 'selected' : '' }}>{{ __('general_content.rare_trans_key') }}</option>
-                                                    <option value="2" {{ $risks->probability == 2 ? 'selected' : '' }}>{{ __('general_content.possible_trans_key') }}</option>
-                                                    <option value="3" {{ $risks->probability == 3 ? 'selected' : '' }}>{{ __('general_content.probable_trans_key') }}</option>
+                                                    <option value="1" {{ $risk->probability == 1 ? 'selected' : '' }}>{{ __('general_content.rare_trans_key') }}</option>
+                                                    <option value="2" {{ $risk->probability == 2 ? 'selected' : '' }}>{{ __('general_content.possible_trans_key') }}</option>
+                                                    <option value="3" {{ $risk->probability == 3 ? 'selected' : '' }}>{{ __('general_content.probable_trans_key') }}</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="preventive_measures">{{ __('general_content.preventive_measures_class_trans_key') }}</label>
-                                                <textarea class="form-control" name="preventive_measures" rows="3">{{ $risks->preventive_measures }}</textarea>
+                                                <textarea class="form-control" name="preventive_measures" rows="3">{{ $risk->preventive_measures }}</textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label for="user_id">{{ __('general_content.user_trans_key') }}</label>
                                                 <select class="form-control" name="user_id">
                                                     @foreach($userSelect as $user)
-                                                        <option value="{{ $user->id }}" {{ $risks->user_id == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+                                                        <option value="{{ $user->id }}" {{ $risk->user_id == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

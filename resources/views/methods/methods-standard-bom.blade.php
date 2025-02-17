@@ -33,12 +33,12 @@
                 <td>{{ $MethodsStandardNomenclature->getAllTaskCountAttribute() }}</td>
                 <td class="py-0 align-middle">
                   <div class="btn-group btn-group-sm">
-                    <a href="{{ route('task.manage', ['id_type'=> 'nomenclature_lines_id', 'id_page'=>  $MethodsStandardNomenclature->id, 'id_line' => $MethodsStandardNomenclature->id])}}" class="btn bg-primary"><i class="fa fa-lg fa-fw fa-eye"></i></a>
+                    <x-ButtonTextView route="{{ route('task.manage', ['id_type'=> 'nomenclature_lines_id', 
+                                                                                      'id_page'=>  $MethodsStandardNomenclature->id, 
+                                                                                      'id_line' => $MethodsStandardNomenclature->id])}}" />
                   </div>                    
                   <!-- Button Modal -->
-                  <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#MethodsStandardNomenclature{{ $MethodsStandardNomenclature->id }}">
-                    <i class="fa fa-lg fa-fw  fa-edit"></i>
-                  </button>
+                  <x-ButtonTextEdit :modalTarget="'MethodsStandardNomenclature' . $MethodsStandardNomenclature->id" />
                   <!-- Modal {{ $MethodsStandardNomenclature->id }} -->
                   <x-adminlte-modal id="MethodsStandardNomenclature{{ $MethodsStandardNomenclature->id }}" title="Update {{ $MethodsStandardNomenclature->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                     <form method="POST" action="{{ route('methods.standard.nomenclature.update', ['id' => $MethodsStandardNomenclature->id]) }}" enctype="multipart/form-data">

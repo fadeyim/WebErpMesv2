@@ -246,14 +246,14 @@
                                     </div>
                                     <div class="input-group-prepend">
                                         @if( $QuoteLine->product_id && $QuoteLine->Product->drawing_file)
-                                        <!-- Drawing link -->
-                                        <a class="btn btn-info" href="{{ asset('drawing/'. $QuoteLine->Product->drawing_file) }}" target="_blank"><i class="fa fa-lg fa-fw fa-eye"></i></a>
+                                            <!-- Drawing link -->
+                                            <x-button-text-view :bankFile="$QuoteLine->Product->drawing_file" />
                                         @endif
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                         <div class="dropdown-menu">
                                             @if($QuoteStatu == 1)
                                                 <a href="#" class="dropdown-item " wire:click="duplicateLine({{$QuoteLine->id}})" ><span class="text-info"><i class="fa fa-light fa-fw  fa-copy"></i> {{ __('general_content.copie_line_trans_key') }}</span></a>
-                                                <a href="#" class="dropdown-item" wire:click="editQuoteLine({{$QuoteLine->id}})"><span class="text-primary"><i class="fa fa-lg fa-fw  fa-edit"></i> {{ __('general_content.edit_line_trans_key') }}</span></a>
+                                                <a href="#" class="dropdown-item" wire:click="editQuoteLine({{$QuoteLine->id}})"><span class="text-warning"><i class="fa fa-lg fa-fw  fa-edit"></i> {{ __('general_content.edit_line_trans_key') }}</span></a>
                                                 <a href="#" class="dropdown-item" wire:click="destroyQuoteLine({{$QuoteLine->id}})" ><span class="text-danger"><i class="fa fa-lg fa-fw fa-trash"></i> {{ __('general_content.delete_line_trans_key') }}</span></a>
                                                 @if($QuoteLine->product_id )
                                                 <a href="#" class="dropdown-item" wire:click="breakDown({{$QuoteLine->id}})"><span class="text-success"><i class="fa fa-lg fa-fw  fas fa-list"></i>{{ __('general_content.break_down_task_trans_key') }}</span></a>

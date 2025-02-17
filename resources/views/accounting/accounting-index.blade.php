@@ -60,9 +60,7 @@
                     </td>
                     <td class=" py-0 align-middle">
                       <!-- Button Modal {{ $PaymentCondition->id }} -->
-                      <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#PaymentCondition{{ $PaymentCondition->id }}">
-                        <i class="fa fa-lg fa-fw  fa-edit"></i>
-                      </button>
+                      <x-ButtonTextEdit :modalTarget="'PaymentCondition' . $PaymentCondition->id" />
                       <!-- Modal {{ $PaymentCondition->id }} -->
                       <form method="POST" action="{{ route('accounting.paymentCondition.update', ['id' => $PaymentCondition->id]) }}" enctype="multipart/form-data">
                         <x-adminlte-modal id="PaymentCondition{{ $PaymentCondition->id }}" title="Update {{ $PaymentCondition->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
@@ -208,9 +206,7 @@
                     </td>
                     <td class=" py-0 align-middle">
                       <!-- Button Modal {{ $PaymentMethod->id }} -->
-                      <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#PaymentMethod{{ $PaymentMethod->id }}">
-                        <i class="fa fa-lg fa-fw  fa-edit"></i>
-                      </button>
+                      <x-ButtonTextEdit :modalTarget="'PaymentMethod' . $PaymentMethod->id" />
                       <!-- Modal {{ $PaymentMethod->id }} -->
                       <form method="POST" action="{{ route('accounting.paymentMethod.update', ['id' => $PaymentMethod->id]) }}" enctype="multipart/form-data">
                         <x-adminlte-modal id="PaymentMethod{{ $PaymentMethod->id }}" title="Update {{ $PaymentMethod->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
@@ -331,9 +327,7 @@
                     </td>
                     <td class=" py-0 align-middle">
                       <!-- Button Modal {{ $VAT->id }} -->
-                      <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#VAT{{ $VAT->id }}">
-                        <i class="fa fa-lg fa-fw  fa-edit"></i>
-                      </button>
+                      <x-ButtonTextEdit :modalTarget="'VAT' . $VAT->id" />
                       <!-- Modal {{ $VAT->id }} -->
                         <form method="POST" action="{{ route('accounting.vat.update', ['id' => $VAT->id]) }}" enctype="multipart/form-data">
                           <x-adminlte-modal id="VAT{{ $VAT->id }}" title="Update {{ $VAT->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
@@ -470,9 +464,7 @@
                     </td>
                     <td class=" py-0 align-middle">
                       <!-- Button Modal {{ $Allocation->id }} -->
-                      <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#Allocation{{ $Allocation->id }}">
-                        <i class="fa fa-lg fa-fw  fa-edit"></i>
-                      </button>
+                      <x-ButtonTextEdit :modalTarget="'Allocation' . $Allocation->id" />
                       <!-- Modal {{ $Allocation->id }} -->
                       <form method="POST" action="{{ route('accounting.allocation.update', ['id' => $Allocation->id]) }}" enctype="multipart/form-data">
                         <x-adminlte-modal id="Allocation{{ $Allocation->id }}" title="Update {{ $Allocation->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
@@ -640,9 +632,7 @@
                     </td>
                     <td class=" py-0 align-middle">
                       <!-- Button Modal {{ $Delevery->id }} -->
-                      <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#Delevery{{ $Delevery->id }}">
-                        <i class="fa fa-lg fa-fw  fa-edit"></i>
-                      </button>
+                      <x-ButtonTextEdit :modalTarget="'Delevery' . $Delevery->id" />
                       <!-- Modal {{ $Delevery->id }} -->
                       <x-adminlte-modal id="Delevery{{ $Delevery->id }}" title="Update {{ $Delevery->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                         <form method="POST" action="{{ route('accounting.delivery.update', ['id' => $Delevery->id]) }}" enctype="multipart/form-data">

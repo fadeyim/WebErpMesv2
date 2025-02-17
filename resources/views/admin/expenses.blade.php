@@ -49,7 +49,7 @@
                     <td>
                         @if($Expense->scan_file)
                         <div class="btn-group btn-group-sm">
-                            <a href="{{ asset('/file/Expense/'. $Expense->scan_file) }}" download="{{ $Expense->scan_file }}" class="btn bg-primary"><i class="fa fa-lg fa-fw fa-eye"></i></a>
+                            <x-button-text-view :route="asset('/file/Expense/'. $Expense->scan_file)" :downloadFile="$Expense->scan_file" />
                         </div>
                         @endif
                     </td>
@@ -57,9 +57,7 @@
                         @if($UserExpenseReports->status  == 1 || $UserExpenseReports->status  == 2 || $UserExpenseReports->status  == 4)
                         <!-- Button Modal -->
                         <div class="btn-group btn-group-sm">
-                            <button type="button" class="btn bg-teal " data-toggle="modal" data-target="#Expense{{ $Expense->id }}">
-                                <i class="fa fa-lg fa-fw  fa-edit"></i>
-                            </button>
+                            <x-ButtonTextEdit :modalTarget="'Expense' . $Expense->id" />
                         </div>
                         <!-- Modal {{ $Expense->id }} -->
                         <x-adminlte-modal id="Expense{{ $Expense->id }}" title="Update {{ $Expense->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>

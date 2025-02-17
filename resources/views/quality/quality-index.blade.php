@@ -97,9 +97,7 @@
                     <td>{{ $QualityControlDevice->GetPrettyCreatedAttribute() }}</td>
                     <td>
                       <!-- Button Modal -->
-                      <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#QualityControlDevice{{ $QualityControlDevice->id }}">
-                        <i class="fa fa-lg fa-fw  fa-edit"></i>
-                      </button>
+                      <x-ButtonTextEdit :modalTarget="'QualityControlDevice' . $QualityControlDevice->id" />
                       <!-- Modal {{ $QualityControlDevice->id }} -->
                       <x-adminlte-modal id="QualityControlDevice{{ $QualityControlDevice->id }}" title="Update {{ $QualityControlDevice->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                         <form method="POST" action="{{ route('quality.device.update', ['id' => $QualityControlDevice->id]) }}" enctype="multipart/form-data">
@@ -282,9 +280,7 @@
                       <td>{{ $QualityFailure->label }}</td>
                       <td class=" py-0 align-middle">
                         <!-- Button Modal -->
-                        <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#QualityFailure{{ $QualityFailure->id }}">
-                          <i class="fa fa-lg fa-fw  fa-edit"></i>
-                        </button>
+                        <x-ButtonTextEdit :modalTarget="'QualityFailure' . $QualityFailure->id" />
                         <!-- Modal {{ $QualityFailure->id }} -->
                         <x-adminlte-modal id="QualityFailure{{ $QualityFailure->id }}" title="Update {{ $QualityFailure->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                           <form method="POST" action="{{ route('quality.failure.update', ['id' => $QualityFailure->id]) }}" enctype="multipart/form-data">
@@ -366,9 +362,7 @@
                           <td>{{ $QualityCause->label }}</td>
                           <td class=" py-0 align-middle">
                             <!-- Button Modal -->
-                            <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#QualityCause{{ $QualityCause->id }}">
-                              <i class="fa fa-lg fa-fw  fa-edit"></i>
-                            </button>
+                            <x-ButtonTextEdit :modalTarget="'QualityCause' . $QualityCause->id" />
                             <!-- Modal {{ $QualityCause->id }} -->
                             <x-adminlte-modal id="QualityCause{{ $QualityCause->id }}" title="Update {{ $QualityCause->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                               <form method="POST" action="{{ route('quality.cause.update', ['id' => $QualityCause->id]) }}" enctype="multipart/form-data">
@@ -450,9 +444,7 @@
                         <td>{{ $QualityCorrection->label }}</td>
                         <td class=" py-0 align-middle">
                           <!-- Button Modal -->
-                          <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#QualityCorrection{{ $QualityCorrection->id }}">
-                            <i class="fa fa-lg fa-fw  fa-edit"></i>
-                          </button>
+                          <x-ButtonTextEdit :modalTarget="'QualityCorrection' . $QualityCorrection->id" />
                           <!-- Modal {{ $QualityCorrection->id }} -->
                           <x-adminlte-modal id="QualityCorrection{{ $QualityCorrection->id }}" title="Update {{ $QualityCorrection->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                             <form method="POST" action="{{ route('quality.correction.update', ['id' => $QualityCorrection->id]) }}" enctype="multipart/form-data">

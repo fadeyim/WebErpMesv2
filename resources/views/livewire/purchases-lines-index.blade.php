@@ -131,7 +131,7 @@
                                     @if($OrderStatu == 1)
                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                     <div class="dropdown-menu">
-                                        <a href="#" class="dropdown-item" wire:click="editPurchaseLine({{$PurchaseLine->id}})"><span class="text-primary"><i class="fa fa-lg fa-fw  fa-edit"></i> {{ __('general_content.edit_line_trans_key') }}</span></a>
+                                        <a href="#" class="dropdown-item" wire:click="editPurchaseLine({{$PurchaseLine->id}})"><span class="text-warning"><i class="fa fa-lg fa-fw  fa-edit"></i> {{ __('general_content.edit_line_trans_key') }}</span></a>
                                     </div>
                                     @endif
                                 </td>

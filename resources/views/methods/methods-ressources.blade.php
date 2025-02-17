@@ -51,9 +51,7 @@
                 <td>{{ $MethodsRessource->service['label'] }}</td>
                 <td class=" py-0 align-middle">
                   <!-- Button Modal -->
-                  <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#MethodsRessource{{ $MethodsRessource->id }}">
-                    <i class="fa fa-lg fa-fw  fa-edit"></i>
-                  </button>
+                  <x-ButtonTextEdit :modalTarget="'MethodsRessource' . $MethodsRessource->id" />
                   <!-- Modal {{ $MethodsRessource->id }} -->
                   <x-adminlte-modal id="MethodsRessource{{ $MethodsRessource->id }}" title="Update {{ $MethodsRessource->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                     <form method="POST" action="{{ route('methods.ressource.update', ['id' => $MethodsRessource->id]) }}" enctype="multipart/form-data">

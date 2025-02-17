@@ -261,9 +261,7 @@
                                                 <td>{{ $UserEmploymentContract->weekly_duration }}</td>
                                                 <td class="py-0 align-middle">
                                                     <!-- Button Modal -->
-                                                    <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#UserEmploymentContract{{ $UserEmploymentContract->id }}">
-                                                    <i class="fa fa-lg fa-fw  fa-edit"></i>
-                                                    </button>
+                                                    <x-ButtonTextEdit :modalTarget="'UserEmploymentContract' . $UserEmploymentContract->id" />
                                                     <!-- Modal {{ $UserEmploymentContract->id }} -->
                                                         <x-adminlte-modal id="UserEmploymentContract{{ $UserEmploymentContract->id }}" title="Update {{ $UserEmploymentContract->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                                                         <form method="POST" action="{{ route('human.resources.update.contract', ['id' => $UserEmploymentContract->id]) }}" enctype="multipart/form-data">

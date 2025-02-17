@@ -53,9 +53,7 @@
                 <td>{{ $QualityDerogation->GetPrettyCreatedAttribute() }}</td>
                 <td class=" py-0 align-middle">
                   <!-- Button Modal -->
-                  <button type="button" class="btn bg-info" data-toggle="modal" data-target="#QualityDerogationView{{ $QualityDerogation->id }}">
-                    <i class="fa fa-lg fa-fw fa-eye"></i>
-                  </button>
+                  <x-button-text-view :modalTarget="'QualityDerogationView' . $QualityDerogation->id" />
                   <!-- Modal {{ $QualityDerogation->id }} -->
                   <x-adminlte-modal id="QualityDerogationView{{ $QualityDerogation->id }}" title="Info {{ $QualityDerogation->label }}" theme="info" icon="fa fa-pen" size='lg' disable-animations>
                     <div class="row">
@@ -77,9 +75,7 @@
                   </x-adminlte-modal>
 
                   <!-- Button Modal -->
-                  <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#QualityDerogation{{ $QualityDerogation->id }}">
-                    <i class="fa fa-lg fa-fw  fa-edit"></i>
-                  </button>
+                  <x-ButtonTextEdit :modalTarget="'QualityDerogation' . $QualityDerogation->id" />
                   <!-- Modal {{ $QualityDerogation->id }} -->
                   <x-adminlte-modal id="QualityDerogation{{ $QualityDerogation->id }}" title="Update {{ $QualityDerogation->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                     <form method="POST" action="{{ route('quality.derogation.update', ['id' => $QualityDerogation->id]) }}" enctype="multipart/form-data">

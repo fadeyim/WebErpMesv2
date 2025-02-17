@@ -65,9 +65,7 @@
                                     <td>{{ $Role->created_at }}</td>
                                     <td class="text-right">
                                         <!-- Button Modal -->
-                                        <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#Role{{ $Role->id }}">
-                                            <i class="fa fa-lg fa-fw  fa-edit"></i>
-                                        </button>
+                                        <x-ButtonTextEdit :modalTarget="'Role' . $Role->id" />
                                         <!-- Modal {{ $Role->id }} -->
                                         <x-adminlte-modal id="Role{{ $Role->id }}" title="Update {{ $Role->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                                             <form method="POST" action="{{ route('admin.factory.role.update', ['id' => $Role->id]) }}" enctype="multipart/form-data">

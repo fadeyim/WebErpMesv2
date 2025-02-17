@@ -443,9 +443,7 @@
                       </td>
                       <td class=" py-0 align-middle">
                         <!-- Button Modal -->
-                        <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#Address{{ $Address->id }}">
-                          <i class="fa fa-lg fa-fw  fa-edit"></i>
-                        </button>
+                        <x-ButtonTextEdit :modalTarget="'Address' . $Address->id" />
                         <!-- Modal {{ $Address->id }} -->
                         <x-adminlte-modal id="Address{{ $Address->id }}" title="Update {{ $Address->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                           <form method="POST" action="{{ route('addresses.edit', ['id' => $Address->id]) }}" >
@@ -663,9 +661,7 @@
                       </td>
                       <td class=" py-0 align-middle">
                         <!-- Button Modal -->
-                        <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#Contact{{ $Contact->id }}">
-                          <i class="fa fa-lg fa-fw  fa-edit"></i>
-                        </button>
+                        <x-ButtonTextEdit :modalTarget="'Contact' . $Contact->id" />
                         <!-- Modal {{ $Contact->id }} -->
                         <x-adminlte-modal id="Contact{{ $Contact->id }}" title="Update {{ $Contact->name }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                           <form method="POST" action="{{ route('contacts.edit', ['id' => $Contact->id]) }}" >

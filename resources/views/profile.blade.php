@@ -184,9 +184,7 @@
                                         <td class=" py-0 align-middle">
                                         @if($TimesAbsence->statu  == 1)
                                         <!-- Button Modal -->
-                                        <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#TimesAbsence{{ $TimesAbsence->id }}">
-                                            <i class="fa fa-lg fa-fw  fa-edit"></i>
-                                        </button>
+                                        <x-button-text-edit :modalTarget="'TimesAbsence' . $TimesAbsence->id" />
                                         <!-- Modal {{ $TimesAbsence->id }} -->
                                         <x-adminlte-modal id="TimesAbsence{{ $TimesAbsence->id }}" title="Update {{ $TimesAbsence->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                                             <form method="POST" action="{{ route('times.absence.update', ['id' => $TimesAbsence->id] ) }}" enctype="multipart/form-data">
@@ -317,14 +315,12 @@
                                         <td>{{ $ExpenseReport->getTotalAmountAttribute() }} {{ $Factory->curency }}</td>
                                         <td class=" py-0 align-middle">
                                             <div class="btn-group btn-group-sm">
-                                                <a href="{{ route('human.resources.show.expense', ['id' => $ExpenseReport->id])}}" class="btn bg-primary"><i class="fa fa-lg fa-fw fa-eye"></i></a>
+                                                <x-ButtonTextView route="{{ route('human.resources.show.expense', ['id' => $ExpenseReport->id])}}" />
                                             </div>
                                             @if($ExpenseReport->status  == 1 || $ExpenseReport->status  == 2 || $ExpenseReport->status  == 4)
                                             <!-- Button Modal -->
                                             <div class="btn-group btn-group-sm">
-                                                <button type="button" class="btn bg-teal " data-toggle="modal" data-target="#ExpenseReport{{ $ExpenseReport->id }}">
-                                                    <i class="fa fa-lg fa-fw  fa-edit"></i>
-                                                </button>
+                                                <x-ButtonTextEdit :modalTarget="'ExpenseReport' . $ExpenseReport->id" />
                                             </div>
                                             <!-- Modal {{ $ExpenseReport->id }} -->
                                             <x-adminlte-modal id="ExpenseReport{{ $ExpenseReport->id }}" title="Update {{ $ExpenseReport->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>

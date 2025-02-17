@@ -140,13 +140,11 @@
                             <td>{{ $ExpenseReport->getTotalAmountAttribute() }} {{ $Factory->curency }}</td>
                             <td class=" py-0 align-middle">
                                 <div class="btn-group btn-group-sm">
-                                    <a href="{{ route('human.resources.show.expense', ['id' => $ExpenseReport->id])}}" class="btn bg-primary"><i class="fa fa-lg fa-fw fa-eye"></i></a>
+                                    <x-ButtonTextView route="{{ route('human.resources.show.expense', ['id' => $ExpenseReport->id])}}" />
                                 </div>
                                 <!-- Button Modal -->
                                 <div class="btn-group btn-group-sm">
-                                    <button type="button" class="btn bg-teal " data-toggle="modal" data-target="#ExpenseReport{{ $ExpenseReport->id }}">
-                                        <i class="fa fa-lg fa-fw  fa-edit"></i>
-                                    </button>
+                                    <x-ButtonTextEdit :modalTarget="'ExpenseReport' . $ExpenseReport->id" />
                                 </div>
                                 <!-- Modal {{ $ExpenseReport->id }} -->
                                 <x-adminlte-modal id="ExpenseReport{{ $ExpenseReport->id }}" title="Update {{ $ExpenseReport->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
@@ -216,9 +214,7 @@
                                             <td>{{ $UserExpenseCategory->description }}</td>
                                             <td class=" py-0 align-middle">
                                                 <!-- Button Modal -->
-                                                <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#UserExpenseCategory{{ $UserExpenseCategory->id }}">
-                                                    <i class="fa fa-lg fa-fw  fa-edit"></i>
-                                                </button>
+                                                <x-ButtonTextEdit :modalTarget="'UserExpenseCategory' . $UserExpenseCategory->id" />
                                                 <!-- Modal {{ $UserExpenseCategory->id }} -->
                                                 <x-adminlte-modal id="UserExpenseCategory{{ $UserExpenseCategory->id }}" title="Update {{ $UserExpenseCategory->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                                                     <form method="POST" action="{{ route('human.resources.update.expense.category', ['id' => $UserExpenseCategory->id]) }}" enctype="multipart/form-data">

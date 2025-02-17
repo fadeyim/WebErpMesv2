@@ -46,9 +46,7 @@
                 <td>{{ $MethodsTool->qty }}</td>
                 <td class="py-0 align-middle">
                   <!-- Button Modal -->
-                  <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#MethodsTool{{ $MethodsTool->id }}">
-                    <i class="fa fa-lg fa-fw  fa-edit"></i>
-                  </button>
+                  <x-ButtonTextEdit :modalTarget="'MethodsTool' . $MethodsTool->id" />
                   <!-- Modal {{ $MethodsTool->id }} -->
                   <x-adminlte-modal id="MethodsTool{{ $MethodsTool->id }}" title="Update {{ $MethodsTool->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                     <form method="POST" action="{{ route('methods.tool.update', ['id' => $MethodsTool->id]) }}" enctype="multipart/form-data">

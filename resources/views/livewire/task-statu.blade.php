@@ -280,7 +280,7 @@
                 <h5 class="text-secondary">
                   {{__('general_content.component_trans_key') }} : {{ $Task->Component->code }} <x-ButtonTextView route="{{ route('products.show', ['id' => $Task->component_id])}}" />
                   <!-- Drawing link -->
-                  <a class="btn btn-info" href="{{ asset('drawing/'. $Task->Component->drawing_file) }}" target="_blank"><i class="fa fa-lg fa-fw fa-eye"></i></a>
+                  <x-button-text-view :bankFile="$Task->Component->drawing_file" />
                 </h5>
               @endif
               <div class="row">

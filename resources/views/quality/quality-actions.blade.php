@@ -55,9 +55,7 @@
                 <td>{{ $QualityAction->GetPrettyCreatedAttribute() }}</td>
                 <td class=" py-0 align-middle">
                   <!-- Button Modal -->
-                  <button type="button" class="btn bg-info" data-toggle="modal" data-target="#QualityActionView{{ $QualityAction->id }}">
-                    <i class="fa fa-lg fa-fw fa-eye"></i>
-                  </button>
+                  <x-button-text-view :modalTarget="'QualityActionView' . $QualityAction->id" />
                   <!-- Modal {{ $QualityAction->id }} -->
                   <x-adminlte-modal id="QualityActionView{{ $QualityAction->id }}" title="Info {{ $QualityAction->label }}" theme="info" icon="fa fa-pen" size='lg' disable-animations>
                     <div class="row">
@@ -75,9 +73,7 @@
                   </x-adminlte-modal>
 
                   <!-- Button Modal -->
-                  <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#QualityAction{{ $QualityAction->id }}">
-                    <i class="fa fa-lg fa-fw  fa-edit"></i>
-                  </button>
+                  <x-ButtonTextEdit :modalTarget="'QualityAction' . $QualityAction->id" />
                   <!-- Modal {{ $QualityAction->id }} -->
                   <x-adminlte-modal id="QualityAction{{ $QualityAction->id }}" title="Update {{ $QualityAction->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
                     <form method="POST" action="{{ route('quality.action.update', ['id' => $QualityAction->id]) }}" enctype="multipart/form-data">
