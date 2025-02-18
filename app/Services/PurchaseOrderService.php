@@ -14,6 +14,12 @@ use App\Models\Purchases\PurchaseQuotationLines;
 
 class PurchaseOrderService
 {
+    protected $documentCodeGenerator ;
+
+    public function __construct(DocumentCodeGenerator $documentCodeGeneratorService , ){
+        $this->documentCodeGenerator  = $documentCodeGeneratorService ;
+    }
+
     /**
      * Create a new purchase order.
      *
@@ -210,6 +216,7 @@ class PurchaseOrderService
     public function generatePurchaseCode()
     {
         $lastPurchase = Purchases::orderBy('id', 'desc')->first();
-        return is_null($lastPurchase) ? "PU-0" : "PU-" . $lastPurchase->id;
+        $purchaseId = $lastPurchase ? $lastPurchase->id : 0;
+        return $this->documentCodeGenerator->generateDocumentCode('purchase', $purchaseId);
     }
 }

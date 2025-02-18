@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Quality;
 
 use Illuminate\Support\Facades\DB;
 use App\Services\SelectDataService;
+use App\Services\DocumentCodeGenerator;
 use App\Models\Quality\QualityDerogation;
 use App\Http\Requests\Quality\StoreQualityDerogationRequest;
 use App\Http\Requests\Quality\UpdateQualityDerogationRequest;
@@ -12,11 +13,14 @@ class QualityDerogationController extends Controller
 {
     
     protected $SelectDataService;
-    public function __construct(SelectDataService $SelectDataService)
+    protected $documentCodeGenerator;
+
+    public function __construct(SelectDataService $SelectDataService,
+                                DocumentCodeGenerator $documentCodeGenerator)
     {
         $this->SelectDataService = $SelectDataService;
+        $this->documentCodeGenerator = $documentCodeGenerator;
     }
-    
     
     /**
      * @return \Illuminate\Contracts\View\View
@@ -27,10 +31,12 @@ class QualityDerogationController extends Controller
         $userSelect = $this->SelectDataService->getUsers();
         $NonConformitysSelect = $this->SelectDataService->getQualityNonConformity();
         $QualityDerogations = QualityDerogation::orderBy('id')->paginate(10);
-        $LastDerogation =  DB::table('quality_derogations')->orderBy('id', 'desc')->first();
-        
+        $LastDerogation = QualityDerogation::orderBy('id', 'desc')->first();
+        $codeDerogation = $LastDerogation ? $LastDerogation->id : 0;
+        $codeDerogation = $this->documentCodeGenerator->generateDocumentCode('derogation', $codeDerogation);
+
         return view('quality/quality-derogations', [
-            'LastDerogation' =>  $LastDerogation,
+            'codeDerogation' =>  $codeDerogation,
             'QualityDerogations' => $QualityDerogations,
             'NonConformitysSelect' =>  $NonConformitysSelect,
             'userSelect' => $userSelect,

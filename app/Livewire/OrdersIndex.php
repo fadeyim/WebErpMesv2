@@ -12,6 +12,7 @@ use App\Models\Workflow\Orders;
 use App\Models\Companies\Companies;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use App\Services\DocumentCodeGenerator;
 use App\Models\Companies\CompaniesContacts;
 use App\Models\Companies\CompaniesAddresses;
 use App\Models\Accounting\AccountingDelivery;
@@ -55,11 +56,13 @@ class OrdersIndex extends Component
     public $statuses;
 
     protected $orderService;
+    protected $documentCodeGenerator;
 
     public function __construct()
     {
         // Resolve the service via the Laravel container
         $this->orderService = App::make(OrderService::class);
+        $this->documentCodeGenerator = App::make(DocumentCodeGenerator::class);
     }
 
     // Validation Rules
@@ -190,19 +193,17 @@ class OrdersIndex extends Component
     {
         $prefix = $this->getPrefix($this->type);
         $orderId = $this->LastOrder ? $this->LastOrder->id : 0;
-    
-        $orderId +=1;
-        $this->code = "{$prefix}-{$orderId}";
-        $this->label = "{$prefix}-{$orderId}";
+        $this->code = $this->documentCodeGenerator->generateDocumentCode($prefix, $orderId);
+        $this->label = $this->code;
     }
     
     private function getPrefix($type)
     {
         switch ($type) {
             case 1:
-                return 'OR';
+                return 'order';
             case 2:
-                return 'INT';
+                return 'internal-order';
             default:
                 return 'UNKNOWN';
         }

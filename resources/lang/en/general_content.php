@@ -359,6 +359,9 @@ return [
     'kanban_setting_note_trans_key'            => 'The first line will be used for the default status of new tasks. The last line is used for finished task, ready for delivery note',
     'make_new_role_trans_key'                  => 'Make a new Role',
     'custom_fields_trans_key'                  => 'Custom fields',
+    'document_code_templates_trans_key'        => 'Document code templates',
+    'new_document_code_template_trans_key'     => 'Nouveau templates',
+    'template_trans_key'                       => 'Templates',
     
     // CARD HEADER
     'statistiques_trans_key'                   => 'Statistics',

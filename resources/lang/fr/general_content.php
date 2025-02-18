@@ -359,7 +359,10 @@ return [
     'kanban_setting_note_trans_key'            => 'La première ligne sera utilisée pour le statut par défaut des nouvelles tâches. La dernière ligne est utilisée pour la tâche terminée, prête pour le bon de livraison',
     'make_new_role_trans_key'                  => 'Créer un rôle',
     'custom_fields_trans_key'                  => 'Champs personalisés',
-
+    'document_code_templates_trans_key'        => 'Document code templates',
+    'new_document_code_template_trans_key'     => 'Nouveau templates',
+    'template_trans_key'                       => 'Templates',
+    
     // CARD HEADER
     'statistiques_trans_key'                   => 'Statistiques',
     'informations_trans_key'                   => 'Informations',

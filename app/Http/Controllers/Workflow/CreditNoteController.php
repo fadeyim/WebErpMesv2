@@ -10,6 +10,7 @@ use App\Services\CustomFieldService;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Workflow\InvoiceLines;
 use App\Services\CreditNoteKPIService;
+use App\Services\DocumentCodeGenerator;
 use App\Models\Workflow\CreditNoteLines;
 use App\Services\CreditNoteCalculatorService;
 use App\Http\Requests\Workflow\UpdateCreditNoteRequest;
@@ -20,13 +21,16 @@ class CreditNoteController extends Controller
     
     protected $creditNoteKPIService;
     protected $customFieldService;
+    protected $documentCodeGenerator;
 
     public function __construct(
                     CreditNoteKPIService $creditNoteKPIService,
-                    CustomFieldService $customFieldService
+                    CustomFieldService $customFieldService,
+                    DocumentCodeGenerator $documentCodeGenerator
             ){
         $this->creditNoteKPIService = $creditNoteKPIService;
         $this->customFieldService = $customFieldService;
+        $this->documentCodeGenerator = $documentCodeGenerator;
     }
 
     /**
@@ -57,10 +61,14 @@ class CreditNoteController extends Controller
         
         // Récupérer les lignes de factures sélectionnées
         $invoiceLines = InvoiceLines::whereIn('id', $selectedInvoiceLineIds)->get();
+        $LastCreditNote = CreditNotes::orderBy('id', 'desc')->first();
+        $codeCreditNote = $LastCreditNote ? $LastCreditNote->id : 0;
+        $codeCreditNote = $this->documentCodeGenerator->generateDocumentCode('credit-note', $codeCreditNote);
+
         // Créer un nouvel avoir
         $creditNote = CreditNotes::create([
-            'code' => 'CN-' . time(), 
-            'label' => 'CN-' . time(),
+            'code' => $codeCreditNote, 
+            'label' => $codeCreditNote,
             'invoices_id' => $invoiceLines->first()->invoices_id, 
             'companies_id' => $invoiceLines->first()->invoice->companies_id, 
             'companies_contacts_id' => $invoiceLines->first()->invoice->companies_contacts_id, 

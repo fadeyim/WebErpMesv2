@@ -9,6 +9,7 @@ use App\Models\Companies\Companies;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Purchases\PurchaseLines;
+use App\Services\DocumentCodeGenerator;
 use App\Services\PurchaseReceiptService;
 use App\Models\Purchases\PurchaseReceipt;
 
@@ -28,19 +29,17 @@ class PurchasesWaintingReceipt extends Component
     public $CompanieSelect = [];
     public $data = [];
     public $qty = [];
-    
-    private $ordre = 10;
-
     protected $taskService;
     protected $purchaseReceiptService;
+    protected $documentCodeGenerator;
 
     public function __construct()
     {
         // Resolve the service via the Laravel container
         $this->taskService = App::make(TaskService::class);
         $this->purchaseReceiptService = App::make(PurchaseReceiptService::class);
+        $this->documentCodeGenerator = App::make(DocumentCodeGenerator::class);
     }
-
 
     // Validation Rules
     protected function rules()
@@ -68,18 +67,9 @@ class PurchasesWaintingReceipt extends Component
         $this->user_id = Auth::id();
         // get last id
         $this->LastReceipt =  PurchaseReceipt::latest()->first();
-        //if we have no id, define 0 
-        if($this->LastReceipt == Null){
-            $this->LastReceipt = 0;
-            $this->code = $this->document_type ."-0";
-            $this->label = $this->document_type ."-0";
-        }
-        // else we use is from db
-        else{
-            $this->LastReceipt = $this->LastReceipt->id;
-            $this->code = $this->document_type ."-". $this->LastReceipt;
-            $this->label = $this->document_type ."-". $this->LastReceipt;
-        }
+        $purchaseReceiptId = $this->LastReceipt ? $this->LastReceipt->id : 0;
+        $this->code = $this->documentCodeGenerator->generateDocumentCode('purchase-receipt', $purchaseReceiptId);
+        $this->label = $this->code;
 
         $this->CompanieSelect = Companies::select('id', 'label', 'code')->where('statu_supplier', '=', 2)->orderBy('code')->get();
     }

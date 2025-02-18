@@ -197,7 +197,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="fas fa-external-link-square-alt"></i></span>
                 </div>
-                <input type="text" class="form-control"  name="code" id="code" placeholder="{{ __('general_content.external_id_trans_key') }}" value="DER-{{ $LastDerogation->id ?? '0' }}  ">
+                <input type="text" class="form-control"  name="code" id="code" placeholder="{{ __('general_content.external_id_trans_key') }}" value="{{ $codeDerogation }}">
               </div>
             </div>
             <div class="form-group col-md-2">
@@ -206,7 +206,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-tags"></i></span>
                 </div>
-                <input type="text" class="form-control"  name="label" id="label" placeholder="{{__('general_content.label_trans_key') }}" required>
+                <input type="text" class="form-control"  name="label" id="label" placeholder="{{__('general_content.label_trans_key') }}" value="{{ $codeDerogation }}" required>
               </div>
             </div>
             <div class="form-group col-md-2">

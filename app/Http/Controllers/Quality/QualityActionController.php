@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Quality;
 use Illuminate\Support\Facades\DB;
 use App\Services\SelectDataService;
 use App\Models\Quality\QualityAction;
+use App\Services\DocumentCodeGenerator;
 use App\Http\Requests\Quality\StoreQualityActionRequest;
 use App\Http\Requests\Quality\UpdateQualityActionRequest;
 
@@ -12,9 +13,13 @@ class QualityActionController extends Controller
 {
 
     protected $SelectDataService;
-    public function __construct(SelectDataService $SelectDataService)
+    protected $documentCodeGenerator;
+
+    public function __construct(SelectDataService $SelectDataService,
+                                DocumentCodeGenerator $documentCodeGenerator)
     {
         $this->SelectDataService = $SelectDataService;
+        $this->documentCodeGenerator = $documentCodeGenerator;
     }
     
     
@@ -27,10 +32,12 @@ class QualityActionController extends Controller
         $userSelect = $this->SelectDataService->getUsers();
         $NonConformitysSelect = $this->SelectDataService->getQualityNonConformity();
         $QualityActions = QualityAction::orderBy('id')->paginate(10);
-        $LastAction =  DB::table('quality_actions')->orderBy('id', 'desc')->first();
-        
+        $Lastaction = QualityAction::orderBy('id', 'desc')->first();
+        $codeAction = $Lastaction ? $Lastaction->id : 0;
+        $codeAction = $this->documentCodeGenerator->generateDocumentCode('action', $codeAction);
+
         return view('quality/quality-actions', [
-            'LastAction' => $LastAction,
+            'codeAction' => $codeAction,
             'QualityActions' => $QualityActions,
             'NonConformitysSelect' =>  $NonConformitysSelect,
             'userSelect' => $userSelect,

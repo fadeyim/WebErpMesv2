@@ -27,6 +27,7 @@ use App\Services\NotificationService;
 use App\Models\Products\SerialNumbers;
 use App\Models\Methods\MethodsFamilies;
 use App\Models\Methods\MethodsServices;
+use App\Services\DocumentCodeGenerator;
 use App\Models\Accounting\AccountingVat;
 use App\Models\Workflow\OrderLineDetails;
 use App\Services\QualityNonConformityService;
@@ -71,6 +72,7 @@ class OrderLine extends Component
     protected $invoiceLineService;
     protected $notificationService;
     protected $qualityNonConformityService;
+    protected $documentCodeGenerator;
 
     public function __construct()
     {
@@ -81,6 +83,7 @@ class OrderLine extends Component
         $this->invoiceService = App::make(InvoiceService::class);
         $this->invoiceLineService = App::make(InvoiceLineService::class);
         $this->qualityNonConformityService = App::make(QualityNonConformityService::class);
+        $this->documentCodeGenerator = App::make(DocumentCodeGenerator::class);
     }
 
     // Validation Rules
@@ -584,7 +587,8 @@ class OrderLine extends Component
 
         $OrderData = Orders::find($orderId);
         $LastDelivery = Deliverys::orderBy('id', 'desc')->first();
-        $deliveryCode = $LastDelivery ? "DN-" . $LastDelivery->id : "DN-0";
+        $deliveryId = $LastDelivery ? $LastDelivery->id : 0;
+        $deliveryCode = $this->documentCodeGenerator->generateDocumentCode('delivery', $deliveryId);
 
         $user = Auth::user();
         $DeliveryCreated = $this->deliveryService->createDelivery($deliveryCode, $deliveryCode, $OrderData->companies_id, $OrderData->companies_addresses_id, $OrderData->companies_contacts_id, $user->id);
@@ -622,7 +626,8 @@ class OrderLine extends Component
 
         $OrderData = Orders::find($orderId);
         $LastInvoice = Invoices::orderBy('id', 'desc')->first();
-        $invoiceCode = $LastInvoice ? "IN-" . $LastInvoice->id : "IN-0";
+        $invoiceId = $LastInvoice ? $LastInvoice->id : 0;
+        $invoiceCode = $this->documentCodeGenerator->generateDocumentCode('invoice', $invoiceId);
 
         $user = Auth::user();
         $InvoiceCreated = $this->invoiceService->createInvoice($invoiceCode, $invoiceCode, $OrderData->companies_id, $OrderData->companies_addresses_id, $OrderData->companies_contacts_id, $user->id);

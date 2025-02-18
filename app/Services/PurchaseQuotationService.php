@@ -5,11 +5,18 @@ namespace App\Services;
 use App\Models\Planning\Task;
 use App\Models\Planning\Status;
 use Illuminate\Support\Facades\Auth;
+use App\Services\DocumentCodeGenerator;
 use App\Models\Purchases\PurchasesQuotation;
 use App\Models\Purchases\PurchaseQuotationLines;
 
 class PurchaseQuotationService
 {
+    protected $documentCodeGenerator ;
+
+    public function __construct(DocumentCodeGenerator $documentCodeGeneratorService , ){
+        $this->documentCodeGenerator  = $documentCodeGeneratorService ;
+    }
+    
     /**
      * Create a new purchase quotation.
      *
@@ -115,6 +122,7 @@ class PurchaseQuotationService
     public function generatePurchasesQuotationCode()
     {
         $lastPurchasesQuotation = PurchasesQuotation::orderBy('id', 'desc')->first();
-        return is_null($lastPurchasesQuotation) ? "RFQ-0" : "RFQ-" . $lastPurchasesQuotation->id;
+        $purchasesQuotationId = $lastPurchasesQuotation ? $lastPurchasesQuotation->id : 0;
+        return $this->documentCodeGenerator->generateDocumentCode('purchase-quotation', $purchasesQuotationId);
     }
 }

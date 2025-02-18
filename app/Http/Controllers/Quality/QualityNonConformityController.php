@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Quality;
 use Illuminate\Support\Facades\DB;
 use App\Models\Companies\Companies;
 use App\Services\SelectDataService;
+use App\Services\DocumentCodeGenerator;
 use App\Models\Quality\QualityNonConformity;
 use App\Services\QualityNonConformityService;
 use App\Http\Requests\Quality\StoreQualityNonConformityRequest;
@@ -14,11 +15,15 @@ class QualityNonConformityController extends Controller
 {
     protected $SelectDataService;
     public $qualityNonConformityService;
+    protected $documentCodeGenerator;
 
-    public function __construct(SelectDataService $SelectDataService, QualityNonConformityService $qualityNonConformityService)
+    public function __construct(SelectDataService $SelectDataService, 
+                                QualityNonConformityService $qualityNonConformityService,
+                                DocumentCodeGenerator $documentCodeGenerator)
     {
         $this->SelectDataService = $SelectDataService;
         $this->qualityNonConformityService = $qualityNonConformityService;
+        $this->documentCodeGenerator = $documentCodeGenerator;
     }
     
     /**
@@ -36,10 +41,12 @@ class QualityNonConformityController extends Controller
         
         $NonConformitysSelect = $this->SelectDataService->getQualityNonConformity();
         $QualityNonConformitys = QualityNonConformity::orderBy('id', 'desc')->paginate(10);
-        $LastNonConformity =  DB::table('quality_non_conformities')->orderBy('id', 'desc')->first();
+        $LastNonConformity = QualityNonConformity::orderBy('id', 'desc')->first();
+        $codeNonConformity = $LastNonConformity ? $LastNonConformity->id : 0;
+        $codeNonConformity = $this->documentCodeGenerator->generateDocumentCode('non-conformities', $codeNonConformity);
         
         return view('quality/quality-non-conformities', [
-            'LastNonConformity' => $LastNonConformity,
+            'codeNonConformity' => $codeNonConformity,
             'QualityNonConformitys' => $QualityNonConformitys,
             'NonConformitysSelect' =>  $NonConformitysSelect,
             'userSelect' => $userSelect,

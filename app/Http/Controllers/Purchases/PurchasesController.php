@@ -102,8 +102,6 @@ class PurchasesController extends Controller
         $CompanieSelect = $this->SelectDataService->getSupplier();
 
         $LastPurchase =   $this->purchaseOrderService->generatePurchaseCode();
-        $code = $LastPurchase;
-        $label = $LastPurchase;
 
         return view('purchases/purchases-index', [
                                                     'topRatedSuppliers' => $topRatedSuppliers,
@@ -115,8 +113,8 @@ class PurchasesController extends Controller
                                                     'totalPurchasesAmount' => $totalPurchasesAmount,
                                                     'userSelect' => $userSelect,
                                                     'CompanieSelect' => $CompanieSelect,
-                                                    'code' => $code,
-                                                    'label' => $label,
+                                                    'code' => $LastPurchase,
+                                                    'label' => $LastPurchase,
                                                 ])->with('data',$data);
     }
 
@@ -377,7 +375,6 @@ class PurchasesController extends Controller
         $purchaseReceipt->reception_controlled = 1;
         $purchaseReceipt->reception_control_date = now(); 
         $purchaseReceipt->reception_control_user_id = Auth::id(); 
-
         $purchaseReceipt->save();
 
         return redirect()->back()->with('success', 'Contrôle de réception mis à jour avec succès.');

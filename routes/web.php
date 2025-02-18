@@ -363,6 +363,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
         Route::post('/factory/custom-field/store', 'App\Http\Controllers\Admin\FactoryController@storeCustomField')->middleware(['auth'])->name('admin.factory.custom.field.store');
         Route::post('/factory/custom-field-value/storeOrUpdate/{id}/{type}', 'App\Http\Controllers\Admin\FactoryController@storeOrUpdateCustomField')->middleware(['auth'])->name('admin.factory.custom.field.value.store.update');
         
+        Route::post('/document-code-template/store', 'App\Http\Controllers\Admin\DocumentCodeTemplateController@store')->middleware(['auth'])->name('admin.document.code.template.store');
+        Route::post('/document-code-template/update/{id}', 'App\Http\Controllers\Admin\DocumentCodeTemplateController@update')->middleware(['auth'])->name('admin.document.code.template.update');
         
         Route::get('/imports-exports/', 'App\Http\Controllers\Admin\ImportsExportsController@index')->middleware(['auth'])->name('admin.imports.exports');
 

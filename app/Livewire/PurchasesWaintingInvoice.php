@@ -9,6 +9,7 @@ use App\Models\Companies\Companies;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Purchases\PurchaseLines;
+use App\Services\DocumentCodeGenerator;
 use App\Services\AccountingEntryService;
 use App\Models\Purchases\PurchaseInvoice;
 use App\Models\Purchases\PurchaseInvoiceLines;
@@ -32,10 +33,13 @@ class PurchasesWaintingInvoice extends Component
     public $data = [];
 
     protected $accountingEntryService;
+    protected $documentCodeGenerator;
 
     public function __construct()
     {
+        // Resolve the service via the Laravel container
         $this->accountingEntryService = App::make(AccountingEntryService::class);
+        $this->documentCodeGenerator = App::make(DocumentCodeGenerator::class);
     }
 
     // Validation Rules
@@ -58,29 +62,13 @@ class PurchasesWaintingInvoice extends Component
         $this->sortField = $field;
     }
 
-    /**
-     * Generate invoice code and label.
-     *
-     * @return void
-     */
-    private function generateInvoiceCodeAndLabel()
-    {
-        if ($this->LastInvoice === null) {
-            $this->LastInvoice = 0;
-            $this->code = $this->document_type . "-0";
-            $this->label = $this->document_type . "-0";
-        } else {
-            $this->LastInvoice = $this->LastInvoice->id;
-            $this->code = $this->document_type . "-" . $this->LastInvoice;
-            $this->label = $this->document_type . "-" . $this->LastInvoice;
-        }
-    }
-
     public function mount() 
     {
         $this->user_id = Auth::id();
         $this->LastInvoice = PurchaseInvoice::latest()->first();
-        $this->generateInvoiceCodeAndLabel();
+        $purchaseInvoicetId = $this->LastInvoice ? $this->LastInvoice->id : 0;
+        $this->code = $this->documentCodeGenerator->generateDocumentCode('purchase-invoice', $purchaseInvoicetId);
+        $this->label = $this->code;
 
         $this->CompanieSelect = Companies::select('id', 'code','client_type','civility','label','last_name')->where('statu_supplier', '=', 2)->orderBy('code')->get();
     }

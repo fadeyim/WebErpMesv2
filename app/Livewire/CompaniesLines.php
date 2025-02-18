@@ -10,6 +10,7 @@ use App\Models\Companies\Companies;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Services\NotificationService;
+use App\Services\DocumentCodeGenerator;
 use App\Notifications\CompanieNotification;
 
 class CompaniesLines extends Component
@@ -34,11 +35,13 @@ class CompaniesLines extends Component
     public $civility, $last_name; 
 
     protected $notificationService;
+    protected $documentCodeGenerator;
 
     public function __construct()
     {
         // Resolve the service via the Laravel container
         $this->notificationService = App::make(NotificationService::class);
+        $this->documentCodeGenerator = App::make(DocumentCodeGenerator::class);
     }
 
     // Validation Rules
@@ -67,18 +70,8 @@ class CompaniesLines extends Component
         $this->user_id = Auth::id();
         $this->userSelect = User::select('id', 'name')->get();
         $this->LastCompanie = Companies::orderBy('id', 'desc')->first();
-        $this->code = $this->generateCompanyCode($this->LastCompanie);
-    }
-
-    /**
-     * Generate company code based on the last company.
-     *
-     * @param \App\Models\Companies\Companies|null $lastCompany
-     * @return string
-     */
-    private function generateCompanyCode($lastCompany)
-    {
-        return $lastCompany === null ? "COMP-0" : "COMP-" . $lastCompany->id;
+        $companieId = $this->LastCompanie ? $this->LastCompanie->id : 0;
+        $this->code = $this->documentCodeGenerator->generateDocumentCode('company', $companieId);
     }
 
     public function render()

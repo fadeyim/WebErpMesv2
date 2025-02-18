@@ -13,7 +13,9 @@ use App\Models\Methods\MethodsUnits;
 use Illuminate\Support\Facades\Auth;
 use App\Services\PurchaseOrderService;
 use App\Models\Purchases\PurchaseLines;
+use App\Services\DocumentCodeGenerator;
 use App\Services\PurchaseReceiptService;
+use App\Models\Purchases\PurchaseReceipt;
 
 class PurchasesLinesIndex extends Component
 {
@@ -49,13 +51,15 @@ class PurchasesLinesIndex extends Component
     public $BOMProductList = [];
     public $data = [];
     protected $purchaseOrderService;
-    protected $purchaseReceiptService;
+    protected $purchaseReceiptService;    
+    protected $documentCodeGenerator;
 
     public function __construct()
     {
         // Resolve the service via the Laravel container
         $this->purchaseOrderService = App::make(PurchaseOrderService::class);
         $this->purchaseReceiptService = App::make(PurchaseReceiptService::class);
+        $this->documentCodeGenerator = App::make(DocumentCodeGenerator::class);
     }
 
     // Validation Rules
@@ -230,11 +234,15 @@ class PurchasesLinesIndex extends Component
     public function storeReciep($PurchaseID)
     {
         $Purchase = Purchases::findOrFail($PurchaseID);
+        $lastReceipt =  PurchaseReceipt::latest()->first();
+        $purchaseReceiptId = $lastReceipt ? $lastReceipt->id : 0;
+        $code = $this->documentCodeGenerator->generateDocumentCode('purchase-receipt', $purchaseReceiptId);
+
         try {
             // Données du reçu d'achat
             $receiptData = [
-                'code' => "RC-to-".$Purchase->code,
-                'label' => "RC-to-".$Purchase->code,
+                'code' => $code ,
+                'label' => $code ,
                 'companies_id' => $Purchase->companies_id,
                 'user_id' => Auth::id(),
             ];

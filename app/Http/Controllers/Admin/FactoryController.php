@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\DocumentCodeTemplate;
 use Illuminate\Http\Request;
 use App\Models\Admin\Factory;
 use App\Models\Admin\CustomField;
@@ -32,6 +33,7 @@ class FactoryController extends Controller
         $VATSelect = $this->SelectDataService->getVATSelect();
         $Factory = Factory::first();
         $CustomFields = CustomField::all();
+        $DocumentCodeTemplates = DocumentCodeTemplate::all();
 
         if (!$Factory) {
             $Factory = Factory::create([
@@ -52,6 +54,7 @@ class FactoryController extends Controller
             'VATSelect' => $VATSelect,
             'Factory' => $Factory,
             'CustomFields' => $CustomFields,
+            'DocumentCodeTemplates' => $DocumentCodeTemplates,
         ]);
     }
 

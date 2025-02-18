@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\App;
 use App\Services\InvoiceLineService;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Workflow\DeliveryLines;
+use App\Services\DocumentCodeGenerator;
 use App\Models\Companies\CompaniesContacts;
 use App\Models\Companies\CompaniesAddresses;
 
@@ -34,12 +35,14 @@ class InvoicesRequest extends Component
 
     protected $invoiceLineService;
     protected $invoiceService;
+    protected $documentCodeGenerator;
 
     public function __construct()
     {
         // Resolve the service via the Laravel container
         $this->invoiceLineService = App::make(InvoiceLineService::class);
         $this->invoiceService = App::make(InvoiceService::class);
+        $this->documentCodeGenerator = App::make(DocumentCodeGenerator::class);
     }
 
     // Validation Rules
@@ -67,8 +70,7 @@ class InvoicesRequest extends Component
         $this->LastInvoice = Invoices::latest()->first();
     
         $invoiceId = $this->LastInvoice ? $this->LastInvoice->id : 0;
-        $invoiceId +=1;
-        $this->code = "IN-" . $invoiceId;
+        $this->code = $this->documentCodeGenerator->generateDocumentCode('invoice', $invoiceId);
         $this->label = $this->code;
     }
 

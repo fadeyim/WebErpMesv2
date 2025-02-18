@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Services\DeliveryLineService;
 use App\Models\Products\SerialNumbers;
+use App\Services\DocumentCodeGenerator;
 use App\Models\Companies\CompaniesContacts;
 use App\Models\Companies\CompaniesAddresses;
 use App\Models\Products\StockLocationProducts;
@@ -23,12 +24,14 @@ class DeliverysRequest extends Component
 {
     protected $deliveryService;
     protected $deliveryLineService;
+    protected $documentCodeGenerator;
     
     public function __construct()
     {
         // Resolve the service via the Laravel container
         $this->deliveryService = App::make(DeliveryService::class);
         $this->deliveryLineService = App::make(DeliveryLineService::class);
+        $this->documentCodeGenerator = App::make(DocumentCodeGenerator::class);
     }
 
     //use WithPagination;
@@ -75,7 +78,8 @@ class DeliverysRequest extends Component
     {
         $this->user_id = Auth::id();
         $this->LastDelivery = Deliverys::latest()->first();
-        $this->code = $this->LastDelivery ? "DN-" . $this->LastDelivery->id : "DN-0";
+        $deliveryId = $this->LastDelivery ? $this->LastDelivery->id : 0;
+        $this->code = $this->documentCodeGenerator->generateDocumentCode('delivery', $deliveryId);
         $this->label = $this->code;
     }
 

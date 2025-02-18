@@ -13,6 +13,7 @@ use App\Models\Companies\Companies;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Services\NotificationService;
+use App\Services\DocumentCodeGenerator;
 use App\Notifications\QuoteNotification;
 use App\Models\Companies\CompaniesContacts;
 use App\Models\Companies\CompaniesAddresses;
@@ -60,11 +61,13 @@ class QuotesIndex extends Component
     public $idCompanie = '';
     public $statuses;
     protected $notificationService;
+    protected $documentCodeGenerator;
 
     public function __construct()
     {
         // Resolve the service via the Laravel container
         $this->notificationService = App::make(NotificationService::class);
+        $this->documentCodeGenerator = App::make(DocumentCodeGenerator::class);
     }
     // Validation Rules
     protected $rules = [
@@ -174,8 +177,9 @@ class QuotesIndex extends Component
     private function setQuoteCodeAndLabel()
     {
         $quoteId = $this->LastQuote ? $this->LastQuote->id : 0;
-        $this->code = "QT-{$quoteId}";
-        $this->label = "QT-{$quoteId}";
+        // Générer le code pour un devis
+        $this->code = $this->documentCodeGenerator->generateDocumentCode('quote', $quoteId);
+        $this->label = $this->code;
     }
 
     public function render()

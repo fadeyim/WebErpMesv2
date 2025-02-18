@@ -15,6 +15,8 @@
             <li class="nav-item"><a class="nav-link" href="#Kanban" data-toggle="tab">{{ __('general_content.workflow_settings_trans_key') }}</a></li>
             <li class="nav-item"><a class="nav-link" href="#EstimatedBudget" data-toggle="tab">{{ __('general_content.estimated_budget_trans_key') }}</a></li>
             <li class="nav-item"><a class="nav-link" href="#CustomFields" data-toggle="tab">{{ __('general_content.custom_fields_trans_key') }}</a></li>
+            <li class="nav-item"><a class="nav-link" href="#DocumentCodeTemplates" data-toggle="tab">{{ __('general_content.document_code_templates_trans_key') }}</a></li>
+            
         </ul>
     </div>
     <div class="card-body">
@@ -667,7 +669,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="methods_services_id">{{ __('general_content.entity_type_trans_key') }}  :</label>
+                                    <label for="related_type">{{ __('general_content.entity_type_trans_key') }}  :</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-list"></i></span>
@@ -690,6 +692,113 @@
                     <!-- /.card secondary -->
                 </div>
                 <!-- /.row -->
+            </div>
+            <div class="tab-pane" id="DocumentCodeTemplates">
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Liste des modèles de code de documents -->
+                        <x-adminlte-card title="{{ __('general_content.document_code_templates_trans_key') }}" theme="primary" maximizable>
+                            <div class="table-responsive p-0">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>{{ __('general_content.entity_type_trans_key') }}</th>
+                                            <th>{{ __('general_content.template_trans_key') }}</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($DocumentCodeTemplates as $template)
+                                            <tr>
+                                                <td>{{ $template->document_type }}</td>
+                                                <td>{{ $template->template }}</td>
+                                                <td class=" py-0 align-middle">
+                                                    <!-- Button Modal -->
+                                                    <x-ButtonTextEdit :modalTarget="'Template' . $template->id" />
+                                                    <!-- Modal {{ $template->id }} -->
+                                                    <x-adminlte-modal id="Template{{ $template->id }}" title="Update {{ $template->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
+                                                        <form method="POST" action="{{ route('admin.document.code.template.update', ['id' => $template->id]) }}">
+                                                            @csrf
+                                                            <div class="card-body">
+                                                                <div class="form-group">
+                                                                    <label for="template">{{ __('general_content.template') }} :</label>
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text"><i class="fas fa-code"></i></span>
+                                                                        </div>
+                                                                        <input type="text" class="form-control" id="template" name="template" placeholder="{type}-{year}-{day}-{id}" value="{{ $template->template }}" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-footer">
+                                                                <x-adminlte-button class="btn-flat" type="submit" label="{{ __('general_content.update_trans_key') }}" theme="info" icon="fas fa-lg fa-save"/>
+                                                            </div>
+                                                        </form>
+                                                    </x-adminlte-modal>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <x-EmptyDataLine col="3" text="{{ __('general_content.no_data_trans_key') }}" />
+                                        @endforelse
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>{{ __('general_content.entity_type_trans_key') }}</th>
+                                            <th>{{ __('general_content.template_trans_key') }}</th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </x-adminlte-card>
+                    </div>
+            
+                    <div class="col-md-6">
+                        <!-- Formulaire de création d'un nouveau modèle de code de document -->
+                        <x-adminlte-card title="{{ __('general_content.new_document_code_template') }}" theme="secondary" maximizable>
+                            <form method="POST" action="{{ route('admin.document.code.template.store') }}" class="form-horizontal">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="document_type">{{ __('general_content.entity_type_trans_key') }}  :</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-list"></i></span>
+                                        </div>
+                                        <select class="form-control" id="document_type" name="document_type" required>
+                                            <option value="company">{{ __('general_content.companies_trans_key') }}</option>
+                                            <option value="quote">{{ __('general_content.quote_trans_key') }}</option>
+                                            <option value="order">{{ __('general_content.orders_trans_key') }}</option>
+                                            <option value="internal-order">{{ __('general_content.internal_order_trans_key') }}</option>
+                                            <option value="delivery">{{ __('general_content.delivery_notes_trans_key') }}</option>
+                                            <option value="invoice">{{ __('general_content.invoice_trans_key') }}</option>
+                                            <option value="credit-note">{{ __('general_content.credit_note_trans_key') }}</option>
+                                            <option value="purchase-quotation">{{ __('general_content.requests_for_quotation_list_trans_key') }}</option>
+                                            <option value="purchase">{{ __('general_content.purchase_order_trans_key') }}</option>
+                                            <option value="purchase-receipt">{{ __('general_content.po_receipt_trans_key') }}</option>
+                                            <option value="purchase-invoice">{{ __('general_content.invoice_supplier_trans_key') }}</option>
+                                            <option value="action">{{ __('general_content.corrective_actions_class_trans_key') }}</option>
+                                            <option value="derogation">{{ __('general_content.derogations_trans_key') }}</option>
+                                            <option value="non-conformities">{{ __('general_content.non_conformities_trans_key') }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="template">{{ __('general_content.template_trans_key') }} :</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-code"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" id="template" name="template" placeholder="{type}-{year}-{day}-{id}" required>
+                                    </div>
+                                </div>
+            
+                                <div class="card-footer">
+                                    <x-adminlte-button class="btn-flat" type="submit" label="{{ __('general_content.submit_trans_key') }}" theme="danger" icon="fas fa-lg fa-save"/>
+                                </div>
+                            </form>
+                        </x-adminlte-card>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
