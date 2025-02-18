@@ -359,9 +359,27 @@
                 </div>
               </x-adminlte-card>
 
-              <x-adminlte-card theme="primary" theme-mode="outline">
-                <x-FormTextareaComment  comment="{{ $Companie->comment }}" />
-              </x-adminlte-card>
+                @php
+                $config = [
+                    "height" => "200",
+                    "toolbar" => [
+                        // [groupName, [list of button]]
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['font', ['strikethrough', 'superscript', 'subscript']],
+                        ['fontsize', ['fontsize']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['height', ['height']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'picture', 'video']],
+                        ['view', ['fullscreen', 'codeview', 'help']],
+                    ],
+                ]
+                @endphp
+              <x-adminlte-text-editor name="comment" label="{{ __('general_content.comment_trans_key') }}" label-class="text-primary"
+                    igroup-size="sm" placeholder="..." :config="$config"> 
+                    {{  $Companie->comment }}
+              </x-adminlte-text-editor>
 
               <x-adminlte-card title="{{ __('BARECODE') }}" theme="orange" maximizable>
                 <div class="row">

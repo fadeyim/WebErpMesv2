@@ -94,7 +94,29 @@
                     </div>
                   </div>
                   <div class="row">
-                    <x-FormTextareaComment  comment="{{ $Opportunity->comment }}" />
+                    <div class="col-12">
+                        @php
+                        $config = [
+                            "height" => "200",
+                            "toolbar" => [
+                                // [groupName, [list of button]]
+                                ['style', ['bold', 'italic', 'underline', 'clear']],
+                                ['font', ['strikethrough', 'superscript', 'subscript']],
+                                ['fontsize', ['fontsize']],
+                                ['color', ['color']],
+                                ['para', ['ul', 'ol', 'paragraph']],
+                                ['height', ['height']],
+                                ['table', ['table']],
+                                ['insert', ['link', 'picture', 'video']],
+                                ['view', ['fullscreen', 'codeview', 'help']],
+                            ],
+                        ]
+                        @endphp
+                        <x-adminlte-text-editor name="comment" label="{{ __('general_content.comment_trans_key') }}" label-class="text-primary"
+                            igroup-size="sm" placeholder="..." :config="$config"> 
+                            {{  $Opportunity->comment }}
+                        </x-adminlte-text-editor>
+                    </div>
                   </div>
                   <x-slot name="footerSlot">
                     <x-adminlte-button class="btn-flat" type="submit" label="{{ __('general_content.update_trans_key') }}" theme="info" icon="fas fa-lg fa-save"/>
