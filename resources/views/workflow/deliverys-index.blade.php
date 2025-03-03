@@ -36,8 +36,8 @@
     var donutData        = {
         labels: [
           @foreach ($data['deliverysDataRate'] as $item)
-                @if(1 == $item->statu )  "In progress", @endif
-                @if(2 == $item->statu )  "Sent", @endif
+                @if(1 == $item->statu )  "{{__('general_content.in_progress_trans_key') }}", @endif
+                @if(2 == $item->statu )  "{{__('general_content.send_trans_key') }}", @endif
           @endforeach
         ],
         datasets: [

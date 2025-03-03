@@ -126,12 +126,12 @@
   var donutData        = {
       labels: [
         @foreach ($data['opportunitiesDataRate'] as $item)
-              @if(1 == $item->statu )  "New", @endif
-              @if(2 == $item->statu )  "Quote made", @endif
-              @if(3 == $item->statu )  "Negotiation", @endif
-              @if(4 == $item->statu )  "Closed-won", @endif
-              @if(5 == $item->statu )  "Closed-lost", @endif
-              @if(6 == $item->statu )  "Informational", @endif
+              @if(1 == $item->statu )  "{{ __('general_content.new_trans_key') }}", @endif
+              @if(2 == $item->statu )  "{{ __('general_content.quote_made_trans_key') }}", @endif
+              @if(3 == $item->statu )  "{{ __('general_content.negotiation_trans_key') }}", @endif
+              @if(4 == $item->statu )  "{{ __('general_content.closed_won_trans_key') }}", @endif
+              @if(5 == $item->statu )  "{{ __('general_content.closed_lost_trans_key') }}", @endif
+              @if(6 == $item->statu ) "{{ __('general_content.informational_trans_key') }}", @endif
         @endforeach
       ],
       datasets: [

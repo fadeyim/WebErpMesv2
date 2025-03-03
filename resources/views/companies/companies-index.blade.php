@@ -64,10 +64,10 @@
 var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
     var donutData        = {
       labels: [
-          'Client',
-          'Prospect',
-          'Supplier',
-          'Client & Supplier',
+          "{{ __('general_content.client_trans_key') }}",
+          "{{ __('general_content.prospect_trans_key') }}",
+          "{{ __('general_content.suppliers_trans_key') }}",
+          "{{ __('general_content.suppliers_client_trans_key') }}",
       ],
       datasets: [
         {

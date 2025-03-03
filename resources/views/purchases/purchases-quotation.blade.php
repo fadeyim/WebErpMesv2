@@ -42,8 +42,8 @@
                 @if(2 == $item->statu )  "{{ __('general_content.send_trans_key') }}", @endif
                 @if(3 == $item->statu )  "{{ __('general_content.partly_received_trans_key') }}", @endif
                 @if(4 == $item->statu )  "{{ __('general_content.rceived_trans_key') }}", @endif
-                @if(5 == $item->statu )  "PO partly created", @endif
-                @if(5 == $item->statu )  "PO Created", @endif
+                @if(5 == $item->statu )  "{{ __('general_content.po_partly_created_trans_key') }}", @endif
+                @if(5 == $item->statu )  "{{ __('general_content.po_created_trans_key') }}", @endif 
           @endforeach
         ],
         datasets: [

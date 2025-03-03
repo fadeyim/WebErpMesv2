@@ -36,9 +36,9 @@
     var donutData        = {
         labels: [
           @foreach ($data['creditNotesDataRate'] as $item)
-                @if(1 == $item->statu )  "Pending", @endif
-                @if(2 == $item->statu )  "Approved", @endif
-                @if(3 == $item->statu )  "Rejected", @endif
+                @if(1 == $item->statu )  "{{__('general_content.pending_trans_key') }}", @endif
+                @if(2 == $item->statu )  "{{__('general_content.approved_trans_key') }}", @endif
+                @if(3 == $item->statu )  "{{__('general_content.rejected_trans_key') }}", @endif
           @endforeach
         ],
         datasets: [

@@ -147,12 +147,12 @@
   var donutData        = {
       labels: [
         @foreach ($data['quotesDataRate'] as $item)
-              @if(1 == $item->statu )  "Open", @endif
-              @if(2 == $item->statu )  "Send", @endif
-              @if(3 == $item->statu )  "Win", @endif
-              @if(4 == $item->statu )  "Lost", @endif
+              @if(1 == $item->statu )  "{{__('general_content.open_trans_key') }}", @endif
+              @if(2 == $item->statu )  "{{__('general_content.send_trans_key') }}", @endif
+              @if(3 == $item->statu )  "{{__('general_content.win_trans_key') }}", @endif
+              @if(4 == $item->statu )  "{{__('general_content.lost_trans_key') }}", @endif
               @if(5 == $item->statu )  "{{__('general_content.closed_trans_key') }}", @endif
-              @if(6 == $item->statu )  "Obsolete", @endif
+              @if(6 == $item->statu )  "{{__('general_content.obsolete_trans_key') }}", @endif
         @endforeach
       ],
       datasets: [

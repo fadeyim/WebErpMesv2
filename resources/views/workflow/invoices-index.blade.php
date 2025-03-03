@@ -92,11 +92,11 @@
     var donutData        = {
         labels: [
           @foreach ($data['invoicesDataRate'] as $item)
-                @if(1 == $item->statu )  "In progress", @endif
-                @if(2 == $item->statu )  "Sent", @endif
-                @if(3 == $item->statu )  "Pending", @endif
-                @if(4 == $item->statu )  "Unpaid", @endif
-                @if(4 == $item->statu )  "Paid", @endif
+                @if(1 == $item->statu )  "{{__('general_content.in_progress_trans_key') }}", @endif
+                @if(2 == $item->statu )  "{{__('general_content.send_trans_key') }}", @endif
+                @if(3 == $item->statu )  "{{__('general_content.pending_trans_key') }}", @endif
+                @if(4 == $item->statu )  "{{__('general_content.unpaid_trans_key') }}", @endif
+                @if(4 == $item->statu )  "{{__('general_content.paid_trans_key') }}", @endif
           @endforeach
         ],
         datasets: [
