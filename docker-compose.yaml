@@ -1,33 +1,37 @@
-version: '3.8'
 services:
   wem-dev:
     container_name: wem-dev
     build: .
     restart: unless-stopped
-    entrypoint: "php artisan serve --host=0.0.0.0 --port=8000"
     depends_on:
       - db-dev
       - redis-dev
     ports:
-      - "127.0.0.1:45060:8000"
+      - "45060:8000"
     env_file: .env
     environment:
       DB_CONNECTION: mysql
       DB_HOST: db-dev
       DB_PORT: 3306
-      DB_DATABASE: laravel
-      DB_USERNAME: root
-      DB_PASSWORD: wemdev
+      DB_DATABASE: wem
+      DB_USERNAME: wem_user
+      DB_PASSWORD: password
       REDIS_HOST: redis-dev
     volumes:
-      - ./app:/app/app
+      - .:/app
+      - /app/vendor
+      - /app/node_modules
+    command: ["/entrypoint.sh"]
 
   db-dev:
     container_name: db-dev
-    image: mariadb:10.3.32
+    image: mysql:8.0
+    restart: always
     environment:
-      MARIADB_DATABASE: laravel
-      MARIADB_ROOT_PASSWORD: wemdev
+      MYSQL_DATABASE: wem
+      MYSQL_ROOT_PASSWORD: wemdev
+      MYSQL_USER: wem_user
+      MYSQL_PASSWORD: password
     volumes:
       - db-dev_data:/var/lib/mysql
 
@@ -42,7 +46,7 @@ services:
     image: node:16
     working_dir: /app
     volumes:
-      - ./app:/app
+      - .:/app
     command: "npm run echo-server"
     depends_on:
       - wem-dev

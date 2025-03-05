@@ -22,8 +22,8 @@ class StockLocationProductsFactory extends Factory
         return [
             'code' => $this->faker->unique()->numerify('STKLOC###'),  // Generate a unique code, e.g., 'STKLOC001'
             'user_id' => User::inRandomOrder()->first()->id ?? null,  // Select a random user or null if none exists
-            'stock_locations_id' => StockLocation::inRandomOrder()->first()->id ?? null, // Random stock location or null
-            'products_id' => Products::inRandomOrder()->first()->id ?? null, // Random product or null
+            'stock_locations_id' => StockLocation::inRandomOrder()->first()->id, // Random stock location
+            'products_id' => Products::inRandomOrder()->first()->id, // Random product or null
             'mini_qty' => $this->faker->numberBetween(1, 100),       // Generate a random minimum quantity between 1 and 100
             'end_date' => $this->faker->optional()->dateTimeBetween('-1 year', '+1 year'), // Optional end date between last year and next year
             'addressing' => $this->faker->sentence(3),               // Random sentence for addressing (3 words)

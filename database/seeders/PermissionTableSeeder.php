@@ -35,8 +35,10 @@ class PermissionTableSeeder  extends Seeder
                         'your-company-menu',
                         ];
     
-        foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
-        }
+                        foreach ($permissions as $permission) {
+                            if (!Permission::where('name', $permission)->exists()) {
+                                Permission::create(['name' => $permission]);
+                            }
+                        }
     }
 }

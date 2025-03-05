@@ -36,8 +36,10 @@
         "admin-lte": "^4.0.0-beta2",
         "cross-env": "^7.0.3",
         "flag-icon-css": "^4.1.7",
+        "livewire-sortable": "^1.0.0",
         "socket.io-client": "^4.8.0",
         "three": "^0.157.0",
+        "vue-resizable": "^2.1.7",
         "vuedraggable": "^4.1.0"
     }
 }

@@ -4,6 +4,7 @@ FROM php:8.2-fpm
 RUN apt-get update && apt-get install -y \
     git \
     curl \
+    netcat-openbsd \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
@@ -21,6 +22,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install zip \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
     && docker-php-ext-install ldap \
+    && docker-php-ext-install soap \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && docker-php-source delete
@@ -35,6 +37,13 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 WORKDIR /app
 COPY . .
 
+# Copier et rendre exécutable le script de démarrage
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Install NPM dependencies and Composer packages
 RUN npm ci
-RUN composer install
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+
+# Définir le point d'entrée
+ENTRYPOINT ["/entrypoint.sh"]

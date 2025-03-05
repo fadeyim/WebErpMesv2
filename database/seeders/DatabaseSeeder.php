@@ -52,9 +52,9 @@ class DatabaseSeeder extends Seeder
             MethodsSectionTableSeeder::class,
             MethodsRessourcesSeeder::class,
             MethodsFamiliesSeeder::class,
-            //PermissionTableSeeder::class,
-            //CreateAdminUserSeeder::class,
-            //AllocationSeeder::class,
+            PermissionTableSeeder::class,
+            CreateAdminUserSeeder::class,
+            AllocationSeeder::class,
         ]);
 
         //factory
@@ -81,6 +81,7 @@ class DatabaseSeeder extends Seeder
         */
 
         //Products 
+        $this->call(CreateProductsSeeder::class);
         $this->call(StocksSeeder::class);
         $this->call(StockLocationSeeder::class);
         $this->call(StockLocationProductsSeeder::class);

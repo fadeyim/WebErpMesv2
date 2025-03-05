@@ -16,18 +16,24 @@ class CreateAdminUserSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::create([
-            'name' => 'Admin', 
-            'email' => 'contact@wem-project.org',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        ]);
+        $user = User::firstOrCreate(
+            ['email' => 'contact@wem-project.org'], // Condition pour éviter les doublons
+            [
+                'name' => 'Admin',
+                'password' => bcrypt('password'), // Générer un mot de passe sécurisé
+            ]
+        );
     
-        $role = Role::create(['name' => 'Admin']);
-     
-        $permissions = Permission::pluck('id','id')->all();
-   
+        // Vérifier si le rôle existe avant de le créer
+        $role = Role::firstOrCreate(['name' => 'Admin']);
+    
+        // Associer les permissions si elles existent
+        $permissions = Permission::pluck('id')->toArray();
         $role->syncPermissions($permissions);
-     
-        $user->assignRole([$role->id]);
+    
+        // Associer le rôle à l'utilisateur si ce n'est pas déjà fait
+        if (!$user->hasRole($role->name)) {
+            $user->assignRole($role);
+        }
     }
 }
