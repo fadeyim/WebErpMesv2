@@ -14,32 +14,40 @@ use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 
 Route::middleware('guest')->group(function () {
 
+    // Route to display the login form
     Route::get('/', [AuthenticatedSessionController::class, 'create'])
                 ->name('login');
 
+    // Route to handle login form submission
     Route::post('/login', [AuthenticatedSessionController::class, 'store'])
                 ->name('login.store');
 
+    // Route to display the registration form
     Route::get('/register', [RegisteredUserController::class, 'create'])
         ->name('register');
 
+    // Route to handle registration form submission
     Route::post('/register', [RegisteredUserController::class, 'store']);
 
+    // Route to display the forgot password form
     Route::get('/forgot/password', [PasswordResetLinkController::class, 'create'])
-        ->name('password.request');
+        ->name('forgot.password');
 
+    // Route to handle forgot password form submission and send reset email
     Route::post('/forgot/password', [PasswordResetLinkController::class, 'store'])
-        ->name('password.email');
+        ->name('forgot.password.email');
 
+    // Route to display the password reset form with token
     Route::get('/password/reset/{token}', [NewPasswordController::class, 'create'])
         ->name('password.reset');
 
+    // Route to handle password reset form submission and save new password
     Route::post('/password/reset/store', [NewPasswordController::class, 'store'])
         ->name('password.store');
 
-    Route::post('/password/reset/update', [PasswordController::class, 'update'])
-        ->middleware('guest')
-        ->name('password.update');
+//    Route::post('/password/reset/update', [PasswordController::class, 'update'])
+//        ->middleware('guest')
+//        ->name('password.update');
 });
 
 Route::middleware('auth')->group(function () {

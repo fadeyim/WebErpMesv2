@@ -21,7 +21,7 @@
         </div>
     @endif
 
-    <form action="{{ $password_email_url }}" method="post">
+    <form action="{{ route('forgot.password.email') }}" method="post">
         @csrf
 
         {{-- Email field --}}
