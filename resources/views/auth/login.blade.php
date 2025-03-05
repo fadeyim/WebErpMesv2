@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ asset('vendor/icheck-bootstrap/icheck-bootstrap.min.css') }}">
 @stop
 
-@php( $login_url = View::getSection('login_url') ?? config('adminlte.login_url', 'login') )
+@php( $login_url = View::getSection('login_url') ?? config('adminlte.login_url', '/login/store') )
 @php( $register_url = View::getSection('register_url') ?? config('adminlte.register_url', 'register') )
 @php( $password_reset_url = View::getSection('password_reset_url') ?? config('adminlte.password_reset_url', 'password/reset') )
 
@@ -21,9 +21,8 @@
 @section('auth_header', __('adminlte::adminlte.login_message'))
 
 @section('auth_body')
-    <form action="{{ $login_url }}" method="post">
+    <form action="{{ route('login.store') }}" method="post">
         @csrf
-
         @if (session('message'))
             <div class="alert alert-danger">{{ session('message') }}</div>
         @endif
@@ -32,7 +31,7 @@
         <div class="input-group mb-3">
             @if(env('AUTH_DRIVER') === 'ldap')
                 <input type="text" name="username" class="form-control @error('username') is-invalid @enderror"
-                       value="{{ old('username') }}" placeholder="{{ __('adminlte::adminlte.username') }}" autofocus>
+                    value="{{ old('username') }}" placeholder="{{ __('adminlte::adminlte.username') }}" autofocus>
                 
                 <div class="input-group-append">
                     <div class="input-group-text">
@@ -48,7 +47,7 @@
 
             @else
                 <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                       value="{{ old('email') }}" placeholder="{{ __('adminlte::adminlte.email') }}" autofocus>
+                    value="{{ old('email') }}" placeholder="{{ __('adminlte::adminlte.email') }}" autofocus>
                 
                 <div class="input-group-append">
                     <div class="input-group-text">
@@ -67,7 +66,7 @@
         {{-- Password field --}}
         <div class="input-group mb-3">
             <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
-                   placeholder="{{ __('adminlte::adminlte.password') }}">
+                placeholder="{{ __('adminlte::adminlte.password') }}">
 
             <div class="input-group-append">
                 <div class="input-group-text">

@@ -593,8 +593,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
 
     require __DIR__.'/auth.php';
 
-    Auth::routes();
-
     Route::get('/home', 'App\Http\Controllers\HomeController@index')->middleware(['auth'])->name('home');
 
     Livewire::setUpdateRoute(function ($handle) {

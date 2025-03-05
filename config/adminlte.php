@@ -190,9 +190,9 @@ return [
     'use_route_url' => false,
     'dashboard_url' => 'home',
     'logout_url' => 'logout',
-    'login_url' => 'login',
+    'login_url' => '/',
     'register_url' => 'register',
-    'password_reset_url' => 'password/reset',
+    'password_reset_url' => 'forgot/password',
     'password_email_url' => 'password/email',
     'profile_url' => false,
 

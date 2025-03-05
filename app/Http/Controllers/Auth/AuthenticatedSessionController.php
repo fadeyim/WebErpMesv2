@@ -28,7 +28,17 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-       
+        $request->authenticate();
+
+        $request->session()->regenerate();
+
+        // Déterminer la redirection basée sur le modeView
+        $redirectTo = match ($request->input('modeView')) {
+            'workshop' => RouteServiceProvider::WORKSHOP,
+            default => RouteServiceProvider::HOME,
+        };
+
+        return redirect()->intended($redirectTo);
     }
 
     /**
