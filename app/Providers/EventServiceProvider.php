@@ -9,6 +9,7 @@ use App\Events\TaskChangeStatu;
 use App\Events\OrderLineUpdated;
 use App\Events\QuoteStatusChanged;
 use App\Events\DeliveryLineUpdated;
+use App\Listeners\SendWelcomeEmail;
 use Illuminate\Support\Facades\Event;
 use App\Events\PurchaseReceiptCreated;
 use App\Listeners\UpdateCompanyStatus;
@@ -57,6 +58,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         PurchaseReceiptCreated::class => [
             UpdatePurchaseStatus::class,
+        ],
+        Registered::class => [
+            SendWelcomeEmail::class,
         ],
     ];
 
