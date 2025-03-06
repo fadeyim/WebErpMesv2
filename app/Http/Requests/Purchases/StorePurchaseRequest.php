@@ -26,7 +26,6 @@ class StorePurchaseRequest extends FormRequest
             'code' =>'required|unique:purchases',
             'label'=>'required',
             'companies_id'=>'required',
-            'user_id'=>'required',
         ];
     }
 }

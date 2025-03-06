@@ -191,6 +191,7 @@ class PurchasesController extends Controller
         $purchaseData = $request->only('code', 'label', 'companies_id', 'user_id');
         $purchaseData['companies_addresses_id'] = $defaultAddress->id;
         $purchaseData['companies_contacts_id'] = $defaultContact->id;
+        $purchaseData['user_id'] = Auth::id();
 
         return $purchaseData;
     }
