@@ -21,7 +21,7 @@
     <ul class="list-unstyled">
         @forelse ( $filesList as $file)
         <li>
-            <a href="{{ asset('/file/'. $file->name) }}" download="{{ $file->original_file_name }}" class="btn-link text-secondary">{{ $file->original_file_name }} -  <small>{{ $file->GetPrettySize() }}</small></a>
+            <a href="{{ asset('/file/'. $file->name) }}" download="{{ $file->original_file_name }}" class="btn-link text-secondary">{{ $file->original_file_name }} -  <small>{{ $file->getFormattedSizeAttribute() }}</small></a>
         </li>
         @empty
             {{ __('general_content.no_data_trans_key') }}

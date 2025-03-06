@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Models\User;
+use Illuminate\Support\Number;
 use App\Models\Workflow\Orders;
 use App\Models\Workflow\Quotes;
 use App\Models\Products\Products;
 use App\Models\Workflow\Invoices;
+use App\Models\Products\StockMove;
 use App\Models\Workflow\Deliverys;
 use App\Models\Companies\Companies;
-use App\Models\Products\StockMove;
 use App\Models\Workflow\Opportunities;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Purchases\PurchaseReceipt;
@@ -30,7 +31,17 @@ class File extends Model
         'as_photo',
     ];
 
-        /**
+    /**
+     * Get the file size in kilobytes, rounded to 2 decimal places.
+     *
+     * @return string The formatted file size.
+     */
+    public function getFormattedSizeAttribute()
+    {
+        return Number::fileSize($this->size);
+    }
+
+    /**
      * Define a polymorphic many-to-many relationship with the Companies model.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
@@ -138,16 +149,6 @@ class File extends Model
     public function UserManagement()
     {
         return $this->belongsTo(User::class, 'users_id');
-    }
-
-    /**
-     * Get the file size in kilobytes, rounded to 2 decimal places.
-     *
-     * @return string The formatted file size.
-     */
-    public function GetPrettySize()
-    {
-        return round($this->size / 1000, 2) . ' Ko';
     }
 
     /**
