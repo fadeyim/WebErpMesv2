@@ -45,14 +45,14 @@ class OrderLinesFactory extends Factory
         }
         $statu = $order->statu;
 
-        // Génération du prix de vente avec proportion inverse à la quantité
-        $max_qty = 1000; // Quantité maximale
-        $min_qty = 1;    // Quantité minimale
+        // Generation of the sales price with inverse proportion to the quantity
+        $max_qty = 1000; // Qty Minimum
+        $min_qty = 1;    // Qty Maximum
 
-        $min_price = 1;  // Prix minimal
-        $max_price = 10; // Prix maximal
+        $min_price = 1;  // Minimum price
+        $max_price = 10; // Maximum price
 
-        // Calcul du prix de vente avec proportion inverse : plus la quantité est grande, plus le prix est bas
+        // Calculation of the selling price with inverse proportion: the greater the quantity, the lower the price
         $this->selling_price = $min_price + (($max_price - $min_price) * (1 - (($this->qty - $min_qty) / ($max_qty - $min_qty))));
 
         return [
@@ -64,7 +64,14 @@ class OrderLinesFactory extends Factory
 			'qty' => $this->qty,
 			'delivered_remaining_qty' => function () use ($statu) {
                 if ($statu == 3) {
-                    return 0; // Si le statut est 3, on met la quantité livrée restante à 0
+                    return 0; // If the status is 3, we set the remaining delivered quantity to 0
+                }
+                
+                return $this->qty;
+            },
+            'invoiced_remaining_qty' => function () use ($statu) {
+                if ($statu == 3) {
+                    return 0; // If the status is 3, we set the remaining Invoiced quantity to 0
                 }
                 
                 return $this->qty;
