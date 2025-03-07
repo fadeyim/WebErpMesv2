@@ -19,4 +19,12 @@ class QuoteController extends Controller
     {
         return new QuoteResource($quote);
     }
+
+        /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        return QuoteResource::collection(Quotes::with(['companie', 'contact', 'adresse', 'QuoteLines'])->paginate(10));
+    }
 }

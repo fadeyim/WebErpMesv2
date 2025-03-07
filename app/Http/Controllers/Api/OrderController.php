@@ -19,4 +19,12 @@ class OrderController extends Controller
     {
         return new OrderResource($order);
     }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        return OrderResource::collection(Orders::with(['companie', 'contact', 'adresse', 'OrderLines'])->paginate(10));
+    }
 }
