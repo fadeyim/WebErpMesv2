@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Planning;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Events\AndonAlertTriggered;
+use App\Services\OrderLinesService;
 use App\Http\Controllers\Controller;
 use App\Models\Planning\AndonAlerts;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,13 @@ use App\Models\Planning\TaskActivities;
 
 class AndonAlertController extends Controller
 {
+    protected $orderLinesService;
+
+    public function __construct(OrderLinesService $orderLinesService)
+    {
+        $this->orderLinesService = $orderLinesService;
+    }
+    
     public function triggerAlert(Request $request)
     {
         $alert = AndonAlerts::create([
@@ -64,5 +72,14 @@ class AndonAlertController extends Controller
                                         ->orderByDesc('id')
                                         ->get();
         return view('workshop/workshop-andon-task-activity', compact('taskActivities'));
+    }
+
+    public function orderWorkshopDashboard()
+    {
+        return view('workshop/workshop-andon-orders', [
+            'incomingOrders'      => $this->orderLinesService->getIncomingOrders(),
+            'lateOrders'          => $this->orderLinesService->getLateOrders(),
+            'readyOrders'         => $this->orderLinesService->getReadyOrders(),
+        ]);
     }
 }

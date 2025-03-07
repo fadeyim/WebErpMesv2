@@ -133,7 +133,7 @@
                     <i class="icon fas fa-ban"></i><br/>
                 </a>
               </div>
-              @forelse ($LateOrders as $LateOrder)
+              @forelse ($lateOrders as $LateOrder)
               <div class="col-md-1">
                   <div class="progress-group alert alert-danger">
                       <a href="{{ route('orders.show', ['id' => $LateOrder->orders_id]) }}"><i class="fas fa-calculator"></i></a> {{ $LateOrder->order['code'] }}<br/>
@@ -150,10 +150,10 @@
               <!-- /.col-md-12 -->
               @endforelse
 
-              @if ($LateOrdersCount >= 1)
+              @if ($lateOrdersCount >= 1)
               <div class="col-md-1">
                 <a href="{{ route('orders') }}" class="btn btn-lg btn-danger">
-                    + {{ $LateOrdersCount }} <br/>
+                    + {{ $lateOrdersCount }} <br/>
                     <i class="fas fa-arrow-circle-right"></i><br/>
                 </a>
               </div>
@@ -198,7 +198,7 @@
                   @if(3 == $LastOrder->statu )  <span class="badge badge-success">{{ __('general_content.delivered_trans_key') }}</span>@endif
                   @if(4 == $LastOrder->statu )  <span class="badge badge-danger">{{ __('general_content.partly_delivered_trans_key') }}</span>@endif
                 </td>
-                <td>{{ number_format($LastOrder->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</td>
+                <td>{{ $LastOrder->formatted_total_price }}</td>
                 <td>{{ $LastOrder->GetPrettyCreatedAttribute() }}</td>
                 <td><img src="{{ Avatar::create($LastOrder->UserManagement['name'])->toBase64() }}" /></td>
               </tr>
@@ -240,7 +240,7 @@
             <div class="col-sm-3 col-3">
               <div class="description-block border-right">
                 <!--<<span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>-->
-                <h5 class="description-header">{{ $OrderTotalForCast[0]->orderTotalForCast  ?? 0 }}  {{ $Factory->curency }}</h5>
+                <h5 class="description-header">{{ $OrderTotalForCast[0]->orderTotalForCast}}</h5>
                 <span class="description-text">{{ __('general_content.total_order_forcasted_trans_key') }}</span>
               </div>
               <!-- /.description-block -->
@@ -249,7 +249,7 @@
             <div class="col-sm-3 col-3">
               <div class="description-block border-right">
                 <!--<<span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>-->
-                <h5 class="description-header">{{ $orderTotalDelivered }} {{ $Factory->curency }}</h5>
+                <h5 class="description-header">{{ $orderTotalFormattedDelivered }}</h5>
                 <span class="description-text">{{ __('general_content.total_order_delivered_trans_key') }}</span>
               </div>
               <!-- /.description-block -->
@@ -258,7 +258,7 @@
             <div class="col-sm-3 col-3">
               <div class="description-block border-right">
                 <!--<<span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>-->
-                <h5 class="description-header">{{ $orderTotaInvoiced }}   {{ $Factory->curency }}</h5>
+                <h5 class="description-header">{{ $orderTotalFormattedInvoiced }}</h5>
                 <span class="description-text">{{ __('general_content.total_invoiced_trans_key') }}</span>
               </div>
               <!-- /.description-block -->
@@ -267,7 +267,7 @@
             <div class="col-sm-3 col-3">
               <div class="description-block">
                 <!--<span class="description-percentage text-danger"><i class="fas fa-caret-down"></i></span>-->
-                <h5 class="description-header"> {{ $orderTotaInvoiced }}  /{{ $EstimatedBudgets }} ({{ round($orderTotaInvoiced / $EstimatedBudgets *100,2)}} %)</h5>
+                <h5 class="description-header"> {{ $orderTotalFormattedInvoiced }}  /{{ $FormattedEstimatedBudgets }} ({{ round($orderTotaInvoiced / $EstimatedBudgets *100,2)}} %)</h5>
                 <span class="description-text">{{ __('general_content.goal_trans_key') }}</span>
               </div>
               <!-- /.description-block -->
@@ -281,7 +281,7 @@
 
     <!-- TABLE: DELIVERED -->
     <div class="col-lg-6 col-md-12">
-      <x-adminlte-small-box title="{{ number_format($deliveredMonthInProgress->orderSum,2) ?? 0}} {{ $Factory->curency }}" 
+      <x-adminlte-small-box title="{{ $deliveredMonthInProgress }} " 
                           text="{{ __('general_content.delivered_month_in_progress_trans_key') }}" 
                           icon="icon fas fa-info"
                           theme="yellow" 
@@ -289,7 +289,7 @@
                           url-text="{{ __('general_content.view_details_trans_key') }}"/>
     </div>
     <div class="col-lg-6 col-md-12">
-      <x-adminlte-small-box title="{{ number_format($remainingDeliveryOrder->orderSum ?? 0 - $deliveredMonthInProgress->orderSum   ?? 0 ,2)}}  {{ $Factory->curency }}" 
+      <x-adminlte-small-box title="{{ $remainingDeliveryOrder->orderSum ?? 0 - $deliveredMonthInProgress->orderSum ?? 0}} " 
                           text="{{ __('general_content.remaining_month_trans_key') }}" 
                           icon="icon fas fa-info"
                           theme="danger" 
@@ -347,7 +347,7 @@
                     @if(5 == $LastQuote->statu )  <span class="badge badge-secondary">{{ __('general_content.closed_trans_key') }}</span>@endif
                     @if(6 == $LastQuote->statu )   <span class="badge badge-secondary">{{ __('general_content.obsolete_trans_key') }}</span>@endif
                   </td>
-                  <td>{{ number_format($LastQuote->getTotalPriceAttribute(), 2, '.', ',') }} {{ $Factory->curency }}</td>
+                  <td>{{ $LastQuote->formatted_total_price }}</td>
                   <td>{{ $LastQuote->GetPrettyCreatedAttribute() }}</td>
                   <td><img src="{{ Avatar::create($LastQuote->UserManagement['name'])->toBase64() }}" /></td>
                 </tr>

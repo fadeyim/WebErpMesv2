@@ -729,6 +729,14 @@ return [
     'manufacturing_range_trans_key'            => 'Manufacturing range',
     'accomplished_trans_key'                   => 'Accomplished',
     'gap_trans_key'                            => 'Gap',
+    'orders_to_deliver_today_trans_key'        => 'Orders to be delivered today',
+    'delivery_scheduled_today_trans_key'       => 'Delivery scheduled for today',
+    'no_orders_scheduled_today_trans_key'      => 'No orders scheduled for today.',
+    'ready_orders_trans_key'                   => 'Ready orders',
+    'no_ready_orders_trans_key'                => 'No ready orders.',
+    'days_late_trans_key'                      => ':days days late',
+    'to_deliver_today_trans_key'               => 'To be delivered today',
+    'delivery_in_days_trans_key'               => 'Delivery in :days days',
     
     'info_statu_trans_key'                     => 'The document status does not allow adding / modifying / deleting lines.',
     

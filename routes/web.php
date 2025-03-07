@@ -43,6 +43,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
         Route::post('/andon/resolve/{id}', 'App\Http\Controllers\Planning\AndonAlertController@resolveAlert')->name('workshop.andon.resolve');
 
         Route::get('/andon/task-activity', 'App\Http\Controllers\Planning\AndonAlertController@taskActivityDashboard')->name('workshop.andon.task-activity');
+        Route::get('/andon/orders-dashboard', 'App\Http\Controllers\Planning\AndonAlertController@orderWorkshopDashboard')->name('workshop.andon.orders.dashboard');
+   
     });
     
 

@@ -729,6 +729,14 @@ return [
     'manufacturing_range_trans_key'            => 'Gamme',
     'accomplished_trans_key'                   => 'Réalisé',
     'gap_trans_key'                            => 'Ecart',
+    'orders_to_deliver_today_trans_key'        => 'Commandes à livrer aujourd\'hui',
+    'delivery_scheduled_today_trans_key'       => 'Livraison prévue aujourd\'hui',
+    'no_orders_scheduled_today_trans_key'      => 'Aucune commande prévue aujourd\'hui.',
+    'ready_orders_trans_key'                   => 'Commandes prêtes',
+    'no_ready_orders_trans_key'                => 'Aucune commande prête.',
+    'days_late_trans_key'                      => ':days jr de retard',
+    'to_deliver_today_trans_key'               => 'À livrer aujourd’hui',
+    'delivery_in_days_trans_key'               => 'Livraison dans :days jr',
     
     'info_statu_trans_key'                     => 'Le statut du document ne permet pas d\'ajouter/modifier/supprimer des lignes.',
 

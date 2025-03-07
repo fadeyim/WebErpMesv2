@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Support\Number;
 use App\Models\Workflow\Orders;
 use App\Models\Workflow\Quotes;
 use App\Models\Products\Products;
@@ -11,8 +12,8 @@ use App\Services\OrderKPIService;
 use App\Services\QuoteKPIService;
 use Illuminate\Support\Facades\DB;
 use App\Models\Admin\Announcements;
-use App\Models\Workflow\OrderLines;
 use App\Services\InvoiceKPIService;
+use App\Services\OrderLinesService;
 use App\Services\DeliveryKPIService;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin\EstimatedBudgets;
@@ -25,17 +26,20 @@ class HomeController extends Controller
     protected $deliveryKPIService;
     protected $quoteKPIService;
     protected $invoiceKPIService;
+    protected $orderLinesService;
 
     public function __construct(
                                 OrderKPIService $orderKPIService, 
                                 DeliveryKPIService $deliveryKPIService,
                                 QuoteKPIService $quoteKPIService,
                                 InvoiceKPIService $invoiceKPIService,
+                                OrderLinesService $orderLinesService,
                         ){
                             $this->orderKPIService = $orderKPIService;
                             $this->deliveryKPIService = $deliveryKPIService;
                             $this->quoteKPIService = $quoteKPIService;
                             $this->invoiceKPIService = $invoiceKPIService;
+                            $this->orderLinesService = $orderLinesService;
                         }
 
     /**
@@ -43,6 +47,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $factory = app('Factory');
         $CurentYear = Carbon::now()->format('Y');
         $CurentMonth = Carbon::now()->format('m');
 
@@ -110,36 +115,10 @@ class HomeController extends Controller
         }
 
         //Order incoming end date
-        // we use in future deadline trait for this
-        $incomingOrdersCount = OrderLines::orderBy('id', 'desc') ->where([
-                                                                ['delivery_date', '>', Carbon::now()],
-                                                                ['delivery_date', '<', Carbon::now()->addDays(2)],
-                                                            ])
-                                                            ->where('delivery_status', '<', 3)
-                                                            ->groupBy('orders_id')
-                                                            ->get();
-        $incomingOrdersCount = count($incomingOrdersCount)-4;
-
-        $incomingOrders = OrderLines::orderBy('id', 'desc')->where([
-                                                                    ['delivery_date', '>', Carbon::now()],
-                                                                    ['delivery_date', '<', Carbon::now()->addDays(2)],
-                                                            ])
-                                                            ->where('delivery_status', '<', 3)
-                                                            ->groupBy('orders_id')
-                                                            ->take(10)
-                                                            ->get();
-        //late Order count
-        $LateOrdersCount = OrderLines::orderBy('id', 'desc')->where('delivery_date', '<', Carbon::now())
-                                                            ->where('delivery_status', '<', 3)
-                                                            ->groupBy('orders_id')
-                                                            ->get();
-        $LateOrdersCount = count($LateOrdersCount)-4;
-
-        $LateOrders = OrderLines::orderBy('id', 'desc')->where('delivery_date', '<', Carbon::now())
-                                                        ->where('delivery_status', '<', 3)
-                                                        ->groupBy('orders_id')
-                                                        ->take(10)
-                                                        ->get();
+        $incomingOrders      = $this->orderLinesService->getIncomingOrders();
+        $incomingOrdersCount = $this->orderLinesService->getIncomingOrdersCount();
+        $lateOrders          = $this->orderLinesService->getLateOrders();
+        $lateOrdersCount     = $this->orderLinesService->getLateOrdersCount();
 
         //Quote data for chart
         $data['quotesDataRate'] = $this->quoteKPIService->getQuotesDataRate($CurentYear);
@@ -169,8 +148,13 @@ class HomeController extends Controller
 
         //total price
         $deliveredMonthInProgress = $this->deliveryKPIService->getDeliveryMonthlyProgress($CurentMonth, $CurentYear);
+        $deliveredMonthInProgress = Number::currency($deliveredMonthInProgress->orderSum ?? 0,$factory->curency, config('app.locale'));
                                                 
         $remainingDeliveryOrder =   $this->orderKPIService->getOrderMonthlyRemainingToDelivery($CurentMonth, $CurentYear);
+
+        $orderTotalFormattedDelivered =   Number::currency($orderTotalDelivered ?? 0,$factory->curency, config('app.locale'));
+        $orderTotalFormattedInvoiced =   Number::currency($orderTotaInvoiced ?? 0,$factory->curency, config('app.locale'));
+        $FormattedEstimatedBudgets =   Number::currency($EstimatedBudgets ?? 0,$factory->curency, config('app.locale'));
 
         return view('dashboard', [
             'userRoleCount' => $userRoleCount,
@@ -179,15 +163,18 @@ class HomeController extends Controller
             'LastQuotes' => $LastQuotes,
             'LastOrders' =>  $LastOrders,
             'OrderTotalForCast' =>  $orderTotalForCast,
-            'orderTotalDelivered' =>  $orderTotalDelivered ,
+            'orderTotalDelivered' =>  $orderTotalDelivered,
             'orderTotaInvoiced' =>  $orderTotaInvoiced,
-            'LateOrdersCount' =>  $LateOrdersCount,
+            'orderTotalFormattedDelivered' =>  $orderTotalFormattedDelivered,
+            'orderTotalFormattedInvoiced' =>  $orderTotalFormattedInvoiced,
+            'lateOrdersCount' =>  $lateOrdersCount,
             'incomingOrders' =>  $incomingOrders,
             'incomingOrdersCount' => $incomingOrdersCount,
-            'LateOrders' =>  $LateOrders,
+            'lateOrders' =>  $lateOrders,
             'ServiceGoals' => $ServiceGoals,
             'Tasks' => $Tasks,
             'EstimatedBudgets' => $EstimatedBudgets,
+            'FormattedEstimatedBudgets' => $FormattedEstimatedBudgets,
             'deliveredMonthInProgress' => $deliveredMonthInProgress,
             'remainingDeliveryOrder' => $remainingDeliveryOrder
         ])->with('data',$data);
