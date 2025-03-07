@@ -12,8 +12,6 @@
         <ul class="nav nav-pills">
             <li class="nav-item"><a class="nav-link active" href="#Settings" data-toggle="tab">{{ __('general_content.factory_settings_trans_key') }}</a></li>
             <li class="nav-item"><a class="nav-link" href="#Announcement" data-toggle="tab">{{ __('general_content.announcements_trans_key') }}</a></li>
-            <li class="nav-item"><a class="nav-link" href="#Kanban" data-toggle="tab">{{ __('general_content.workflow_settings_trans_key') }}</a></li>
-            <li class="nav-item"><a class="nav-link" href="#EstimatedBudget" data-toggle="tab">{{ __('general_content.estimated_budget_trans_key') }}</a></li>
             <li class="nav-item"><a class="nav-link" href="#CustomFields" data-toggle="tab">{{ __('general_content.custom_fields_trans_key') }}</a></li>
             <li class="nav-item"><a class="nav-link" href="#DocumentCodeTemplates" data-toggle="tab">{{ __('general_content.document_code_templates_trans_key') }}</a></li>
             
@@ -594,14 +592,6 @@
                         </table>
                     </div>
                 </x-adminlte-card>
-            </div>
-            <div class="tab-pane " id="Kanban">
-                <x-InfocalloutComponent note="{{__('general_content.kanban_setting_note_trans_key') }}"  />
-                @livewire('kanban-setting')
-            </div>
-            <div class="tab-pane " id="EstimatedBudget">
-                <x-InfocalloutComponent note="Used for dashboard chart."  />
-                @livewire('estimated-budget')
             </div>
             <div class="tab-pane " id="CustomFields">
                 <div class="row">

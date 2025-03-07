@@ -367,9 +367,13 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
         Route::post('/document-code-template/store', 'App\Http\Controllers\Admin\DocumentCodeTemplateController@store')->middleware(['auth'])->name('admin.document.code.template.store');
         Route::post('/document-code-template/update/{id}', 'App\Http\Controllers\Admin\DocumentCodeTemplateController@update')->middleware(['auth'])->name('admin.document.code.template.update');
         
-        Route::get('/imports-exports/', 'App\Http\Controllers\Admin\ImportsExportsController@index')->middleware(['auth'])->name('admin.imports.exports');
+        Route::get('/estimated-budgets-settings', 'App\Http\Controllers\Admin\FactoryController@estimatedBudgetsSettingView')->middleware(['auth'])->name('admin.estimated.budgets.settings');
 
-        Route::get('/logs-view/', 'App\Http\Controllers\Admin\FactoryController@logsView')->middleware(['auth'])->name('admin.logs.view');
+        Route::get('/kanban-settings', 'App\Http\Controllers\Admin\FactoryController@kanbanSettingView')->middleware(['auth'])->name('admin.kanban.settings');
+
+        Route::get('/imports-exports', 'App\Http\Controllers\Admin\ImportsExportsController@index')->middleware(['auth'])->name('admin.imports.exports');
+
+        Route::get('/logs-view', 'App\Http\Controllers\Admin\FactoryController@logsView')->middleware(['auth'])->name('admin.logs.view');
     });
 
     Route::group(['prefix' => 'human-resources', 'middleware' => ['auth', 'check.factory']], function () {

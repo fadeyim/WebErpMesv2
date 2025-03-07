@@ -648,6 +648,16 @@ return [
                     'icon_color' => 'primary',
                 ],
                 [
+                    'text' => 'estimated_budget_trans_key',
+                    'url'  => 'admin/estimated-budgets-settings',
+                    'icon_color' => 'danger',
+                ],
+                [
+                    'text' => 'workflow_settings_trans_key',
+                    'url'  => 'admin/kanban-settings',
+                    'icon_color' => 'orange',
+                ],
+                [
                     'text' => 'logs_view_trans_key',
                     'url'  => 'admin/logs-view',
                     'icon_color' => 'success',

@@ -73,7 +73,7 @@ class HomeController extends Controller
         //Estimated Budgets data for chart
         $data['estimatedBudget'] = EstimatedBudgets::where('year', $CurentYear)->get();
         if(count($data['estimatedBudget']) == 0){
-            return redirect()->route('admin.factory')->with('error', 'Please check estimated budgets');
+            return redirect()->route('admin.estimated.budgets.settings')->with('error', 'Please check estimated budgets');
         }
 
         //GOAL Chart

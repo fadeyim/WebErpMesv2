@@ -76,6 +76,8 @@ return [
     'factory_settings_trans_key'               => 'Factory settings',
     'roles_and_permissions_trans_key'          => 'Roles & permissions',
     'import_export_trans_key'                  => 'Imports/Exports',
+    'workflow_settings_trans_key'              => 'Task Workflow',
+    'estimated_budget_trans_key'               => 'Estimated budget',
     'logs_view_trans_key'                      => 'Logs view',
     'licence_trans_key'                        => 'Licence',
     'release_note_trans_key'                   => 'Release notes',

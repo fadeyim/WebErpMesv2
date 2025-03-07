@@ -221,6 +221,22 @@ class FactoryController extends Controller
     /**
      * @return \Illuminate\Contracts\View\View
      */
+    public function estimatedBudgetsSettingView()
+    {
+        return view('admin/factory-estimated-budgets-settings');
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function kanbanSettingView()
+    {
+        return view('admin/factory-kanban-settings');
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\View
+     */
     public function logsView()
     {
         return view('admin/factory-logs-view');
