@@ -4,17 +4,16 @@ namespace App\Livewire;
 
 use App\Models\User;
 use Livewire\Component;
-use Illuminate\Support\Str;
+use App\Services\StockService;
 use App\Events\OrderLineUpdated;
 use App\Services\DeliveryService;
-use App\Models\Products\StockMove;
 use App\Models\Workflow\Deliverys;
 use App\Models\Companies\Companies;
 use App\Models\Workflow\OrderLines;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Services\DeliveryLineService;
-use App\Models\Products\SerialNumbers;
+use App\Services\SerialNumberService;
 use App\Services\DocumentCodeGenerator;
 use App\Models\Companies\CompaniesContacts;
 use App\Models\Companies\CompaniesAddresses;
@@ -25,6 +24,8 @@ class DeliverysRequest extends Component
     protected $deliveryService;
     protected $deliveryLineService;
     protected $documentCodeGenerator;
+    protected $stockService;
+    protected $SerialNumberService;
     
     public function __construct()
     {
@@ -32,6 +33,8 @@ class DeliverysRequest extends Component
         $this->deliveryService = App::make(DeliveryService::class);
         $this->deliveryLineService = App::make(DeliveryLineService::class);
         $this->documentCodeGenerator = App::make(DocumentCodeGenerator::class);
+        $this->stockService = App::make(StockService::class);
+        $this->SerialNumberService = App::make(SerialNumberService::class); 
     }
 
     //use WithPagination;
@@ -209,12 +212,7 @@ class DeliverysRequest extends Component
     private function generateSerialNumbers($productId, $orderLineId, $scumQty)
     {
         for ($i = 0; $i < $scumQty; $i++) {
-            SerialNumbers::create([
-                'products_id' => $productId,
-                'order_line_id' => $orderLineId,
-                'serial_number' => Str::uuid(),
-                'status' => 2, // sold
-            ]);
+            $this->serialNumberService->createSerialNumber($productId, $orderLineId, 2);
         }
     }
     
@@ -231,13 +229,15 @@ class DeliverysRequest extends Component
                 $quantityToWithdraw = min($stock->getCurrentStockMove(), $quantityRemaining);
     
                 if ($quantityToWithdraw != 0) {
-                    StockMove::create([
+                    $data = [
                         'user_id' => Auth::id(),
-                        'qty' => $quantityToWithdraw,
-                        'stock_location_products_id' => $stock->id,
-                        'order_line_id' => $orderLine->id,
+                        'qty' => $this->quantityToWithdraw,
+                        'stock_location_products_id' => $this->stock->id,
+                        'order_line_id' => $this->orderLine->id,
                         'typ_move' => 9,
-                    ]);
+                    ];
+        
+                    $this->stockService->createStockMove($data);
                 }
     
                 $quantityRemaining -= $quantityToWithdraw;

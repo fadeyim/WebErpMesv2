@@ -3,10 +3,10 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use App\Models\Admin\Factory;
 use App\Models\Planning\Task;
+use App\Services\StockService;
 use App\Models\Planning\Status;
 use App\Models\Workflow\Orders;
 use App\Events\OrderLineUpdated;
@@ -14,7 +14,6 @@ use App\Services\InvoiceService;
 use App\Models\Products\Products;
 use App\Models\Workflow\Invoices;
 use App\Services\DeliveryService;
-use App\Models\Products\StockMove;
 use App\Models\Workflow\Deliverys;
 use App\Models\Workflow\OrderLines;
 use Illuminate\Support\Facades\App;
@@ -24,7 +23,7 @@ use App\Services\InvoiceLineService;
 use Illuminate\Support\Facades\Auth;
 use App\Services\DeliveryLineService;
 use App\Services\NotificationService;
-use App\Models\Products\SerialNumbers;
+use App\Services\SerialNumberService;
 use App\Models\Methods\MethodsFamilies;
 use App\Models\Methods\MethodsServices;
 use App\Services\DocumentCodeGenerator;
@@ -73,6 +72,8 @@ class OrderLine extends Component
     protected $notificationService;
     protected $qualityNonConformityService;
     protected $documentCodeGenerator;
+    protected $stockService;
+    protected $serialNumberService;
 
     public function __construct()
     {
@@ -84,6 +85,8 @@ class OrderLine extends Component
         $this->invoiceLineService = App::make(InvoiceLineService::class);
         $this->qualityNonConformityService = App::make(QualityNonConformityService::class);
         $this->documentCodeGenerator = App::make(DocumentCodeGenerator::class);
+        $this->stockService = App::make(StockService::class);
+        $this->serialNumberService = App::make(SerialNumberService::class); 
     }
 
     // Validation Rules
@@ -524,12 +527,7 @@ class OrderLine extends Component
     {
         $productId = $OrderLineData->product_id ?? null;
         for ($i = 0; $i < $quantity; $i++) {
-            SerialNumbers::create([
-                'products_id' => $productId,
-                'order_line_id' => $OrderLineData->id,
-                'serial_number' => Str::uuid(),
-                'status' => 2, // sold
-            ]);
+            $this->serialNumberService->createSerialNumber($productId, $OrderLineData->id, 2);
         }
     }
 
@@ -562,13 +560,15 @@ class OrderLine extends Component
         foreach ($StockLocationProduct as $stock) {
             $quantityToWithdraw = min($stock->getCurrentStockMove(), $quantityRemaining);
             if ($quantityToWithdraw != 0) {
-                StockMove::create([
+                $data = [
                     'user_id' => Auth::id(),
-                    'qty' => $quantityToWithdraw,
-                    'stock_location_products_id' => $stock->id,
-                    'order_line_id' => $OrderLineData->id,
+                    'qty' => $this->quantityToWithdraw,
+                    'stock_location_products_id' => $this->stock->id,
+                    'order_line_id' => $this->OrderLineData->id,
                     'typ_move' => 9,
-                ]);
+                ];
+    
+                $this->stockService->createStockMove($data);
             }
             $quantityRemaining -= $quantityToWithdraw;
             if ($quantityRemaining <= 0) {
