@@ -305,6 +305,10 @@
           </p>
         </x-adminlte-card>
         
+        <x-adminlte-card title="{{ __('general_content.informations_trans_key') }}" theme="warning" maximizable>
+          <p><strong>{{ __('Lead Time') }} :</strong> {{ $leadTime }} {{ __('general_content.days_trans_key') }}</p>   
+        </x-adminlte-card>
+
         @endif
       </div> 
       <div class="tab-pane " id="Views">

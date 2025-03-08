@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Carbon\Carbon;
 use App\Models\Workflow\Orders;
 use App\Models\Workflow\Deliverys;
 use Illuminate\Support\Facades\DB;
@@ -394,5 +395,23 @@ class OrderKPIService
         return $totalPrice / $orders->count();
     }
 
+    /**
+     * Calculate the lead time for a given order.
+     *
+     * The lead time is the number of days between the order creation date
+     * and the date of the last associated delivery.
+     *
+     * @param Orders $order The order for which to calculate the lead time.
+     * @return int|null The lead time in days, or null if the order has no deliveries.
+     */
+    public function getLeadTime(Orders $order)
+    {
+        $lastDeliveryLine = $order->OrderLines->flatMap->DeliveryLines->sortByDesc('created_at')->first();
 
+        if ($lastDeliveryLine && $order->created_at) {
+            return Ceil(Carbon::parse($order->created_at)->diffInDays(Carbon::parse($lastDeliveryLine->created_at)));
+        }
+
+        return 'N/A';
+    }
 }

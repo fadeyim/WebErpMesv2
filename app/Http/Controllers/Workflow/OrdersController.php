@@ -142,6 +142,7 @@ class OrdersController extends Controller
         $forecastMarginPercentageFormatted = number_format($forecastMarginPercentage, 2, '.', ',') . ' %';
         $currentMarginPercentageFormatted = number_format($currentMarginPercentage, 2, '.', ',') . ' %';
 
+        $leadTime = $this->orderKPIService->getLeadTime($id);
 
         return view('workflow/orders-show', data: [
             'Order' => $id,
@@ -171,6 +172,7 @@ class OrdersController extends Controller
             'currentMarginFormatted' => $currentMarginFormatted,
             'forecastMarginPercentageFormatted' => $forecastMarginPercentageFormatted,
             'currentMarginPercentageFormatted' => $currentMarginPercentageFormatted,
+            'leadTime' => $leadTime,
         ]);
     }
     
