@@ -29,8 +29,8 @@
         <div class="col-md-3">
           <x-adminlte-card title="{{ __('general_content.statistiques_trans_key') }}" theme="success" maximizable>
             <p class="card-text">{{ __('general_content.number_of_invoice_trans_key') }} : {{ $totalInvoices }}</p>
-            <p class="card-text">{{ __('general_content.amount_of_invoice_trans_key') }} : {{ number_format($totalInvoiceAmount, 2) }} {{ $Factory->curency }}</p>
-            <p class="card-text">{{ __('general_content.payments_received_of_invoice_trans_key') }} : {{ number_format($totalPaymentsReceived, 2) }} {{ $Factory->curency }} <span class="badge badge-warning right">Soon</span></p> 
+            <p class="card-text">{{ __('general_content.amount_of_invoice_trans_key') }} : {{$totalInvoiceAmount }}</p>
+            <p class="card-text">{{ __('general_content.payments_received_of_invoice_trans_key') }} : {{ $totalPaymentsReceived }} <span class="badge badge-warning right">Soon</span></p> 
           </x-adminlte-card>
 
           

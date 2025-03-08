@@ -5,6 +5,7 @@ namespace App\Models\Products;
 use App\Models\File;
 use App\Models\User;
 use App\Models\Planning\Task;
+use Illuminate\Support\Number;
 use App\Models\Workflow\OrderLines;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Products\StockLocationProducts;
@@ -73,6 +74,22 @@ class StockMove extends Model
     public function photos()
     {
         return $this->morphToMany(File::class, 'fileable')->where('as_photo', 1);
+    }
+
+
+    /**
+     * Get the formatted selling price attribute.
+     *
+     * This method retrieves the selling price attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted selling price.
+     */
+    public function getFormattedComponentPriceAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->component_price, $factory->curency, config('app.locale'));
     }
     
     /**

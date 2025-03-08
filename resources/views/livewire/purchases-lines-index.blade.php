@@ -118,7 +118,7 @@
                                     @endif
                                 </td>
                                 <td>{{ number_format($PurchaseLine->invoiced_qty, 0, '', ' ') }}</td>
-                                <td>{{ number_format($PurchaseLine->selling_price, 2, '.', ',') }} {{ $Factory->curency }}</td>
+                                <td>{{ $PurchaseLine->formatted_selling_price }}</td>
                                 <td>{{ $PurchaseLine->discount }} %</td>
                                 <td> 
                                     @if($PurchaseLine->accounting_vats_id)

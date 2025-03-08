@@ -50,9 +50,9 @@
               </tbody>
             </table>
           </x-adminlte-card>
-          <x-adminlte-small-box title="{{ __('general_content.total_amount_won_trans_key') }}" text="{{ $totalQuotesWon }} {{ $Factory->curency }}" icon="fas fa-shopping-cart text-white"
+          <x-adminlte-small-box title="{{ __('general_content.total_amount_won_trans_key') }}" text="{{ $totalQuotesWon }}" icon="fas fa-shopping-cart text-white"
             theme="danger"/>
-          <x-adminlte-small-box title="{{ __('general_content.total_amount_lost_trans_key') }}" text="{{ $totalQuotesLost }}  {{ $Factory->curency }}" icon="fas fa-times-circle "
+          <x-adminlte-small-box title="{{ __('general_content.total_amount_lost_trans_key') }}" text="{{ $totalQuotesLost }}" icon="fas fa-times-circle "
               theme="warning"/>
         </div>
 

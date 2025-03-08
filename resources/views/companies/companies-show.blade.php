@@ -29,15 +29,15 @@
         <div class="row">
 
           <div class="col-lg-3 col-md-3">
-            <x-adminlte-small-box title="{{ number_format($data['orderAverage'] ?? 0)}}  {{ $Factory->curency }}" 
+            <x-adminlte-small-box title="{{ $data['orderAverage'] }}" 
               text="{{ __('general_content.order_average_note_trans_key') }}" 
               icon="icon fas fa-info"
               theme="orange" />
           </div>
 
           <div class="col-lg-3 col-md-3">
-            <x-adminlte-small-box title="{{ number_format($data['orderAverage'] ?? 0)}}  {{ $Factory->curency }}" 
-              text="{{ __('general_content.remaining_month_trans_key') }}" 
+            <x-adminlte-small-box title="{{ $remainingInvoiceOrder }}" 
+              text="{{ __('general_content.remaining_invoice_month_trans_key') }}" 
               icon="icon fas fa-info"
               theme="info" />
           </div>

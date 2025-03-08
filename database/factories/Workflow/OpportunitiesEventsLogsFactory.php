@@ -28,7 +28,7 @@ class OpportunitiesEventsLogsFactory extends Factory
         return [
             'opportunities_id' =>  Opportunities::all()->random()->id, 
             'label' => $this->faker->sentence,
-            'type' => $this->faker->numberBetween(1, 5), // Random type between 1 and 5
+            'type' => $this->faker->numberBetween(1, 4), // Random type between 1 and 4
             'start_date' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'end_date' => $this->faker->dateTimeBetween('now', '+1 year'),
             'comment' => $this->faker->optional()->text, // Optional comment

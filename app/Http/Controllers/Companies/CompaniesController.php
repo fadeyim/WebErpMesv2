@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Companies;
 
 use Illuminate\Support\Str;
 use App\Events\QuoteCreated;
+use Illuminate\Support\Number;
 use App\Models\Workflow\Quotes;
 use App\Services\CompanyService;
 use App\Services\OrderKPIService;
@@ -77,6 +78,7 @@ class CompaniesController extends Controller
      */
     public function show(Companies $id)
     {
+        $factory = app('Factory'); 
         $CurentYear = now()->year;
         $userSelect = $this->SelectDataService->getUsers();
         list($previousUrl, $nextUrl) = $this->getNextPrevious(new Companies(), $id->id);
@@ -86,7 +88,9 @@ class CompaniesController extends Controller
         $data['quotesDataRate'] = $this->quoteKPIService->getQuotesDataRate($CurentYear, $id->id);
         $data['orderMonthlyRecap'] = $this->orderKPIService->getOrderMonthlyRecap($CurentYear, $id->id);
         $data['orderAverage'] = $this->orderKPIService->getAverageOrderPriceAttribute($id->id);
-    
+        $data['orderAverage'] = Number::currency($data['orderAverage'], $factory->curency, config('app.locale'));
+        $remainingInvoiceOrder = Number::currency($remainingInvoiceOrder->orderSum, $factory->curency, config('app.locale'));
+        
         $Companie = $id;
         return view('companies/companies-show', compact('Companie', 
                                                         'userSelect', 

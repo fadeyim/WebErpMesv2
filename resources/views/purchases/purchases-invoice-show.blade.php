@@ -125,7 +125,7 @@
                     </td>
                     <td>{{ $PurchaseInvoiceLine->purchaseLines->supplier_ref }}</td>
                     <td>{{ number_format($PurchaseInvoiceLine->purchaseReceiptLines->receipt_qty, 0, '', ' ')   }}</td>
-                    <td>{{ number_format($PurchaseInvoiceLine->purchaseLines->selling_price, 2, '.', ',')  }} {{ $Factory->curency }}</td>
+                    <td>{{ $PurchaseInvoiceLine->purchaseLines->formatted_selling_price }}</td>
                     <td>{{ $PurchaseInvoiceLine->purchaseLines->discount }} %</td>
                     <td> 
                         @if($PurchaseInvoiceLine->purchaseLines->accounting_vats_id)

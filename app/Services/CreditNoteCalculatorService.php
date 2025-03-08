@@ -1,8 +1,6 @@
 <?php
 namespace App\Services;
 
-use App\Repositories\Tax;
-use App\Repositories\Money;
 use App\Models\Workflow\CreditNotes;
 
 class CreditNoteCalculatorService

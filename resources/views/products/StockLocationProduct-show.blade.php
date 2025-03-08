@@ -43,6 +43,7 @@
                   <th>{{ __('general_content.user_trans_key') }}</th>
                   <th>{{__('general_content.date_time_trans_key') }}</th>
                   <th>{{ __('general_content.qty_trans_key') }}</th>
+                  <th>{{ __('general_content.tracability_trans_key') }}</th>
                   <th>{{ __('general_content.order_trans_key') }}</th>
                   <th>{{ __('general_content.task_trans_key') }}</th>
                   <th>{{__('general_content.po_receipt_trans_key') }}</th>
@@ -57,6 +58,7 @@
                   <td>{{ $StockMove->UserManagement['name'] }}</td>
                   <td>{{ $StockMove->GetPrettyCreatedAttribute() }}</td>
                   <td>{{ $StockMove->qty }}</td>
+                  <td>{{ $StockMove->tracability }}</td>
                   <td>
                   @if($StockMove->order_line_id)
                     <x-OrderButton id="{{ $StockMove->OrderLine->order['id'] }}" code="{{ $StockMove->OrderLine->order['code'] }}"  />
@@ -90,7 +92,7 @@
                     @if(12 == $StockMove->typ_move ){{__('general_content.manufactured_component_entry_trans_key') }} @endif
                     @if(13 == $StockMove->typ_move ){{__('general_content.direct_inventory_trans_key') }} @endif
                   </td>
-                  <td>{{ $StockMove->component_price}} {{ $Factory->curency }}</td>
+                  <td>{{ $StockMove->formatted_component_price }}</td>
                   <td>
                     <div class="btn-group btn-group-sm">
                       <x-ButtonTextView route="{{ route('products.stock.detail.show', ['id' => $StockMove->id])}}" />
@@ -106,6 +108,7 @@
                   <th>{{ __('general_content.user_trans_key') }}</th>
                   <th>{{__('general_content.date_time_trans_key') }}</th>
                   <th>{{ __('general_content.qty_trans_key') }}</th>
+                  <th>{{ __('general_content.tracability_trans_key') }}</th>
                   <th>{{ __('general_content.order_trans_key') }}</th>
                   <th>{{ __('general_content.task_trans_key') }}</th>
                   <th>{{__('general_content.po_receipt_trans_key') }}</th>

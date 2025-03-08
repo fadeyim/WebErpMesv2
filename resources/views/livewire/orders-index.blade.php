@@ -297,7 +297,7 @@
                                 <td>{{ $Order->customer_reference }}</td>
                                 <td>{{ $Order->order_lines_count }}</td>
                                 <td><x-adminlte-progress theme="teal" value="{{ $Order->getAveragePercentProgressLinesAttribute() }}" with-label animated/></td>
-                                <td>{{ number_format($Order->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</td>
+                                <td>{{ $Order->formatted_total_price }}</td>
                                 <td>
                                     @if(1 == $Order->statu )  <span class="badge badge-info">{{ __('general_content.open_trans_key') }}</span>@endif
                                     @if(2 == $Order->statu )  <span class="badge badge-warning">{{ __('general_content.in_progress_trans_key') }}</span>@endif
@@ -367,7 +367,7 @@
                                 </div>
                                 <div class="card-body">
                                     <p class="card-text"><strong>{{__('general_content.progress_trans_key') }}</strong> : <x-adminlte-progress theme="teal" value="{{ $Order->getAveragePercentProgressLinesAttribute() }}" with-label animated/></p>
-                                    <p class="card-text"><strong>{{__('general_content.total_price_trans_key') }}</strong> : {{ number_format($Order->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</p>
+                                    <p class="card-text"><strong>{{__('general_content.total_price_trans_key') }}</strong> : {{ $Order->formatted_total_price }}</p>
                                 </div>
                                 <div class="card-footer bg-secondary">
                                     <div class="row">
@@ -453,7 +453,7 @@
                                                     </div>
                                                     <div class="card-body">
                                                         <p class="card-text"><strong>{{__('general_content.progress_trans_key') }}</strong> : <x-adminlte-progress theme="teal" value="{{ $Order->getAveragePercentProgressLinesAttribute() }}" with-label animated/></p>
-                                                        <p class="card-text"><strong>{{__('general_content.total_price_trans_key') }}</strong> : {{ number_format($Order->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</p>
+                                                        <p class="card-text"><strong>{{__('general_content.total_price_trans_key') }}</strong> : {{ $Order->formatted_total_price }}</p>
                                                     </div>
                                                     <div class="card-footer bg-secondary">
                                                         <div class="row">

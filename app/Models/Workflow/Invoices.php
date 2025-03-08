@@ -5,6 +5,7 @@ namespace App\Models\Workflow;
 use Carbon\Carbon;
 use App\Models\File;
 use App\Models\User;
+use Illuminate\Support\Number;
 use Spatie\Activitylog\LogOptions;
 use App\Models\Companies\Companies;
 use App\Models\Workflow\InvoiceLines;
@@ -102,6 +103,22 @@ class Invoices extends Model
         $InvoiceCalculatorService = new InvoiceCalculatorService($this);
         return $InvoiceCalculatorService->getTotalPrice();
         
+    }
+
+    /**
+     * Get the formatted total price attribute.
+     *
+     * This method retrieves the total price attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted total price.
+     */
+    public function getFormattedTotalPriceAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->getTotalPriceAttribute(), $factory->curency, config('app.locale'));
+
     }
 
     // Relationship with the files associated with the Invoices

@@ -164,8 +164,8 @@
                             type="number">
                         </td>
                         <td>{{ $DeliverysRequestsLine->Unit['label'] }}</td>
-                        <td>{{ $DeliverysRequestsLine->selling_price }}</td>
-                        <td>{{ $DeliverysRequestsLine->discount }}</td>
+                        <td>{{ $DeliverysRequestsLine->formatted_selling_price }}</td>
+                        <td>{{ $DeliverysRequestsLine->discount }} %</td>
                         <td>{{ $DeliverysRequestsLine->VAT['label'] }}</td>
                         <td>{{ $DeliverysRequestsLine->delivery_date }}</td>
                         <td>

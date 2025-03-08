@@ -4,6 +4,7 @@ namespace App\Models\Planning;
 
 use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Support\Number;
 use App\Models\Planning\Status;
 use App\Models\Products\Products;
 use App\Models\Products\StockMove;
@@ -250,6 +251,37 @@ class Task extends Model
     }
 
     /**
+     * Get the formatted unit cost attribute.
+     *
+     * This method retrieves the unit cost  attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted unit cost .
+     */
+    public function getFormattedUnitCostAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->unit_cost, $factory->curency, config('app.locale'));
+
+    }
+
+    /**
+     * Get the formatted unit price attribute.
+     *
+     * This method retrieves the unit price  attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted unit price .
+     */
+    public function getFormattedUnitPriceAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->unit_price, $factory->curency, config('app.locale'));
+    }
+
+    /**
      * Calculate the total cost.
      *
      * This method calculates the total cost by multiplying the order quantity by the unit cost.
@@ -263,6 +295,21 @@ class Task extends Model
     }
 
     /**
+     * Get the formatted total cost attribute.
+     *
+     * This method retrieves the total cost  attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted total cost .
+     */
+    public function getFormattedTotalCostAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->TotalCost(), $factory->curency, config('app.locale'));
+    }
+
+    /**
      * Calculate the total price.
      *
      * This method calculates the total price by multiplying the order quantity by the unit price.
@@ -273,6 +320,21 @@ class Task extends Model
     public function TotalPrice()
     {
         return round($this->GetOrderQtyLine()*$this->unit_price,2);
+    }
+
+    /**
+     * Get the formatted total price attribute.
+     *
+     * This method retrieves the total price  attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted total price .
+     */
+    public function getFormattedTotalPriceAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->TotalPrice(), $factory->curency, config('app.locale'));
     }
 
     /**

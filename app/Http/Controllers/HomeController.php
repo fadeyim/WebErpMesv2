@@ -155,6 +155,7 @@ class HomeController extends Controller
         $orderTotalFormattedDelivered =   Number::currency($orderTotalDelivered ?? 0,$factory->curency, config('app.locale'));
         $orderTotalFormattedInvoiced =   Number::currency($orderTotaInvoiced ?? 0,$factory->curency, config('app.locale'));
         $FormattedEstimatedBudgets =   Number::currency($EstimatedBudgets ?? 0,$factory->curency, config('app.locale'));
+        $remainingDeliveryOrder =   Number::currency($remainingDeliveryOrder->orderSum ?? 0,$factory->curency, config('app.locale'));
 
         return view('dashboard', [
             'userRoleCount' => $userRoleCount,

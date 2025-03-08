@@ -3,6 +3,7 @@
 namespace App\Models\Workflow;
 
 use App\Models\Planning\Task;
+use Illuminate\Support\Number;
 use App\Models\Workflow\Orders;
 use App\Models\Products\Products;
 use App\Models\Products\StockMove;
@@ -279,6 +280,21 @@ class OrderLines extends Model
         $discountedTotal = $total - ($total * ($discount / 100));
 
         return round($discountedTotal, 2);
+    }
+
+    /**
+     * Get the formatted selling price attribute.
+     *
+     * This method retrieves the selling price attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted selling price.
+     */
+    public function getFormattedSellingPriceAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->getSellingPriceAttribute(), $factory->curency, config('app.locale'));
     }
 
     /**

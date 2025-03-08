@@ -205,7 +205,7 @@ class OpportunitiesController extends Controller
                 $timelineData[] = [
                     'date' => $order->created_at->format('d M Y'),
                     'icon' => 'fas fa-shopping-cart bg-secondary',
-                    'content' => __('general_content.order_trans_key') ." ". $order->label . " - ". __('general_content.total_price_trans_key') ." : ". $order->getTotalPriceAttribute() . " ". $factory->curency,
+                    'content' => __('general_content.order_trans_key') ." ". $order->label . " - ". __('general_content.total_price_trans_key') ." : ". $order->formatted_total_price ,
                     'details' => $order->GetPrettyCreatedAttribute(),
                 ];
             }
@@ -213,7 +213,7 @@ class OpportunitiesController extends Controller
             $timelineData[] = [
                 'date' => $quote->created_at->format('d M Y'),
                 'icon' => 'fas fa-calculator  bg-success', 
-                'content' => __('general_content.quote_trans_key') ." ". $quote->label . " - ". __('general_content.total_price_trans_key') ." : ". $quote->getTotalPriceAttribute() . " ". $factory->curency,
+                'content' => __('general_content.quote_trans_key') ." ". $quote->label . " - ". __('general_content.total_price_trans_key') ." : ". $quote->formatted_total_price,
                 'details' => $quote->GetPrettyCreatedAttribute(),
             ];
         }

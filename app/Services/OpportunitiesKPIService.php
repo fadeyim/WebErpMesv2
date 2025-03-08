@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\Workflow\Opportunities;
+use Illuminate\Support\Number;
 use App\Models\Workflow\Quotes;
-use App\Models\Workflow\OpportunitiesActivitiesLogs;
 use Illuminate\Support\Facades\DB;
+use App\Models\Workflow\Opportunities;
+use App\Models\Workflow\OpportunitiesActivitiesLogs;
 
 class OpportunitiesKPIService
 {
@@ -116,16 +117,16 @@ class OpportunitiesKPIService
      */
     public function getQuotesSummary()
     {
+        $factory = app('Factory');
         $quotesWon = Quotes::where('statu', 3)->whereNotNull('opportunities_id')->get();
-        $totalQuotesWon = number_format($quotesWon->sum(function ($quote) {
+        $totalQuotesWon = Number::currency($quotesWon->sum(function ($quote) {
             return $quote->getTotalPriceAttribute();
-        }),2, '.', ','); 
+        }),$factory->curency, config('app.locale'));
 
         $quotesLost = Quotes::where('statu', 4)->whereNotNull('opportunities_id')->get();
-        $totalQuotesLost = number_format($quotesLost->sum(function ($quote) {
+        $totalQuotesLost = Number::currency($quotesLost->sum(function ($quote) {
             return $quote->getTotalPriceAttribute();
-        }),2, '.', ','); 
-
+        }),$factory->curency, config('app.locale')); 
 
         return compact('totalQuotesWon', 'totalQuotesLost');
     }

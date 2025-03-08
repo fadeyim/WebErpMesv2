@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Workflow;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Number;
 use App\Traits\NextPreviousTrait;
 use App\Models\Workflow\CreditNotes;
 use App\Services\CustomFieldService;
@@ -101,11 +102,15 @@ class CreditNoteController extends Controller
      */
     public function show(CreditNotes $id)
     {
+        $factory = app('Factory'); 
         
         $CreditNoteCalculatorService = new CreditNoteCalculatorService($id);
         $totalPrice = $CreditNoteCalculatorService->getTotalPrice();
         $subPrice = $CreditNoteCalculatorService->getSubTotal();
         $vatPrice = $CreditNoteCalculatorService->getVatTotal();
+        $totalPrice = Number::currency($totalPrice, $factory->curency, config('app.locale'));
+        $subPrice = Number::currency($subPrice, $factory->curency, config('app.locale'));
+
         list($previousUrl, $nextUrl) = $this->getNextPrevious(new CreditNotes(), $id->id);
         return view('workflow/credit-notes-show', [
             'CreditNotes' => $id,

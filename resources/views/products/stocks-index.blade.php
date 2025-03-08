@@ -166,7 +166,7 @@
                       {{ $InternalOrderRequestsLines->delivered_remaining_qty }}
                   </td>
                   <td>{{ $InternalOrderRequestsLines->Unit['label'] }}</td>
-                  <td>{{ number_format($InternalOrderRequestsLines->selling_price, 2, '.', ',')  }}  {{ $Factory->curency }}</td>
+                  <td>{{ $InternalOrderRequestsLines->formatted_selling_price }}</td>
                   <td>{{ $InternalOrderRequestsLines->discount }}</td>
                   <td>{{ $InternalOrderRequestsLines->VAT['label'] }}</td>
                   <td>{{ $InternalOrderRequestsLines->delivery_date }}</td>

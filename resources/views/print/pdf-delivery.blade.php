@@ -115,15 +115,15 @@
                 <tbody>
                     @forelse($Document->Lines as $DocumentLine)
                     <tr>
-                        <td>{{ $DocumentLine->OrderLine->order['code'] }}</td>
-                        <td>
+                        <td align="center">{{ $DocumentLine->OrderLine->order['code'] }}</td>
+                        <td align="center">
                             {{ $DocumentLine->OrderLine['label'] }}<br>
                             <span style="color: #6c757d">{{ $DocumentLine->OrderLine['code'] }}</span>
                         </td>
-                        <td>{{ $DocumentLine->OrderLine['qty'] }}</td>
-                        <td>{{ $DocumentLine->OrderLine->Unit['label'] }}</td>
-                        <td>{{ $DocumentLine->qty }}</td>
-                        <td>{{ $DocumentLine->OrderLine['delivered_remaining_qty'] }}</td>
+                        <td align="center">{{ $DocumentLine->OrderLine['qty'] }}</td>
+                        <td align="center">{{ $DocumentLine->OrderLine->Unit['label'] }}</td>
+                        <td align="center">{{ $DocumentLine->qty }}</td>
+                        <td align="center">{{ $DocumentLine->OrderLine['delivered_remaining_qty'] }}</td>
                     </tr>
                     @empty
                         <x-EmptyDataLine col="7" text="{{ __('general_content.no_data_trans_key') }}"  />

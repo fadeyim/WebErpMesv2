@@ -5,6 +5,7 @@ namespace App\Models\Purchases;
 use Carbon\Carbon;
 use App\Models\File;
 use App\Models\User;
+use Illuminate\Support\Number;
 use App\Models\Workflow\Deliverys;
 use Spatie\Activitylog\LogOptions;
 use App\Models\Companies\Companies;
@@ -12,9 +13,9 @@ use App\Models\Purchases\PurchaseLines;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Companies\SupplierRating;
 use App\Models\Companies\CompaniesContacts;
+use App\Services\PurchaseCalculatorService;
 use Spatie\Activitylog\Traits\LogsActivity;
 use App\Models\Companies\CompaniesAddresses;
-use App\Services\PurchaseCalculatorService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Purchases extends Model
@@ -95,6 +96,22 @@ class Purchases extends Model
     {
         $PurchaseCalculatorService = new PurchaseCalculatorService($this);
         return $PurchaseCalculatorService->getTotalPrice();
+    }
+
+        /**
+     * Get the formatted total price attribute.
+     *
+     * This method retrieves the total price attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted total price.
+     */
+    public function getFormattedTotalPriceAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->getTotalPriceAttribute(), $factory->curency, config('app.locale'));
+
     }
 
     public function GetshortCreatedAttribute()

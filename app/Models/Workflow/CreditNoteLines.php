@@ -2,9 +2,10 @@
 
 namespace App\Models\Workflow;
 
+use Illuminate\Support\Number;
 use Spatie\Activitylog\LogOptions;
-use App\Models\Workflow\CreditNotes;
 use App\Models\Workflow\OrderLines;
+use App\Models\Workflow\CreditNotes;
 use App\Models\Workflow\InvoiceLines;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -37,6 +38,21 @@ class CreditNoteLines extends Model
     public function invoiceLine()
     {
         return $this->belongsTo(InvoiceLines::class, 'invoice_line_id');
+    }
+
+    /**
+     * Get the formatted selling price attribute.
+     *
+     * This method retrieves the selling price attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted selling price.
+     */
+    public function getFormattedSellingPriceAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->unit_price, $factory->curency, config('app.locale'));
     }
 
     /**

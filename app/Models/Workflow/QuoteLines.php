@@ -3,13 +3,14 @@
 namespace App\Models\Workflow;
 
 use App\Models\Planning\Task;
+use Illuminate\Support\Number;
 use App\Models\Workflow\Quotes;
 use App\Models\Products\Products;
 use Spatie\Activitylog\LogOptions;
 use App\Models\Methods\MethodsUnits;
+use App\Models\Planning\SubAssembly;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Accounting\AccountingVat;
-use App\Models\Planning\SubAssembly;
 use App\Models\Workflow\QuoteLineDetails;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -175,6 +176,22 @@ class QuoteLines extends Model
 
         // return curent attribute if false
         return $this->attributes['selling_price'];
+    }
+
+    /**
+     * Get the formatted selling price attribute.
+     *
+     * This method retrieves the selling price attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted selling price.
+     */
+    public function getFormattedSellingPriceAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->getSellingPriceAttribute(), $factory->curency, config('app.locale'));
+
     }
 
     /**

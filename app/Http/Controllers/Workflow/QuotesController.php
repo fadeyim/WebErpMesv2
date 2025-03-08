@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Workflow;
 
 use Carbon\Carbon;
+use Illuminate\Support\Number;
 use App\Models\Workflow\Quotes;
 use App\Services\QuoteKPIService;
 use App\Traits\NextPreviousTrait;
@@ -36,6 +37,8 @@ class QuotesController extends Controller
      */
     public function index()
     {
+        $factory = app('Factory');
+
         $CurentYear = Carbon::now()->format('Y');
         //Quote data for chart
         $data['quotesDataRate'] = $this->quoteKPIService->getQuotesDataRate($CurentYear);
@@ -44,7 +47,7 @@ class QuotesController extends Controller
         $data['quoteMonthlyRecapPreviousYear'] = $this->quoteKPIService->getQuoteMonthlyRecapPreviousYear($CurentYear);
         $topCustomers = $this->quoteKPIService->getTopCustomersByQuoteVolume(3);
         $quotesCountByUser = $this->quoteKPIService->getQuotesCountByUser();
-        $averageAmount =  $this->quoteKPIService->getAverageQuoteAmount();
+        $averageAmount =  Number::currency($this->quoteKPIService->getAverageQuoteAmount(), $factory->curency, config('app.locale'));
         $conversionRate =  $this->quoteKPIService->getQuoteConversionRate();
         $responseRate =  $this->quoteKPIService->getQuoteResponseRate();
 
@@ -62,6 +65,8 @@ class QuotesController extends Controller
      */
     public function show(Quotes $id)
     {
+        $factory = app('Factory'); 
+
         $CompanieSelect = $this->SelectDataService->getCompanies();
         $AddressSelect = $this->SelectDataService->getAddress($id->companies_id);
         $ContactSelect = $this->SelectDataService->getContact($id->companies_id);
@@ -69,9 +74,9 @@ class QuotesController extends Controller
         $AccountingMethodsSelect = $this->SelectDataService->getAccountingPaymentMethod();
         $AccountingDeleveriesSelect =  $this->SelectDataService->getAccountingDelivery();
         $QuoteCalculatorService = new QuoteCalculatorService($id);
-        $totalPrice = $QuoteCalculatorService->getTotalPrice();
-        $subPrice = $QuoteCalculatorService->getSubTotal();
-        $vatPrice = $QuoteCalculatorService->getVatTotal();
+        $totalPrice =  Number::currency($QuoteCalculatorService->getTotalPrice(), $factory->curency, config('app.locale'));
+        $subPrice = Number::currency($QuoteCalculatorService->getSubTotal(), $factory->curency, config('app.locale'));
+        $vatPrice =  $QuoteCalculatorService->getVatTotal();
         $TotalServiceProductTime = $QuoteCalculatorService->getTotalProductTimeByService();
         $TotalServiceSettingTime = $QuoteCalculatorService->getTotalSettingTimeByService();
         $TotalServiceCost = $QuoteCalculatorService->getTotalCostByService();

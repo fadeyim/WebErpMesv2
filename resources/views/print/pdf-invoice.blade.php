@@ -122,7 +122,7 @@
                         </td>
                         <td>{{ $DocumentLine->qty }}</td>
                         <td>{{ $DocumentLine->OrderLine->Unit['label'] }}</td>
-                        <td>{{ $DocumentLine->OrderLine->selling_price }}  {{ $Factory->curency }}</td>
+                        <td>{{ $DocumentLine->OrderLine->formatted_selling_price }}</td>
                         <td align="center">{{ $DocumentLine->OrderLine->discount }} %</td>
                         <td>{{ $DocumentLine->OrderLine->VAT['rate'] }} %</td>
                         @if($DocumentLine->OrderLine->delivery_date )
@@ -155,7 +155,7 @@
                         <table width="80%">
                             <tr>
                                 <th align="right" style="width:50%">{{ __('general_content.sub_total_trans_key') }}:</th> 
-                                <td align="right" style="width:30%">{{ $subPrice }} {{ $Factory->curency }} </td>
+                                <td align="right" style="width:30%">{{ $formattedSubPrice }} </td>
                             </tr>
                             @forelse($vatPrice as $key => $value)
                             <tr>
@@ -170,7 +170,7 @@
                             @endforelse
                             <tr  style=" background-color: {{ $Factory->pdf_header_font_color }}">
                                 <th align="right" style="width:50%">{{ __('general_content.total_trans_key') }} :</th> 
-                                <td align="right" style="width:30%">{{ $totalPrices }} {{ $Factory->curency }}</td>
+                                <td align="right" style="width:30%">{{ $formattedTotalPrice }}</td>
                             </tr>
                         </table>
                     </td>

@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Number;
+
 class OrderInvoiceDataService
 {
     /**
@@ -39,6 +41,9 @@ class OrderInvoiceDataService
      */
     public function getInvoicingReceivedPayment($order)
     {
+        
+        $factory = app('Factory'); 
+        
         $receivedPayment = $order->orderLines->sum(function ($line) {
             return $line->invoiceLines->sum(function ($invoiceLine) use ($line) {
                 // Check that the invoice line is paid (invoice status = 5)
@@ -49,6 +54,6 @@ class OrderInvoiceDataService
             });
         });
         
-        return $receivedPayment;
+        return Number::currency($receivedPayment, $factory->curency, config('app.locale'));;
     }
 }

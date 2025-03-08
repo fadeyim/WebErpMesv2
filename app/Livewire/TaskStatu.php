@@ -342,12 +342,15 @@ class TaskStatu extends Component
 
             if($quantityToWithdraw != 0){
                 // Create a negative stock movement to record the stock issue
-                $stockMove = StockMove::create(['user_id' => Auth::id(),
-                                                'qty' => $quantityToWithdraw,
-                                                'stock_location_products_id' =>   $stock->id,  
-                                                'task_id' =>$taskId,
-                                                'typ_move' =>2,
-                                            ]);
+                $data = [
+                    'user_id' => Auth::id(),
+                    'qty' => $this->quantityToWithdraw,
+                    'stock_location_products_id' => $this->stock->id,
+                    'task_id' => $this->taskId,
+                    'typ_move' => 2, // Negative stock movement type
+                ];
+    
+                $this->stockService->createStockMove($data);
             }
 
             // Update remaining quantity

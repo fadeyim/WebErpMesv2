@@ -2,8 +2,6 @@
 namespace App\Services;
 
 use App\Models\Purchases\Purchases;
-use App\Repositories\Money;
-use App\Repositories\Tax;
 
 class PurchaseCalculatorService
 {

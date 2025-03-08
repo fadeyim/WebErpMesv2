@@ -6,13 +6,14 @@ use Carbon\Carbon;
 use App\Models\File;
 use App\Models\User;
 use App\Models\GuestVisits;
+use Illuminate\Support\Number;
 use App\Models\Workflow\Orders;
-use App\Services\QuoteCalculatorService;
 use Spatie\Activitylog\LogOptions;
 use App\Models\Companies\Companies;
 
 use App\Models\Workflow\QuoteLines;
 use Illuminate\Database\Eloquent\Model;
+use App\Services\QuoteCalculatorService;
 use App\Models\Companies\CompaniesContacts;
 use Spatie\Activitylog\Traits\LogsActivity;
 use App\Models\Companies\CompaniesAddresses;
@@ -142,6 +143,22 @@ class Quotes extends Model
     {
         $QuoteCalculatorService = new QuoteCalculatorService($this);
         return $QuoteCalculatorService->getTotalPrice();
+    }
+
+    /**
+     * Get the formatted total price attribute.
+     *
+     * This method retrieves the total price attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted total price.
+     */
+    public function getFormattedTotalPriceAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->getTotalPriceAttribute(), $factory->curency, config('app.locale'));
+
     }
 
     public function guestVisits()

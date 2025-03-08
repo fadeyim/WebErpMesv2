@@ -79,7 +79,7 @@
                 </tbody>
             </table>
           </x-adminlte-card>
-          <x-adminlte-small-box title=" {{ __('general_content.total_price_trans_key') }}" text="{{ number_format($totalPurchasesAmount, 2, '.', ',') }} {{ $Factory->curency }}" icon="fas fa-shopping-cart text-white"
+          <x-adminlte-small-box title=" {{ __('general_content.total_price_trans_key') }}" text="{{ $totalPurchasesAmount }}" icon="fas fa-shopping-cart text-white"
           theme="danger"/>
           
           <x-adminlte-card title="{{ __('general_content.suppliers_longest_times_trans_key') }}" theme="dark" maximizable>
@@ -166,7 +166,7 @@
             </div>
           </x-adminlte-card>
 
-          <x-adminlte-small-box title=" {{ __('general_content.average_purchase_price_trans_key') }}" text="{{ number_format($averageAmount, 2, '.', ',')  }} {{ $Factory->curency }}" icon="fas fa-chart-bar text-white" theme="teal"/>
+          <x-adminlte-small-box title=" {{ __('general_content.average_purchase_price_trans_key') }}" text="{{ $averageAmount }}" icon="fas fa-chart-bar text-white" theme="teal"/>
           
           <x-adminlte-card title="{{ __('general_content.most_purchased_products_trans_key') }}" theme="success" maximizable>
             <table class="table">

@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Models\Admin\Factory;
+use Illuminate\Support\Number;
 use App\Models\Workflow\Orders;
 use App\Models\Workflow\Quotes;
 use App\Models\Workflow\Invoices;
 use App\Models\Workflow\Deliverys;
 use App\Models\Purchases\Purchases;
 use App\Models\Workflow\CreditNotes;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use horstoeko\zugferd\ZugferdProfiles;
 use App\Services\OrderCalculatorService;
 use App\Services\QuoteCalculatorService;
@@ -97,15 +98,20 @@ class PrintController extends Controller
      */
     public function getInvoiceFactureX(Invoices $Document)
     {
+        $factory = app('Factory'); 
         $typeDocumentName = __('general_content.invoice_trans_key');
         $calculatorService = new InvoiceCalculatorService($Document);
         $Factory = $this->getFactory();
-        $totalPrices = $calculatorService->getTotalPrice();
+        $totalPrice = $calculatorService->getTotalPrice();
         $subPrice = $calculatorService->getSubTotal();
         $vatPrice = $calculatorService->getVatTotal();
+        
+        $formattedTotalPrice = Number::currency($totalPrice, $factory->curency, config('app.locale'));
+        $formattedSubPrice = Number::currency($subPrice, $factory->curency, config('app.locale'));
+
         $this->getDocumentLines($Document, 'invoiceLines');
         $image = $Factory->getImageFactoryPath();
-        $dompdf = PDF::loadView('print/pdf-invoice', compact('typeDocumentName', 'Document', 'Factory', 'image', 'totalPrices', 'subPrice', 'vatPrice', 'image'));
+        $dompdf = PDF::loadView('print/pdf-invoice', compact('typeDocumentName', 'Document', 'Factory', 'image', 'formattedTotalPrice', 'formattedSubPrice', 'vatPrice', 'image'));
 
         // Récupération des informations client depuis le modèle associé
         $client = $Document->companie;
@@ -153,7 +159,7 @@ class PrintController extends Controller
             $zugferddatas->addDocumentTax("S", "VAT", $subPrice, $vat[1], $vat[0]); // $vat[1] est le montant, $vat[0] est le taux
         }
         $totalVAT = array_sum(array_column($vatPrice, 1));
-        $zugferddatas->setDocumentSummation($totalPrices, $totalPrices, $subPrice, $totalVAT, 0.0, $subPrice, null, null, 0.0);
+        $zugferddatas->setDocumentSummation($totalPrice, $totalPrice, $subPrice, $totalVAT, 0.0, $subPrice, null, null, 0.0);
         //$zugferddatas->addDocumentPaymentTerm($Document->payment_condition['label']);
 
         // Ajout des lignes de facture à partir des `invoiceLines`
@@ -239,13 +245,18 @@ class PrintController extends Controller
      */
     private function generatePdf($Document, $typeDocumentName, $calculatorService, $view)
     {
+        $factory = app('Factory'); 
         $Factory = $this->getFactory();
-        $totalPrices = $calculatorService ? $calculatorService->getTotalPrice() : null;
-        $subPrice = $calculatorService ? $calculatorService->getSubTotal() : null;
-        $vatPrice = $calculatorService ? $calculatorService->getVatTotal() : null;
+        $totalPrice = $calculatorService ? $calculatorService->getTotalPrice() : 0;
+        $subPrice = $calculatorService ? $calculatorService->getSubTotal() : 0;
+        $vatPrice = $calculatorService ? $calculatorService->getVatTotal() : 0;
+
+        $formattedTotalPrice = Number::currency($totalPrice, $factory->curency, config('app.locale'));
+        $formattedSubPrice = Number::currency($subPrice, $factory->curency, config('app.locale'));
+        
         $this->getDocumentLines($Document, $this->getDocumentLinesKey($Document));
         $image = $Factory->getImageFactoryPath();
-        $pdf = PDF::loadView($view, compact('typeDocumentName', 'Document', 'Factory', 'totalPrices', 'subPrice', 'vatPrice', 'image'));
+        $pdf = PDF::loadView($view, compact('typeDocumentName', 'Document', 'Factory', 'formattedTotalPrice', 'formattedSubPrice', 'vatPrice', 'image'));
 
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->stream();

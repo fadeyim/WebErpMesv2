@@ -2,7 +2,7 @@
     <table class="table table-hover">
         <tr>
             <td style="width:50%">{{ __('general_content.sub_total_trans_key') }} :</td>
-            <td>{{ number_format( $subPrice , 2, '.', ',')}} {{ $Factory->curency }} </td>
+            <td>{{ $subPrice }} </td>
         </tr>
         @forelse($vatPrice as $key => $value)
         <tr>
@@ -17,7 +17,7 @@
         @endforelse
         <tr>
             <td>{{ __('general_content.total_trans_key') }} :</td>
-            <td>{{ number_format($totalPrices, 2, '.', ',') }} {{ $Factory->curency }}</td>
+            <td>{{ $totalPrices }}</td>
         </tr>
     </table>
 </div>

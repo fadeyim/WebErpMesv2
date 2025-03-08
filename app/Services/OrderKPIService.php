@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use Carbon\Carbon;
 use App\Models\Workflow\Orders;
 use App\Models\Workflow\Deliverys;
 use Illuminate\Support\Facades\DB;
@@ -165,7 +164,7 @@ class OrderKPIService
      */
     public function getOrderMonthlyRemainingToDelivery($month ,$year)
     {
-        $cacheKey = 'order_remaining_delivery_' . $year;
+        $cacheKey = 'order_remaining_delivery_' . $month .'_'.  $year;
         return Cache::remember($cacheKey, now()->addMinutes(10), function ()use ($year, $month) {
             return DB::table('order_lines')
                         ->selectRaw('

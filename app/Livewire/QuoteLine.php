@@ -142,7 +142,7 @@ class QuoteLine extends Component
         $MethodsUnits = ($MethodsUnits->id  ?? 0);
 
         if($AccountingVat == 0|| $MethodsUnits == 0 ){
-            return redirect()->route('quotes.show', ['id' =>  $this->quotes_id])->with('error', 'No default settings');
+            return redirect()->route('quotes.show', ['id' =>  $this->quotes_id])->with('error', 'No VAT or Unit default settings');
         }
 
         $NewQuoteLine = Quotelines::create([

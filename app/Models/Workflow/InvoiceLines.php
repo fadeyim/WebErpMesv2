@@ -2,6 +2,7 @@
 
 namespace App\Models\Workflow;
 
+use Illuminate\Support\Number;
 use App\Models\Workflow\Invoices;
 use Spatie\Activitylog\LogOptions;
 use App\Models\Workflow\OrderLines;
@@ -44,6 +45,21 @@ class InvoiceLines extends Model
     public function accountingEntry()
     {
         return $this->hasOne(AccountingEntry::class, 'invoice_line_id');
+    }
+
+    /**
+     * Get the formatted selling price attribute.
+     *
+     * This method retrieves the selling price attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted selling price.
+     */
+    public function getFormattedSellingPriceAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->orderLine->selling_price, $factory->curency, config('app.locale'));
     }
 
     /**

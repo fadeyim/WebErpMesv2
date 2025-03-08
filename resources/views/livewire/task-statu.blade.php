@@ -175,7 +175,7 @@
                 <div class="row">
                   <div class="col-4">
                     <p class="text-sm">{{ __('general_content.cost_trans_key') }}
-                      <b class="d-block">{{ $Task->unit_cost }} {{ $Factory->curency }}</b>
+                      <b class="d-block">{{ $Task->formatted_unit_cost }}</b>
                     </p>
                   </div>
                   <div class="col-4">
@@ -185,7 +185,7 @@
                   </div>
                   <div class="col-4">
                     <p class="text-sm">{{ __('general_content.price_trans_key') }}
-                      <b class="d-block">{{ $Task->unit_price }} {{ $Factory->curency }}</b>
+                      <b class="d-block">{{ $Task->formatted_unit_price }}</b>
                     </p>
                   </div>
                 </div>

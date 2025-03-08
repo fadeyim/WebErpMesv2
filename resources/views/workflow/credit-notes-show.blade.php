@@ -153,7 +153,7 @@
                                 <td>{{ $CreditNotesLine->orderLine['label'] }}</td>
                                 <td>{{ $CreditNotesLine->qty }}</td>
                                 <td>{{ $CreditNotesLine->OrderLine->Unit['label'] }}</td>
-                                <td>{{ $CreditNotesLine->unit_price }} {{ $Factory->curency }}</td>
+                                <td>{{ $CreditNotesLine->formatted_selling_price }}</td>
                                 <td>{{ $CreditNotesLine->OrderLine->VAT['rate'] }} %</td>
                             </tr>
                             @empty

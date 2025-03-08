@@ -23,7 +23,7 @@
       <div class="row">
         <div class="col-lg-4">
             <x-adminlte-small-box 
-              title="{{ number_format($averageAmount,2) }} {{ $Factory->curency }}" 
+              title="{{ $averageAmount}}" 
               text="{{ __('general_content.average_quote_amount') }}" 
               icon="fas fa-shipping-fast" 
               theme="success"/>

@@ -39,7 +39,7 @@
     
       <div class="row">
         <div class="col-lg-4 col-4">
-          <x-adminlte-small-box title="{{ number_format($remainingDeliveryOrder->orderSum ?? 0 -$remainingDeliveryOrder->orderSum   ?? 0 ,2)}}  {{ $Factory->curency }}" 
+          <x-adminlte-small-box title="{{ $remainingDeliveryOrder }}" 
             text="{{ __('general_content.remaining_month_trans_key') }}" 
             icon="icon fas fa-info"
             theme="danger" />
@@ -99,7 +99,7 @@
 
       <div class="row">
         <div class="col-lg-4">
-          <x-adminlte-small-box title="{{ number_format($remainingInvoiceOrder->orderSum ?? 0)}}  {{ $Factory->curency }}" 
+          <x-adminlte-small-box title="{{ $remainingInvoiceOrder }}" 
             text="{{ __('general_content.remaining_invoice_month_trans_key') }}" 
             icon="icon fas fa-info"
             theme="warning" />

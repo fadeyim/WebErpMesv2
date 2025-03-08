@@ -56,7 +56,7 @@
                             <x-CompanieButton id="{{ $Purchase->companies_id }}" label="{{ $Purchase->companie['label'] }}"  />
                         </td>
                         <td>{{ $Purchase->purchase_lines_count }}</td>
-                        <td>{{ number_format($Purchase->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</td>
+                        <td>{{ $Purchase->formatted_total_price }}</td>
                         <td>
                             @if(1 == $Purchase->statu )  <span class="badge badge-info">{{ __('general_content.in_progress_trans_key') }}</span>@endif
                             @if(2 == $Purchase->statu )  <span class="badge badge-warning">{{ __('general_content.ordered_trans_key') }}</span>@endif

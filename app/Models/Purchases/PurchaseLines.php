@@ -3,6 +3,7 @@
 namespace App\Models\Purchases;
 
 use App\Models\Planning\Task;
+use Illuminate\Support\Number;
 use App\Models\Products\Products;
 use Spatie\Activitylog\LogOptions;
 use App\Models\Purchases\Purchases;
@@ -75,6 +76,7 @@ class PurchaseLines extends Model
 
     public function getTotalAttribute()
     {
+        $factory = app('Factory'); 
         
         $price = $this->selling_price;
         $qty = $this->qty;
@@ -83,7 +85,22 @@ class PurchaseLines extends Model
         $total = $price * $qty;
         $discountedTotal = $total - ($total * ($discount / 100));
 
-        return round($discountedTotal, 2);
+        return Number::currency($discountedTotal, $factory->curency, config('app.locale'));
+    }
+
+    /**
+     * Get the formatted total price attribute.
+     *
+     * This method retrieves the total price attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted total price.
+     */
+    public function getFormattedSellingPriceAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->selling_price, $factory->curency, config('app.locale'));
     }
 
     /**

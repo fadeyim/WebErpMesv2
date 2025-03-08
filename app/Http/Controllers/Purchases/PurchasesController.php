@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Purchases;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Number;
 use App\Events\PurchaseCreated;
 use App\Traits\NextPreviousTrait;
 use App\Models\Purchases\Purchases;
@@ -85,6 +86,7 @@ class PurchasesController extends Controller
      */
     public function purchase()
     {   
+        $factory = app('Factory');
         $data['purchasesDataRate'] = $this->purchaseKPIService->getPurchasesDataRate();
         $data['purchaseMonthlyRecap'] = $this->purchaseKPIService->getPurchaseMonthlyRecap();
 
@@ -94,9 +96,9 @@ class PurchasesController extends Controller
         $top5SlowestSuppliers = $sortedByAvgReceptionDelay->reverse()->take(5);
 
         $topProducts = $this->purchaseKPIService->getTopProducts();
-        $averageAmount = $this->purchaseKPIService->getAverageAmount();
+        $averageAmount = Number::currency($this->purchaseKPIService->getAverageAmount(),$factory->curency, config('app.locale'));
         $totalPurchaseLineCount = $this->purchaseKPIService->getTotalPurchaseCount();
-        $totalPurchasesAmount = $this->purchaseKPIService->getTotalPurchaseAmount();
+        $totalPurchasesAmount = Number::currency($this->purchaseKPIService->getTotalPurchaseAmount(),$factory->curency, config('app.locale'));
 
         $userSelect = $this->SelectDataService->getUsers();
         $CompanieSelect = $this->SelectDataService->getSupplier();

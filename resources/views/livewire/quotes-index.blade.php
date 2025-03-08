@@ -416,7 +416,7 @@
                                 </td>
                                 <td>{{ $Quote->customer_reference }}</td>
                                 <td>{{ $Quote->quote_lines_count }}</td>
-                                <td>{{ number_format($Quote->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</td>
+                                <td>{{$Quote->formatted_total_price }}</td>
                                 <td>
                                     @if(1 == $Quote->statu )   <span class="badge badge-info"> {{ __('general_content.open_trans_key') }}</span>@endif
                                     @if(2 == $Quote->statu )  <span class="badge badge-warning">{{ __('general_content.send_trans_key') }}</span>@endif
@@ -478,7 +478,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <p class="card-text"><strong>{{__('general_content.total_price_trans_key') }}</strong> : {{ number_format($Quote->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</p>
+                                <p class="card-text"><strong>{{__('general_content.total_price_trans_key') }}</strong> : {{ $Quote->formatted_total_price }}</p>
                                 <p class="card-text"><strong>{{__('general_content.lines_count_trans_key') }}</strong> : {{ $Quote->quote_lines_count  }}</p>
                             </div>
                             <div class="card-footer bg-secondary">
@@ -559,7 +559,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="card-body">
-                                                        <p class="card-text"><strong>{{__('general_content.total_price_trans_key') }}</strong> : {{ number_format($Quote->getTotalPriceAttribute(), 2, '.', ',') }}  {{ $Factory->curency }}</p>
+                                                        <p class="card-text"><strong>{{__('general_content.total_price_trans_key') }}</strong> : {{ $Quote->formatted_total_price }}</p>
                                                     </div>
                                                     <div class="card-footer bg-secondary">
                                                         <div class="row">

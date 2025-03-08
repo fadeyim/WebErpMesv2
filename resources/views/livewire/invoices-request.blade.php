@@ -141,7 +141,7 @@
                                 {{ $InvoicesRequestsLine->qty }}
                             </td>
                             <td>{{ $InvoicesRequestsLine->orderLine->Unit['label'] }}</td>
-                            <td>{{ number_format($InvoicesRequestsLine->orderLine['selling_price'], 2, '.', ',') }}  {{ $Factory->curency }}</td>
+                            <td>{{ $InvoicesRequestsLine->orderLine->formatted_selling_price }}</td>
                             <td>{{ $InvoicesRequestsLine->orderLine['discount'] }} %</td>
                             <td>{{ $InvoicesRequestsLine->orderLine->VAT['label'] }} %</td>
                             <td>

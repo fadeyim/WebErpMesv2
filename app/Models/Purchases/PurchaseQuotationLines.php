@@ -3,6 +3,7 @@
 namespace App\Models\Purchases;
 
 use App\Models\Planning\Task;
+use Illuminate\Support\Number;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Purchases\PurchasesQuotation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,6 +31,37 @@ class PurchaseQuotationLines extends Model
     public function purchaseQuotation()
     {
         return $this->belongsTo(PurchasesQuotation::class, 'purchases_quotation_id');
+    }
+
+    /**
+     * Get the formatted unit price attribute.
+     *
+     * This method retrieves the unit price attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted unit price.
+     */
+    public function getFormattedSellingPriceAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->unit_price, $factory->curency, config('app.locale'));
+    }
+
+    /**
+     * Get the formatted total price attribute.
+     *
+     * This method retrieves the total price attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted total price.
+     */
+    public function getFormattedTotalPriceAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->total_price, $factory->curency, config('app.locale'));
+
     }
 
     /**

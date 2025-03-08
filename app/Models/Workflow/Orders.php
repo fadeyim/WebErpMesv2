@@ -5,6 +5,8 @@ namespace App\Models\Workflow;
 use Carbon\Carbon;
 use App\Models\File;
 use App\Models\User;
+use App\Models\GuestVisits;
+use Illuminate\Support\Number;
 use App\Models\Workflow\Quotes;
 use Spatie\Activitylog\LogOptions;
 use App\Models\Companies\Companies;
@@ -141,6 +143,36 @@ class Orders extends Model
         return Carbon::parse($this->created_at)->diffForHumans();
     }
 
+    /**
+     * Get the delay information attribute.
+     *
+     * This method calculates the delay information based on the validity date of the order.
+     * It returns a string indicating whether the order is late, due today, or due in a certain number of days.
+     *
+     * @return string The delay information.
+     */
+    public function getDelayInfoAttribute()
+    {
+        $validityDate = Carbon::parse($this->validity_date);
+        $today = Carbon::today();
+    
+        if ($validityDate->isPast()) {
+            return __('general_content.days_late_trans_key', ['days' => ceil($today->diffInDays(now()))]);
+        } elseif ($validityDate->isToday()) {
+            return __('general_content.to_deliver_today_trans_key');
+        } else {
+            return __('general_content.delivery_in_days_trans_key', ['days' => ceil($today->diffInDays($validityDate))]);
+        }
+    }
+
+    /**
+     * Get the total price attribute.
+     *
+     * This method calculates the total price of the order using the
+     * OrderCalculatorService and returns the calculated value.
+     *
+     * @return float The total price of the order.
+     */
     public function getTotalPriceAttribute()
     {
         $OrderCalculatorService = new OrderCalculatorService($this);
@@ -159,13 +191,39 @@ class Orders extends Model
         $TotalCountLines = $this->OrderLines()->count();
         if($TotalCountLines <= 0 ) $TotalCountLines = 1;
 
-        return $SumPercent/$TotalCountLines;
+        return round($SumPercent/$TotalCountLines,2);
     }
 
     // Relationship with the Rating associated with the Purchases
     public function Rating()
     {
         return $this->hasMany(OrderRating::class);
+    }
+
+    /**
+     * Get the formatted total price attribute.
+     *
+     * This method retrieves the total price attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted total price.
+     */
+    public function getFormattedTotalPriceAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->getTotalPriceAttribute(), $factory->curency, config('app.locale'));
+
+    }
+
+    public function guestVisits()
+    {
+        return $this->hasMany(GuestVisits::class);
+    }
+
+    public function visitsCount()
+    {
+        return $this->guestVisits()->count();
     }
 
     public function getActivitylogOptions(): LogOptions

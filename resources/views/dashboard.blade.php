@@ -289,7 +289,7 @@
                           url-text="{{ __('general_content.view_details_trans_key') }}"/>
     </div>
     <div class="col-lg-6 col-md-12">
-      <x-adminlte-small-box title="{{ $remainingDeliveryOrder->orderSum ?? 0 - $deliveredMonthInProgress->orderSum ?? 0}} " 
+      <x-adminlte-small-box title="{{ $remainingDeliveryOrder }} " 
                           text="{{ __('general_content.remaining_month_trans_key') }}" 
                           icon="icon fas fa-info"
                           theme="danger" 

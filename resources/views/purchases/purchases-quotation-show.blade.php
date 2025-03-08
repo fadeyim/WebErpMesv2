@@ -152,8 +152,8 @@
                             @endif
                         </td>
                         <td>{{ number_format($PurchaseQuotationLine->qty_to_order, 0, '', ' ') }}</td>
-                        <td>{{ number_format($PurchaseQuotationLine->unit_price, 2, '.', ',') }} {{ $Factory->curency }}</td>
-                        <td>{{ number_format($PurchaseQuotationLine->total_price, 2, '.', ',') }} {{ $Factory->curency }}</td>
+                        <td>{{ $PurchaseQuotationLine->formatted_unit_price }}</td>
+                        <td>{{ $PurchaseQuotationLine->formatted_total_price }}</td>
                         <td>
                           @if($PurchaseQuotationLine->qty_to_order > $PurchaseQuotationLine->qty_accepted)
                             <div class="form-group">

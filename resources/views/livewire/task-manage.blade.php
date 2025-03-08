@@ -223,9 +223,9 @@
                             <td>{{ $TechLine->unit_time }} h</td>
                             <td>{{ $TechLine->TotalTime() }} h</td>
                             <td><x-adminlte-progress theme="teal" value="{{ $TechLine->progress() }}" with-label animated/></td>
-                            <td>{{ number_format( $TechLine->unit_cost, 2, '.', ',') }} {{ $Factory->curency }}</td>
+                            <td>{{ $TechLine->formatted_unit_cost }}</td>
                             <td>{{ $TechLine->Margin() }} %</td>
-                            <td>{{ number_format( $TechLine->unit_price, 2, '.', ',') }} {{ $Factory->curency }}</td>
+                            <td>{{ $TechLine->formatted_unit_price }}</td>
                             <td>
                             @if($TechLine->order_lines_id)
                                 {{ $TechLine->status['title'] }}
@@ -246,11 +246,11 @@
                             @if($TechLine->type != 1 & $TechLine->type != 7)
                             <td class="bg-info color-palette">{{ $TechLine->service['label'] }}</td>
                             @elseif($todayDate->format("Y-m-d") > $TechLine->getFormattedEndDateAttribute() )
-                            <td class="bg-danger color-palette">{{ $TechLine->getFormattedEndDateAttribute() }}</td>
+                            <td class="bg-danger color-palette">{{ $TechLine->formatted_end_date }}</td> 
                             @elseif($todayDate->format("Y-m-d") == $TechLine->getFormattedEndDateAttribute() )
-                            <td class="bg-orange color-palette">{{ $TechLine->getFormattedEndDateAttribute() }}</td> 
+                            <td class="bg-orange color-palette">{{ $TechLine->formatted_end_date }}</td> 
                             @else
-                            <td class="bg-primary color-palette">{{ $TechLine->getFormattedEndDateAttribute() }}</td>
+                            <td class="bg-primary color-palette">{{ $TechLine->formatted_end_date }}</td>
                             @endif 
                         </tr>
                         @empty
@@ -330,9 +330,9 @@
                                 <td></td>
                             @endif
                             <td>{{ $BOMline->qty }}</td>
-                            <td>{{ number_format( $BOMline->unit_cost, 2, '.', ',') }} {{ $Factory->curency }}</td>
+                            <td>{{ $BOMline->formatted_unit_cost }}</td>
                             <td>{{ $BOMline->Margin() }} %</td>
-                            <td>{{ number_format( $BOMline->unit_price, 2, '.', ',') }} {{ $Factory->curency }}</td>
+                            <td>{{ $BOMline->formatted_unit_price }}</td>
                             <td>
                                 @if($BOMline->order_lines_id)
                                 {{ $BOMline->status['title'] }}

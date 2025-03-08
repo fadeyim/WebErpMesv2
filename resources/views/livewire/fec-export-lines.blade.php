@@ -71,8 +71,8 @@
                                 <td>{{ $FecExportLines->document_reference }} </td>
                                 <td>{{ $FecExportLines->document_date }} </td>
                                 <td>{{ $FecExportLines->entry_label }} </td>
-                                <td>{{ number_format($FecExportLines->debit_amount, 2, '.', ',') }}  {{ $Factory->curency }}</td>
-                                <td>{{ number_format($FecExportLines->credit_amount, 2, '.', ',') }}  {{ $Factory->curency }}</td>
+                                <td>{{ $FecExportLines->formatted_debit_amount }}</td>
+                                <td>{{ $FecExportLines->formatted_credit_amount }}</td>
                                 <td>{{ $FecExportLines->entry_lettering }} </td>
                                 <td>{{ $FecExportLines->currency_code }} </td>
                                 <td>

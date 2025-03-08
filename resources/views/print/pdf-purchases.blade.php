@@ -129,7 +129,7 @@
                         </td>
                         <td>{{ $DocumentLine->supplier_ref }}</td>
                         <td>{{ $DocumentLine->qty }}</td>
-                        <td>{{ number_format( $DocumentLine->selling_price, 2, '.', ',') }} {{ $Factory->curency }}</td>
+                        <td>{{ $DocumentLine->formatted_selling_price }}</td>
                         <td>{{ $DocumentLine->discount }} %</td>
                         <td> 
                             @if($DocumentLine->accounting_vats_id)

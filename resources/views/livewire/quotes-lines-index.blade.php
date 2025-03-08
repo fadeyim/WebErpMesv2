@@ -47,7 +47,7 @@
                             <td>{{ $QuoteLine->qty }}</td>
                             <td>{{ $QuoteLine->Unit['label'] }}</td>
                             <td @if($QuoteLine->use_calculated_price) class="bg-warning color-palette" @endif>
-                                {{ number_format($QuoteLine->selling_price, 2, '.', ',') }} {{ $Factory->curency }}
+                                {{ $QuoteLine->formatted_selling_price }}
                             </td>
                             <td>{{ $QuoteLine->discount }}</td>
                             <td>{{ $QuoteLine->VAT['label'] }}</td>
@@ -102,9 +102,9 @@
                                                             </td>
                                                             <td>{{ $Task->TotalTime() }} h</td>
                                                             <td>{{ $Task->qty }}</td>
-                                                            <td>{{ number_format( $Task->unit_cost , 2, '.', ',') }}{{ $Factory->curency }}</td>
+                                                            <td>{{ $Task->formatted_unit_price }}</td>
                                                             <td>{{ $Task->Margin() }} %</td>
-                                                            <td>{{ number_format( $Task->unit_price , 2, '.', ',') }} {{ $Factory->curency }}</td>
+                                                            <td>{{ $Task->formatted_unit_price }}</td>
                                                         </tr>
                                                         @empty
                                                         <x-EmptyDataLine col="12" text="{{ __('general_content.no_data_trans_key') }}"  />

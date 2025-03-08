@@ -2,6 +2,7 @@
 
 namespace App\Models\Accounting;
 
+use Illuminate\Support\Number;
 use App\Models\Companies\Companies;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Accounting\AccountingAllocation;
@@ -73,4 +74,35 @@ class AccountingEntry extends Model
     {
         return $this->belongsTo(AccountingAllocation::class);
     }
+
+    /**
+     * Get the formatted debit amount attribute.
+     *
+     * This method retrieves the debit amount attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted debit amount.
+     */
+    public function getFormattedDebitAmountAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->debit_amount, $factory->curency, config('app.locale'));
+    }
+
+    /**
+     * Get the formatted credit amount attribute.
+     *
+     * This method retrieves the credit amount attribute, formats it as a currency
+     * using the specified factory currency and application locale, and returns
+     * the formatted value.
+     *
+     * @return string The formatted credit amount.
+     */
+    public function getFormattedCreditAmountAttribute()
+    {
+        $factory = app('Factory'); 
+        return Number::currency($this->credit_amount, $factory->curency, config('app.locale'));
+    }
+
 }
