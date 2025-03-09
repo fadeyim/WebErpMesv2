@@ -481,6 +481,8 @@ return [
     'civility_trans_key'                       => 'Civility',
     'email_trans_key'                          => 'E-mail',
     'date_trans_key'                           => 'Date',
+    'message_trans_key'                        => 'Message',
+    'object_trans_key'                         => 'Object',
     'comment_trans_key'                        => 'Comment',
     'internal_comment_trans_key'               => 'Internal comment',
     'external_comment_trans_key'               => 'External comment',
@@ -1053,6 +1055,12 @@ return [
     'roles_and_permissions_trans_key'          => 'Roles & permissions',
     'import_export_trans_key'                  => 'Imports/Exports',
     'logs_view_trans_key'                      => 'Logs view',
+    'template_mail_trans_key'                  => 'Mail template',
+    'attached_mail_trans_key'                  => 'Attached mail',
+    'template_list_mail_trans_key'             => 'Template list mail',
+    'new_template_mail_trans_key'              => 'New template mail',
+    'attachment_trans_key'                     => 'Attachment',
+    'new_mail_trans_key'                       => 'New E-mail',
 
     //PROFIL
     'profile_trans_key'                        => 'Profile',

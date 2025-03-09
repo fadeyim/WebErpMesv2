@@ -137,11 +137,6 @@
             </form>
           </div>
           <div class="col-md-3">
-            @if($Order->quotes_id)
-            <x-adminlte-card title="{{ __('general_content.historical_trans_key') }}" theme="info" maximizable>
-              {{ __('general_content.order_create_from_trans_key') }} <x-QuoteButton id="{{ $Order->quotes_id }}" code="{{ $Order->Quote->code }}"  />
-            </x-adminlte-card>
-            @endif
             
             <x-adminlte-card title="{{ __('general_content.informations_trans_key') }}" theme="secondary" maximizable>
               @include('include.sub-total-price')
@@ -172,13 +167,25 @@
               @endif  
             </x-adminlte-card>
 
-            <x-adminlte-card title="{{ __('general_content.options_trans_key') }}" theme="warning" maximizable>
+            @if($Order->quotes_id)
+            <x-adminlte-card title="{{ __('general_content.historical_trans_key') }}" theme="info" collapsible="collapsed" maximizable>
+              {{ __('general_content.order_create_from_trans_key') }} <x-QuoteButton id="{{ $Order->quotes_id }}" code="{{ $Order->Quote->code }}"  />
+            </x-adminlte-card>
+            @endif
+            
+            <x-adminlte-card title="{{ __('general_content.options_trans_key') }}" theme="warning" collapsible="collapsed" maximizable>
               <div class="table-responsive p-0">
                 <table class="table table-hover">
                     @if($Order->type == 1)
                     <tr>
                         <td style="width:50%">{{  __('general_content.orders_trans_key') }}</td>
                         <td><x-ButtonTextPDF route="{{ route('pdf.order', ['Document' => $Order->id])}}" /></td>
+                    </tr>
+                    <tr>
+                      <td style="width:50%">{{ __('general_content.email_trans_key') }}</td>
+                      
+                      <td><x-ButtonTextEmail route="{{ route('email.create', ['type' => 'order', 'id' => $Order->id ]) }}" />
+                      </td>
                     </tr>
                     <tr>
                       <td style="width:50%">{{  __('general_content.order_confirm_trans_key') }}</td>
@@ -206,6 +213,7 @@
               </div>
             </x-adminlte-card>
             @include('include.file-store', ['inputName' => "orders_id",'inputValue' => $Order->id,'filesList' => $Order->files,])
+            @include('include.email-list', ['mailsList'=> $Order->emailLogs,])
           </div>
         </div>
       </div>   

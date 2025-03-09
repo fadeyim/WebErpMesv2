@@ -4,6 +4,7 @@ namespace App\Models\Purchases;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\EmailLog;
 use Spatie\Activitylog\LogOptions;
 use App\Models\Companies\Companies;
 use Illuminate\Database\Eloquent\Model;
@@ -66,6 +67,19 @@ class PurchasesQuotation extends Model
     public function PurchaseQuotationLines()
     {
         return $this->hasMany(PurchaseQuotationLines::class)->orderBy('ordre');
+    }
+
+    /**
+     * Get all of the email logs for the model.
+     *
+     * This function defines a polymorphic one-to-many relationship
+     * between the model model and the EmailLog model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function emailLogs()
+    {
+        return $this->morphMany(EmailLog::class, 'emailable');
     }
 
     public function GetshortCreatedAttribute()

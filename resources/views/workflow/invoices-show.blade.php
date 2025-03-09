@@ -98,22 +98,23 @@
               </div>
             </x-adminlte-card>
 
-            <x-adminlte-card title="{{ __('general_content.options_trans_key') }}" theme="warning" maximizable>
+            <x-adminlte-card title="{{ __('general_content.options_trans_key') }}" theme="warning" collapsible="collapsed" maximizable>
               <div class="table-responsive p-0">
                 <table class="table table-hover">
                     <tr>
-                        <td style="width:50%"> 
-                          {{ __('general_content.invoices_trans_key') }}
-                        </td>
-                        <td>
-                          <x-ButtonTextPDF route="{{ route('pdf.invoice', ['Document' => $Invoice->id])}}" />
-                        </td>
+                        <td style="width:50%">{{ __('general_content.invoices_trans_key') }}</td>
+                        <td><x-ButtonTextPDF route="{{ route('pdf.invoice', ['Document' => $Invoice->id])}}" /></td>
+                    </tr>
+                    <tr>
+                      <td style="width:50%">{{ __('general_content.email_trans_key') }}</td>
+                      <td><x-ButtonTextEmail route="{{ route('email.create', ['type' => 'invoice', 'id' => $Invoice->id]) }}" /></td>
                     </tr>
                 </table>
               </div>
             </x-adminlte-card>
 
             @include('include.file-store', ['inputName' => "invoices_id",'inputValue' => $Invoice->id,'filesList' => $Invoice->files,])
+            @include('include.email-list', ['mailsList'=> $Invoice->emailLogs,])
           </div>
         </div>
       </div>       

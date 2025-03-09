@@ -81,13 +81,11 @@
               @include('include.sub-total-price')
             </x-adminlte-card>
 
-            <x-adminlte-card title="{{ __('general_content.options_trans_key') }}" theme="warning" maximizable>
+            <x-adminlte-card title="{{ __('general_content.options_trans_key') }}" theme="warning" collapsible="collapsed" maximizable>
               <div class="table-responsive p-0">
                 <table class="table table-hover">
                   <tr>
-                      <td style="width:50%"> 
-                        {{ __('general_content.purchase_trans_key') }}
-                      </td>
+                      <td style="width:50%">{{ __('general_content.purchase_trans_key') }}</td>
                       <td>
                         @if( $Purchase->companies_contacts_id != 0 & $Purchase->companies_addresses_id !=0)
                         <x-ButtonTextPDF route="{{ route('pdf.purchase', ['Document' => $Purchase->id])}}" />
@@ -95,6 +93,10 @@
                         {{  __('general_content.update_valide_trans_key') }}
                         @endif
                       </td>
+                  </tr>
+                  <tr>
+                    <td style="width:50%">{{ __('general_content.email_trans_key') }}</td>
+                    <td><x-ButtonTextEmail route="{{ route('email.create', ['type' => 'purchase', 'id' => $Purchase->id]) }}" /></td>
                   </tr>
                 </table>
               </div>
@@ -142,6 +144,7 @@
             </x-adminlte-card>
 
             @include('include.file-store', ['inputName' => "purchases_id",'inputValue' => $Purchase->id,'filesList' => $Purchase->files,])
+            @include('include.email-list', ['mailsList'=> $Purchase->emailLogs,])
           </div>
         </div>
       </div>    

@@ -89,20 +89,21 @@
                     </div>
                     </x-adminlte-card>
 
-                    <x-adminlte-card title="{{ __('general_content.options_trans_key') }}" theme="warning" maximizable>
+                    <x-adminlte-card title="{{ __('general_content.options_trans_key') }}" theme="warning" collapsible="collapsed" maximizable>
                     <div class="table-responsive p-0">
                         <table class="table table-hover">
                             <tr>
-                                <td style="width:50%"> 
-                                    {{ __('general_content.credit_note_trans_key') }}
-                                </td>
-                                <td>
-                                    <x-ButtonTextPDF route="{{ route('pdf.credit.note', ['Document' => $CreditNotes->id])}}" />
-                                </td>
+                                <td style="width:50%">{{ __('general_content.credit_note_trans_key') }}</td>
+                                <td><x-ButtonTextPDF route="{{ route('pdf.credit.note', ['Document' => $CreditNotes->id])}}" /></td>
+                            </tr>
+                            <tr>
+                                <td style="width:50%">{{ __('general_content.email_trans_key') }}</td>
+                                <td><x-ButtonTextEmail route="{{ route('email.create', ['type' => 'creditnote', 'id' => $CreditNotes->id]) }}" /></td>
                             </tr>
                         </table>
                     </div>
                     </x-adminlte-card>
+                    @include('include.email-list', ['mailsList'=> $CreditNotes->emailLogs,])
                 </div>
             </div>
         </div>       

@@ -5,6 +5,7 @@ namespace App\Models\Purchases;
 use Carbon\Carbon;
 use App\Models\File;
 use App\Models\User;
+use App\Models\EmailLog;
 use Illuminate\Support\Number;
 use App\Models\Workflow\Deliverys;
 use Spatie\Activitylog\LogOptions;
@@ -78,6 +79,19 @@ class Purchases extends Model
     public function files()
     {
         return $this->morphToMany(File::class, 'fileable');
+    }
+
+    /**
+     * Get all of the email logs for the model.
+     *
+     * This function defines a polymorphic one-to-many relationship
+     * between the model model and the EmailLog model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function emailLogs()
+    {
+        return $this->morphMany(EmailLog::class, 'emailable');
     }
 
     // Relationship with the Rating associated with the Purchases

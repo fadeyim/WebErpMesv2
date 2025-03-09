@@ -97,7 +97,7 @@
               @endif
             </x-adminlte-card>
 
-            <x-adminlte-card title="{{ __('general_content.options_trans_key') }}" theme="warning" maximizable>
+            <x-adminlte-card title="{{ __('general_content.options_trans_key') }}" theme="warning" collapsible="collapsed" maximizable>
               <div class="table-responsive p-0">
                 <table class="table table-hover">
                   <tr>

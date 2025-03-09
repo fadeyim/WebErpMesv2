@@ -96,9 +96,14 @@
                         @endif
                       </td>
                   </tr>
+                  <tr>
+                    <td style="width:50%">{{ __('general_content.email_trans_key') }}</td>
+                    <td><x-ButtonTextEmail route="{{ route('email.create', ['type' => 'purchase-quotation', 'id' => $PurchaseQuotation->id]) }}" /></td>
+                  </tr>
                 </table>
               </div>
             </x-adminlte-card>
+            @include('include.email-list', ['mailsList'=> $PurchaseQuotation->emailLogs,])
           </div>
           <!-- /.col-md-3-->
         </div>

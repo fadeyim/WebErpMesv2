@@ -118,17 +118,17 @@
               </div>
             </x-adminlte-card>
 
-            <x-adminlte-card title="{{ __('general_content.options_trans_key') }}" theme="warning" maximizable>
+            <x-adminlte-card title="{{ __('general_content.options_trans_key') }}" theme="warning" collapsible="collapsed" maximizable>
               <div class="table-responsive p-0">
                 <table class="table table-hover">
                     <tr>
-                        <td style="width:50%"> 
-                          {{ __('general_content.delivery_notes_trans_key') }}
-                        </td>
-                        <td>
-                          <x-ButtonTextPDF route="{{ route('pdf.delivery', ['Document' => $Delivery->id])}}" />
-                        </td>
+                        <td style="width:50%">{{ __('general_content.delivery_notes_trans_key') }}</td>
+                        <td><x-ButtonTextPDF route="{{ route('pdf.delivery', ['Document' => $Delivery->id])}}" /></td>
                     </tr> 
+                    <tr>
+                      <td style="width:50%">{{ __('general_content.email_trans_key') }}</td>
+                      <td><x-ButtonTextEmail route="{{ route('email.create', ['type' => 'delivery', 'id' => $Delivery->id]) }}" /></td>
+                    </tr>
                     @if($Delivery->uuid)
                     <tr>
                       <td style="width:50%">{{ __('general_content.public_link_trans_key') }}</td>
@@ -153,6 +153,7 @@
             </x-adminlte-card>
             
             @include('include.file-store', ['inputName' => "deliverys_id",'inputValue' => $Delivery->id,'filesList' => $Delivery->files,])
+            @include('include.email-list', ['mailsList'=> $Delivery->emailLogs,])
           </div>
         </div>
       </div>      

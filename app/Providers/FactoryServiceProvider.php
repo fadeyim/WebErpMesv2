@@ -9,13 +9,6 @@ use Illuminate\Support\ServiceProvider;
 class FactoryServiceProvider extends ServiceProvider
 {
     /**
-     * The first factory
-     *
-     * @var static|null
-     */
-    private static ?Factory $firstFactory = null;
-
-    /**
      * Register services.
      */
     public function register(): void
@@ -28,10 +21,14 @@ class FactoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //view()->share('Factory', self::$firstFactory);
+        // Charger Factory UNE SEULE FOIS avec un singleton
+        app()->singleton('Factory', function () {
+            return Factory::first() ?? new Factory(); // Retourne un objet vide si null
+        });
+
+        // Partager Factory avec toutes les vues (comme avant)
         View::composer('*', function ($view) {
-            self::$firstFactory ??= Factory::first();
-            $view->with('Factory', self::$firstFactory);
+            $view->with('Factory', app('Factory'));
         });
     }
 }

@@ -481,6 +481,8 @@ return [
     'civility_trans_key'                       => 'Civilité',
     'email_trans_key'                          => 'E-mail',
     'date_trans_key'                           => 'Date',
+    'message_trans_key'                        => 'Message',
+    'object_trans_key'                         => 'Objet',
     'comment_trans_key'                        => 'Commentaire',
     'internal_comment_trans_key'               => 'Commentaire interne',
     'external_comment_trans_key'               => 'Commentaire externe',
@@ -1053,7 +1055,13 @@ return [
     'roles_and_permissions_trans_key'          => 'Rôles & permissions',
     'import_export_trans_key'                  => 'Imports/Exports',
     'logs_view_trans_key'                      => 'Logs view',
-
+    'template_mail_trans_key'                  => 'Template de mail',
+    'attached_mail_trans_key'                  => 'Email attachés',
+    'template_list_mail_trans_key'             => 'Liste des modèles de mails',
+    'new_template_mail_trans_key'              => 'Nouveau modèle d\'email',
+    'attachment_trans_key'                     => 'Pièce jointe',
+    'new_mail_trans_key'                       => 'Nouvel E-mail',
+    
     //PROFIL
     'profile_trans_key'                        => 'Profil',
     'information_trans_key'                    => 'Information',

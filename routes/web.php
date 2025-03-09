@@ -353,7 +353,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
         Route::post('/factory/update', 'App\Http\Controllers\Admin\FactoryController@update')->middleware(['auth'])->name('admin.factory.update');
         Route::get('/factory', 'App\Http\Controllers\Admin\FactoryController@index')->middleware(['auth'])->name('admin.factory');
 
-        Route::get('/roles-permissions/', 'App\Http\Controllers\Admin\RoleController@index')->middleware(['auth'])->name('admin.roles.permissions');
+        Route::get('/roles-permissions', 'App\Http\Controllers\Admin\RoleController@index')->middleware(['auth'])->name('admin.roles.permissions');
         Route::post('/factory/role/store', 'App\Http\Controllers\Admin\RoleController@store')->middleware(['auth'])->name('admin.factory.role.store');
         Route::post('/factory/role/update/{id}', 'App\Http\Controllers\Admin\RoleController@update')->middleware(['auth'])->name('admin.factory.role.update');
         Route::get('/factory/role/delete/{role}', 'App\Http\Controllers\Admin\RoleController@destroy')->middleware(['auth'])->name('admin.factory.role.destroy');
@@ -374,6 +374,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
         Route::get('/imports-exports', 'App\Http\Controllers\Admin\ImportsExportsController@index')->middleware(['auth'])->name('admin.imports.exports');
 
         Route::get('/logs-view', 'App\Http\Controllers\Admin\FactoryController@logsView')->middleware(['auth'])->name('admin.logs.view');
+    
+        Route::get('/emails/templates', 'App\Http\Controllers\Admin\EmailTemplateController@index')->name('admin.emails.templates.index');
+        Route::post('/emails/templates/store', 'App\Http\Controllers\Admin\EmailTemplateController@store')->name('admin.emails.templates.store');
+        Route::post('/emails/templates/update/{emailTemplate}', 'App\Http\Controllers\Admin\EmailTemplateController@update')->name('admin.emails.templates.update');
+        Route::delete('/emails/templates/delete/{emailTemplate}', 'App\Http\Controllers\Admin\EmailTemplateController@destroy')->name('admin.emails.templates.delete');
+
     });
 
     Route::group(['prefix' => 'human-resources', 'middleware' => ['auth', 'check.factory']], function () {
@@ -573,6 +579,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
         Route::get('/show', 'App\Http\Controllers\UsersController@profile')->middleware(['auth'])->name('notifications.show');
         Route::post('/show', 'App\Http\Controllers\UsersController@settingNotification')->middleware(['auth'])->name('notifications.setting');
     });
+
+    Route::get('/{type}/{id}/email', 'App\Http\Controllers\EmailController@create')->name('email.create');
+    Route::post('/{type}/{id}/email', 'App\Http\Controllers\EmailController@send')->name('email.send');
 
     Route::post('upload-file', 'App\Http\Controllers\FileUpload@fileUpload')->middleware(['auth'])->name('file.store');
     Route::post('upload-photo', 'App\Http\Controllers\FileUpload@photoUpload')->middleware(['auth'])->name('photo.store');

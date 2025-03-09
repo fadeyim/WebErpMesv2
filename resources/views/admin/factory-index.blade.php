@@ -745,7 +745,7 @@
             
                     <div class="col-md-6">
                         <!-- Formulaire de création d'un nouveau modèle de code de document -->
-                        <x-adminlte-card title="{{ __('general_content.new_document_code_template') }}" theme="secondary" maximizable>
+                        <x-adminlte-card title="{{ __('general_content.new_document_code_template_trans_key') }}" theme="secondary" maximizable>
                             <form method="POST" action="{{ route('admin.document.code.template.store') }}" class="form-horizontal">
                                 @csrf
                                 <div class="form-group">

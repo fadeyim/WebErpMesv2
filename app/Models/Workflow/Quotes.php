@@ -5,12 +5,13 @@ namespace App\Models\Workflow;
 use Carbon\Carbon;
 use App\Models\File;
 use App\Models\User;
+use App\Models\EmailLog;
 use App\Models\GuestVisits;
 use Illuminate\Support\Number;
 use App\Models\Workflow\Orders;
 use Spatie\Activitylog\LogOptions;
-use App\Models\Companies\Companies;
 
+use App\Models\Companies\Companies;
 use App\Models\Workflow\QuoteLines;
 use Illuminate\Database\Eloquent\Model;
 use App\Services\QuoteCalculatorService;
@@ -107,6 +108,19 @@ class Quotes extends Model
     public function files()
     {
         return $this->morphToMany(File::class, 'fileable');
+    }
+
+    /**
+     * Get all of the email logs for the model.
+     *
+     * This function defines a polymorphic one-to-many relationship
+     * between the model model and the EmailLog model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function emailLogs()
+    {
+        return $this->morphMany(EmailLog::class, 'emailable');
     }
     
     // Relationship with the opportunities associated with the Quote

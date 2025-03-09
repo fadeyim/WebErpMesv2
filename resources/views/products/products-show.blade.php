@@ -393,7 +393,7 @@
               @endif
             </x-adminlte-card>
 
-            <x-adminlte-card title="{{ __('general_content.picture_file_trans_key') }}" theme="success" maximizable>
+            <x-adminlte-card title="{{ __('general_content.picture_file_trans_key') }}" theme="success" collapsible="collapsed" maximizable>
                 @if($Product->picture)
                     <img src="{{ asset('/images/products/'. $Product->picture) }}" alt="Product Image" style="width: 100%;">
                 @endif
@@ -472,7 +472,7 @@
                 
             @include('include.file-store', ['inputName' => "products_id",'inputValue' => $Product->id,'filesList' => $Product->files,])
             
-            <x-adminlte-card title="{{ __('general_content.options_trans_key') }}" theme="warning" maximizable>
+            <x-adminlte-card title="{{ __('general_content.options_trans_key') }}" theme="warning" collapsible="collapsed" maximizable>
               <p>
                 <a href="{{ route('products.duplicate', ['id' => $Product->id])}}" class="btn btn-default"><i class="fa fa-copy"></i> {{ __('general_content.duplicate_product_trans_key') }}</a>
               </p>
@@ -481,7 +481,7 @@
               </p>
             </x-adminlte-card>
 
-            <x-adminlte-card title="{{ __('ABC/FMR') }}" theme="danger" maximizable>
+            <x-adminlte-card title="{{ __('ABC/FMR') }}" theme="danger" collapsible="collapsed" maximizable>
               <div >
                 <div class="row justify-content-center">
                       <div class="col-3 mb-1 mr-1 bg-warning text-center" id="AR" ><h1>AR</h1></div>

@@ -38,7 +38,7 @@
           <div class="col-md-9">
             @include('include.alert-result')
             <form method="POST" action="{{ route('quotes.update', ['id' => $Quote->id]) }}" enctype="multipart/form-data">
-              <x-adminlte-card title="{{ __('general_content.informations_trans_key') }}" theme="primary" maximizable>
+              <x-adminlte-card title="{{ __('general_content.informations_trans_key') }}" theme="primary"  maximizable>
                 @csrf 
                 <div class="row">
                   <div class="form-group col-md-6">
@@ -118,8 +118,12 @@
             </form>
           </div>
           <div class="col-md-3">
+            <x-adminlte-card title="{{ __('general_content.informations_trans_key') }}" theme="secondary" collapsible maximizable>
+              @include('include.sub-total-price')
+            </x-adminlte-card>
+
             @if($Quote->opportunities_id)
-              <x-adminlte-card title="{{ __('general_content.historical_trans_key') }}" theme="info" maximizable>
+              <x-adminlte-card title="{{ __('general_content.historical_trans_key') }}" theme="info"  collapsible="collapsed" maximizable>
                 <div class="text-muted">
                   <h3>{{__('general_content.opportunity_trans_key')}} #{{ $Quote->opportunities->label }} </h3><x-ButtonTextView route="{{ route('opportunities.show', ['id' => $Quote->opportunities_id])}}" />
                   
@@ -135,16 +139,16 @@
                 </div>
               </x-adminlte-card>
             @endif
-            
-            <x-adminlte-card title="{{ __('general_content.informations_trans_key') }}" theme="secondary" maximizable>
-              @include('include.sub-total-price')
-            </x-adminlte-card>
 
-            <x-adminlte-card title="{{ __('general_content.options_trans_key') }}" theme="warning" maximizable>
+            <x-adminlte-card title="{{ __('general_content.options_trans_key') }}" theme="warning" collapsible="collapsed" maximizable>
               <table class="table table-hover">
                 <tr>
                   <td style="width:50%">{{ __('general_content.quote_trans_key') }}</td>
                   <td><x-ButtonTextPDF route="{{ route('pdf.quote', ['Document' => $Quote->id])}}" /></td>
+                </tr>
+                <tr>
+                  <td style="width:50%">{{ __('general_content.email_trans_key') }}</td>
+                  <td><x-ButtonTextEmail route="{{ route('email.create', ['type' => 'quote', 'id' => $Quote->id]) }}" /></td>
                 </tr>
                 @if($Quote->uuid)
                 <tr>
@@ -172,6 +176,7 @@
               </table>
             </x-adminlte-card>
             @include('include.file-store', ['inputName' => "quotes_id",'inputValue' => $Quote->id,'filesList' => $Quote->files,])
+            @include('include.email-list', ['mailsList'=> $Quote->emailLogs,])
           </div>
         </div>
       </div>   

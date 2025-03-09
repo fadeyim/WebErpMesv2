@@ -1,5 +1,5 @@
 <!-- DOCUMENT STORAGE -->
-<x-adminlte-card title="{{ __('general_content.documents_trans_key') }}" theme="info" maximizable>
+<x-adminlte-card title="{{ __('general_content.documents_trans_key') }}" theme="purple" collapsible="collapsed" maximizable>
     <form action="{{ route('file.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="input-group">

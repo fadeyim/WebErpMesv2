@@ -658,6 +658,11 @@ return [
                     'icon_color' => 'orange',
                 ],
                 [
+                    'text' => 'template_mail_trans_key',
+                    'url'  => 'admin/emails/templates',
+                    'icon_color' => 'secondary',
+                ],
+                [
                     'text' => 'logs_view_trans_key',
                     'url'  => 'admin/logs-view',
                     'icon_color' => 'success',
