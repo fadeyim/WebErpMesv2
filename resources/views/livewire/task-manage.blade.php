@@ -181,7 +181,7 @@
                     <thead>
                         <tr>
                             <th>{{__('general_content.id_trans_key') }} </th>
-                            <th>{{ __('general_content.order_trans_key') }}</th>
+                            <th>{{ __('general_content.sort_trans_key') }}</th>
                             <th>{{__('general_content.label_trans_key') }}</th>
                             <th>{{ __('general_content.service_trans_key') }}</th>
                             <th>{{ __('general_content.setting_time_trans_key') }}</th>
@@ -285,7 +285,7 @@
                     <thead>
                         <tr>
                             <th>{{ __('general_content.id_trans_key') }} </th>
-                            <th>{{ __('general_content.order_trans_key') }}</th>
+                            <th>{{ __('general_content.sort_trans_key') }}</th>
                             <th>{{ __('general_content.label_trans_key') }}</th>
                             <th>{{ __('general_content.service_trans_key') }}</th>
                             <th>{{ __('general_content.component_trans_key') }}</th>
@@ -460,7 +460,7 @@
                     <thead>
                     <tr>
                         <th>{{ __('general_content.id_trans_key') }} </th>
-                        <th>{{ __('general_content.order_trans_key') }}</th>
+                        <th>{{ __('general_content.sort_trans_key') }}</th>
                         <th>{{ __('general_content.id_trans_key') }}</th>
                         <th>{{ __('general_content.label_trans_key') }}</th>
                         <th></th>

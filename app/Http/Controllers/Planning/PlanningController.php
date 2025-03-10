@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Planning\Task;
 use App\Http\Controllers\Controller;
 use App\Models\Methods\MethodsServices;
+use App\Models\Times\TimesBanckHoliday;
 use Illuminate\Database\Eloquent\Builder;
 
 class PlanningController extends Controller
@@ -52,7 +53,28 @@ class PlanningController extends Controller
         // Count tasks with null resources
         $countTaskNullRessource = $this->countTaskNullRessource();
 
-        return view('workflow/planning-index', compact('taches', 'countTaskNullRessource', 'countTaskNullDate', 'tasksPerServiceDay', 'structureRateLoad', 'services', 'possibleDates', 'startDate', 'endDate', 'displayHoursDiff'));
+        $bankHolidays = TimesBanckHoliday::all()->mapWithKeys(function ($holiday) {
+                                            // Si c'est un jour férié fixe, on ignore l'année et ne garde que le jour/mois
+                                            if ($holiday->fixed) {
+                                                return [Carbon::parse($holiday->date)->format('m-d') => $holiday->label];
+                                            }
+                                        
+                                            // Sinon, on garde la date complète
+                                            return [Carbon::parse($holiday->date)->toDateString() => $holiday->label];
+                                        })->toArray();
+
+
+        return view('workflow/planning-index', compact('taches',
+                                                                    'countTaskNullRessource',
+                                                                                'countTaskNullDate',
+                                                                                'tasksPerServiceDay',
+                                                                                'structureRateLoad',
+                                                                                'services',
+                                                                                'possibleDates',
+                                                                                'startDate',
+                                                                                'endDate',
+                                                                                'displayHoursDiff',
+                                                                                'bankHolidays'));
     }
 
     private function getTasks($startDate, $endDate)

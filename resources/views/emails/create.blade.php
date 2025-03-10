@@ -55,7 +55,7 @@
                     </div>
                 </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary"><i class="fas fa-envelope"></i>{{ __('general_content.to_submit_trans_key') }}</button> 
+                <a href="{{ url()->previous() }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> {{ __('general_content.back_trans_key') }}</a><button type="submit" class="btn btn-primary m-4"><i class="fas fa-envelope"></i>{{ __('general_content.to_submit_trans_key') }}</button> 
             </div>
         </x-adminlte-card>
     </form>

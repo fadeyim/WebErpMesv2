@@ -2,29 +2,30 @@
 
 namespace App\Mail;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailables\Attachment;
 
-class WelcomeMail extends Mailable
+class DocumentMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $userEmail;
+    public $document;
+    public $data;
+    public $attachmentPath;
 
-    public $userName;
     /**
      * Create a new message instance.
      */
-    public function __construct(User $user)
+    public function __construct($document, $data)
     {
-        $this->userEmail = $user->email;
-        $this->userName = $user->name;
+        $this->document = $document;
+        $this->data = $data;
+        $this->attachmentPath = $data['attachment'] ?? null;
     }
 
     /**
@@ -34,7 +35,7 @@ class WelcomeMail extends Mailable
     {
         return new Envelope(
             from: new Address(config('mail.from.address'), config('mail.from.name')),
-            subject: 'Bienvenue sur WebErpMesv2'
+            subject: $this->data['subject'],
         );
     }
 
@@ -44,11 +45,11 @@ class WelcomeMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.welcome',
+            view: 'emails.document',
             with: [
-                'userEmail' => $this->userEmail,
-                'userName' => $this->userName,
-            ]
+                'messageContent' => $this->data['message'],
+                'document' => $this->document
+            ],
         );
     }
 
@@ -59,6 +60,12 @@ class WelcomeMail extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        $attachments = [];
+
+        if ($this->attachmentPath) {
+            $attachments[] = Attachment::fromPath(storage_path('app/' . $this->attachmentPath));
+        }
+
+        return $attachments;
     }
 }

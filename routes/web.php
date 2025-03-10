@@ -237,34 +237,34 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
             Route::post('/edit/{id}', 'App\Http\Controllers\Accounting\VatController@update')->name('accounting.vat.update');
         }); });
 
-        Route::group(['prefix' => 'times', 'middleware' => ['auth', 'check.factory']], function () {
-            // Index route
-            Route::get('/', 'App\Http\Controllers\Times\TimesController@index')->name('times');
-        
-            // Absence routes
-            Route::group(['prefix' => 'absence'], function () {
-                Route::post('/create', 'App\Http\Controllers\Times\AbsenceController@store')->name('times.absence.create');
-                Route::post('/edit/{id}', 'App\Http\Controllers\Times\AbsenceController@update')->name('times.absence.update');
-            });
-        
-            // Bank Holiday routes
-            Route::group(['prefix' => 'banckholiday'], function () {
-                Route::post('/create', 'App\Http\Controllers\Times\BanckHolidayController@store')->name('times.banckholiday.create');
-                Route::post('/edit/{id}', 'App\Http\Controllers\Times\BanckHolidayController@update')->name('times.banckholiday.update');
-            });
-        
-            // ImproductTime routes
-            Route::group(['prefix' => 'improducttime'], function () {
-                Route::post('/create', 'App\Http\Controllers\Times\ImproductTimeController@store')->name('times.improducttime.create');
-                Route::post('/edit/{id}', 'App\Http\Controllers\Times\ImproductTimeController@update')->name('times.improducttime.update');
-            });
-        
-            // MachineEvent routes
-            Route::group(['prefix' => 'machineevent'], function () {
-                Route::post('/create', 'App\Http\Controllers\Times\MachineEventController@store')->name('times.machineevent.create');
-                Route::post('/edit/{id}', 'App\Http\Controllers\Times\MachineEventController@update')->name('times.machineevent.update');
-            });
+    Route::group(['prefix' => 'times', 'middleware' => ['auth', 'check.factory']], function () {
+        // Index route
+        Route::get('/', 'App\Http\Controllers\Times\TimesController@index')->name('times');
+    
+        // Absence routes
+        Route::group(['prefix' => 'absence'], function () {
+            Route::post('/create', 'App\Http\Controllers\Times\AbsenceController@store')->name('times.absence.create');
+            Route::post('/edit/{id}', 'App\Http\Controllers\Times\AbsenceController@update')->name('times.absence.update');
         });
+    
+        // Bank Holiday routes
+        Route::group(['prefix' => 'banckholiday'], function () {
+            Route::post('/create', 'App\Http\Controllers\Times\BanckHolidayController@store')->name('times.banckholiday.create');
+            Route::post('/edit/{id}', 'App\Http\Controllers\Times\BanckHolidayController@update')->name('times.banckholiday.update');
+        });
+    
+        // ImproductTime routes
+        Route::group(['prefix' => 'improducttime'], function () {
+            Route::post('/create', 'App\Http\Controllers\Times\ImproductTimeController@store')->name('times.improducttime.create');
+            Route::post('/edit/{id}', 'App\Http\Controllers\Times\ImproductTimeController@update')->name('times.improducttime.update');
+        });
+    
+        // MachineEvent routes
+        Route::group(['prefix' => 'machineevent'], function () {
+            Route::post('/create', 'App\Http\Controllers\Times\MachineEventController@store')->name('times.machineevent.create');
+            Route::post('/edit/{id}', 'App\Http\Controllers\Times\MachineEventController@update')->name('times.machineevent.update');
+        });
+    });
 
     Route::group(['prefix' => 'products', 'middleware' => ['auth', 'check.factory']], function () {
         //index product route
@@ -506,6 +506,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
         Route::group(['prefix' => 'service'], function () {
             Route::get('/', 'App\Http\Controllers\Methods\ServicesController@index')->name('methods.service');
             Route::post('/create', 'App\Http\Controllers\Methods\ServicesController@store')->name('methods.service.create');
+            Route::get('/show/{id}', 'App\Http\Controllers\Methods\ServicesController@show')->name('methods.service.show');
             Route::post('/edit/{id}', 'App\Http\Controllers\Methods\ServicesController@update')->name('methods.service.update');
             Route::post('/edit/{id}/image', 'App\Http\Controllers\Methods\ServicesController@StoreImage')->name('methods.service.update.picture');
         });

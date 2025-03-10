@@ -65,18 +65,25 @@
       <table id="tblDemo" class="table table-hover table-bordered align-middle shadow-sm rounded w-100">
 
           <thead class="bg-primary text-white text-center">
-              <tr>
-                  <th></th>
-                  <th>{{ __('general_content.service_trans_key') }}</th>
-                  @foreach ($possibleDates as $singleDay)
-                      @php
-                          $isWeekend = date('N', strtotime($singleDay)) >= 6;
-                          $weekendClass = $isWeekend ? 'bg-info-subtle text-dark' : 'bg-light';
-                      @endphp
-                      <th class="fw-normal {{ $weekendClass }}">{{ $singleDay }}</th>
-                  @endforeach
-              </tr>
-          </thead>
+            <tr>
+                <th></th>
+                <th>{{ __('general_content.service_trans_key') }}</th>
+                @foreach ($possibleDates as $singleDay)
+                    @php
+                        $isWeekend = date('N', strtotime($singleDay)) >= 6;
+                        $isBankHoliday = in_array(Carbon\Carbon::parse($singleDay)->toDateString(), $bankHolidays);
+                        
+                        // Définir la classe CSS pour le jour
+                        $dayClass = match (true) {
+                            $isBankHoliday => 'bg-dark text-white', // Jours OFF -> Fond foncé
+                            $isWeekend => 'bg-info-subtle text-dark', // Week-end -> Fond bleu pâle
+                            default => 'bg-light', // Jour normal
+                        };
+                    @endphp
+                    <th class="fw-normal {{ $dayClass }}">{{ $singleDay }}</th>
+                @endforeach
+            </tr>
+        </thead>
           <tbody>
               @foreach ($services as $service)
                   <tr class="align-middle">
@@ -95,14 +102,18 @@
                       @foreach ($possibleDates as $singleDay)
                           @php
                               $isWeekend = date('N', strtotime($singleDay)) >= 6;
+                              $isBankHoliday = in_array(Carbon\Carbon::parse($singleDay)->toDateString(), $bankHolidays);
+                              
+                              // Liste des tâches associées à ce jour
                               $tasksList = $tasksPerServiceDay[$service->id][$singleDay] ?? [];
                               $tooltipContent = implode(', ', array_map(fn($tache) => '#' . $tache, $tasksList));
-  
+
                               $loadPercentage = $structureRateLoad[$singleDay][$service->id] ?? null;
                               $hoursDiff = $loadPercentage ? round(16 - ($loadPercentage / 100) * 16, 2) : null;
-  
-                              // Définition des couleurs
+
+                              // Définition des couleurs de fond
                               $bgColor = match (true) {
+                                  $isBankHoliday => 'bg-dark text-white', // Jours OFF (feriés)
                                   is_null($loadPercentage) => $isWeekend ? 'bg-info-subtle' : 'bg-light',
                                   $displayHoursDiff && $hoursDiff <= 0 => 'bg-success text-white',
                                   $displayHoursDiff && $hoursDiff <= 4 => 'bg-warning text-dark',
@@ -115,12 +126,10 @@
                                   $loadPercentage >= 20 => 'bg-warning text-dark',
                                   default => 'bg-success text-white',
                               };
-  
-                              // Appliquer une teinte plus douce pour le week-end
-                              $finalBgColor = $isWeekend ? 'bg-body-tertiary ' : $bgColor;
-  
-                              // Définition du contenu
+
+                              // Texte affiché dans la cellule
                               $displayValue = match (true) {
+                                  $isBankHoliday => '<span class="text-white fw-bold">OFF</span>',
                                   $isWeekend => '<span class="text-muted">Weekend</span>',
                                   is_null($loadPercentage) => '<span class="text-muted">N/A</span>',
                                   $displayHoursDiff && $hoursDiff <= 0 => "<i class='bi bi-arrow-up-circle-fill'></i> + " . abs($hoursDiff) . " h",
@@ -128,18 +137,21 @@
                                   default => $loadPercentage . '%',
                               };
                           @endphp
-  
-                          <td class="text-center fw-bold {{ $finalBgColor }} rounded-pill p-2 shadow-sm"
+
+                          <td class="text-center fw-bold {{ $bgColor }} rounded-pill p-2 shadow-sm"
                               data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $tooltipContent }}">
                               {!! $displayValue !!}
                           </td>
                       @endforeach
+
                   </tr>
               @endforeach
           </tbody>
       </table>
-  </div>
-  
+    </div>
+    <div class="card-footer">
+      <a href="{{ url()->previous() }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> {{ __('general_content.back_trans_key') }}</a>
+    </div>
   </x-adminlte-card>
 @stop
 

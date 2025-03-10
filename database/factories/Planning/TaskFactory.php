@@ -52,13 +52,13 @@ class TaskFactory extends Factory
             'products_id' => $productId,
             'methods_services_id' => $methodsService->id,
             'seting_time' => $this->faker->randomFloat(2, 1, 100),
-            'unit_time' => $this->faker->randomFloat(2, 1, 100),
+            'unit_time' => $this->faker->randomFloat(2, 1, 1),
             'status_id' => $this->faker->numberBetween($min = 1, $max = 2),
             'type' => $methodsService->type,
             'qty' => $this->qty,
             'qty_init' => $this->qty,
-            'unit_cost' => $this->faker->randomFloat(2, 1, 1000),
-            'unit_price' => $this->faker->randomFloat(2, 1, 1000),
+            'unit_cost' => $this->faker->randomFloat(2, 1, 5),
+            'unit_price' => $this->faker->randomFloat(2, 1, 10),
             'methods_units_id' => $methodsUnit->id,
         ];
     }

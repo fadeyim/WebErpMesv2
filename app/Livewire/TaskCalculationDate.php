@@ -5,8 +5,8 @@ namespace App\Livewire;
 use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\Planning\Task;
-use Illuminate\Support\Facades\DB;
 use App\Models\Workflow\OrderLines;
+use App\Models\Times\TimesBanckHoliday;
 use Illuminate\Database\Eloquent\Builder;
 
 class TaskCalculationDate extends Component
@@ -70,85 +70,127 @@ class TaskCalculationDate extends Component
 
     public function calculateDate()
     {
-        $countLines = DB::table('order_lines')
-                                ->join('orders', 'order_lines.orders_id', '=', 'orders.id')
-                                ->where('order_lines.tasks_status', '!=', 4)
-                                ->orderBy('order_lines.internal_delay')
-                                ->count();
-
-        $OrderLines = OrderLines::with('order')
+        $OrderLines = OrderLines::with(['order', 'Task' => function ($query) {
+                                $query->where('not_recalculate', 0)
+                                        ->where(function (Builder $query) {
+                                            return $query->where('tasks.type', 1)
+                                                        ->orWhere('tasks.type', 7);
+                                        })
+                                        ->orderBy('ordre');
+                                }])
                                 ->join('orders', 'order_lines.orders_id', '=', 'orders.id')
                                 ->where('order_lines.tasks_status', '!=', 4)
                                 ->orderBy('order_lines.internal_delay')
                                 ->select('order_lines.*')
                                 ->get();
-                                
 
-        //value to substrac
-        $totalTaskLineTime = 0;
-        foreach($OrderLines as $Line){
-            //get timetamps for substract hours in decimal, dont forge for 1h = 3600 sec
-            $DatetimeLine = strtotime(Carbon::parse($Line->internal_delay)->toDatetimeString());
+        $countLines = $OrderLines->count();
+
+        if ($countLines === 0) {
+            $this->toBeCalculateDate = false;
+            return;
+        }
+
+        foreach ($OrderLines as $line) {
+            $taskEndDate = Carbon::parse($line->internal_delay);
+            $taskEndDate = $this->adjustForWeekends($taskEndDate);
+
+            $elapsedTimeInSeconds = 0;
+
+            // Trier correctement les tâches en ordre croissant
+            $tasks = $line->Task->sortByDesc('ordre'); // Correction du tri
+
+            foreach ($tasks as $task) {
+                // Date de fin de la tâche actuelle
+                $endDate = $this->adjustForWorkingHours(clone $taskEndDate, $elapsedTimeInSeconds);
+                $task->end_date = $endDate;
         
-            //check if internal delay is weekend
-            //2 day substrac
-            if(date('N', strtotime($Line->internal_delay)) == 1) $totalTaskLineTime+=3600*48;
-            //1 day substrac
-            if(date('N', strtotime($Line->internal_delay)) == 7) $totalTaskLineTime+=3600*24;
+                $this->progressDateLog .= '<li>End date : '. $endDate .' updated for task #'. $task->id .' ordre '. $task->ordre .'</li>';
+        
+                // Calcul de la durée ajustée de la tâche
+                $totalTaskHours = $task->TotalTime();
+                $adjustedTaskHours = $this->calculateWorkingHours($totalTaskHours);
+        
+                // Calcul de la date de début
+                $elapsedTimeInSeconds += ($adjustedTaskHours * 3600);
+                $startDate = $this->adjustForWorkingHours(clone $taskEndDate, $elapsedTimeInSeconds);
+                $task->start_date = $startDate;
+                $task->save();
+        
+                // Mise à jour de taskEndDate pour la prochaine tâche
+                $taskEndDate = $startDate;
+            }
 
-            // first substrac not working time from 18:00 to 0:00
-            $totalTaskLineTime += 3600*7;
-            $Tasks = Task::where('order_lines_id', '=', $Line->id)
-                        ->where('not_recalculate', '=', 0)
-                        ->where(function (Builder $query) {
-                            return $query->where('tasks.type', 1)
-                                        ->orWhere('tasks.type', 7);
-                        })
-                        ->orderByDesc('ordre')
-                        ->get();
-
-                $order = 0;
-                $addfirsthour = 1;
-                foreach($Tasks as $Task){
-                    $endDate = date("Y-m-d H:i:s", $DatetimeLine-$totalTaskLineTime);
-                    $UpdateTask = Task::find($Task->id);
-                    $UpdateTask->end_date = $endDate;
-                    
-                    $this->progressDateLog .= '<li>End date : '. $endDate .' updated for task #'. $Task->id  .'</li>';
-                    
-                    if($order ==  $Task->order_lines_id){
-                        $addfirsthour = 0;
-                    }
-                    else{
-                        $addfirsthour = 1;
-                    }
-
-                    //the range working hour, is 8h per day, so for each step of 8h from total time task, we must be add 16h
-                    $loopDayCount = floor($Task->TotalTime()/8);
-                    $loopWeekendCount = floor($loopDayCount/5);
-                    //add 16h per day
-                    $addTime = $loopDayCount*16;
-                    //add 48h per weekend
-                    $addTime += $loopWeekendCount * 48;
-                    
-                    //now we add time in sec
-                    $totalTaskLineTime += ($Task->TotalTime()+$addfirsthour+$addTime)*3600;
-                    
-                    $startDate = date("Y-m-d H:i:s", $DatetimeLine-$totalTaskLineTime);
-                    $UpdateTask->start_date = $startDate;
-                    $UpdateTask->save();
-
-                    $order = $Task->order_lines_id;
-
-                    $this->countTaskCalculateDate += 1;
-
-                }
-            
-            $totalTaskLineTime = 0;
-            $this->progressDate  += (1/$countLines)*100; 
-        }     
+            $this->progressDate += (1 / $countLines) * 100;
+        }
 
         $this->toBeCalculateDate = false;
+    }
+
+    /**
+     * Ajuste une date pour éviter les week-ends
+     */
+    private function adjustForWeekends(Carbon $date): Carbon
+    {
+        if ($date->isSunday()) {
+            return $date->subDay(); // Reculer d’un jour si c'est dimanche
+        } elseif ($date->isMonday()) {
+            return $date->subDays(2); // Reculer de 2 jours si c'est lundi
+        }
+        return $date;
+    }
+
+    /**
+     * Ajuste une date en fonction des horaires de travail (8h - 18h)
+     */
+    private function adjustForWorkingHours(Carbon $date, int $subtractSeconds): Carbon
+    {
+        // On soustrait les secondes en premier
+        $date->subSeconds($subtractSeconds);
+
+        // Sécurité : on limite les itérations pour éviter une boucle infinie
+        $maxIterations = 100;
+        $iterations = 0;
+
+        while ($iterations < $maxIterations) {
+            // Vérifie si c'est un week-end ou un jour férié
+            if ($date->isSaturday()) {
+                $date->subDay()->hour(18)->minute(0);
+            } elseif ($date->isSunday()) {
+                $date->subDays(2)->hour(18)->minute(0);
+            } elseif (TimesBanckHoliday::isBankHoliday($date)) {
+                // Si c'est un jour férié, on recule d'un jour et remet l'heure à 18h
+                $date->subDay()->hour(18)->minute(0);
+            }
+
+            // Si l'heure est hors des horaires de travail (8h - 18h)
+            if ($date->hour < 8) {
+                $date->subHours($date->hour + 10); // On revient à 18h du jour précédent
+            } elseif ($date->hour >= 18) {
+                $date->hour(18)->minute(0)->subSecond();
+            } else {
+                // On est bien dans une plage correcte et ce n'est ni un week-end ni un jour férié
+                break;
+            }
+
+            $iterations++;
+        }
+
+        if ($iterations >= $maxIterations) {
+            throw new \Exception("Loop limit exceeded in adjustForWorkingHours()! Date: " . $date->toDateTimeString());
+        }
+
+        return $date;
+    }
+
+    /**
+     * Calcule le temps ajusté en tenant compte des week-ends et des horaires
+     */
+    private function calculateWorkingHours(int $totalTaskHours): int
+    {
+        $workingDays = floor($totalTaskHours / 8);
+        $weekends = floor($workingDays / 5);
+        return $totalTaskHours + ($workingDays * 16) + ($weekends * 48);
     }
     
 }

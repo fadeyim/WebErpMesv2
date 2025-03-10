@@ -34,13 +34,13 @@ class EmailController extends Controller
             abort(404);
         }
 
-        // Récupérer l'instance du document
+        // Retrieve the document instance
         $model = $this->models[$type]::findOrFail($id);
         $contactMail = $model->contact->mail;
-        // Chercher le template d'e-mail correspondant
+        // Search for the corresponding email template
         $emailTemplate = EmailTemplate::where('document_type', $type, $contactMail)->first();
 
-        // Récupérer l'objet (code du document)
+        // Retrieve the object (document code)
         if($emailTemplate) {
             $object = $emailTemplate->subject .' '. $model->code;
         } else {
@@ -50,7 +50,7 @@ class EmailController extends Controller
         //recorde last model url
         session(['previous_url' => url()->previous()]);
 
-        // Passer les données à la vue
+       // Pass data to the view
         return view('emails.create', compact('model', 'type', 'object', 'emailTemplate', 'contactMail'));
     }
 
