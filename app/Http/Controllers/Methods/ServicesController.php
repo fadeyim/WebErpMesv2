@@ -58,6 +58,20 @@ class ServicesController extends Controller
     }
 
     /**
+     * Display the specified service.
+     *
+     * @param  int  $id  The ID of the service to display.
+     * @return \Illuminate\View\View  The view displaying the service details.
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException  If no service is found with the given ID.
+     */
+    public function show($id)
+    {
+        $service = MethodsServices::findOrFail($id);
+        return view('methods/methods-services-show', compact('service'));
+    }
+
+    /**
      * Update the specified service in storage.
      *
      * @param \App\Http\Requests\Methods\UpdateServicesRequest $request

@@ -54,6 +54,7 @@
                 <td>{{ $MethodsService->margin }} %</td>
                 <td><input type="color" class="form-control"  name="color" id="color" value="{{ $MethodsService->color }}"></td>
                 <td class="py-0 align-middle">
+                  <x-ButtonTextView route="{{ route('methods.service.show', ['id' => $MethodsService->id])}}" />
                   <!-- Button Modal -->
                   <x-ButtonTextEdit :modalTarget="'MethodsService' . $MethodsService->id" />
                   <!-- Modal {{ $MethodsService->id }} -->
