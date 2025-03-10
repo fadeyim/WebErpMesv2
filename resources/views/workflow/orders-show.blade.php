@@ -181,12 +181,13 @@
                         <td style="width:50%">{{  __('general_content.orders_trans_key') }}</td>
                         <td><x-ButtonTextPDF route="{{ route('pdf.order', ['Document' => $Order->id])}}" /></td>
                     </tr>
+                    @if(config('mail.default') && config('mail.from.address'))
                     <tr>
                       <td style="width:50%">{{ __('general_content.email_trans_key') }}</td>
-                      
                       <td><x-ButtonTextEmail route="{{ route('email.create', ['type' => 'order', 'id' => $Order->id ]) }}" />
                       </td>
                     </tr>
+                    @endif
                     <tr>
                       <td style="width:50%">{{  __('general_content.order_confirm_trans_key') }}</td>
                       <td><x-ButtonTextPDF route="{{ route('pdf.orders.confirm', ['Document' => $Order->id])}}" /></td>

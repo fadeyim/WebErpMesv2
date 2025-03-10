@@ -124,11 +124,13 @@
                     <tr>
                         <td style="width:50%">{{ __('general_content.delivery_notes_trans_key') }}</td>
                         <td><x-ButtonTextPDF route="{{ route('pdf.delivery', ['Document' => $Delivery->id])}}" /></td>
-                    </tr> 
+                    </tr>
+                    @if(config('mail.default') && config('mail.from.address'))
                     <tr>
                       <td style="width:50%">{{ __('general_content.email_trans_key') }}</td>
                       <td><x-ButtonTextEmail route="{{ route('email.create', ['type' => 'delivery', 'id' => $Delivery->id]) }}" /></td>
                     </tr>
+                    @endif
                     @if($Delivery->uuid)
                     <tr>
                       <td style="width:50%">{{ __('general_content.public_link_trans_key') }}</td>

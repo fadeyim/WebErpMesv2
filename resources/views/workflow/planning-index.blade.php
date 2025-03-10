@@ -3,6 +3,7 @@
 @section('title', __('general_content.load_planning_trans_key'))
 
 @section('content_header')
+  <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     <div class="row mb-2">
       <div class="col-sm-8">
         <h1>{{__('general_content.load_planning_trans_key') }}</h1>
@@ -61,79 +62,84 @@
 
   <x-adminlte-card theme="lime" theme-mode="outline">
     <div class="table-responsive">
-      <table  id="tblDemo"  class="table table-hover">
-        <thead>
-          <tr>
-              <th></th>
-              <th>{{__('general_content.service_trans_key') }}</th>
-              @foreach ($possibleDates as $singleDay)
-                  <th>{{ $singleDay }}</th>
-              @endforeach
-          </tr>
-        </thead>
-        <tbody>
-          @foreach ($services as $service)
-            <tr>
-              <td>
-                @if($service->picture )
-                <img alt="Avatar" class="profile-user-img img-fluid img-circle" src="{{ asset('/images/methods/'.$service->picture) }}">
-                @endif
-              </td>
-              <td >{{ $service->label }}</td>
-                @foreach ($possibleDates as $singleDay)
-                    @if (isset($structureRateLoad[$singleDay][$service->id]))
-                        <td 
-                        @php
-                          $tachesComposees = [];
-                          if (isset($tasksPerServiceDay[$service->id][$singleDay])) {
+      <table id="tblDemo" class="table table-hover table-bordered align-middle shadow-sm rounded w-100">
 
-                              foreach ($tasksPerServiceDay[$service->id][$singleDay] as $tache) {
-                                  if ($tache) {
-                                      $tachesComposees[] = '#'. $tache;
-                                  }
-                              }
-                          }
-                          $tooltipContent = implode(', ', $tachesComposees);
-                        @endphp
-                          @if ($displayHoursDiff)
-                              @if(round(16 - ($structureRateLoad[$singleDay][$service->id] / 100) * 16, 2) <= 0) style="background-color:#35ba23; " 
-                              @elseif (round(16 - ($structureRateLoad[$singleDay][$service->id] / 100) * 16, 2) <= 4) style="background-color: #d2e010 ; " 
-                              @elseif (round(16 - ($structureRateLoad[$singleDay][$service->id] / 100) * 16, 2) <= 8) style="background-color: #db7814 ; " 
-                              @elseif (round(16 - ($structureRateLoad[$singleDay][$service->id] / 100) * 16, 2) <= 12) style="background-color: #d6300b ; " 
-                              @else style="background-color: #ff2f00 ; " 
-                              @endif
-                              title="{{ $tooltipContent }}">
-                              @if( round(16 - ($structureRateLoad[$singleDay][$service->id] / 100) * 16, 2) <= 0)
-                                +  {{ round(($structureRateLoad[$singleDay][$service->id] / 100) * 16 - 16, 2) }} h
-                              @else
-                              - {{ round(16 - ($structureRateLoad[$singleDay][$service->id] / 100) * 16, 2) }} h
-                              @endif
-                          @else
-                              @if($structureRateLoad[$singleDay][$service->id] >= 100) style="background-color:#ff2f00; " 
-                              @elseif ($structureRateLoad[$singleDay][$service->id] >= 80) style="background-color: #d6300b ; " 
-                              @elseif ($structureRateLoad[$singleDay][$service->id] >= 50) style="background-color: #db7814 ; " 
-                              @elseif ($structureRateLoad[$singleDay][$service->id] >= 20) style="background-color: #d2e010 ; " 
-                              @else style="background-color: #35ba23 ; " 
-                              @endif
-                              title="{{ $tooltipContent }}">
-                              {{ $structureRateLoad[$singleDay][$service->id] . '%' }}
+          <thead class="bg-primary text-white text-center">
+              <tr>
+                  <th></th>
+                  <th>{{ __('general_content.service_trans_key') }}</th>
+                  @foreach ($possibleDates as $singleDay)
+                      @php
+                          $isWeekend = date('N', strtotime($singleDay)) >= 6;
+                          $weekendClass = $isWeekend ? 'bg-info-subtle text-dark' : 'bg-light';
+                      @endphp
+                      <th class="fw-normal {{ $weekendClass }}">{{ $singleDay }}</th>
+                  @endforeach
+              </tr>
+          </thead>
+          <tbody>
+              @foreach ($services as $service)
+                  <tr class="align-middle">
+                      <!-- Avatar -->
+                      <td class="text-center">
+                          @if ($service->picture)
+                              <img alt="{{ $service->label }}" class="rounded-circle border shadow-sm"
+                                  src="{{ asset('/images/methods/' . $service->picture) }}" width="40" height="40">
                           @endif
-
-                        </td>
-                    @else
-                      @if($displayHoursDiff)
-                          <td style="background-color: #ff2f00 ; " >-16 h
-                      @else
-                          <td style="{{ date('N', strtotime($singleDay)) >= 6 ? 'background-color:#bff0ff;' :'' }}">N/A
-                      @endif
                       </td>
-                    @endif
-                @endforeach
-            </tr>
-          @endforeach
-        </tbody>
+                      
+                      <!-- Nom du service -->
+                      <td class="fw-semibold">{{ $service->label }}</td>
+                      
+                      <!-- Boucle des jours -->
+                      @foreach ($possibleDates as $singleDay)
+                          @php
+                              $isWeekend = date('N', strtotime($singleDay)) >= 6;
+                              $tasksList = $tasksPerServiceDay[$service->id][$singleDay] ?? [];
+                              $tooltipContent = implode(', ', array_map(fn($tache) => '#' . $tache, $tasksList));
+  
+                              $loadPercentage = $structureRateLoad[$singleDay][$service->id] ?? null;
+                              $hoursDiff = $loadPercentage ? round(16 - ($loadPercentage / 100) * 16, 2) : null;
+  
+                              // Définition des couleurs
+                              $bgColor = match (true) {
+                                  is_null($loadPercentage) => $isWeekend ? 'bg-info-subtle' : 'bg-light',
+                                  $displayHoursDiff && $hoursDiff <= 0 => 'bg-success text-white',
+                                  $displayHoursDiff && $hoursDiff <= 4 => 'bg-warning text-dark',
+                                  $displayHoursDiff && $hoursDiff <= 8 => 'bg-orange text-white',
+                                  $displayHoursDiff && $hoursDiff <= 12 => 'bg-danger-light text-white',
+                                  $displayHoursDiff => 'bg-dark text-white',
+                                  $loadPercentage >= 100 => 'bg-danger text-white',
+                                  $loadPercentage >= 80 => 'bg-danger-light',
+                                  $loadPercentage >= 50 => 'bg-orange text-white',
+                                  $loadPercentage >= 20 => 'bg-warning text-dark',
+                                  default => 'bg-success text-white',
+                              };
+  
+                              // Appliquer une teinte plus douce pour le week-end
+                              $finalBgColor = $isWeekend ? 'bg-body-tertiary ' : $bgColor;
+  
+                              // Définition du contenu
+                              $displayValue = match (true) {
+                                  $isWeekend => '<span class="text-muted">Weekend</span>',
+                                  is_null($loadPercentage) => '<span class="text-muted">N/A</span>',
+                                  $displayHoursDiff && $hoursDiff <= 0 => "<i class='bi bi-arrow-up-circle-fill'></i> + " . abs($hoursDiff) . " h",
+                                  $displayHoursDiff => "<i class='bi bi-arrow-down-circle-fill'></i> - " . $hoursDiff . " h",
+                                  default => $loadPercentage . '%',
+                              };
+                          @endphp
+  
+                          <td class="text-center fw-bold {{ $finalBgColor }} rounded-pill p-2 shadow-sm"
+                              data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $tooltipContent }}">
+                              {!! $displayValue !!}
+                          </td>
+                      @endforeach
+                  </tr>
+              @endforeach
+          </tbody>
       </table>
-    </div>
+  </div>
+  
   </x-adminlte-card>
 @stop
 
@@ -141,5 +147,14 @@
 @stop
 
 @section('js')
+  
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>
 @stop
 

@@ -96,10 +96,12 @@
                                 <td style="width:50%">{{ __('general_content.credit_note_trans_key') }}</td>
                                 <td><x-ButtonTextPDF route="{{ route('pdf.credit.note', ['Document' => $CreditNotes->id])}}" /></td>
                             </tr>
+                            @if(config('mail.default') && config('mail.from.address'))
                             <tr>
                                 <td style="width:50%">{{ __('general_content.email_trans_key') }}</td>
                                 <td><x-ButtonTextEmail route="{{ route('email.create', ['type' => 'creditnote', 'id' => $CreditNotes->id]) }}" /></td>
                             </tr>
+                            @endif
                         </table>
                     </div>
                     </x-adminlte-card>

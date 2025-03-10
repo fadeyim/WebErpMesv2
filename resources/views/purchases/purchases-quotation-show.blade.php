@@ -96,10 +96,12 @@
                         @endif
                       </td>
                   </tr>
+                  @if(config('mail.default') && config('mail.from.address'))
                   <tr>
                     <td style="width:50%">{{ __('general_content.email_trans_key') }}</td>
                     <td><x-ButtonTextEmail route="{{ route('email.create', ['type' => 'purchase-quotation', 'id' => $PurchaseQuotation->id]) }}" /></td>
                   </tr>
+                  @endif
                 </table>
               </div>
             </x-adminlte-card>
