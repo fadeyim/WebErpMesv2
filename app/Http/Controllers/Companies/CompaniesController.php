@@ -89,7 +89,7 @@ class CompaniesController extends Controller
         $data['orderMonthlyRecap'] = $this->orderKPIService->getOrderMonthlyRecap($CurentYear, $id->id);
         $data['orderAverage'] = $this->orderKPIService->getAverageOrderPriceAttribute($id->id);
         $data['orderAverage'] = Number::currency($data['orderAverage'], $factory->curency, config('app.locale'));
-        $remainingInvoiceOrder = Number::currency($remainingInvoiceOrder->orderSum, $factory->curency, config('app.locale'));
+        $remainingInvoiceOrder = Number::currency($remainingInvoiceOrder->orderSum ?? 0, $factory->curency, config('app.locale'));
         
         $Companie = $id;
         return view('companies/companies-show', compact('Companie', 
