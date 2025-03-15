@@ -39,20 +39,28 @@ class HumanResourcesController extends Controller
      */
     public function index()
     {
-        $Users = User::orderBy('id')->paginate(20);
-        $userSelect = $this->SelectDataService->getUsers();
-        $SectionsSelect = $this->SelectDataService->getSection();
         $ExpenseReports = UserExpenseReport::where('status', 3)
                                             ->orWhere('status', 5)
                                             ->get();
         $UserExpenseCategories = UserExpenseCategory::All();
 
         return view('admin/human-resources-index', [
-            'Users' => $Users,
-            'userSelect' => $userSelect,
-            'SectionsSelect' =>  $SectionsSelect,
             'UserExpenseCategories' =>  $UserExpenseCategories,
             'ExpenseReports' =>  $ExpenseReports,
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function indexUsers()
+    {
+        $Users = User::orderBy('id')->paginate(20);
+
+        return view('admin/human-resources-users-index', [
+            'Users' => $Users,
         ]);
     }
 

@@ -385,7 +385,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
     Route::group(['prefix' => 'human-resources', 'middleware' => ['auth', 'check.factory']], function () {
         // Index route
         Route::get('/', 'App\Http\Controllers\Admin\HumanResourcesController@index')->name('human.resources');
-    
+
+        // Index User route
+        Route::get('/users', 'App\Http\Controllers\Admin\HumanResourcesController@indexUsers')->name('human.resources.index.users');
+
         // Show User
         Route::get('/user/{id}', 'App\Http\Controllers\Admin\HumanResourcesController@ShowUser')->name('human.resources.show.user');
     

@@ -597,8 +597,20 @@ return [
         [
             'text' => 'human_resources_trans_key',
             'icon' => 'fas fa-users',
-            'url'  => 'human-resources',
+            'url'  => '',
             'can'  => ['human-resources-menu'],
+            'submenu' => [
+                [
+                    'text' => 'expenses_trans_key',
+                    'url'  => 'human-resources',
+                    'icon_color' => 'warning',
+                ],
+                [
+                    'text' => 'users_list_trans_key',
+                    'url'  => 'human-resources/users',
+                    'icon_color' => 'info',
+                ],
+            ],
         ],
         [
             'text' => 'osh_trans_key',

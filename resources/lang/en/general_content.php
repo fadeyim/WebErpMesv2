@@ -1072,6 +1072,7 @@ return [
     'notification_choice_trans_key'            => 'Notification choice',
     'new_user_trans_key'                       => 'New user',
     'new_absence_request_trans_key'            => 'New absence request',
+    'expenses_trans_key'                       => 'Expenses',
     'expense_report_trans_key'                 => 'Expense report',
     'new_expense_report_trans_key'             => 'New expense report',
     'expense_validation_trans_key'             => 'Expense validation',

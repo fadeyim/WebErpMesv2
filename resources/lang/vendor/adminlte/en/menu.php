@@ -66,6 +66,8 @@ return [
     'methods_standard_bom_trans_key'           => 'Nomenclature standard',
     'accounting_trans_key'                     => 'Accounting',
     'human_resources_trans_key'                => 'Human resources',
+    'expenses_trans_key'                       => 'Expenses',
+    'users_list_trans_key'                     => 'Users list',
     'osh_trans_key'                            => 'OSH',
     'incidents_trans_key'                      => 'Incidents',
     'risques_trans_key'                        => 'Risks',
