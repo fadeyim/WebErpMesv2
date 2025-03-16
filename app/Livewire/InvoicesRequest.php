@@ -2,20 +2,18 @@
 
 namespace App\Livewire;
 
-use App\Models\User;
 use Livewire\Component;
 use App\Services\InvoiceService;
 use App\Models\Workflow\Invoices;
 use App\Events\DeliveryLineUpdated;
-use App\Models\Companies\Companies;
 use App\Models\Workflow\OrderLines;
+use App\Services\SelectDataService;
 use Illuminate\Support\Facades\App;
+use App\Services\InvoiceDataService;
 use App\Services\InvoiceLineService;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Workflow\DeliveryLines;
 use App\Services\DocumentCodeGenerator;
-use App\Models\Companies\CompaniesContacts;
-use App\Models\Companies\CompaniesAddresses;
 
 class InvoicesRequest extends Component
 {
@@ -24,7 +22,7 @@ class InvoicesRequest extends Component
     
     public $LastInvoice = null;
 
-    public $DeliverysRequestsLineslist;
+    public $InvoicesRequestsLineslist;
     public $code, $label, $companies_id, $companies_addresses_id, $companies_contacts_id, $user_id; 
     public $updateLines = false;
     public $CompanieSelect = [];
@@ -36,6 +34,9 @@ class InvoicesRequest extends Component
     protected $invoiceLineService;
     protected $invoiceService;
     protected $documentCodeGenerator;
+    protected $DeliveryDataService;
+    protected $SelectDataService;
+    protected $InvoiceDataService;
 
     public function __construct()
     {
@@ -43,6 +44,8 @@ class InvoicesRequest extends Component
         $this->invoiceLineService = App::make(InvoiceLineService::class);
         $this->invoiceService = App::make(InvoiceService::class);
         $this->documentCodeGenerator = App::make(DocumentCodeGenerator::class);
+        $this->SelectDataService = App::make(SelectDataService::class);
+        $this->InvoiceDataService = App::make(InvoiceDataService::class);
     }
 
     // Validation Rules
@@ -76,40 +79,23 @@ class InvoicesRequest extends Component
 
     public function render()
     {
-        $userSelect = User::select('id', 'name')->get();
+        $userSelect = $this->SelectDataService->getUsers();
 
         // Get the unique IDs of the companies in the DeliveryLines list
-        $companyIdsInDeliveryLines = DeliveryLines::where(function ($query) {
-                                                $query->where('delivery_lines.invoice_status', '=', '1')
-                                                    ->orWhere('delivery_lines.invoice_status', '=', '2');
-                                            })
-                                            ->leftJoin('deliverys', 'delivery_lines.deliverys_id', '=', 'deliverys.id')
-                                            ->pluck('deliverys.companies_id')
-                                            ->unique();
+        $companyIdsInDeliveryLines = $this->InvoiceDataService->getUniqueCompanyIdsWithOpenInvoiceLines();
 
         // Filter companies based on unique IDs
-        $this->CompanieSelect = Companies::select('id', 'code','client_type','civility','label','last_name')
-                ->whereIn('id', $companyIdsInDeliveryLines)
-                ->orderBy('code')
-                ->get();
-
-        $AddressSelect = CompaniesAddresses::select('id', 'label','adress')->where('companies_id', $this->companies_id)->get();
-        $ContactSelect = CompaniesContacts::select('id', 'first_name','name')->where('companies_id', $this->companies_id)->get();
+        $this->CompanieSelect = $this->SelectDataService->getCompanies($companyIdsInDeliveryLines);
+        
+        $AddressSelect = $this->SelectDataService->getAddress($this->companies_id);
+        $ContactSelect = $this->SelectDataService->getContact($this->companies_id);
         
         //Select delevery line where not Partly invoiced or Invoiced
-        $InvoicesRequestsLineslist = $this->DeliverysRequestsLineslist = DeliveryLines::orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-                                                                        ->where(
-                                                                            function($query) {
-                                                                                return $query
-                                                                                    ->where('invoice_status', '=', '1')
-                                                                                    ->orWhere('invoice_status', '=', '2');
-                                                                            })
-                                                                        ->whereHas('delivery', function($q){
-                                                                            $q->where('companies_id','like', '%'.$this->companies_id.'%');
-                                                                        })->get();
+        $this->InvoicesRequestsLineslist = $this->InvoiceDataService
+        ->getInvoiceRequestsLines($this->companies_id ? (int) $this->companies_id : null,$this->sortField, $this->sortAsc);
 
         return view('livewire.invoices-request', [
-            'InvoicesRequestsLineslist' => $InvoicesRequestsLineslist,
+            'InvoicesRequestsLineslist' => $this->InvoicesRequestsLineslist,
             'AddressSelect' => $AddressSelect,
             'ContactSelect' => $ContactSelect,
             'userSelect' => $userSelect,

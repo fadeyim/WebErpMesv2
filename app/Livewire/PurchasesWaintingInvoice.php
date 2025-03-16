@@ -2,15 +2,14 @@
 
 namespace App\Livewire;
 
-use App\Models\User;
 use Livewire\Component;
-use Illuminate\Support\Facades\DB;
-use App\Models\Companies\Companies;
+use App\Services\SelectDataService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Purchases\PurchaseLines;
 use App\Services\DocumentCodeGenerator;
 use App\Services\AccountingEntryService;
+use App\Services\PurchaseInvoiceService;
 use App\Models\Purchases\PurchaseInvoice;
 use App\Models\Purchases\PurchaseInvoiceLines;
 use App\Models\Purchases\PurchaseReceiptLines;
@@ -26,7 +25,6 @@ class PurchasesWaintingInvoice extends Component
     public $LastInvoice;
     public $document_type = 'PU-IN';
 
-    public $PurchasesWaintingInvoiceLineslist;
     public $code, $user_id; 
     public $updateLines = false;
     public $CompanieSelect = [];
@@ -34,12 +32,16 @@ class PurchasesWaintingInvoice extends Component
 
     protected $accountingEntryService;
     protected $documentCodeGenerator;
+    protected $SelectDataService;
+    protected $purchaseInvoiceService;
 
     public function __construct()
     {
         // Resolve the service via the Laravel container
         $this->accountingEntryService = App::make(AccountingEntryService::class);
         $this->documentCodeGenerator = App::make(DocumentCodeGenerator::class);
+        $this->SelectDataService = App::make(SelectDataService::class);
+        $this->purchaseInvoiceService = App::make(PurchaseInvoiceService::class);
     }
 
     // Validation Rules
@@ -69,22 +71,19 @@ class PurchasesWaintingInvoice extends Component
         $purchaseInvoicetId = $this->LastInvoice ? $this->LastInvoice->id : 0;
         $this->code = $this->documentCodeGenerator->generateDocumentCode('purchase-invoice', $purchaseInvoicetId);
         $this->label = $this->code;
-
-        $this->CompanieSelect = Companies::select('id', 'code','client_type','civility','label','last_name')->where('statu_supplier', '=', 2)->orderBy('code')->get();
     }
 
     
     public function render()
     {
-        $userSelect = User::select('id', 'name')->get();
-        //Select task where statu is open and only purchase type
-        $PurchasesWaintingInvoiceLineslist = $this->PurchasesWaintingInvoiceLineslist = PurchaseReceiptLines::orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-                                                        ->whereHas('purchaseLines', function($query) {
-                                                            $query->whereColumn('invoiced_qty', '<', 'qty')->whereHas('purchase', function($q){
-                                                                $q->where('companies_id','like', '%'.$this->companies_id.'%');
-                                                            }); // Comparer receipt_qty avec qty
-                                                        })
-                                                        ->get();
+        $userSelect = $this->SelectDataService->getUsers();
+
+        $companyIdsInRecieptLines = $this->purchaseInvoiceService->getUniqueCompanyIdsWithOpenPurchaseReceiptLines();
+
+        $this->CompanieSelect = $this->SelectDataService->getSupplier($companyIdsInRecieptLines); 
+
+        $PurchasesWaintingInvoiceLineslist = $this->purchaseInvoiceService
+        ->getPurchasesWaintingInvoiceLines($this->companies_id, $this->sortField, $this->sortAsc);
 
         return view('livewire.purchases-wainting-invoice', [
             'PurchasesWaintingInvoiceLineslist' => $PurchasesWaintingInvoiceLineslist,

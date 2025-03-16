@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\Planning\Task;
 use App\Models\Planning\Status;
 use App\Models\Companies\Companies;
+use App\Services\SelectDataService;
 use Illuminate\Support\Facades\App;
 use App\Services\PurchaseOrderService;
 use App\Services\PurchaseQuotationService;
@@ -35,12 +36,14 @@ class PurchasesRequest extends Component
     // Services for handling purchase orders and quotations
     protected $purchaseOrderService;
     protected $purchaseQuotationService;
-
+    protected $SelectDataService;
+    
     public function __construct()
     {
         // Resolve the service via the Laravel container
         $this->purchaseOrderService = App::make(PurchaseOrderService::class);
         $this->purchaseQuotationService = App::make(PurchaseQuotationService::class);
+        $this->SelectDataService = App::make(SelectDataService::class);
     }
 
     // Validation Rules
@@ -67,11 +70,6 @@ class PurchasesRequest extends Component
         // Get the last purchase and quotation codes
         $this->LastPurchase = $this->purchaseOrderService->generatePurchaseCode();
         $this->LastPurchaseQuotation = $this->purchaseQuotationService->generatePurchasesQuotationCode();
-        // Get the list of companies that are suppliers
-        $this->CompanieSelect = Companies::select('id', 'code','client_type','civility','label','last_name')
-                                            ->where('statu_supplier', '=', 2)
-                                            ->orderBy('code')
-                                            ->get();
     }
     
     public function sortBy($field)
@@ -104,7 +102,10 @@ class PurchasesRequest extends Component
     public function render()
     {
         // Get the list of users and the first status
-        $userSelect = User::select('id', 'name')->get();
+        $userSelect = $this->SelectDataService->getUsers();
+
+        $this->CompanieSelect = $this->SelectDataService->getSupplier(); 
+        
         $Status = Status::select('id')->orderBy('order')->first();
         //Select task where statu is open and only purchase type
         $PurchasesRequestsLineslist = $this->PurchasesRequestsLineslist = Task::orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')

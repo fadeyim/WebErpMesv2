@@ -2,21 +2,19 @@
 
 namespace App\Livewire;
 
-use App\Models\User;
 use Livewire\Component;
 use App\Services\StockService;
 use App\Events\OrderLineUpdated;
 use App\Services\DeliveryService;
 use App\Models\Workflow\Deliverys;
-use App\Models\Companies\Companies;
 use App\Models\Workflow\OrderLines;
+use App\Services\SelectDataService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use App\Services\DeliveryDataService;
 use App\Services\DeliveryLineService;
 use App\Services\SerialNumberService;
 use App\Services\DocumentCodeGenerator;
-use App\Models\Companies\CompaniesContacts;
-use App\Models\Companies\CompaniesAddresses;
 use App\Models\Products\StockLocationProducts;
 
 class DeliverysRequest extends Component
@@ -26,6 +24,8 @@ class DeliverysRequest extends Component
     protected $documentCodeGenerator;
     protected $stockService;
     protected $SerialNumberService;
+    protected $SelectDataService;
+    protected $DeliveryDataService;
     
     public function __construct()
     {
@@ -35,6 +35,8 @@ class DeliverysRequest extends Component
         $this->documentCodeGenerator = App::make(DocumentCodeGenerator::class);
         $this->stockService = App::make(StockService::class);
         $this->SerialNumberService = App::make(SerialNumberService::class); 
+        $this->SelectDataService = App::make(SelectDataService::class);
+        $this->DeliveryDataService = App::make(DeliveryDataService::class);
     }
 
     //use WithPagination;
@@ -88,44 +90,23 @@ class DeliverysRequest extends Component
 
     public function render()
     {
-        $userSelect = User::select('id', 'name')->get();
+        $userSelect = $this->SelectDataService->getUsers();
 
         // Get the unique IDs of the companies in the order list
-        $companyIdsInOrderLines = OrderLines::where(function ($query) {
-                                                $query->where('delivery_status', '=', '1')
-                                                    ->orWhere('delivery_status', '=', '2');
-                                            })
-                                            ->leftJoin('orders', 'order_lines.orders_id', '=', 'orders.id')
-                                            ->pluck('orders.companies_id')
-                                            ->unique();
-
+        $companyIdsInOrderLines = $this->DeliveryDataService->getUniqueCompanyIdsWithOpenOrderLines();
+                                
         // Filter companies based on unique IDs
-        $this->CompanieSelect = Companies::select('id', 'code','client_type','civility','label','last_name')
-                                            ->whereIn('id', $companyIdsInOrderLines)
-                                            ->orderBy('code')
-                                            ->get();
+        $this->CompanieSelect = $this->SelectDataService->getCompanies($companyIdsInOrderLines);
         
-
-        $AddressSelect = CompaniesAddresses::select('id', 'label','adress')->where('companies_id', $this->companies_id)->get();
-        $ContactSelect = CompaniesContacts::select('id', 'first_name','name')->where('companies_id', $this->companies_id)->get();
+        $AddressSelect = $this->SelectDataService->getAddress($this->companies_id);
+        $ContactSelect = $this->SelectDataService->getContact($this->companies_id);
         
         //Select order line where not delivered or partialy delivered
-        $DeliverysRequestsLineslist = $this->DeliverysRequestsLineslist = OrderLines::orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-                                                                        ->where(
-                                                                            function($query) {
-                                                                                return $query
-                                                                                    ->where('delivery_status', '=', '1')
-                                                                                    ->orWhere('delivery_status', '=', '2');
-                                                                            })
-                                                                        ->whereHas('order', function($q){
-                                                                            $q->where('companies_id','like', '%'.$this->companies_id.'%')
-                                                                                ->where('type', '=', '1');
-                                                                        })->get();
-
-        
-
+        $this->DeliverysRequestsLineslist = $this->DeliveryDataService
+        ->getDeliveryRequestsLines($this->companies_id, $this->sortField, $this->sortAsc);
+    
         return view('livewire.deliverys-request', [
-            'DeliverysRequestsLineslist' => $DeliverysRequestsLineslist,
+            'DeliverysRequestsLineslist' => $this->DeliverysRequestsLineslist,
             'AddressSelect' => $AddressSelect,
             'ContactSelect' => $ContactSelect,
             'userSelect' => $userSelect,

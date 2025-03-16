@@ -38,26 +38,23 @@ class SelectDataService
 
     
     /**
-     * Retrieve a list of active companies with specific customer statuses.
+     * Retrieve a list of active companies with specific customer statuses,
+     * optionally filtered by provided company IDs.
      *
-     * This method fetches companies from the database where the 'active' field is set to 1
-     * and the 'statu_customer' field is either 2 or 3. The results are ordered by the 'label' field.
-     *
-     * @return \Illuminate\Support\Collection A collection of companies with the following fields:
-     *                                        - id
-     *                                        - code
-     *                                        - client_type
-     *                                        - civility
-     *                                        - label
-     *                                        - last_name
+     * @param  \Illuminate\Support\Collection|array|null  $companyIdsInOrderLines
+     * @return \Illuminate\Support\Collection
      */
-    public function getCompanies()
+    public function getCompanies($companyIdsInOrderLines = null)
     {
-        return Companies::select('id', 'code', 'client_type', 'civility', 'label', 'last_name')
-                            ->orderBy('label')
-                            ->where('active', 1)
-                            ->whereIn('statu_customer', [2, 3])
-                            ->get(); 
+        $query = Companies::select('id', 'code', 'client_type', 'civility', 'label', 'last_name')
+                        ->where('active', 1)
+                        ->whereIn('statu_customer', [2, 3]);
+
+        if (!empty($companyIdsInOrderLines)) {
+            $query->whereIn('id', $companyIdsInOrderLines);
+        }
+
+        return $query->orderBy('code')->get();
     }
 
     /**
@@ -67,14 +64,19 @@ class SelectDataService
      * orders the results by the 'label' column, and filters the results
      * to include only those where the 'statu_supplier' column has a value of 2.
      *
-     * @return \Illuminate\Support\Collection A collection of supplier records.
+     * @param  \Illuminate\Support\Collection|array|null  $companyIdsInPurchaseLines
+     * @return \Illuminate\Support\Collection
      */
-    public function getSupplier()
+    public function getSupplier($companyIdsInPurchaseLines = null)
     {
-        return Companies::select('id', 'code','client_type','civility','label','last_name')
-                        ->orderBy('label')
-                        ->where('statu_supplier', 2)
-                        ->get();
+        $query = Companies::select('id', 'code','client_type','civility','label','last_name')
+                        ->where('statu_supplier', 2);
+
+        if (!empty($companyIdsInPurchaseLines)) {
+            $query->whereIn('id', $companyIdsInPurchaseLines);
+        }
+
+        return $query->orderBy('code')->get();
     }
 
     /**

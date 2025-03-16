@@ -2,13 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Models\User;
 use Livewire\Component;
 use App\Services\TaskService;
-use App\Models\Companies\Companies;
+use App\Services\SelectDataService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Purchases\PurchaseLines;
 use App\Services\DocumentCodeGenerator;
 use App\Services\PurchaseReceiptService;
 use App\Models\Purchases\PurchaseReceipt;
@@ -23,7 +21,7 @@ class PurchasesWaintingReceipt extends Component
     public $document_type = 'RC';
     public $deliveryNoteNumber;
 
-    public $PurchasesWaintingReceiptLineslist;
+
     public $code, $label, $user_id; 
     public $updateLines = false;
     public $CompanieSelect = [];
@@ -32,6 +30,7 @@ class PurchasesWaintingReceipt extends Component
     protected $taskService;
     protected $purchaseReceiptService;
     protected $documentCodeGenerator;
+    protected $SelectDataService;
 
     public function __construct()
     {
@@ -39,6 +38,7 @@ class PurchasesWaintingReceipt extends Component
         $this->taskService = App::make(TaskService::class);
         $this->purchaseReceiptService = App::make(PurchaseReceiptService::class);
         $this->documentCodeGenerator = App::make(DocumentCodeGenerator::class);
+        $this->SelectDataService = App::make(SelectDataService::class);
     }
 
     // Validation Rules
@@ -71,19 +71,18 @@ class PurchasesWaintingReceipt extends Component
         $this->code = $this->documentCodeGenerator->generateDocumentCode('purchase-receipt', $purchaseReceiptId);
         $this->label = $this->code;
 
-        $this->CompanieSelect = Companies::select('id', 'label', 'code')->where('statu_supplier', '=', 2)->orderBy('code')->get();
     }
 
     public function render()
     {
-        $userSelect = User::select('id', 'name')->get();
-        //Select task where statu is open and only purchase type
-        $PurchasesWaintingReceiptLineslist = $this->PurchasesWaintingReceiptLineslist = PurchaseLines::orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-                                                                                        ->where('receipt_qty','<=', 'qty')
-                                                                                        ->whereHas('purchase', function($q){
-                                                                                            $q->where('companies_id','like', '%'.$this->companies_id.'%');
-                                                                                        })
-                                                                                        ->get();
+        $userSelect = $this->SelectDataService->getUsers();
+
+        $companyIdsInPurchaseLines = $this->purchaseReceiptService->getUniqueCompanyIdsWithOpenPurchaseLines();
+
+        $this->CompanieSelect = $this->SelectDataService->getSupplier($companyIdsInPurchaseLines); 
+
+        $PurchasesWaintingReceiptLineslist = $this->purchaseReceiptService
+        ->getPurchasesWaintingReceiptLines($this->companies_id, $this->sortField, $this->sortAsc);
 
         return view('livewire.purchases-wainting-receipt', [
             'PurchasesWaintingReceiptLineslist' => $PurchasesWaintingReceiptLineslist,

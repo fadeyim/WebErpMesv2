@@ -160,29 +160,29 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
 
     Route::group(['prefix' => 'purchases', 'middleware' => ['auth', 'check.factory', 'check.task.status']], function () {
         
-        Route::get('/request', 'App\Http\Controllers\Purchases\PurchasesController@request')->name('purchases.request'); 
-        Route::get('/quotation', 'App\Http\Controllers\Purchases\PurchasesController@quotation')->name('purchases.quotation'); 
+        Route::get('/request', 'App\Http\Controllers\Purchases\PurchasesRFQController@request')->name('purchases.request'); 
+        Route::get('/quotation', 'App\Http\Controllers\Purchases\PurchasesRFQController@quotation')->name('purchases.quotation'); 
         Route::get('/', 'App\Http\Controllers\Purchases\PurchasesController@purchase')->name('purchases'); 
         
         Route::post('/', 'App\Http\Controllers\Purchases\PurchasesController@storeBankPurchase')->name('purchases.store'); 
-        Route::get('/waiting/receipt', 'App\Http\Controllers\Purchases\PurchasesController@waintingReceipt')->name('purchases.wainting.receipt'); 
-        Route::get('/receipt', 'App\Http\Controllers\Purchases\PurchasesController@receipt')->name('purchases.receipt'); 
-        Route::get('/waiting/invoice', 'App\Http\Controllers\Purchases\PurchasesController@waintingInvoice')->name('purchases.wainting.invoice'); 
-        Route::get('/invoice', 'App\Http\Controllers\Purchases\PurchasesController@invoice')->name('purchases.invoice'); 
+        Route::get('/waiting/receipt', 'App\Http\Controllers\Purchases\PurchasesReceiptController@waintingReceipt')->name('purchases.wainting.receipt'); 
+        Route::get('/receipt', 'App\Http\Controllers\Purchases\PurchasesReceiptController@receipt')->name('purchases.receipt'); 
+        Route::get('/waiting/invoice', 'App\Http\Controllers\Purchases\PurchasesInvoiceController@waintingInvoice')->name('purchases.wainting.invoice'); 
+        Route::get('/invoice', 'App\Http\Controllers\Purchases\PurchasesInvoiceController@invoice')->name('purchases.invoice'); 
 
         //only for quote request to purchase order
         Route::post('/Purchase/Order/Create/{id}', 'App\Http\Controllers\Purchases\PurchasesController@storePurchaseOrderFromRFQ')->middleware(['auth'])->name('purchases.orders.store');
         
         Route::post('/edit/{id}', 'App\Http\Controllers\Purchases\PurchasesController@updatePurchase')->middleware(['auth'])->name('purchase.update');
-        Route::post('/quotation/edit/{id}', 'App\Http\Controllers\Purchases\PurchasesController@updatePurchaseQuotation')->middleware(['auth'])->name('quotation.update');
-        Route::post('/receipt/edit/{id}', 'App\Http\Controllers\Purchases\PurchasesController@updatePurchaseReceipt')->middleware(['auth'])->name('receipt.update');
-        Route::post('/receipt/control/{id}', 'App\Http\Controllers\Purchases\PurchasesController@updateReceptionControl')->middleware(['auth'])->name('purchase.receipts.reception_control');
-        Route::post('/invoice/edit/{id}', 'App\Http\Controllers\Purchases\PurchasesController@updatePurchaseInvoice')->middleware(['auth'])->name('invoice.update');
+        Route::post('/quotation/edit/{id}', 'App\Http\Controllers\Purchases\PurchasesRFQController@updatePurchaseQuotation')->middleware(['auth'])->name('quotation.update');
+        Route::post('/receipt/edit/{id}', 'App\Http\Controllers\Purchases\PurchasesReceiptController@updatePurchaseReceipt')->middleware(['auth'])->name('receipt.update');
+        Route::post('/receipt/control/{id}', 'App\Http\Controllers\Purchases\PurchasesReceiptController@updateReceiptControl')->middleware(['auth'])->name('purchase.receipts.reception_control');
+        Route::post('/invoice/edit/{id}', 'App\Http\Controllers\Purchases\PurchasesInvoiceController@updatePurchaseInvoice')->middleware(['auth'])->name('invoice.update');
 
         Route::get('/{id}', 'App\Http\Controllers\Purchases\PurchasesController@showPurchase')->middleware(['auth'])->name('purchases.show');
-        Route::get('/quotation/{id}', 'App\Http\Controllers\Purchases\PurchasesController@showQuotation')->middleware(['auth'])->name('purchases.quotations.show');
-        Route::get('/receipt/{id}', 'App\Http\Controllers\Purchases\PurchasesController@showReceipt')->middleware(['auth'])->name('purchase.receipts.show');
-        Route::get('/invoice/{id}', 'App\Http\Controllers\Purchases\PurchasesController@showInvoice')->middleware(['auth'])->name('purchase.invoices.show');
+        Route::get('/quotation/{id}', 'App\Http\Controllers\Purchases\PurchasesRFQController@showQuotation')->middleware(['auth'])->name('purchases.quotations.show');
+        Route::get('/receipt/{id}', 'App\Http\Controllers\Purchases\PurchasesReceiptController@showReceipt')->middleware(['auth'])->name('purchase.receipts.show');
+        Route::get('/invoice/{id}', 'App\Http\Controllers\Purchases\PurchasesInvoiceController@showInvoice')->middleware(['auth'])->name('purchase.invoices.show');
     });
 
     Route::group(['prefix' => 'print', 'middleware' => ['auth', 'check.factory']], function () {

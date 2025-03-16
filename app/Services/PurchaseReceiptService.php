@@ -2,12 +2,14 @@
 
 namespace App\Services;
 
+use App\Models\Planning\Task;
+use App\Models\Planning\Status;
+use Illuminate\Support\Collection;
+use App\Events\PurchaseReceiptCreated;
+use App\Models\Purchases\PurchaseLines;
 use App\Models\Purchases\PurchaseReceipt;
 use App\Models\Purchases\PurchaseReceiptLines;
-use App\Models\Purchases\PurchaseLines;
-use App\Models\Planning\Status;
-use App\Models\Planning\Task;
-use App\Events\PurchaseReceiptCreated;
+
 class PurchaseReceiptService
 {
     protected $taskService;
@@ -93,5 +95,43 @@ class PurchaseReceiptService
         }
 
         throw new \Exception('No lines selected');
+    }
+
+
+    /**
+     * Get purchase lines that are waiting for receipt.
+     *
+     * This function retrieves purchase lines that have not yet been fully received.
+     * It allows sorting by a specified field and direction, and optionally filters by company ID.
+     *
+     * @param int|null $companies_id The ID of the company to filter by (optional).
+     * @param string $sortField The field to sort by (default is 'id').
+     * @param bool $sortAsc Whether to sort in ascending order (default is true).
+     * @return \Illuminate\Database\Eloquent\Collection The collection of purchase lines waiting for receipt.
+     */
+    public function getPurchasesWaintingReceiptLines($companies_id = null, $sortField = 'id', $sortAsc = true)
+    {
+        return PurchaseLines::orderBy($sortField, $sortAsc ? 'asc' : 'desc')
+        ->where('receipt_qty','<=', 'qty')
+        ->whereHas('purchase', function($q)use ($companies_id) {
+            $q->where('companies_id','like', '%'. $companies_id .'%');
+        })
+        ->get();
+    }
+
+    /**
+     * Get unique company IDs from order lines with specific delivery statuses.
+     *
+     * @return Collection
+     */
+    public function getUniqueCompanyIdsWithOpenPurchaseLines(): Collection
+    {
+        return PurchaseLines::where('receipt_qty','<=', 'qty')
+                            ->leftJoin('purchases', 'purchase_lines.purchases_id', '=', 'purchases.id')
+                            ->pluck('purchases.companies_id')
+                            ->filter()
+                            ->unique()
+                            ->map(fn($id) => (int)$id)
+                            ->values();
     }
 }
