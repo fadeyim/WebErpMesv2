@@ -41,3 +41,6 @@ https://github.com/user-attachments/assets/200e1322-ae60-4270-aa9c-0a28e5ca737a
 
 
 
+
+## C# Prototype
+A new `CSharp` directory contains an early ASP.NET Core skeleton for a future C# port.
