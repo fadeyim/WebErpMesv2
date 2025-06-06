@@ -61,8 +61,8 @@ class OrdersController extends Controller
         $data['orderMonthlyRecapPreviousYear'] = $this->orderKPIService->getOrderMonthlyRecapPreviousYear($CurentYear);
 
         
-        $remainingDeliveryOrder = Number::currency($remainingDeliveryOrder->orderSum , $factory->curency, config('app.locale'));
-        $remainingInvoiceOrder = Number::currency($remainingInvoiceOrder->orderSum , $factory->curency, config('app.locale'));
+        $remainingDeliveryOrder = Number::currency(number: $remainingDeliveryOrder->orderSum , in: $factory->curency, locale: config(key: 'app.locale'));
+        $remainingInvoiceOrder = Number::currency(number: $remainingInvoiceOrder->orderSum , in: $factory->curency, locale: config(key: 'app.locale'));
 
         return view('workflow/orders-index', compact(
             'deliveredOrdersPercentage',
