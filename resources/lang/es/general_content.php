@@ -912,6 +912,8 @@ return [
 
     'licence_trans_key'                    => 'Licencia',
     'release_note_trans_key'               => 'Notas de la versión',
+    'reports_trans_key'                    => 'Informes',
+    'coming_soon_trans_key'                => 'Próximamente',
 
     'search_results_trans_key'             => 'Resultados de búsqueda',
 

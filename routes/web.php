@@ -27,6 +27,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
     Route::post('/order/ratings', 'App\Http\Controllers\Workflow\OrdersRatingController@store')->name('order.ratings.store');
 
     Route::get('/dashboard', 'App\Http\Controllers\HomeController@index')->middleware(['auth', 'check.factory'])->name('dashboard');
+    Route::get('/reports', function () {
+        return view('reports.index');
+    })->middleware(['auth', 'check.factory'])->name('reports');
 
     Route::group(['prefix' => 'workshop', 'middleware' => ['auth', 'check.factory']], function () {
         Route::get('/', 'App\Http\Controllers\Workshop\WorkshopController@index')->middleware(['auth', 'check.factory'])->name('workshop');

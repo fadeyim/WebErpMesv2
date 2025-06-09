@@ -1079,6 +1079,8 @@ return [
 
     'licence_trans_key'                        => 'Licence',
     'release_note_trans_key'                   => 'Release notes',
+    'reports_trans_key'                        => 'Reports',
+    'coming_soon_trans_key'                    => 'Coming soon',
     
     'search_results_trans_key'                 => 'Search results',
 
