@@ -186,6 +186,7 @@ class QuotesIndex extends Component
     {
         if(is_numeric($this->idCompanie)){
             $Quotes = Quotes::withCount('QuoteLines')
+                            ->with(['Orders.processingLocation'])
                             ->where('companies_id', $this->idCompanie)
                             ->where('statu', 'like', '%'.$this->searchIdStatus.'%')
                             ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
@@ -193,6 +194,7 @@ class QuotesIndex extends Component
         }
         else{
             $Quotes = Quotes::withCount('QuoteLines')
+                            ->with(['Orders.processingLocation'])
                             ->where('label','like', '%'.$this->search.'%')
                             ->where('statu', 'like', '%'.$this->searchIdStatus.'%')
                             ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
