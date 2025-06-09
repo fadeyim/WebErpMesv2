@@ -31,6 +31,7 @@ class StoreAdressRequest extends FormRequest
             'adress'=>'required',
             'zipcode'=>'required',
             'city'=>'required',
+            'province'=>'nullable|string',
             'country'=>'required',
             'number'=>'nullable|string',
             'mail'=>'nullable|string',

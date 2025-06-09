@@ -21,8 +21,9 @@ class CreateCompaniesAddressesTable extends Migration {
 			$table->string('label');
 			$table->string('adress')->nullable();
 			$table->string('zipcode')->nullable();
-			$table->string('city')->nullable();
-			$table->string('country')->nullable();
+                        $table->string('city')->nullable();
+                        $table->string('province')->nullable();
+                        $table->string('country')->nullable();
 			$table->string('number')->nullable();
 			$table->string('mail')->nullable();
 			$table->timestamps();
