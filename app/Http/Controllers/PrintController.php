@@ -156,7 +156,7 @@ class PrintController extends Controller
 
         // Ajout des taxes et lignes de produits
         foreach($vatPrice as $vat) {
-            $zugferddatas->addDocumentTax("S", "VAT", $subPrice, $vat[1], $vat[0]); // $vat[1] est le montant, $vat[0] est le taux
+            $zugferddatas->addDocumentTax("S", "Tax Codes", $subPrice, $vat[1], $vat[0]); // $vat[1] est le montant, $vat[0] est le taux
         }
         $totalVAT = array_sum(array_column($vatPrice, 1));
         $zugferddatas->setDocumentSummation($totalPrice, $totalPrice, $subPrice, $totalVAT, 0.0, $subPrice, null, null, 0.0);
@@ -169,7 +169,7 @@ class PrintController extends Controller
                 ->setDocumentPositionGrossPrice($line->OrderLine->selling_price)
                 ->setDocumentPositionNetPrice($line->OrderLine->selling_price)
                 ->setDocumentPositionQuantity($line->qty, "H87")
-                ->addDocumentPositionTax('S', 'VAT', $line->OrderLine->VAT['rate'])
+                ->addDocumentPositionTax('S', 'Tax Codes', $line->OrderLine->VAT['rate'])
                 ->setDocumentPositionLineSummation($line->OrderLine->selling_price * $line->qty);
         }
 

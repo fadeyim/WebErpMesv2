@@ -31,8 +31,8 @@ for run to production, follow this link :  [wiki page (install to run)](https://
 ![image](https://github.com/user-attachments/assets/f527881c-a7c4-460a-9b06-f647c91402d8)
 
 ### Post-install configuration
-Before you can add quote lines you must set a default **VAT** and a default **Unit**.
-Open the application and navigate to **Accounting → VAT** and **Methods → Units**,
+Before you can add quote lines you must set a default **Tax Codes** and a default **Unit**.
+Open the application and navigate to **Accounting → Tax Codes** and **Methods → Units**,
 then edit one item in each list and mark it as default. Without these defaults the
 quote form will refuse new lines.
 

@@ -231,7 +231,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
             Route::post('/edit/{id}', 'App\Http\Controllers\Accounting\PaymentMethodController@update')->name('accounting.paymentMethod.update');
         });
     
-        // Routes for VAT
+        // Routes for Tax Codes
         Route::prefix('vat')->group(function () {
             Route::post('/create', 'App\Http\Controllers\Accounting\VatController@store')->name('accounting.vat.create');
             Route::post('/edit/{id}', 'App\Http\Controllers\Accounting\VatController@update')->name('accounting.vat.update');

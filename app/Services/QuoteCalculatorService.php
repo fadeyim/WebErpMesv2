@@ -17,13 +17,13 @@ class QuoteCalculatorService
     }
 
     /**
-     * Calculate the total VAT for all quote lines.
+     * Calculate the total Tax Codes for all quote lines.
      *
-     * This function iterates through all quote lines, calculates the VAT for each line,
-     * and aggregates the VAT amounts by their respective accounting VAT IDs.
+     * This function iterates through all quote lines, calculates the Tax Codes for each line,
+     * and aggregates the Tax Codes amounts by their respective accounting VAT IDs.
      *
      * @return array An associative array where the keys are accounting VAT IDs and the values are arrays
-     *               containing the VAT rate and the total VAT amount for that rate.
+     *               containing the VAT rate and the total Tax Codes amount for that rate.
      */
     public function getVatTotal()
     {
@@ -44,10 +44,10 @@ class QuoteCalculatorService
     }
 
     /**
-     * Calculate the total price of the quote including VAT and discounts.
+     * Calculate the total price of the quote including Tax Codes and discounts.
      *
      * This method iterates through each quote line, calculates the line total
-     * by applying the discount and VAT, and sums up the total price.
+     * by applying the discount and Tax Codes, and sums up the total price.
      *
      * @return float The total price of the quote.
      */

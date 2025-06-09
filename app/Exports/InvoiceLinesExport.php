@@ -27,7 +27,7 @@ class InvoiceLinesExport implements FromCollection , WithHeadings, WithMapping
             'UNIT',
             'PRICE',
             'DISCOUNT',
-            'VAT RATE',
+            'Tax Codes RATE',
         ];
     }
 

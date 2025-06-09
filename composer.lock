@@ -1419,7 +1419,7 @@
                     "role": "Developer"
                 }
             ],
-            "description": "EU VAT numbers validation using the VIES Service of the European Commission",
+            "description": "EU Tax Codes numbers validation using the VIES Service of the European Commission",
             "homepage": "https://github.com/DragonBe/vies",
             "keywords": [
                 "ec",
