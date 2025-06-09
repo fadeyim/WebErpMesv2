@@ -16,7 +16,7 @@
             <p><strong>Code :</strong> {{ $service->code }}</p>
             <p><strong>Label :</strong> {{ $service->label }}</p>
             <p><strong>Type :</strong> {{ $service->type }}</p>
-            <p><strong>Taux Horaire :</strong> {{ number_format($service->hourly_rate, 2, ',', ' ') }} €</p>
+            <p><strong>Taux Horaire :</strong> {{ number_format($service->hourly_rate, 2, ',', ' ') }} $</p>
             <p><strong>Marge :</strong> {{ number_format($service->margin, 2, ',', ' ') }} %</p>
             <p><strong>Créé le :</strong> {{ $service->getPrettyCreatedAttribute() }}</p>
 
@@ -46,9 +46,9 @@
             var serviceChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Taux Horaire (€)', 'Marge (€)'],
+                    labels: ['Taux Horaire ($)', 'Marge ($)'],
                     datasets: [{
-                        label: 'Valeurs (€)',
+                        label: 'Valeurs ($)',
                         data: [
                             {{ $service->hourly_rate }}, 
                             {{ ($service->hourly_rate * (1 + $service->margin / 100))-$service->hourly_rate }}
