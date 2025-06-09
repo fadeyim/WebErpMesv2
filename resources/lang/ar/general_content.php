@@ -911,6 +911,8 @@ return [
 
     'licence_trans_key'                     => 'ترخيص',
     'release_note_trans_key'                => 'ملاحظات الإصدار',
+    'reports_trans_key'                     => 'التقارير',
+    'coming_soon_trans_key'                 => 'قريباً',
 
     'search_results_trans_key'              => 'نتائج البحث',
 

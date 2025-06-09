@@ -114,6 +114,8 @@ return [
     'your_company_trans_key'                   => 'Công ty',
     'licence_trans_key'                        => 'Giấy phép',
     'release_note_trans_key'                   => 'Nhật ký phát hành',
+    'reports_trans_key'                        => 'Báo cáo',
+    'coming_soon_trans_key'                    => 'Sắp ra mắt',
     
     'search_results_trans_key'                 => 'Kết quả tìm kiếm',
 ];
