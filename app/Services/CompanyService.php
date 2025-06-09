@@ -15,17 +15,17 @@ class CompanyService
     }
 
     /**
-     * Validates a VAT number for a given country code.
+     * Validates a Tax Codes number for a given country code.
      *
      * This function uses the VIES (VAT Information Exchange System) service to validate
-     * the VAT number if VAT validation is enabled via the .env configuration.
+     * the Tax Codes number if VAT validation is enabled via the .env configuration.
      *
-     * @param string $countryCode The country code for the VAT number.
-     * @param string $vatNumber The VAT number to be validated.
-     * @return bool Returns true if the VAT number is valid, false otherwise.
+     * @param string $countryCode The country code for the Tax Codes number.
+     * @param string $vatNumber The Tax Codes number to be validated.
+     * @return bool Returns true if the Tax Codes number is valid, false otherwise.
      *              If VAT validation is disabled via .env, it returns true.
      *              If the VIES service is not available or an exception occurs, it returns false.
-     * @throws ViesException If there is an error during the VAT validation process.
+     * @throws ViesException If there is an error during the Tax Codes validation process.
      */
     public function validateVatNumber($countryCode, $vatNumber)
     {      

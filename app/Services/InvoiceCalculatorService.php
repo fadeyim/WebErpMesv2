@@ -20,15 +20,15 @@ class InvoiceCalculatorService
     }
 
     /**
-     * Calculate the total VAT for all invoice lines.
+     * Calculate the total Tax Codes for all invoice lines.
      *
-     * This method iterates through all invoice lines, calculates the VAT for each line,
-     * and aggregates the VAT amounts by their respective VAT rates. The result is an
+     * This method iterates through all invoice lines, calculates the Tax Codes for each line,
+     * and aggregates the Tax Codes amounts by their respective VAT rates. The result is an
      * associative array where the keys are the accounting VAT IDs and the values are
-     * arrays containing the VAT rate and the total VAT amount for that rate.
+     * arrays containing the VAT rate and the total Tax Codes amount for that rate.
      *
      * @return array An associative array where the keys are the accounting VAT IDs and
-     *               the values are arrays containing the VAT rate and the total VAT amount.
+     *               the values are arrays containing the VAT rate and the total Tax Codes amount.
      */
     public function getVatTotal()
     {
@@ -50,13 +50,13 @@ class InvoiceCalculatorService
 
 
     /**
-     * Calculate the total price of all invoice lines including VAT and discounts.
+     * Calculate the total price of all invoice lines including Tax Codes and discounts.
      *
      * This method iterates through all invoice lines, calculates the total price for each line
      * by considering the quantity, selling price, discount, and VAT rate, and sums them up to get
      * the total price.
      *
-     * @return float The total price of all invoice lines including VAT and discounts.
+     * @return float The total price of all invoice lines including Tax Codes and discounts.
      */
     public function getTotalPrice()
     {

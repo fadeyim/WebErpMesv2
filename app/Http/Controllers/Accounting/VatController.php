@@ -10,7 +10,7 @@ use App\Http\Requests\Accounting\UpdateVatRequest;
 class VatController extends Controller
 {
     /**
-     * Store a newly created VAT type in storage.
+     * Store a newly created Tax Codes type in storage.
      *
      * @param \App\Http\Requests\Accounting\StoreVatRequest $request
      * @return \Illuminate\Http\RedirectResponse
@@ -19,11 +19,11 @@ class VatController extends Controller
     {
         $vat = AccountingVat::create($request->validated());
         return redirect()->to(route('accounting') . '#VAT')
-                        ->with('success', 'Successfully created VAT type.');
+                        ->with('success', 'Successfully created Tax Codes type.');
     }
 
     /**
-     * Update the specified VAT type in storage.
+     * Update the specified Tax Codes type in storage.
      *
      * @param \App\Http\Requests\Accounting\UpdateVatRequest $request
      * @return \Illuminate\Http\RedirectResponse
@@ -38,6 +38,6 @@ class VatController extends Controller
             AccountingVat::where('id', '!=', $vat->id)->update(['default' => 0]);
         }
         return redirect()->to(route('accounting') . '#VAT')
-                        ->with('success', 'Successfully updated VAT type.');
+                        ->with('success', 'Successfully updated Tax Codes type.');
     }
 }

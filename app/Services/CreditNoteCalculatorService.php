@@ -20,12 +20,12 @@ class CreditNoteCalculatorService
     }
 
     /**
-     * Calculate the total VAT for the credit notes.
+     * Calculate the total Tax Codes for the credit notes.
      *
-     * This function iterates through the credit note lines and calculates the total VAT for each line.
-     * It then aggregates the VAT totals by accounting VAT ID and returns an array with the VAT rate and total VAT amount.
+     * This function iterates through the credit note lines and calculates the total Tax Codes for each line.
+     * It then aggregates the Tax Codes totals by accounting VAT ID and returns an array with the VAT rate and total Tax Codes amount.
      *
-     * @return array An associative array where the key is the accounting VAT ID and the value is an array containing the VAT rate and the total VAT amount.
+     * @return array An associative array where the key is the accounting VAT ID and the value is an array containing the VAT rate and the total Tax Codes amount.
      */
     public function getVatTotal()
     {
@@ -47,13 +47,13 @@ class CreditNoteCalculatorService
 
 
     /**
-     * Calculate the total price of all credit note lines including VAT and discount.
+     * Calculate the total price of all credit note lines including Tax Codes and discount.
      *
      * This method iterates through each credit note line, calculates the line total 
-     * by considering the quantity, selling price, and discount. It then adds the VAT 
+     * by considering the quantity, selling price, and discount. It then adds the Tax Codes
      * to the line total and accumulates the total price.
      *
-     * @return float The total price of all credit note lines including VAT and discount.
+     * @return float The total price of all credit note lines including Tax Codes and discount.
      */
     public function getTotalPrice()
     {

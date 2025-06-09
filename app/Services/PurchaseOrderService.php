@@ -78,7 +78,7 @@ class PurchaseOrderService
      *
      * @param int $purchaseOrder The ID of the purchase order.
      * @param \App\Models\Planning\Task $task The task associated with the purchase order line.
-     * @param int $accountingVat The ID of the accounting VAT.
+     * @param int $accountingVat The ID of the accounting Tax Codes.
      * @param int $ordre The order of the line.
      * @param float $purchasePrice The purchase Price applied to the line.
      * @param float $discount The discount applied to the line.
@@ -110,11 +110,11 @@ class PurchaseOrderService
     }
 
     /**
-     * Get the default accounting VAT.
+     * Get the default accounting Tax Codes.
      *
-     * This method retrieves the default accounting VAT from the database.
+     * This method retrieves the default accounting Tax Codes from the database.
      *
-     * @return \App\Models\Accounting\AccountingVat The default accounting VAT.
+     * @return \App\Models\Accounting\AccountingVat The default accounting Tax Codes.
      */
     public function getAccountingVat()
     {

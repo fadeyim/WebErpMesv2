@@ -306,7 +306,7 @@ If MyCon.State = ConnectionState.Open Then
     End While
     MethodsUnitReader.Close()
 
-	'READ ACCOUNTING VAT INFORMATION FROM WEM TABLE
+        'READ ACCOUNTING Tax Codes INFORMATION FROM WEM TABLE
 	Dim AccountingVatQueryString As String = "SELECT * FROM " & AccountingVatsTable & " WHERE " & "code" & "='" & VATCode & "'" 
     Dim AccountingVatCommand As New Odbc.OdbcCommand(AccountingVatQueryString, MyCon)
     Dim AccountingVatReader As Odbc.OdbcDataReader = AccountingVatCommand.ExecuteReader()
