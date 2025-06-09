@@ -61,7 +61,7 @@ return [
     'methods_sections_trans_key'               => 'Sections',
     'methods_locations_trans_key'              => 'Locations',
     'methods_units_trans_key'                  => 'Units',
-    'methods_familys_trans_key'                => 'Famillys',
+    'methods_familys_trans_key'                => 'Categories',
     'methods_tools_trans_key'                  => 'Tools',
     'methods_standard_bom_trans_key'           => 'Nomenclature standard',
     'accounting_trans_key'                     => 'Accounting',
