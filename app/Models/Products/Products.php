@@ -13,6 +13,7 @@ use App\Models\Methods\MethodsUnits;
 use App\Models\Planning\SubAssembly;
 use App\Models\Methods\MethodsFamilies;
 use App\Models\Methods\MethodsServices;
+use App\Models\Accounting\AccountingVat;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -337,7 +338,7 @@ class Products extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->logOnly(['code',
-                                                'label', 
+                                                'label',
                                                 'ind',
                                                 'methods_services_id', 
                                                 'methods_families_id', 
@@ -370,5 +371,19 @@ class Products extends Model
                                                 'svg_file',
                                                 'csv_file_name',]);
         // Chain fluent methods for configuration options
+    }
+
+    /**
+     * Retrieve the accounting VAT associated with the product tax rate.
+     *
+     * @return AccountingVat|null
+     */
+    public function getAccountingVat()
+    {
+        if (is_null($this->tax)) {
+            return null;
+        }
+
+        return AccountingVat::where('rate', $this->tax)->first();
     }
 }

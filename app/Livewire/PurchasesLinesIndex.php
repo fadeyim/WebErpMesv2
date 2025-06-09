@@ -129,7 +129,16 @@ class PurchasesLinesIndex extends Component
             'methods_units_id'=>'required',
         ]);
 
-        $AccountingVat = $this->purchaseOrderService->getAccountingVat();
+        // Determine VAT from product or fallback to default
+        $productVat = null;
+        if ($this->product_id) {
+            $product = Products::find($this->product_id);
+            if ($product) {
+                $productVat = $product->getAccountingVat();
+            }
+        }
+
+        $AccountingVat = $productVat ?: $this->purchaseOrderService->getAccountingVat();
         if(!$AccountingVat){
             return redirect()->route('purchases.show', ['id' =>  $this->purchase_id])->with('error', 'No default settings');
         }

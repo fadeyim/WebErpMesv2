@@ -175,10 +175,20 @@ class OrderLine extends Component
             $this->validate();
         }
 
-        $AccountingVat = AccountingVat::getDefault(); 
-        $MethodsUnits = MethodsUnits::getDefault(); 
-        $AccountingVat = ($AccountingVat->id  ?? 0);
-        $MethodsUnits = ($MethodsUnits->id  ?? 0);
+        // Determine VAT from product or fallback to default
+        $productVat = null;
+        if ($this->product_id) {
+            $product = Products::find($this->product_id);
+            if ($product) {
+                $productVat = $product->getAccountingVat();
+            }
+        }
+
+        $AccountingVatModel = $productVat ?: AccountingVat::getDefault();
+        $MethodsUnits = MethodsUnits::getDefault();
+
+        $AccountingVat = $AccountingVatModel->id ?? 0;
+        $MethodsUnits = $MethodsUnits->id ?? 0;
 
         if($AccountingVat == 0|| $MethodsUnits == 0 ){
             return redirect()->route('orders.show', ['id' =>  $this->orders_id])->with('error', 'No default settings');
