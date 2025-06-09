@@ -428,6 +428,7 @@
                                         <option value="USD" @if('USD' == $Factory->curency ) Selected @endif>United States Dollars</option>
                                         <option value="EUR" @if('EUR' == $Factory->curency ) Selected @endif>Euro</option>
                                         <option value="GBP" @if('GBP' == $Factory->curency ) Selected @endif>United Kingdom Pounds</option>
+                                        <option value="CAN" @if('CAN' == $Factory->curency ) Selected @endif>Canadian</option>
                                     </select>
                                 </div>
                             </div>
