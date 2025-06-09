@@ -30,6 +30,7 @@ class UpdateProductsRequest extends FormRequest
             'methods_families_id' => 'required|integer',
             'purchased_price' => 'nullable|numeric',
             'selling_price' => 'nullable|numeric',
+            'tax' => 'nullable|numeric',
             'methods_units_id' => 'required|integer',
             'material' => 'nullable|string|max:255',
             'thickness' => 'nullable|numeric',

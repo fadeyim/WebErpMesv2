@@ -156,6 +156,14 @@
                             <input type="number" class="form-control"  value="{{ $Product->selling_price }}" name="selling_price" id="selling_price" placeholder="{{ __('general_content.price_trans_key') }}" step=".001">
                         </div>
                     </div>
+                    <div class="form-group col-md-4">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">%</span>
+                            </div>
+                            <input type="number" class="form-control" value="{{ $Product->tax }}" name="tax" id="tax" placeholder="{{ __('general_content.tax_trans_key') }}" step=".01">
+                        </div>
+                    </div>
                 </div>
               </div>
               <div class="card card-body">
@@ -530,11 +538,21 @@
       </div>
       @if($Product->sold == 1 )
       <hr>
-      <div class="row"> 
+      <div class="row">
         <div class="col-12 col-sm-4">
           <div class="text-muted">
           <p class="text-sm">{{ __('general_content.price_trans_key') }}
             <b class="d-block">{{ $Product->selling_price }} {{ $Factory->curency }}</b>
+          </p>
+          </div>
+        </div>
+      <!-- /.div row -->
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4">
+          <div class="text-muted">
+          <p class="text-sm">{{ __('general_content.tax_trans_key') }}
+            <b class="d-block">{{ $Product->tax }} %</b>
           </p>
           </div>
         </div>
