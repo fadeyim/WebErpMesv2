@@ -640,7 +640,7 @@ return [
             ],
         ],
         [
-            'text' => 'reports_trans_key',
+            'text' => 'Reports',
             'icon' => 'fas fa-chart-pie',
             'icon_color' => 'purple',
             'url'  => 'reports',
@@ -651,7 +651,7 @@ return [
                     'icon_color' => 'purple',
                 ],
                 [
-                    'text' => 'accounting_reports_trans_key',
+                    'text' => 'Accounting',
                     'url'  => 'reports/accounting',
                     'icon_color' => 'cyan',
                 ],
