@@ -915,6 +915,10 @@ return [
     'licence_trans_key'                    => 'Licencia',
     'release_note_trans_key'               => 'Notas de la versión',
     'reports_trans_key'                    => 'Informes',
+    'accounting_reports_trans_key'         => 'Informes contables',
+    'total_revenue_trans_key'              => 'Ingresos totales',
+    'total_expense_trans_key'              => 'Gastos totales',
+    'total_profit_trans_key'               => 'Beneficio',
     'coming_soon_trans_key'                => 'Próximamente',
 
     'search_results_trans_key'             => 'Resultados de búsqueda',

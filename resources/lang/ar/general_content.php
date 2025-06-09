@@ -914,6 +914,10 @@ return [
     'licence_trans_key'                     => 'ترخيص',
     'release_note_trans_key'                => 'ملاحظات الإصدار',
     'reports_trans_key'                     => 'التقارير',
+    'accounting_reports_trans_key'          => 'تقارير المحاسبة',
+    'total_revenue_trans_key'               => 'إجمالي الإيرادات',
+    'total_expense_trans_key'               => 'إجمالي المصروفات',
+    'total_profit_trans_key'                => 'الربح',
     'coming_soon_trans_key'                 => 'قريباً',
 
     'search_results_trans_key'              => 'نتائج البحث',

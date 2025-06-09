@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\OrderKPIService;
 use App\Services\QuoteKPIService;
+use App\Services\AccountingReportService;
 
 class ReportsController extends Controller
 {
@@ -44,5 +45,17 @@ class ReportsController extends Controller
             'topOrderCustomers',
             'topQuoteCustomers'
         ));
+    }
+
+    /**
+     * Display accounting reports summary.
+     */
+    public function accounting(AccountingReportService $accountingReportService)
+    {
+        $revenue  = $accountingReportService->getTotalRevenue();
+        $expenses = $accountingReportService->getTotalExpense();
+        $profit   = $accountingReportService->getProfit();
+
+        return view('reports.accounting', compact('revenue', 'expenses', 'profit'));
     }
 }

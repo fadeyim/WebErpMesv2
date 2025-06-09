@@ -14,13 +14,22 @@
                         </button> 
                     </div>
                     <div class="btn-group">
-                        <button 
+                        <button
                                 class="btn btn-danger float-sm-right"
                                 type="button"
                                 wire:click="export('xlsx')"
                                 wire:loading.attr="disabled"  >
                             XLS
-                        </button> 
+                        </button>
+                    </div>
+                    <div class="btn-group">
+                        <button
+                                class="btn btn-primary float-sm-right"
+                                type="button"
+                                wire:click="export('pdf')"
+                                wire:loading.attr="disabled"  >
+                            PDF
+                        </button>
                     </div>
                 </div>
             </div>

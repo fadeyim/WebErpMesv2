@@ -115,6 +115,10 @@ return [
     'licence_trans_key'                        => 'Giấy phép',
     'release_note_trans_key'                   => 'Nhật ký phát hành',
     'reports_trans_key'                        => 'Báo cáo',
+    'accounting_reports_trans_key'             => 'Báo cáo kế toán',
+    'total_revenue_trans_key'                  => 'Tổng doanh thu',
+    'total_expense_trans_key'                  => 'Tổng chi phí',
+    'total_profit_trans_key'                   => 'Lợi nhuận',
     'coming_soon_trans_key'                    => 'Sắp ra mắt',
     
     'search_results_trans_key'                 => 'Kết quả tìm kiếm',
