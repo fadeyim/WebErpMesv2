@@ -30,6 +30,12 @@ Pour une installation en production, suivez ce lien:  [wiki page (install to run
 
 ![image](https://github.com/user-attachments/assets/f527881c-a7c4-460a-9b06-f647c91402d8)
 
+### Configuration après installation
+Avant d'ajouter des lignes dans un devis, définissez une **TVA par défaut** et une **Unité par défaut**.
+Dans l'application allez dans **Comptabilité → TVA** puis dans **Méthodes → Unités**
+et marquez un élément comme valeur par défaut. Sans ces réglages il est impossible
+d'ajouter des lignes à un devis.
+
 
 
 
