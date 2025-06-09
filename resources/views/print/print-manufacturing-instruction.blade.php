@@ -54,6 +54,7 @@
                             companieAdress="{{ $Document->adresse['adress'] }}"
                             companieZipcode="{{ $Document->adresse['zipcode'] }}"
                             companieCity="{{ $Document->adresse['city'] }}"
+                            companieProvince="{{ $Document->adresse['province'] ?? '' }}"
                             companieCountry="{{ $Document->adresse['country'] }}"
                             companieNumber="{{ $Document->contact['number'] }}"
                             companieMail="{{ $Document->contact['mail'] }}"

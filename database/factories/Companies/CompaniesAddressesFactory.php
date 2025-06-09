@@ -32,6 +32,7 @@ class CompaniesAddressesFactory extends Factory
             'adress' => $this->faker->secondaryAddress(),
             'zipcode' => $this->faker->postcode(),
             'city' => $City,
+            'province' => $this->faker->state(),
             'country' => $this->faker->country(),
             'number' => $this->faker->phoneNumber(),
             'mail' => $this->faker->unique()->safeEmail(),
