@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class AccountingVat
  *
- * This class represents the VAT (Value Added Tax) accounting model.
+ * This class represents the Tax Codes (Value Added Tax) accounting model.
  * It extends the base Model class provided by the framework.
  */
 class AccountingVat extends Model
@@ -34,7 +34,7 @@ class AccountingVat extends Model
     }
 
     /**
-     * Get the quote lines associated with the accounting VAT.
+     * Get the quote lines associated with the accounting Tax Codes.
      *
      * This function defines a one-to-many relationship between the AccountingVat model
      * and the QuoteLines model. It indicates that each instance of AccountingVat can have
@@ -48,7 +48,7 @@ class AccountingVat extends Model
     }
 
     /**
-     * Get the order lines associated with the accounting VAT.
+     * Get the order lines associated with the accounting Tax Codes.
      *
      * This function defines a one-to-many relationship between the AccountingVat model
      * and the OrderLines model. It indicates that each instance of AccountingVat can have
@@ -62,7 +62,7 @@ class AccountingVat extends Model
     }
 
     /**
-     * Get the purchase lines associated with the accounting VAT.
+     * Get the purchase lines associated with the accounting Tax Codes.
      *
      * This function defines a one-to-many relationship between the AccountingVat model
      * and the PurchaseLines model. It indicates that each AccountingVat instance can have

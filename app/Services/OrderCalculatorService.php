@@ -15,15 +15,15 @@ class OrderCalculatorService
     }
 
     /**
-     * Calculate the total VAT for the order.
+     * Calculate the total Tax Codes for the order.
      *
-     * This function iterates through the order lines, calculates the VAT for each line,
-     * and aggregates the VAT amounts by their accounting VAT ID. The result is an array
+     * This function iterates through the order lines, calculates the Tax Codes for each line,
+     * and aggregates the Tax Codes amounts by their accounting VAT ID. The result is an array
      * where the keys are the accounting VAT IDs and the values are arrays containing the
-     * VAT rate and the total VAT amount for that rate.
+     * VAT rate and the total Tax Codes amount for that rate.
      *
      * @return array An associative array where the keys are accounting VAT IDs and the values
-     *               are arrays with the VAT rate and the total VAT amount.
+     *               are arrays with the VAT rate and the total Tax Codes amount.
      */
     public function getVatTotal()
     {

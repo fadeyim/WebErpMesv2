@@ -15,21 +15,21 @@ class ValidVatNumber implements Rule
     }
 
     /**
-     * Validate the given VAT number.
+     * Validate the given Tax Codes number.
      *
-     * This method checks if the provided VAT number is valid. It first checks if the VAT number is empty,
-     * in which case it returns true to allow nullable VAT numbers. If the VAT number is not empty, it
-     * extracts the country code and the VAT number, then uses the vatService to validate the VAT number.
+     * This method checks if the provided Tax Codes number is valid. It first checks if the Tax Codes number is empty,
+     * in which case it returns true to allow nullable Tax Codes numbers. If the Tax Codes number is not empty, it
+     * extracts the country code and the Tax Codes number, then uses the vatService to validate the Tax Codes number.
      *
      * @param  string  $attribute  The name of the attribute being validated.
      * @param  mixed  $value  The value of the attribute being validated.
-     * @return bool  True if the VAT number is valid or empty, false otherwise.
+     * @return bool  True if the Tax Codes number is valid or empty, false otherwise.
      */
     public function passes($attribute, $value)
     {
  
         if (empty($value)) {
-            return true; // Pass if the VAT number is empty (nullable case)
+            return true; // Pass if the Tax Codes number is empty (nullable case)
         }
 
         $countryCode = substr($value, 0, 2);
@@ -40,6 +40,6 @@ class ValidVatNumber implements Rule
 
     public function message()
     {
-        return 'The VAT number is invalid.';
+        return 'The Tax Codes number is invalid.';
     }
 }

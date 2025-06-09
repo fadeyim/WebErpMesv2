@@ -53,7 +53,7 @@ class StockCurrent extends Component
         $mutable = Carbon::now();
         $validity_date = $mutable->add(7, 'day');
 
-        //Select default vat for define VAT on orderline
+        //Select default vat for define Tax Codes on orderline
         $accountingVatDefaultId = AccountingVat::select('id')->where( 'default', 1)->first(); 
         $accountingVatDefaultId = ($accountingVatDefaultId->id ?? 0); 
 

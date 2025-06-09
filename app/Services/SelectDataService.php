@@ -157,12 +157,12 @@ class SelectDataService
     }
 
     /**
-     * Retrieve a list of VAT options.
+     * Retrieve a list of Tax Codes options.
      *
      * This method fetches VAT records from the AccountingVat model,
      * selecting only the 'id' and 'label' fields, and orders them by the 'rate' field.
      *
-     * @return \Illuminate\Support\Collection A collection of VAT records.
+     * @return \Illuminate\Support\Collection A collection of Tax Codes records.
      */
     public function getVATSelect()
     {

@@ -109,7 +109,7 @@ class CompaniesController extends Controller
     public function update(UpdateCompanieRequest $request)
     {
         $company = Companies::findOrFail($request->id);
-        // Attempt to validate VAT number via SOAP service
+        // Attempt to validate Tax Codes number via SOAP service
         $vatNumber = $request->input('intra_community_vat');
         if ($vatNumber) {
             $countryCode = substr($vatNumber, 0, 2);

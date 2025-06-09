@@ -18,12 +18,12 @@ class PurchaseCalculatorService
     }
 
     /**
-     * Calculate the total VAT for the purchase lines.
+     * Calculate the total Tax Codes for the purchase lines.
      *
-     * This function iterates through the purchase lines and calculates the VAT for each line.
-     * It then aggregates the VAT amounts by their respective VAT rates.
+     * This function iterates through the purchase lines and calculates the Tax Codes for each line.
+     * It then aggregates the Tax Codes amounts by their respective VAT rates.
      *
-     * @return array An associative array where the keys are the VAT IDs and the values are arrays containing the VAT rate and the total VAT amount for that rate.
+     * @return array An associative array where the keys are the VAT IDs and the values are arrays containing the VAT rate and the total Tax Codes amount for that rate.
      */
     public function getVatTotal()
     {
@@ -48,14 +48,14 @@ class PurchaseCalculatorService
     }
 
     /**
-     * Calculate the total price of all purchase lines including VAT and discounts.
+     * Calculate the total price of all purchase lines including Tax Codes and discounts.
      *
      * This method iterates through each purchase line, calculates the line total 
      * price by considering the quantity, selling price, and discount. It also 
-     * calculates the VAT for each line if applicable and adds it to the line total.
-     * The sum of all line totals including VAT is returned as the total price.
+     * calculates the Tax Codes for each line if applicable and adds it to the line total.
+     * The sum of all line totals including Tax Codes is returned as the total price.
      *
-     * @return float The total price of all purchase lines including VAT and discounts.
+     * @return float The total price of all purchase lines including Tax Codes and discounts.
      */
     public function getTotalPrice()
     {
