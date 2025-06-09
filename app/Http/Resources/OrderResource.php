@@ -37,6 +37,7 @@ class OrderResource extends JsonResource
             'accounting_deliveries_id' => new DeleveryMethodResource($this->delevery_method),
             'validity_date' => $this->validity_date,
             'statu' => $this->statu,
+            'methods_locations_id' => $this->methods_locations_id,
             'comment' => $this->comment,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
