@@ -87,17 +87,22 @@ class QuoteLine extends Component
     
     public function ChangeCodelabel()
     {
-        $product = Products::select('id', 'label', 'code', 'methods_units_id', 'selling_price')->where('id', $this->product_id)->get();
-        if(count($product) > 0){
-            $this->code = $product[0]->code ;
-            $this->label =  $product[0]->label;
-            $this->methods_units_id =  $product[0]->methods_units_id;
-            $this->selling_price =  $product[0]->selling_price;
-        }else{
-            $this->code ='';
-            $this->label ='';
-            $this->methods_units_id ='';
-            $this->selling_price ='';
+        $product = Products::select('id', 'label', 'code', 'methods_units_id', 'selling_price', 'tax')->where('id', $this->product_id)->get();
+        if (count($product) > 0) {
+            $this->code = $product[0]->code;
+            $this->label = $product[0]->label;
+            $this->methods_units_id = $product[0]->methods_units_id;
+            $this->selling_price = $product[0]->selling_price;
+
+            // Update VAT using the product's tax rate when available
+            $vat = $product[0]->getAccountingVat();
+            $this->accounting_vats_id = $vat ? $vat->id : null;
+        } else {
+            $this->code = '';
+            $this->label = '';
+            $this->methods_units_id = '';
+            $this->selling_price = '';
+            $this->accounting_vats_id = null;
         }
     }
 
