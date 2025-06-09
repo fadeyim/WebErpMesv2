@@ -1082,6 +1082,10 @@ return [
     'licence_trans_key'                        => 'Licence',
     'release_note_trans_key'                   => 'Release notes',
     'reports_trans_key'                        => 'Reports',
+    'accounting_reports_trans_key'             => 'Accounting Reports',
+    'total_revenue_trans_key'                  => 'Total Revenue',
+    'total_expense_trans_key'                  => 'Total Expenses',
+    'total_profit_trans_key'                   => 'Profit',
     'coming_soon_trans_key'                    => 'Coming soon',
     
     'search_results_trans_key'                 => 'Search results',

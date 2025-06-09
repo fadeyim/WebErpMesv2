@@ -29,6 +29,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
     Route::get('/dashboard', 'App\Http\Controllers\HomeController@index')->middleware(['auth', 'check.factory'])->name('dashboard');
     Route::get('/reports', 'App\\Http\\Controllers\\ReportsController@index')
         ->middleware(['auth', 'check.factory'])->name('reports');
+    Route::get('/reports/accounting', 'App\\Http\\Controllers\\ReportsController@accounting')
+        ->middleware(['auth', 'check.factory'])->name('reports.accounting');
 
     Route::group(['prefix' => 'workshop', 'middleware' => ['auth', 'check.factory']], function () {
         Route::get('/', 'App\Http\Controllers\Workshop\WorkshopController@index')->middleware(['auth', 'check.factory'])->name('workshop');
