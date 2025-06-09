@@ -27,10 +27,11 @@ class ProductsIndex extends Component
     public $methods_services_id;  
     public $methods_families_id; 
     public $purchased; 
-    public $purchased_price; 
+    public $purchased_price;
     public $sold;
-    public $selling_price;  
-    public $methods_units_id; 
+    public $selling_price;
+    public $tax;
+    public $methods_units_id;
     public $material; 
     public $thickness;  
     public $weight;  
@@ -59,6 +60,7 @@ class ProductsIndex extends Component
         'sold'=>'required',
         'purchased'=>'required',
         'tracability_type'=>'required',
+        'tax' => 'nullable|numeric',
     ];
 
     public function sortBy($field)
@@ -110,8 +112,9 @@ class ProductsIndex extends Component
                                                     'purchased'=>$this->purchased,  
                                                     'purchased_price'=>$this->purchased_price,  
                                                     'sold'=>$this->sold,  
-                                                    'selling_price'=>$this->selling_price,  
-                                                    'methods_units_id'=>$this->methods_units_id,  
+                                                    'selling_price'=>$this->selling_price,
+                                                    'tax'=>$this->tax,
+                                                    'methods_units_id'=>$this->methods_units_id,
                                                     'material'=>$this->material,  
                                                     'thickness'=>$this->thickness,  
                                                     'weight'=>$this->weight,  

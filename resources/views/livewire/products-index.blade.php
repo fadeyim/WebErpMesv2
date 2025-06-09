@@ -156,6 +156,14 @@
                                         <input type="number" class="form-control" wire:model.live="selling_price" name="selling_price" id="selling_price" min="0" placeholder="{{ __('general_content.price_trans_key') }}" step=".001">
                                     </div>
                                 </div>
+                                <div class="form-group col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">%</span>
+                                        </div>
+                                        <input type="number" class="form-control" wire:model.live="tax" name="tax" id="tax" min="0" placeholder="{{ __('general_content.tax_trans_key') }}" step=".01">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="card card-body">
