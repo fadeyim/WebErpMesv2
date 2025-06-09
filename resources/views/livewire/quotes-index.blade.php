@@ -397,6 +397,7 @@
                                 </th>
                                 <th>{{__('general_content.code_trans_key') }}</th>
                                 <th>{{__('general_content.lines_count_trans_key') }}</th>
+                                <th>{{ __('general_content.processing_location_trans_key') }}</th>
                                 <th>{{__('general_content.total_price_trans_key') }}</th>
                                 <th>{{__('general_content.status_trans_key') }}</th>
                                 <th>{{ __('general_content.user_trans_key') }}</th>
@@ -416,6 +417,7 @@
                                 </td>
                                 <td>{{ $Quote->customer_reference }}</td>
                                 <td>{{ $Quote->quote_lines_count }}</td>
+                                <td>{{ $Quote->processing_locations_list }}</td>
                                 <td>{{$Quote->formatted_total_price }}</td>
                                 <td>
                                     @if(1 == $Quote->statu )   <span class="badge badge-info"> {{ __('general_content.open_trans_key') }}</span>@endif
@@ -433,7 +435,7 @@
                                 </td>
                             </tr>
                             @empty
-                                <x-EmptyDataLine col="10" text="{{ __('general_content.no_data_trans_key') }}"  />
+                                <x-EmptyDataLine col="11" text="{{ __('general_content.no_data_trans_key') }}"  />
                             @endforelse
                         </tbody>
                         <tfoot>
@@ -443,6 +445,7 @@
                                 <th>{{__('general_content.customer_trans_key') }}</th>
                                 <th>{{__('general_content.code_trans_key') }}</th>
                                 <th>{{__('general_content.lines_count_trans_key') }}</th>
+                                <th>{{ __('general_content.processing_location_trans_key') }}</th>
                                 <th>{{__('general_content.total_price_trans_key') }}</th>
                                 <th>{{__('general_content.status_trans_key') }}</th>
                                 <th>{{ __('general_content.user_trans_key') }}</th>
@@ -480,6 +483,7 @@
                             <div class="card-body">
                                 <p class="card-text"><strong>{{__('general_content.total_price_trans_key') }}</strong> : {{ $Quote->formatted_total_price }}</p>
                                 <p class="card-text"><strong>{{__('general_content.lines_count_trans_key') }}</strong> : {{ $Quote->quote_lines_count  }}</p>
+                                <p class="card-text"><strong>{{ __('general_content.processing_location_trans_key') }}</strong> : {{ $Quote->processing_locations_list }}</p>
                             </div>
                             <div class="card-footer bg-secondary">
                                 <div class="row">
@@ -560,6 +564,8 @@
                                                     </div>
                                                     <div class="card-body">
                                                         <p class="card-text"><strong>{{__('general_content.total_price_trans_key') }}</strong> : {{ $Quote->formatted_total_price }}</p>
+                                                        <p class="card-text"><strong>{{__('general_content.lines_count_trans_key') }}</strong> : {{ $Quote->quote_lines_count }}</p>
+                                                        <p class="card-text"><strong>{{ __('general_content.processing_location_trans_key') }}</strong> : {{ $Quote->processing_locations_list }}</p>
                                                     </div>
                                                     <div class="card-footer bg-secondary">
                                                         <div class="row">

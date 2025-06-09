@@ -185,6 +185,26 @@ class Quotes extends Model
         return $this->guestVisits()->count();
     }
 
+    /**
+     * Get a comma-separated list of processing locations linked to the quote.
+     *
+     * This accessor aggregates the labels of every processing location
+     * associated with the quote through its orders and returns them as a
+     * comma-separated string.
+     *
+     * @return string
+     */
+    public function getProcessingLocationsListAttribute()
+    {
+        return $this->Orders
+            ->map(function ($order) {
+                return optional($order->processingLocation)->label;
+            })
+            ->filter()
+            ->unique()
+            ->implode(', ');
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->logOnly(['code', 
