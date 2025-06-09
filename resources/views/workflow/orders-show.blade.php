@@ -128,6 +128,13 @@
                   </div>
                 @endif
                 <div class="row">
+                  <div class="form-group col-md-6">
+                    @include('include.form.form-select-methods-location',[
+                        'methodsLocationId' => $Order->methods_locations_id,
+                        'MethodsLocationsSelect' => $MethodsLocationsSelect])
+                  </div>
+                </div>
+                <div class="row">
                   <x-FormTextareaComment  comment="{{ $Order->comment }}" />
                 </div>
                 <x-slot name="footerSlot">

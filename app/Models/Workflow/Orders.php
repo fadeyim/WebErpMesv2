@@ -13,6 +13,7 @@ use Spatie\Activitylog\LogOptions;
 use App\Models\Companies\Companies;
 use App\Models\Workflow\OrderLines;
 use App\Models\Workflow\OrderRating;
+use App\Models\Methods\MethodsLocation;
 use Illuminate\Database\Eloquent\Model;
 use App\Services\OrderCalculatorService;
 use App\Models\Companies\CompaniesContacts;
@@ -29,18 +30,19 @@ class Orders extends Model
 
     // Fillable attributes for mass assignment
     protected $fillable= ['uuid',
-                            'code', 
-                            'label', 
+                            'code',
+                            'label',
                             'customer_reference',
-                            'companies_id', 
-                            'companies_contacts_id',   
-                            'companies_addresses_id',  
-                            'validity_date',  
-                            'statu',  
-                            'user_id',  
-                            'accounting_payment_conditions_id',  
-                            'accounting_payment_methods_id',  
-                            'accounting_deliveries_id',  
+                            'companies_id',
+                            'companies_contacts_id',
+                            'companies_addresses_id',
+                            'validity_date',
+                            'statu',
+                            'user_id',
+                            'methods_locations_id',
+                            'accounting_payment_conditions_id',
+                            'accounting_payment_methods_id',
+                            'accounting_deliveries_id',
                             'comment',
                             'quotes_id',
                             'type',
@@ -99,6 +101,11 @@ class Orders extends Model
     public function delevery_method()
     {
         return $this->belongsTo(AccountingDelivery::class, 'accounting_deliveries_id');
+    }
+
+    public function processingLocation()
+    {
+        return $this->belongsTo(MethodsLocation::class, 'methods_locations_id');
     }
 
     public function Quote()
@@ -250,9 +257,10 @@ class Orders extends Model
                                                 'companies_contacts_id',   
                                                 'companies_addresses_id',  
                                                 'validity_date',  
-                                                'statu',  
-                                                'user_id',  
-                                                'accounting_payment_conditions_id',  
+                                                'statu',
+                                                'user_id',
+                                                'methods_locations_id',
+                                                'accounting_payment_conditions_id',
                                                 'accounting_payment_methods_id',  
                                                 'accounting_deliveries_id',  
                                                 'comment',

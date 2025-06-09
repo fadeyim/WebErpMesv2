@@ -16,6 +16,7 @@ use App\Models\Methods\MethodsFamilies;
 use App\Models\Methods\MethodsServices;
 use App\Models\Accounting\AccountingVat;
 use App\Models\Methods\MethodsRessources;
+use App\Models\Methods\MethodsLocation;
 use App\Models\Quality\QualityCorrection;
 use App\Models\Companies\CompaniesContacts;
 use App\Models\Companies\CompaniesAddresses;
@@ -277,6 +278,16 @@ class SelectDataService
     public function getRessources()
     {
         return MethodsRessources::select('id', 'label')->orderBy('ordre')->get();
+    }
+
+    /**
+     * Retrieve workshop locations list.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getMethodsLocations()
+    {
+        return MethodsLocation::select('id', 'label')->orderBy('label')->get();
     }
 
     /**

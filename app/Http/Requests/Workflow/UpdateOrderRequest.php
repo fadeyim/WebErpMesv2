@@ -30,6 +30,7 @@ class UpdateOrderRequest extends FormRequest
             'companies_contacts_id' => 'required_if:type,1|nullable|exists:companies_contacts,id',
             'companies_addresses_id' => 'required_if:type,1|nullable|exists:companies_addresses,id',
             'validity_date' => 'nullable|date',
+            'methods_locations_id' => 'nullable|exists:methods_locations,id',
             'accounting_payment_conditions_id' => 'required_if:type,1|nullable|exists:accounting_payment_conditions,id',
             'accounting_payment_methods_id' => 'required_if:type,1|nullable|exists:accounting_payment_methods,id',
             'accounting_deliveries_id' => 'required_if:type,1|nullable|exists:accounting_deliveries,id',
