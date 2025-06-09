@@ -14,7 +14,7 @@ return array(
     'show_warnings' => false,   // Throw an Exception on warnings from dompdf
     'orientation' => 'portrait',
     /*
-     * Dejavu Sans font is missing glyphs for converted entities, turn it off if you need to show € and £.
+     * Dejavu Sans font is missing glyphs for converted entities, turn it off if you need to show $ and £.
      */
     'convert_entities' => true,
     'defines' => array(

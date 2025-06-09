@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WebErpMesv2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c05b2b34636c5fbdabf893d1f769748730449764")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+85825edf55bbd6c08e8a989a028cca8c456a36d7")]
 [assembly: System.Reflection.AssemblyProductAttribute("WebErpMesv2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WebErpMesv2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

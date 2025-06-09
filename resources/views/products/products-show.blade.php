@@ -356,7 +356,7 @@
                         <td class="py-0 align-middle">
                             <!-- Button Modal -->
                             <button type="button" class="btn bg-teal" data-toggle="modal" data-target="#preferredSuppliers{{ $preferredSuppliers->id }}">
-                              x €
+                              x $
                             </button>
                             <!-- Modal {{ $preferredSuppliers->id }} -->
                             <x-adminlte-modal id="preferredSuppliers{{ $preferredSuppliers->id }}" title="{{ __('general_content.price_by_qty_trans_key') }} {{ $preferredSuppliers->label }}" theme="teal" icon="fa fa-pen" size='lg' disable-animations>
