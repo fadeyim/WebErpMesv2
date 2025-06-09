@@ -3,7 +3,10 @@
 @section('title', __('general_content.reports_trans_key'))
 
 @section('content_header')
-    <h1>{{ __('general_content.reports_trans_key') }}</h1>
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>{{ __('general_content.reports_trans_key') }}</h1>
+        <x-ButtonTextPDF route="{{ route('reports.pdf') }}" />
+    </div>
 @stop
 
 @section('content')
