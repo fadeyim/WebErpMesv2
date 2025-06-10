@@ -735,6 +735,7 @@ return [
     'other_information_trans_key'              => 'Otra información',
     'index_trans_key'                          => 'Índice',
     'new_product_trans_key'                    => 'Nuevo producto',
+    'show_only_sold_trans_key'                 => 'Solo vendidos',
     'price_by_qty_trans_key'                   => 'Precio por cantidad',
 
     'serial_numbers_trans_key'                 => 'Números de serie',

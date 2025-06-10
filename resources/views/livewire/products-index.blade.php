@@ -324,8 +324,14 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-8">
                     @include('include.search-card')
+                </div>
+                <div class="col-md-2">
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" id="soldFilter" wire:click="toggleSoldFilter" @if($showSold) checked @endif>
+                        <label class="form-check-label" for="soldFilter">{{ __('general_content.show_only_sold_trans_key') }}</label>
+                    </div>
                 </div>
                 <div class="col-md-2">
                     <button type="button" class="btn btn-success float-sm-right" data-toggle="modal" data-target="#ModalProduct">

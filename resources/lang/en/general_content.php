@@ -863,6 +863,7 @@ return [
     'other_information_trans_key'              => 'Other information',
     'index_trans_key'                          => 'Index',
     'new_product_trans_key'                    => 'New product',
+    'show_only_sold_trans_key'                 => 'Sold items only',
     'price_by_qty_trans_key'                   => 'Price by quantity',
     'weighted_average_price_trans_key'         => 'Weighted average price',
     'last_purchase_price_price_trans_key'      => 'Last purchase price',
