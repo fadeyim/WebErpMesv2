@@ -38,40 +38,40 @@
   </div>
   @endif
 
-  <div class="row ">
-    <div class="col-lg-2">
+  <div class="row" id="report-tiles">
+    <div class="col-lg-2 tile-item" id="tile-customers">
       <x-adminlte-small-box title="{{$data['customers_count']}}"
-                            text="{{ __('general_content.new_client_trans_key') }}" 
+                            text="{{ __('general_content.new_client_trans_key') }}"
                             icon="far fa-building"
-                            theme="info" 
-                            url="{{ route('companies') }}" 
+                            theme="info"
+                            url="{{ route('companies') }}"
                             url-text="{{ __('general_content.view_details_trans_key') }}"/>
     </div>
     <!-- ./col -->
-    <div class="col-lg-2 col-md-2">
+    <div class="col-lg-2 col-md-2 tile-item" id="tile-suppliers">
       <x-adminlte-small-box title="{{ $data['suppliers_count'] }}"
-                            text="{{ __('general_content.suppliers_trans_key') }}" 
+                            text="{{ __('general_content.suppliers_trans_key') }}"
                             icon="far fa-building"
-                            theme="success" 
-                            url="{{ route('companies') }}" 
+                            theme="success"
+                            url="{{ route('companies') }}"
                             url-text="{{ __('general_content.view_details_trans_key') }}"/>
     </div>
     <!-- ./col -->
-    <div class="col-lg-2 col-md-2">
-      <x-adminlte-small-box title="{{ $data['quotes_count'] }}" 
-                            text="{{ __('general_content.quote_trans_key') }}" 
+    <div class="col-lg-2 col-md-2 tile-item" id="tile-quotes">
+      <x-adminlte-small-box title="{{ $data['quotes_count'] }}"
+                            text="{{ __('general_content.quote_trans_key') }}"
                             icon="fas fa-calculator"
-                            theme="primary" 
-                            url="{{ route('quotes') }}" 
+                            theme="primary"
+                            url="{{ route('quotes') }}"
                             url-text="{{ __('general_content.view_details_trans_key') }}"/>
     </div>
     <!-- ./col -->
-    <div class="col-lg-2 col-md-2">
-      <x-adminlte-small-box title="{{ $data['orders_count'] }}" 
-                            text="{{ __('general_content.orders_trans_key') }}" 
+    <div class="col-lg-2 col-md-2 tile-item" id="tile-orders">
+      <x-adminlte-small-box title="{{ $data['orders_count'] }}"
+                            text="{{ __('general_content.orders_trans_key') }}"
                             icon="fas fa-shopping-cart"
-                            theme="yellow" 
-                            url="{{ route('orders') }}" 
+                            theme="yellow"
+                            url="{{ route('orders') }}"
                             url-text="{{ __('general_content.view_details_trans_key') }}"/>
     </div>
     <!-- ./col -->
@@ -709,9 +709,35 @@
           setTimeout(updateBox, 2000);
       };
 
-      setInterval(startUpdateProcedure, 10000);
+  setInterval(startUpdateProcedure, 10000);
   })
 
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      const container = document.getElementById('report-tiles');
+      if (!container) return;
+
+      const saved = localStorage.getItem('dashboardTileOrder');
+      if (saved) {
+          const ids = JSON.parse(saved);
+          ids.forEach(id => {
+              const el = document.getElementById(id);
+              if (el) container.appendChild(el);
+          });
+      }
+
+      new Sortable(container, {
+          animation: 150,
+          draggable: '.tile-item',
+          onEnd: () => {
+              const ids = Array.from(container.querySelectorAll('.tile-item')).map(el => el.id);
+              localStorage.setItem('dashboardTileOrder', JSON.stringify(ids));
+          }
+      });
+  });
 </script>
 
 @stop
