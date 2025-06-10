@@ -39,7 +39,7 @@
   @endif
 
   <div class="row" id="dashboard-tiles">
-    <div class="col-lg-2">
+    <div class="col-lg-2" data-tile="customers">
       <x-adminlte-small-box title="{{$data['customers_count']}}"
                             text="{{ __('general_content.new_client_trans_key') }}" 
                             icon="far fa-building"
@@ -48,7 +48,7 @@
                             url-text="{{ __('general_content.view_details_trans_key') }}"/>
     </div>
     <!-- ./col -->
-    <div class="col-lg-2 col-md-2">
+    <div class="col-lg-2 col-md-2" data-tile="suppliers">
       <x-adminlte-small-box title="{{ $data['suppliers_count'] }}"
                             text="{{ __('general_content.suppliers_trans_key') }}" 
                             icon="far fa-building"
@@ -57,7 +57,7 @@
                             url-text="{{ __('general_content.view_details_trans_key') }}"/>
     </div>
     <!-- ./col -->
-    <div class="col-lg-2 col-md-2">
+    <div class="col-lg-2 col-md-2" data-tile="quotes">
       <x-adminlte-small-box title="{{ $data['quotes_count'] }}" 
                             text="{{ __('general_content.quote_trans_key') }}" 
                             icon="fas fa-calculator"
@@ -66,7 +66,7 @@
                             url-text="{{ __('general_content.view_details_trans_key') }}"/>
     </div>
     <!-- ./col -->
-    <div class="col-lg-2 col-md-2">
+    <div class="col-lg-2 col-md-2" data-tile="orders">
       <x-adminlte-small-box title="{{ $data['orders_count'] }}" 
                             text="{{ __('general_content.orders_trans_key') }}" 
                             icon="fas fa-shopping-cart"
@@ -75,7 +75,7 @@
                             url-text="{{ __('general_content.view_details_trans_key') }}"/>
     </div>
     <!-- ./col -->
-    <div class="col-lg-4 col-md-4">
+    <div class="col-lg-4 col-md-4" data-tile="mood">
       <x-adminlte-card title="{{ __('general_content.niko_niko_team_trans_key') }}" theme="lime"> 
         @livewire('mood-tracker')
       </x-adminlte-card>
@@ -715,15 +715,40 @@
   // Enable drag and drop for dashboard tiles
   document.addEventListener('DOMContentLoaded', function () {
       var tiles = document.getElementById('dashboard-tiles');
+
+      var saveOrder = function() {
+          if (!tiles) return;
+          var ids = Array.from(tiles.querySelectorAll('[data-tile]')).map(function(el){
+              return el.getAttribute('data-tile');
+          });
+          localStorage.setItem('dashboardTileOrder', JSON.stringify(ids));
+      };
+
+      var restoreOrder = function() {
+          if (!tiles) return;
+          var order = JSON.parse(localStorage.getItem('dashboardTileOrder') || '[]');
+          if (order.length) {
+              var frag = document.createDocumentFragment();
+              order.forEach(function(id){
+                  var el = tiles.querySelector('[data-tile="' + id + '"]');
+                  if (el) frag.appendChild(el);
+              });
+              tiles.appendChild(frag);
+          }
+      };
+
       var initSortable = function () {
           if (tiles && typeof Sortable !== 'undefined') {
               new Sortable(tiles, {
                   animation: 150,
                   ghostClass: 'bg-light',
-                  draggable: '.col-lg-2, .col-md-2, .col-lg-4'
+                  draggable: '.col-lg-2, .col-md-2, .col-lg-4',
+                  onEnd: saveOrder
               });
           }
       };
+
+      restoreOrder();
 
       if (typeof Sortable === 'undefined') {
           var script = document.createElement('script');
