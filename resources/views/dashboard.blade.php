@@ -38,7 +38,7 @@
   </div>
   @endif
 
-  <div class="row ">
+  <div class="row" id="dashboard-tiles">
     <div class="col-lg-2">
       <x-adminlte-small-box title="{{$data['customers_count']}}"
                             text="{{ __('general_content.new_client_trans_key') }}" 
@@ -709,8 +709,31 @@
           setTimeout(updateBox, 2000);
       };
 
-      setInterval(startUpdateProcedure, 10000);
-  })
+  setInterval(startUpdateProcedure, 10000);
+ })
+
+  // Enable drag and drop for dashboard tiles
+  document.addEventListener('DOMContentLoaded', function () {
+      var tiles = document.getElementById('dashboard-tiles');
+      var initSortable = function () {
+          if (tiles && typeof Sortable !== 'undefined') {
+              new Sortable(tiles, {
+                  animation: 150,
+                  ghostClass: 'bg-light',
+                  draggable: '.col-lg-2, .col-md-2, .col-lg-4'
+              });
+          }
+      };
+
+      if (typeof Sortable === 'undefined') {
+          var script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js';
+          script.onload = initSortable;
+          document.body.appendChild(script);
+      } else {
+          initSortable();
+      }
+  });
 
 </script>
 
