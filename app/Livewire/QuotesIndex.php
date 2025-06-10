@@ -186,16 +186,51 @@ class QuotesIndex extends Component
     {
         if(is_numeric($this->idCompanie)){
             $Quotes = Quotes::withCount('QuoteLines')
-                            ->with(['Orders.processingLocation'])
+                            ->with(['Orders.processingLocation', 'companie', 'contact', 'UserManagement'])
                             ->where('companies_id', $this->idCompanie)
+                            ->where(function($query){
+                                $query->where('quotes.code','like','%'.$this->search.'%')
+                                      ->orWhere('quotes.label','like','%'.$this->search.'%')
+                                      ->orWhere('quotes.customer_reference','like','%'.$this->search.'%')
+                                      ->orWhere('quotes.comment','like','%'.$this->search.'%')
+                                      ->orWhereHas('companie', function($q){
+                                            $q->where('code','like','%'.$this->search.'%')
+                                              ->orWhere('label','like','%'.$this->search.'%')
+                                              ->orWhere('last_name','like','%'.$this->search.'%');
+                                      })
+                                      ->orWhereHas('contact', function($q){
+                                            $q->where('first_name','like','%'.$this->search.'%')
+                                              ->orWhere('name','like','%'.$this->search.'%');
+                                      })
+                                      ->orWhereHas('UserManagement', function($q){
+                                            $q->where('name','like','%'.$this->search.'%');
+                                      });
+                            })
                             ->where('statu', 'like', '%'.$this->searchIdStatus.'%')
                             ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
                             ->paginate(15);
         }
         else{
             $Quotes = Quotes::withCount('QuoteLines')
-                            ->with(['Orders.processingLocation'])
-                            ->where('label','like', '%'.$this->search.'%')
+                            ->with(['Orders.processingLocation', 'companie', 'contact', 'UserManagement'])
+                            ->where(function($query){
+                                $query->where('quotes.code','like','%'.$this->search.'%')
+                                      ->orWhere('quotes.label','like','%'.$this->search.'%')
+                                      ->orWhere('quotes.customer_reference','like','%'.$this->search.'%')
+                                      ->orWhere('quotes.comment','like','%'.$this->search.'%')
+                                      ->orWhereHas('companie', function($q){
+                                            $q->where('code','like','%'.$this->search.'%')
+                                              ->orWhere('label','like','%'.$this->search.'%')
+                                              ->orWhere('last_name','like','%'.$this->search.'%');
+                                      })
+                                      ->orWhereHas('contact', function($q){
+                                            $q->where('first_name','like','%'.$this->search.'%')
+                                              ->orWhere('name','like','%'.$this->search.'%');
+                                      })
+                                      ->orWhereHas('UserManagement', function($q){
+                                            $q->where('name','like','%'.$this->search.'%');
+                                      });
+                            })
                             ->where('statu', 'like', '%'.$this->searchIdStatus.'%')
                             ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
                             ->paginate(15);
