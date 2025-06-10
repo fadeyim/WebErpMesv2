@@ -19,7 +19,7 @@
                 </x-slot>
                 <option value="">{{ __('general_content.select_product_trans_key') }}</option>
                 @foreach ($ProductsSelect as $item)
-                <option value="{{ $item->id }}" data-txt="{{ $item->code }}">{{ $item->code }} - {{ $item->label }}</option>
+                <option value="{{ $item->id }}" data-code="{{ $item->code }}" data-label="{{ $item->label }}">{{ $item->code }} - {{ $item->label }}</option>
                 @endforeach
             </x-adminlte-select2>
             @error('product_id') <span class="text-danger">{{ $message }}<br/></span>@enderror
@@ -85,3 +85,17 @@
         </div>
     </div>
 </form>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const productSelect = document.getElementById('product_id');
+    if (productSelect) {
+        productSelect.addEventListener('change', function () {
+            const option = this.options[this.selectedIndex];
+            if (option) {
+                document.getElementById('code').value = option.dataset.code || '';
+                document.getElementById('label').value = option.dataset.label || '';
+            }
+        });
+    }
+});
+</script>
