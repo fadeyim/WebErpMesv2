@@ -18,8 +18,14 @@ class ProductsIndex extends Component
     public $search = '';
     public $sortField = 'label'; // default sorting field
     public $sortAsc = true; // default sort direction
-    
+
     public $userSelect = [];
+
+    /**
+     * When true only sold products are shown. When false only unsold products are listed.
+     * @var bool
+     */
+    public $filterSold = true;
 
     public $code;
     public $label;  
@@ -78,14 +84,24 @@ class ProductsIndex extends Component
         $this->resetPage();
     }
 
-    public function mount() 
+    public function mount()
     {
         $this->userSelect = User::select('id', 'name')->get();
+        $this->filterSold = true;
     }
 
     public function render()
     {
-        $Products = Products::where('label','like', '%'.$this->search.'%')->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')->paginate(15);
+        $Products = Products::where('label', 'like', '%'.$this->search.'%')
+            ->when($this->filterSold !== null, function ($query) {
+                if ($this->filterSold) {
+                    $query->where('sold', 1);
+                } else {
+                    $query->where('sold', '!=', 1);
+                }
+            })
+            ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+            ->paginate(15);
         $userSelect = User::select('id', 'name')->get();
         $ServicesSelect = MethodsServices::select('id', 'label')->orderBy('ordre')->get();
         $UnitsSelect = MethodsUnits::select('id', 'label', 'type')->orderBy('label')->get();

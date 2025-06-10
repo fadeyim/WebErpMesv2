@@ -725,6 +725,7 @@ return [
     'selling_price_trans_key'                  => 'سعر البيع',
     'purchased_trans_key'                      => 'مشترى',
     'sold_trans_key'                           => 'مباع',
+    'unsold_trans_key'                         => 'غير مباع',
     'tracability_trans_key'                    => 'تتبع',
     'proprieties_trans_key'                    => 'خصائص',
     'quantite_eco_min_trans_key'               => 'الحد الأدنى لكمية مستدامة',

@@ -324,8 +324,15 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-8">
                     @include('include.search-card')
+                </div>
+                <div class="col-md-2">
+                    <x-adminlte-input-switch wire:model.live="filterSold"
+                                             name="filterSold"
+                                             data-on-text="{{ __('general_content.sold_trans_key') }}"
+                                             data-off-text="{{ __('general_content.unsold_trans_key') }}"
+                                             data-on-color="teal"/>
                 </div>
                 <div class="col-md-2">
                     <button type="button" class="btn btn-success float-sm-right" data-toggle="modal" data-target="#ModalProduct">

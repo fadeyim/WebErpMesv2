@@ -853,6 +853,7 @@ return [
     'selling_price_trans_key'                  => 'Prix de vente ',
     'purchased_trans_key'                      => 'Acheté',
     'sold_trans_key'                           => 'Vendu',
+    'unsold_trans_key'                         => 'Non vendu',
     'tracability_trans_key'                    => 'Tracabilité',
     'proprieties_trans_key'                    => 'Propriétés',
     'quantite_eco_min_trans_key'               => 'Quantité eco min',

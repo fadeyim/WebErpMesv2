@@ -725,6 +725,7 @@ return [
     'selling_price_trans_key'                  => 'Precio de venta',
     'purchased_trans_key'                      => 'Comprado',
     'sold_trans_key'                           => 'Vendido',
+    'unsold_trans_key'                         => 'No vendido',
     'tracability_trans_key'                    => 'Trazabilidad',
     'proprieties_trans_key'                    => 'Propiedades',
     'quantite_eco_min_trans_key'               => 'Cantidad eco mínima',
