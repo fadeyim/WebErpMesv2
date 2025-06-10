@@ -259,8 +259,12 @@ return [
     'number_of_month_trans_key'                => 'Number of month', 
     'number_of_day_trans_key'                  => 'Number of day', 
     'end_of_month_trans_key'                   => 'End of month', 
-    'account_number_trans_key'                 => 'Account number', 
+    'account_number_trans_key'                 => 'Account number',
     'vat_account_trans_key'                    => 'Tax Codes account number',
+    'debit_trans_key'                          => 'Debit',
+    'credit_trans_key'                         => 'Credit',
+    'balance_trans_key'                        => 'Balance',
+    'balance_sheet_trans_key'                  => 'Balance Sheet',
     
     'total_selling_trans_key'                  => 'Total selling price',
     'total_time_trans_key'                     => 'Total time',

@@ -239,6 +239,10 @@ return [
     'end_of_month_trans_key'                   => 'نهاية الشهر',
     'account_number_trans_key'                 => 'رقم الحساب',
     'vat_account_trans_key'                    => 'رقم حساب الضريبة على القيمة المضافة',
+    'debit_trans_key'                          => 'مدين',
+    'credit_trans_key'                         => 'دائن',
+    'balance_trans_key'                        => 'الرصيد',
+    'balance_sheet_trans_key'                  => 'الميزانية العمومية',
     
     'total_selling_trans_key'                  => 'إجمالي سعر البيع',
     'total_time_trans_key'                     => 'إجمالي الوقت',

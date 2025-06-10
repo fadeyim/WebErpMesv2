@@ -31,6 +31,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
         ->middleware(['auth', 'check.factory'])->name('reports');
     Route::get('/reports/accounting', 'App\\Http\\Controllers\\ReportsController@accounting')
         ->middleware(['auth', 'check.factory'])->name('reports.accounting');
+    Route::get('/reports/accounting/balance-sheet', 'App\\Http\\Controllers\\ReportsController@balanceSheet')
+        ->middleware(['auth', 'check.factory'])->name('reports.accounting.balance-sheet');
+    Route::get('/reports/accounting/balance-sheet/pdf', 'App\\Http\\Controllers\\ReportsController@balanceSheetPdf')
+        ->middleware(['auth', 'check.factory'])->name('reports.accounting.balance-sheet.pdf');
 
     Route::group(['prefix' => 'workshop', 'middleware' => ['auth', 'check.factory']], function () {
         Route::get('/', 'App\Http\Controllers\Workshop\WorkshopController@index')->middleware(['auth', 'check.factory'])->name('workshop');

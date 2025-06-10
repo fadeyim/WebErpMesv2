@@ -236,6 +236,10 @@ return [
     'end_of_month_trans_key'                   => 'Fin de mes',
     'account_number_trans_key'                 => 'Número de cuenta',
     'vat_account_trans_key'                    => 'Número de cuenta de IVA',
+    'debit_trans_key'                          => 'Débito',
+    'credit_trans_key'                         => 'Crédito',
+    'balance_trans_key'                        => 'Balance',
+    'balance_sheet_trans_key'                  => 'Balance General',
     
     'total_selling_trans_key'                  => 'Precio total de venta',
     'total_time_trans_key'                     => 'Tiempo total',

@@ -58,4 +58,27 @@ class ReportsController extends Controller
 
         return view('reports.accounting', compact('revenue', 'expenses', 'profit'));
     }
+
+    /**
+     * Display balance sheet report.
+     */
+    public function balanceSheet(\App\Services\BalanceSheetService $balanceSheetService)
+    {
+        $factory = app('Factory');
+        $data = $balanceSheetService->getBalanceSheet();
+        $data['factory'] = $factory;
+        return view('reports.balance-sheet', $data);
+    }
+
+    /**
+     * Download balance sheet report as PDF.
+     */
+    public function balanceSheetPdf(\App\Services\BalanceSheetService $balanceSheetService)
+    {
+        $factory = app('Factory');
+        $data = $balanceSheetService->getBalanceSheet();
+        $data['factory'] = $factory;
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reports.balance-sheet-pdf', $data);
+        return $pdf->download('balance-sheet.pdf');
+    }
 }
