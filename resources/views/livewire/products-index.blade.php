@@ -328,9 +328,17 @@
                     @include('include.search-card')
                 </div>
                 <div class="col-md-2">
-                    <div class="form-check mt-2">
-                        <input class="form-check-input" type="checkbox" id="soldFilter" wire:click="toggleSoldFilter" @if($showSold) checked @endif>
-                        <label class="form-check-label" for="soldFilter">{{ __('general_content.show_only_sold_trans_key') }}</label>
+                    <div class="form-inline mt-2">
+                        <x-adminlte-input-switch id="soldFilterSwitch" name="soldFilterSwitch"
+                            data-on-text="{{ __('general_content.yes_trans_key') }}"
+                            data-off-text="{{ __('general_content.no_trans_key') }}"
+                            data-on-color="teal"
+                            wire:click="toggleSoldFilter"
+                            class="mr-1"
+                            is-checked="{{ $showSold }}" />
+                        <label class="ml-2" for="soldFilterSwitch">
+                            {{ $showSold ? __('general_content.show_only_sold_trans_key') : __('general_content.show_only_unsold_trans_key') }}
+                        </label>
                     </div>
                 </div>
                 <div class="col-md-2">

@@ -864,6 +864,7 @@ return [
     'index_trans_key'                          => 'Ind',
     'new_product_trans_key'                    => 'Nouveau produit',
     'show_only_sold_trans_key'                 => 'Uniquement les vendus',
+    'show_only_unsold_trans_key'               => 'Uniquement les non vendus',
     'price_by_qty_trans_key'                   => 'Prix par quantité',
     'weighted_average_price_trans_key'         => 'Prix ​​moyen pondéré',
     'last_purchase_price_price_trans_key'      => 'Dernier prix d\'achat',

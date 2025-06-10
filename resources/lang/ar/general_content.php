@@ -736,6 +736,7 @@ return [
     'index_trans_key'                          => 'الفهرس',
     'new_product_trans_key'                    => 'منتج جديد',
     'show_only_sold_trans_key'                 => 'العناصر المباعة فقط',
+    'show_only_unsold_trans_key'               => 'العناصر غير المباعة فقط',
     'price_by_qty_trans_key'                   => 'السعر حسب الكمية',
 
     'serial_numbers_trans_key'                 => 'أرقام التسلسل',
