@@ -80,9 +80,9 @@ class ProductsIndex extends Component
         $this->resetPage();
     }
 
-    public function changeFilter($type)
+    public function toggleFilter()
     {
-        $this->filterType = $type;
+        $this->filterType = $this->filterType === 'sold' ? 'purchase' : 'sold';
         $this->resetPage();
     }
 
