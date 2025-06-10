@@ -14,10 +14,12 @@ class ProductsIndex extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    
+
     public $search = '';
     public $sortField = 'label'; // default sorting field
     public $sortAsc = true; // default sort direction
+
+    public $filterType = 'sold';
     
     public $userSelect = [];
 
@@ -78,6 +80,12 @@ class ProductsIndex extends Component
         $this->resetPage();
     }
 
+    public function changeFilter($type)
+    {
+        $this->filterType = $type;
+        $this->resetPage();
+    }
+
     public function mount() 
     {
         $this->userSelect = User::select('id', 'name')->get();
@@ -85,7 +93,17 @@ class ProductsIndex extends Component
 
     public function render()
     {
-        $Products = Products::where('label','like', '%'.$this->search.'%')->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')->paginate(15);
+        $ProductsQuery = Products::where('label', 'like', '%'.$this->search.'%');
+
+        if ($this->filterType === 'sold') {
+            $ProductsQuery->where('sold', 1);
+        } elseif ($this->filterType === 'purchase') {
+            $ProductsQuery->where('purchased', 1);
+        }
+
+        $Products = $ProductsQuery
+                        ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                        ->paginate(15);
         $userSelect = User::select('id', 'name')->get();
         $ServicesSelect = MethodsServices::select('id', 'label')->orderBy('ordre')->get();
         $UnitsSelect = MethodsUnits::select('id', 'label', 'type')->orderBy('label')->get();

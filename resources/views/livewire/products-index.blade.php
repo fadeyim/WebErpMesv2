@@ -324,8 +324,16 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-8">
                     @include('include.search-card')
+                </div>
+                <div class="col-md-2">
+                    <button class="btn {{ $filterType === 'sold' ? 'btn-primary' : 'btn-secondary' }}" wire:click="changeFilter('sold')">
+                        {{ __('general_content.sold_trans_key') }}
+                    </button>
+                    <button class="btn {{ $filterType === 'purchase' ? 'btn-primary' : 'btn-secondary' }}" wire:click="changeFilter('purchase')">
+                        {{ __('general_content.purchase_trans_key') }}
+                    </button>
                 </div>
                 <div class="col-md-2">
                     <button type="button" class="btn btn-success float-sm-right" data-toggle="modal" data-target="#ModalProduct">
