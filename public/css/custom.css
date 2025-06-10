@@ -132,4 +132,32 @@
 }
 .place-3 {
     background-color: bronze;
+}.tab-loading > div {
+    flex-direction: column;
+}
+.tab-loading .iframe-logo {
+    width: 100px;
+    margin-bottom: 10px;
+}
+.tab-loading .iframe-progress {
+    width: 80%;
+    height: 8px;
+    background-color: #e0e0e0;
+    overflow: hidden;
+    position: relative;
+    border-radius: 4px;
+}
+.tab-loading .iframe-progress::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: #007bff;
+    animation: iframe-progress 2s linear infinite;
+}
+@keyframes iframe-progress {
+    from { width: 0; }
+    to { width: 100%; }
 }
