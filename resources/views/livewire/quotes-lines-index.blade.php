@@ -39,11 +39,11 @@
                                 <x-QuoteButton id="{{ $QuoteLine->quotes_id }}" code="{{ $QuoteLine->quote['code'] }}"  />
                             </td>
                             <td>{{ $QuoteLine->ordre }}</td>
-                            <td>{{ $QuoteLine->code }}</td>
+                            <td class="text-break">{{ $QuoteLine->code }}</td>
                             <td>
                                 @if($QuoteLine->product_id ) <x-ButtonTextView route="{{ route('products.show', ['id' => $QuoteLine->product_id])}}" />@endif
                             </td>
-                            <td>{{ $QuoteLine->label }}</td>
+                            <td class="text-break">{{ $QuoteLine->label }}</td>
                             <td>{{ $QuoteLine->qty }}</td>
                             <td>{{ $QuoteLine->Unit['label'] }}</td>
                             <td @if($QuoteLine->use_calculated_price) class="bg-warning color-palette" @endif>
