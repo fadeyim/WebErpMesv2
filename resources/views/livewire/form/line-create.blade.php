@@ -9,8 +9,8 @@
             </div>
             @error('ordre') <span class="text-danger">{{ $message }}<br/></span>@enderror
         </div>
-        <div class="form-group col-md-2">
-            <x-adminlte-select2 name="product_id" id="product_id" label="{{ __('general_content.product_trans_key') }}" label-class="text-lightblue"
+        <div class="form-group col-md-5">
+            <x-adminlte-select name="product_id" id="product_id" label="{{ __('general_content.product_trans_key') }}" label-class="text-lightblue"
                 igroup-size="s" data-placeholder="{{ __('general_content.select_product_trans_key') }}" wire:model.live="product_id" wire:change.prevent="ChangeCodelabel()">
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-gradient-info">
@@ -21,7 +21,7 @@
                 @foreach ($ProductsSelect as $item)
                 <option value="{{ $item->id }}" data-txt="{{ $item->code }}">{{ $item->code }} - {{ $item->label }}</option>
                 @endforeach
-            </x-adminlte-select2>
+            </x-adminlte-select>
             @error('product_id') <span class="text-danger">{{ $message }}<br/></span>@enderror
         </div>
         <div class="form-group col-md-2">
