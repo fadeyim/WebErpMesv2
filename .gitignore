@@ -16,3 +16,5 @@ yarn-error.log
 /.vscode
 *.xlsx
 public/file/5_1749503806.pdf
+CSharp/obj/Debug/net6.0/WebErpMesv2.AssemblyInfo.cs
+CSharp/obj/Debug/net6.0/WebErpMesv2.AssemblyInfoInputs.cache
