@@ -55,11 +55,11 @@
                                     <a href="#" wire:click="downQuoteLine({{ $QuoteLine->id }})" class="btn btn-primary"><i class="fas fa-sort-down"></i></a>
                                 </div>
                             </td>
-                            <td>{{ $QuoteLine->code }}</td>
+                            <td class="text-break">{{ $QuoteLine->code }}</td>
                             <td>
                                 @if($QuoteLine->product_id ) <x-ButtonTextView route="{{ route('products.show', ['id' => $QuoteLine->product_id])}}" />@endif
                             </td>
-                            <td>{{ $QuoteLine->label }}</td>
+                            <td class="text-break">{{ $QuoteLine->label }}</td>
                             <td>{{ $QuoteLine->qty }}</td>
                             <td>{{ $QuoteLine->Unit['label'] }}</td>
                             <td @if($QuoteLine->use_calculated_price) class="bg-warning color-palette" @endif>
