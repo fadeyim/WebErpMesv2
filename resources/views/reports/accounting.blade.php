@@ -7,5 +7,5 @@
 @stop
 
 @section('content')
-    <iframe src="http://msi/Reports/browse/Accounting%20Reports" style="width: 100%; height: 80vh; border: none;"></iframe>
+    <iframe src="http://ReportServer:Report123@msi/Reports/browse/Accounting%20Reports" style="width: 100%; height: 80vh; border: none;"></iframe>
 @stop
