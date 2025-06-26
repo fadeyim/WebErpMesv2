@@ -264,8 +264,8 @@ class TaskStatu extends Component
         $StatusUpdate = Status::select('id')->where('title', 'In progress')->first();
 
         /* // update task statu on Kanban*/
-        if($StatusUpdate->id){
-            $Task = Task::where('id',$taskId)->update(['status_id'=>$StatusUpdate->id]);
+        if ($StatusUpdate) {
+            Task::where('id', $taskId)->update(['status_id' => $StatusUpdate->id]);
             event(new TaskChangeStatu($taskId));
         }
 
@@ -294,8 +294,8 @@ class TaskStatu extends Component
         $StatusUpdate = Status::select('id')->where('title', 'Finished')->first();
 
         /* // update task statu on Kanban*/
-        if($StatusUpdate->id){
-            $Task = Task::where('id',$taskId)->update(['status_id'=>$StatusUpdate->id]);
+        if ($StatusUpdate) {
+            Task::where('id', $taskId)->update(['status_id' => $StatusUpdate->id]);
             event(new TaskChangeStatu($taskId));
         }
 
